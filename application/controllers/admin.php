@@ -13,12 +13,272 @@ class admin extends CI_Controller {
 	}
 	public function recipe_view(){
 		$data['recipe'] = $this->admin_model->read_recipe();
+		$data['country'] = $this->admin_model->country();
 		$this->load->view('admin/layout/header');
-		$this->load->view('admin/recipe',$data);
+		$this->load->view('admin/read_recipe',$data);
 		$this->load->view('admin/layout/footer');
 	}
-	public function delete_recipe($id){
-		$this->admin_model->delete_recipe($id);
+	public function delete_recipe(){
+		$this->admin_model->delete_recipe($_GET['id']);
 		redirect('admin/recipe_view');
 	}
+	public function create_recipe(){
+		$response = array();
+		$this->form_validation->set_rules('name', 'Recipe Name', 'required|is_unique[recipe.name]',array(
+			'is_unique' => 'Recipe Name already exist!'
+		));
+		$this->form_validation->set_rules('servings', 'Servings', 'numeric',array(
+			'numeric' => 'Number of Servings not valid!'
+		));
+		$this->form_validation->set_rules('price', 'Recipe Price', 'numeric',array(
+			'numeric' => 'Value of Price not valid!'
+		));
+		if ($this->form_validation->run() == TRUE) {
+			$data = $this->admin_model->create_recipe();
+			$response['status'] = TRUE;
+			$response[] = $data;
+		}
+		else {
+			$response['status'] = FALSE;
+	    	$response['notif']	= validation_errors();
+		}
+		echo json_encode($response);
+	}
+	public function update_recipe(){
+		$response = array();
+		$this->form_validation->set_rules('servings', 'Servings', 'numeric',array(
+			'numeric' => 'Number of Servings not valid!'
+		));
+		$this->form_validation->set_rules('price', 'Recipe Price', 'numeric',array(
+			'numeric' => 'Value of Price not valid!'
+		));
+		
+		if ($this->form_validation->run() == TRUE) {
+			$data = $this->admin_model->update_recipe();
+			$response['status'] = TRUE;
+			$response[] = $data;
+		}
+		else {
+			$response['status'] = FALSE;
+	    	$response['notif']	= validation_errors();
+		}
+		echo json_encode($response);
+	}
+	public function view_recipe(){
+		$data['recipe'] = $this->admin_model->view_recipe($_GET['id']);
+		$this->load->view('admin/layout/header');
+		$this->load->view('admin/view_recipe',$data);
+		$this->load->view('admin/layout/footer');
+	}
+
+	// DASHBOARD FUNCTION - Robert / 12-01-18
+
+	public function ad_dashboard(){
+		$this->load->view('admin/layout/header');
+		$data = array(
+			// 'admin' => $this->user->admin_count(),
+			// 'admin_a' => $this->user->admin_count_a(),
+			// 'admin_i' => $this->user->admin_count_i(),
+			// 'branch' => $this->user->branch_count(),
+			// 'branch_a' => $this->user->branch_count_a(),
+			// 'branch_i' => $this->user->branch_count_i(),
+			// 'manager' => $this->user->manager_count(),
+			// 'manager_a' => $this->user->manager_count_a(),
+			// 'manager_i' => $this->user->manager_count_u(),
+			'customer' => $this->user->customer_count(),
+			'customer_a' => $this->user->customer_count_a(),
+			'customer_i' => $this->user->customer_count_i(),
+			'logged_in' => $this->user->logged_in_count(),
+			// 'recipe' => $this->user->recipe_count(),
+			// 'recipe_a' => $this->user->recipe_count_a(),
+			// 'recipe_i' => $this->user->recipe_count_i(),
+			'order' => $this->user->order_count(),
+			'order_a' => $this->user->order_count_c(),
+			'order_i' => $this->user->order_count_i()
+		);
+		$this->load->view('admin/home',$data);
+		$this->load->view('admin/layout/footer');
+	}
+
+	// DATA TABLE FUNCTIONS - Robert / 12-01-18
+
+	// public function recipe_view(){
+	// 	$data['recipe'] = $this->admin_model->read_recipe();
+	// 	$this->load->view('admin/layout/header');
+	// 	$this->load->view('admin/recipe',$data);
+	// 	$this->load->view('admin/layout/footer');
+	// }
+
+	public function customer_view(){
+		$this->load->view('admin/layout/header');
+		$data['customer'] = $this->admin_model->read_customer();
+		$this->load->view('admin/read_customer',$data);
+		$this->load->view('admin/layout/footer');
+	}
+
+	public function branch_view(){
+		$this->load->view('admin/layout/header');
+		$data['branch'] = $this->admin_model->read_branch();
+		$data['b_manager'] = $this->admin_model->read_branch_manager();
+		$this->load->view('admin/read_branch',$data);
+		$this->load->view('admin/layout/footer');
+	}
+
+	public function manager_view(){
+		$this->load->view('admin/layout/header');
+		$data['manager'] = $this->admin_model->read_manager();
+		$this->load->view('admin/read_manager',$data);
+		$this->load->view('admin/layout/footer');
+	}
+
+	public function order_view(){
+		$this->load->view('admin/layout/header');
+		$data['order'] = $this->admin_model->read_order();
+		$this->load->view('admin/read_order',$data);
+		$this->load->view('admin/layout/footer');
+	}
+
+	public function feedback_view(){
+		$this->load->view('admin/layout/header');
+		$data['feedback'] = $this->admin_model->read_feedback();
+		$this->load->view('admin/read_feedback',$data);
+		$this->load->view('admin/layout/footer');
+	}
+
+	// VIEW FUNCTIONS - Robert / 12-02-18 
+
+	public function view_customer(){
+		$this->load->view('admin/layout/header');
+		$data = array(
+			'customer' => $this->admin_model->view_customer($_GET['id']),
+			'c_order' => $this->admin_model->view_customer_order($_GET['id']),
+			'C_activity' => $this->admin_model->view_customer_activity($_GET['id']),
+			'c_feedback' => $this->admin_model->view_customer_feedback($_GET['id'])
+		);
+		$this->load->view('admin/customer_view',$data);
+		$this->load->view('admin/layout/footer');
+	}
+
+	public function view_branch(){
+		$this->load->view('admin/layout/header');
+		$data = array(
+			'branch' => $this->admin_model->view_branch($_GET['id']),
+			'b_order' => $this->admin_model->view_branch_order($_GET['id'])
+		);
+		$this->load->view('admin/branch_view',$data);
+		$this->load->view('admin/layout/footer');
+	}
+
+	public function view_manager(){
+		$this->load->view('admin/layout/header');
+		$data['manager'] = $this->admin_model->view_manager($_GET['id']);
+		$this->load->view('admin/manager_view',$data);
+		// echo $manager[0]->;
+		$this->load->view('admin/layout/footer');
+	}
+
+	public function view_order(){
+		$this->load->view('admin/layout/header');
+		$data['order'] = $this->admin_model->view_order($_GET['id']);
+		$data['o_content'] = $this->admin_model->view_order_content($_GET['id']);
+		$this->load->view('admin/order_view',$data);
+		$this->load->view('admin/layout/footer');
+	}
+
+	public function view_feedback(){
+		$this->load->view('admin/layout/header');
+		$data['feedback'] = $this->admin_model->view_feedback($_GET['id']);
+		$this->load->view('admin/feedback_view',$data);
+		$this->load->view('admin/layout/footer');
+	}
+
+	// DELETE FUNCTIONS - Robert / 12-02-18
+
+	// public function delete_recipe($id){
+	// 	$this->admin_model->delete_recipe($id);
+	// 	redirect('admin/recipe_view');
+	// }
+
+	public function delete_customer(){
+		$this->admin_model->delete_customer($_GET['id']);
+		redirect('admin/customer_view');
+	}
+
+	public function delete_branch(){
+		$this->admin_model->delete_branch($_GET['id']);
+		redirect('admin/branch_view');
+	}
+
+	public function delete_manager(){
+		$this->admin_model->delete_manager($_GET['id']);
+		redirect('admin/manager_view');	
+	}
+
+	// ACTIVATE FUNCTIONS - Robert / 12-02-18
+
+	public function activate_recipe(){
+		$this->admin_model->activate_recipe($_GET['id']);
+		redirect('admin/recipe_view');
+	}
+
+	public function activate_customer(){
+		$this->admin_model->activate_customer($_GET['id']);
+		redirect('admin/customer_view');
+	}
+
+	public function activate_branch(){
+		$this->admin_model->activate_branch($_GET['id']);
+		redirect('admin/branch_view');
+	}
+
+	public function activate_manager(){
+		$this->admin_model->activate_manager($_GET['id']);
+		redirect('admin/manager_view');
+	}
+
+	// ADD FUNCTIONS 
+
+	public function add_branch(){ // IMPROVE
+		$response = array();
+		$this->form_validation->set_rules('name', 'Branch Name', 'required|is_unique[branch.name]',array(
+			'is_unique' => 'Branch Name Already Exists'
+		));
+		if ($this->form_validation->run() == TRUE) {
+			$data = $this->admin_model->add_branch();
+			$response['status'] = TRUE;
+			$response[] = $data;
+		}
+		else {
+			$response['status'] = FALSE;
+	    	$response['notif']	= validation_errors();
+		}
+		echo json_encode($response);
+	}
+
+	public function add_manager(){ // IMPROVE
+		$response = array();
+		$this->form_validation->set_rules('name', 'Manager Name', 'required|is_unique[manager.name]',array(
+			'is_unique' => 'Username Name Already Exists'
+		));
+		if ($this->form_validation->run() == TRUE) {
+			$data = $this->admin_model->add_manager();
+			$response['status'] = TRUE;
+			$response[] = $data;
+		}
+		else {
+			$response['status'] = FALSE;
+	    	$response['notif']	= validation_errors();
+		}
+	}
+
+	// EDIT FUNCTIONS 
+
+	public function edit_branch($id){
+
+	}
+
+	public function edit_manager($id){
+
+	}	
+
 }
