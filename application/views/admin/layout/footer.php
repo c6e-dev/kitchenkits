@@ -157,26 +157,28 @@
       });return false;
     });
 
-    $('#btn_brup_save').on('click', function(){
-      var cooktime = $('#uptctime').val();
-      var serves = $('#uptserves').val();
-      var price = $('#uptprice').val();
-      var id = $('#uptrecipe_id').val();
+    $('#btn_mngradd_save').on('click', function(){
+      var srnm = $('#username').val();
+      var pswrd = $('#password').val();
+      var cpswrd = $('#cpassword').val();
+      var nm = $('#mngr_name').val();
+      var muti = $('#mngr_user_type_id').val();
       $.ajax({
           type: 'post',
-          url: "<?php echo site_url('admin/update_recipe'); ?>",
+          url: "<?php echo site_url('admin/add_manager'); ?>",
           data: {
-              cooktime: cooktime,
-              servings: serves,
-              price: price,
-              recipe_id: id
+              username: srnm,
+              password: pswrd,
+              cpassword: cpswrd,
+              name: nm,
+              utid: muti
           },
           dataType: 'JSON',
           success: function(data){
               if (data.status) {
-                  alert("Recipe successfully updated!");
+                  alert("Manager Account Successfully Created!");
                   location.reload();
-                  $('#update_recipe').modal('hide');
+                  $('#addmanager').modal('hide');
               }else{
                   $('.alert').css('display', 'block');
                   $('.alert').html(data.notif);

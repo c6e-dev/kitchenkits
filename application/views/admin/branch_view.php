@@ -53,8 +53,19 @@
                 <dd><?php echo $branch[0]->br_name?></dd>
                 <dt>Address</dt>
                 <dd><?php echo $branch[0]->br_address?></dd>
-                <dt>Manager</dt>
-                <dd><?php echo $branch[0]->br_manager?></dd>
+                <?php 
+                  if ($branch[0]->mngr_id == '0' OR $branch[0]->mngr_id == NULL OR $branch[0]->br_status == 'U') {
+                    ?>
+                      <dt>Manager</dt>
+                      <dd></dd>
+                    <?php
+                  }else{
+                    ?>
+                      <dt>Manager</dt>
+                      <dd><?php echo $branch[0]->br_manager?></dd>
+                    <?php
+                  }
+                ?>
                 <dt>Creation Date</dt>
                 <dd><?php echo $branch[0]->br_create?></dd>
                 <dt>Last Update Date</dt>

@@ -51,6 +51,20 @@
                 <dd><?php echo $manager[0]->bm_code?></dd>
                 <dt>Name</dt>
                 <dd><?php echo $manager[0]->bm_name?></dd>
+                <?php 
+                  if ($manager[0]->bm_status == 'A') {
+                    ?>
+                      <dt>Branch</dt>
+                      <dd><?php echo $manager[0]->br_name?></dd>
+                    <?php
+                  }
+                  if ($manager[0]->bm_status == 'U') {
+                    ?>
+                      <dt>Branch</dt>
+                      <dd></dd>
+                    <?php
+                  }
+                ?>
                 <dt>Creation Date</dt>
                 <dd><?php echo $manager[0]->bm_create?></dd>
                 <dt>Last Update Date</dt>

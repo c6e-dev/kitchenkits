@@ -61,24 +61,27 @@
                     if ($manager!=NULL) {
                       foreach ($manager as $bm) {
                         if($bm->bm_status == 'A'){
+                          ?>
+                            <tr>
+                              <td><?php echo $bm->bm_code; ?></td>
+                              <td><?php echo $bm->bm_name; ?></td>
+                              <!-- <td><?php echo $bm->bm_branch; ?></td> -->
+                              <td><?php echo $bm->bm_assign; ?></td>
+                              <td><?php echo $bm->bm_create; ?></td>
+                              <td><?php echo $bm->bm_update; ?></td>
+                              <td><center>
+                                <a href="<?php echo site_url('admin/view_manager'.'?id='.$bm->bm_id);?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
+                                <!-- <a href="#" class="btn btn-xs btn-warning" data-target="" data-toggle="modal" data-backdrop="static"><i class="fa fa-edit"></i></a> -->
+                                <?php echo'
+                                <a href="#" class="btn btn-xs btn-danger" data-target="#deacman'.$bm->bm_uid.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-trash"></i></a>';?>
+                              </center></td>
+                            </tr>
+                          <?php
+                        }
                         ?>
-                          <tr>
-                            <td><?php echo $bm->bm_code; ?></td>
-                            <td><?php echo $bm->bm_name; ?></td>
-                            <!-- <td><?php echo $bm->bm_branch; ?></td> -->
-                            <td><?php echo $bm->bm_assign; ?></td>
-                            <td><?php echo $bm->bm_create; ?></td>
-                            <td><?php echo $bm->bm_update; ?></td>
-                            <td><center>
-                              <a href="<?php echo site_url('admin/view_manager'.'?id='.$bm->bm_id);?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
-                              <!-- <a href="#" class="btn btn-xs btn-warning" data-target="" data-toggle="modal" data-backdrop="static"><i class="fa fa-edit"></i></a> -->
-                              <?php echo'
-                              <a href="#" class="btn btn-xs btn-danger" data-target="#deacman'.$bm->bm_id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-trash"></i></a>';?>
-                            </center></td>
-                          </tr>
                           <div class="container">
-                          <?php echo'
-                            <div class="modal fade" id="deacman'.$bm->bm_id.'">
+                            <?php echo'
+                            <div class="modal fade" id="deacman'.$bm->bm_uid.'">
                               <div class="modal-dialog">
                                 <div class="modal-content">
                                   <div class="modal-header">
@@ -88,7 +91,7 @@
                                     <strong><center>Confirm Manager Account Deactivation</center></strong>
                                   </div>';?>
                                   <div class="modal-footer">
-                                    <a href="<?php echo site_url('admin/delete_manager'.'?id='.$bm->bm_id);?>" class="btn btn-sm btn-primary">Confirm</a>
+                                    <a href="<?php echo site_url('admin/delete_manager'.'?id='.$bm->bm_uid);?>" class="btn btn-sm btn-primary">Confirm</a>
                                     <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Cancel</button>
                                   </div>
                                 </div>
@@ -96,7 +99,6 @@
                             </div>
                           </div>
                         <?php
-                        }
                       }
                     }
                   ?>
@@ -133,12 +135,12 @@
                               <a href="<?php echo site_url('admin/view_manager'.'?id='.$bm->bm_id);?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
                               <!-- <a href="#" class="btn btn-xs btn-warning" data-target="" data-toggle="modal" data-backdrop="static"><i class="fa fa-edit"></i></a> -->
                               <?php echo'
-                              <a href="#" class="btn btn-xs btn-success" data-target="#acman'.$bm->bm_id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-power-off"></i></a>';?>
+                              <a href="#" class="btn btn-xs btn-success" data-target="#acman'.$bm->bm_uid.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-power-off"></i></a>';?>
                             </center></td>
                           </tr>
                           <div class="container">
                           <?php echo'
-                            <div class="modal fade" id="acman'.$bm->bm_id.'">
+                            <div class="modal fade" id="acman'.$bm->bm_uid.'">
                               <div class="modal-dialog">
                                 <div class="modal-content">
                                   <div class="modal-header">
@@ -148,7 +150,7 @@
                                     <strong><center>Confirm Manager Account Activation</center></strong>
                                   </div>';?>
                                   <div class="modal-footer">
-                                    <a href="<?php echo site_url('admin/activate_manager'.'?id='.$bm->bm_id);?>" class="btn btn-sm btn-primary">Confirm</a>
+                                    <a href="<?php echo site_url('admin/activate_manager'.'?id='.$bm->bm_uid);?>" class="btn btn-sm btn-primary">Confirm</a>
                                     <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Cancel</button>
                                   </div>
                                 </div>
@@ -162,6 +164,51 @@
                   ?>
                 </tbody>
               </table>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="addmanager">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><strong>Create Manager Account</strong></h4>
+              </div>
+              <form class="form-horizontal">
+                <div class="modal-body">
+                  <div class="box-body">
+                    <div class="form-group">
+                      <div class="alert alert-danger" align="center" style="display: none;"></div>
+                    </div>
+                    <div class="row form-group">
+                      <label class="col-md-1 control-label">Username</label>
+                      <label class="col-md-1"></label>
+                      <div class="col-12 col-md-10"><input type="text" name="username" id="username" class="form-control input-sm" required></div>
+                    </div>
+                    <div class="row form-group">
+                      <label class="col-md-1 control-label">Password</label>
+                      <label class="col-md-1"></label>
+                      <div class="col-12 col-md-10"><input type="Password" name="password" id="password" class="form-control input-sm" required></div>
+                    </div>
+                    <div class="row form-group">
+                      <label class="col-md-1 control-label">Confirm Password</label>
+                      <label class="col-md-1"></label>
+                      <div class="col-12 col-md-10"><input type="Password" name="cpassword" id="cpassword" class="form-control input-sm" required></div>
+                    </div>
+                    <div class="row form-group">
+                      <label class="col-md-1 control-label">Name</label>
+                      <label class="col-md-1"></label>
+                      <div class="col-12 col-md-10"><input type="text" name="mngr_name" id="mngr_name" class="form-control input-sm" required></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <input type="hidden" name="mngr_user_type_id" id="mngr_user_type_id" value="2">
+                  <button type="submit" id="btn_mngradd_save" class="btn btn-sm btn-primary">Save</button>
+                  <button type="button" class="btn btn-sm" data-dismiss="modal">Close</button>
+                </div>
+              </form>
             </div>
           </div>
         </div>

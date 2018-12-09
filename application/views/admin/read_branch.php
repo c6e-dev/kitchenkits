@@ -89,7 +89,7 @@
                                     <strong><center>Confirm Branch Deactivation</center></strong>
                                   </div>';?>
                                   <div class="modal-footer">
-                                    <a href="<?php echo site_url('admin/delete_branch'.'?id='.$br->br_id);?>" class="btn btn-sm btn-primary">Confirm</a>
+                                    <a href="<?php echo site_url('admin/delete_branch/'.$br->br_id.'/'.$br->br_mi);?>" class="btn btn-sm btn-primary">Confirm</a>
                                     <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Cancel</button>
                                   </div>
                                 </div>
@@ -198,6 +198,7 @@
                       <label class="col-md-1"></label>
                       <div class="col-12 col-md-10">
                         <select name="brmanager" id="brmanager" class="form-control select2" style="width: 100%;">
+                          <option value="0">none</option>
                           <?php
                             foreach ($b_manager as $bm) {
                               ?>

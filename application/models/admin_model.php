@@ -93,7 +93,7 @@ class admin_model extends CI_Model{
 
 	public function read_branch(){
 		$query = $this->db->query("
-			SELECT br.id AS br_id, br.code AS br_code, br.name AS br_name, br.branch_address AS br_address, br.status AS br_status, br.created_date AS br_create, br.updated_date AS br_update
+			SELECT br.id AS br_id, br.code AS br_code, br.manager_id br_mi, br.name AS br_name, br.branch_address AS br_address, br.status AS br_status, br.created_date AS br_create, br.updated_date AS br_update
 			FROM branch br 
 			-- INNER JOIN branch_manager bm ON br.manager_id = bm.id REMOVE IF MANAGER WON'T BE DISPLAYED ON THE DATA TABLE; 'bm.code' & 'bm.name' TOO
 		");
@@ -122,7 +122,7 @@ class admin_model extends CI_Model{
 
 	public function read_manager(){
 		$query = $this->db->query("
-			SELECT bm.id AS bm_id, bm.code AS bm_code, bm.name AS bm_name, bm.status AS bm_assign, u.created_date AS bm_create, u.updated_date AS bm_update, u.status AS bm_status
+			SELECT bm.id AS bm_id, bm.user_id bm_uid, bm.code AS bm_code, bm.name AS bm_name, bm.status AS bm_assign, u.created_date AS bm_create, u.updated_date AS bm_update, u.status AS bm_status
 			FROM branch_manager bm
 			INNER JOIN user u ON bm.user_id = u.id
 			-- INNER JOIN branch br ON br.manager_id = bm.id
@@ -234,9 +234,9 @@ class admin_model extends CI_Model{
 
 	public function view_branch($id){
 		$query = $this->db->query("
-			SELECT br.code AS br_code, br.name AS br_name, br.branch_address AS br_address, bm.name AS br_manager, br.created_date AS br_create, br.updated_date AS br_update
+			SELECT br.code AS br_code, br.name AS br_name, br.branch_address AS br_address, br.manager_id mngr_id, bm.name AS br_manager, bm.status br_status, br.created_date AS br_create, br.updated_date AS br_update
 			FROM branch br
-			INNER JOIN branch_manager bm ON br.manager_id = bm.id
+			LEFT JOIN branch_manager bm ON br.manager_id = bm.id
 			WHERE br.id = '$id'
 		");
 		return $query->result();
@@ -263,10 +263,10 @@ class admin_model extends CI_Model{
 
 	public function view_manager($id){
 		$query = $this->db->query("
-			SELECT bm.id AS bm_id, bm.code AS bm_code, bm.name AS bm_name, u.created_date AS bm_create, u.updated_date bm_update
-			FROM branch_manager bm
-			-- INNER JOIN user u ON bm.user_id = u.id
-			INNER JOIN user u ON bm.user_id = u.id 
+			SELECT bm.id AS bm_id, bm.code AS bm_code, bm.name AS bm_name, bm.status bm_status, br.name br_name, u.created_date AS bm_create, u.updated_date bm_update
+			FROM branch br
+			INNER JOIN branch_manager bm ON br.manager_id = bm.id 
+			INNER JOIN user u ON bm.user_id = u.id
 			WHERE bm.id = '$id'
 		");
 		return $query->result();
@@ -332,19 +332,19 @@ class admin_model extends CI_Model{
 		");
 	}
 
-	public function delete_branch($id){
+	public function delete_branch($br_id,$br_mi){
 		$this->db->query("
-			UPDATE branch br
-			SET br.status = 'I'
-			WHERE br.id ='$id'
+			UPDATE branch br, branch_manager bm
+			SET br.status = 'I', bm.status = 'U'
+			WHERE br.id ='$br_id' AND bm.id = '$br_mi'
 		");
 	}
 
 	public function delete_manager($id){
 		$this->db->query("
-			UPDATE user u
-			SET u.status = 'I'
-			WHERE u.id = '$id'
+			UPDATE user u, branch_manager bm
+			SET u.status = 'I', bm.status = 'U'
+			WHERE u.id = '$id' AND bm.user_id = '$id'
 		");
 	}
 
@@ -384,26 +384,17 @@ class admin_model extends CI_Model{
 
 	// ADD FUNCTIONS
 
-	public function add_branch(){ // INCLUDE BRANCH CODE
-		$data = array(
-			'name' => $this->input->post('name'),
-			'branch_address' => $this->input->post('braddress'),
-			'manager_id' => $this->input->post('brmanager'),
-			'status' => "I"
-		);
-		$this->db->insert('branch', $data);
+	public function add_branch($branchdata){ // INCLUDE BRANCH CODE
+		$this->db->insert('branch', $branchdata);
 	}
 
-	public function add_manager(){ // NEEDS A LOT OF WORK, FIND A WAY TO INCLUDE BRANCH_ID, BM_STATUS, USER/BM CODE
-		$data = array(
-			'name' => $this->input->post('name'),
-			'user_type_id' => '2',
-			'password' => $this->input->post('pass'),
-			'status' => "I"
-		);
-		$this->db->insert('user', $data);
+	public function add_user_manager($mngrdata){
+		$this->db->insert('user', $mngrdata);
 	}
-
+	public function add_manager($managerdata){ // NEEDS A LOT OF WORK, FIND A WAY TO INCLUDE BRANCH_ID, BM_STATUS, USER/BM CODE
+		$this->db->insert('branch_manager', $managerdata);
+	}
+	
 	// EDIT FUNCTIONS
 
 	public function edit_branch($id){
@@ -554,6 +545,21 @@ class admin_model extends CI_Model{
 			WHERE status = 'I'
 			");
 		return $query->result();
+	}
+	public function get_code($id){
+		$query = $this->db->query("
+			SELECT code ct_code, count ct_count
+			FROM counter
+			WHERE id = '$id'
+		");
+		return $query->result();
+	}
+	public function update_counter($val,$id){
+		$this->db->query("
+			UPDATE counter
+			SET count = '$val' 
+			WHERE id = '$id'
+		");
 	}
 
 }

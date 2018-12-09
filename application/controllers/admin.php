@@ -204,8 +204,8 @@ class admin extends CI_Controller {
 		redirect('admin/customer_view');
 	}
 
-	public function delete_branch(){
-		$this->admin_model->delete_branch($_GET['id']);
+	public function delete_branch($br_id,$br_mi){
+		$this->admin_model->delete_branch($br_id,$br_mi);
 		redirect('admin/branch_view');
 	}
 
@@ -244,7 +244,26 @@ class admin extends CI_Controller {
 			'is_unique' => 'Branch Name Already Exists'
 		));
 		if ($this->form_validation->run() == TRUE) {
-			$data = $this->admin_model->add_branch();
+			$code = $this->admin_model->get_code(1);
+			$this->admin_model->update_counter($code[0]->ct_count+1,1);
+			if ($_POST['brmanager'] != 0) {
+				$branchdata = array(
+					'code' => $code[0]->ct_code.(sprintf('%08d', $code[0]->ct_count+1)),
+					'name' => str_replace("'","’",$_POST['name']),
+					'branch_address' => str_replace("'","’",$_POST['braddress']),
+					'manager_id' => $_POST['brmanager'],
+					'status' => 'A'
+				);
+			}else{
+				$branchdata = array(
+					'code' => $code[0]->ct_code.(sprintf('%08d', $code[0]->ct_count+1)),
+					'name' => str_replace("'","’",$_POST['name']),
+					'branch_address' => str_replace("'","’",$_POST['braddress']),
+					'manager_id' => $_POST['brmanager'],
+					'status' => 'I'
+				);
+			}
+			$data = $this->admin_model->add_branch($branchdata);
 			$response['status'] = TRUE;
 			$response[] = $data;
 		}
@@ -257,11 +276,33 @@ class admin extends CI_Controller {
 
 	public function add_manager(){ // IMPROVE
 		$response = array();
-		$this->form_validation->set_rules('name', 'Manager Name', 'required|is_unique[manager.name]',array(
+		$this->form_validation->set_rules('username', 'Username', 'required|is_unique[user.username]',array(
 			'is_unique' => 'Username Name Already Exists'
 		));
+		$this->form_validation->set_rules('password', 'Password', 'required');
+		$this->form_validation->set_rules('cpassword', 'Confirm Password', 'matches[password]',array(
+	  		'matches' => 'Passwords do not match'
+	 	));
+	 	$this->form_validation->set_rules('name', 'Branch Manager Name', 'required');
 		if ($this->form_validation->run() == TRUE) {
-			$data = $this->admin_model->add_manager();
+			$mngrdata = array(
+				'username' => str_replace("'","’",$_POST['username']),
+				'password' => str_replace("'","’",$_POST['password']),
+				'status' => 'A',
+				'logged_in' => '0',
+				'user_type_id' => $_POST['utid']
+			);
+			$this->admin_model->add_user_manager($mngrdata); 
+			$user_id = $this->db->insert_id();
+			$code = $this->admin_model->get_code(2);
+			$this->admin_model->update_counter($code[0]->ct_count+1,2);
+			$managerdata = array(
+				'user_id' => $user_id,
+				'code' => $code[0]->ct_code.(sprintf('%08d', $code[0]->ct_count+1)),
+				'name' => str_replace("'","’",$_POST['name']),
+				'status' => 'U'
+			);
+			$data = $this->admin_model->add_manager($managerdata);
 			$response['status'] = TRUE;
 			$response[] = $data;
 		}
@@ -269,6 +310,7 @@ class admin extends CI_Controller {
 			$response['status'] = FALSE;
 	    	$response['notif']	= validation_errors();
 		}
+		echo json_encode($response);
 	}
 
 	// EDIT FUNCTIONS 
