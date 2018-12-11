@@ -246,6 +246,46 @@
           }
       });return false;
     });
+
+    $("#branch_col").hide();
+    $("#branch_tri").hover(function(){
+      $("#branch_col").slideDown(300);
+    });
+    $("#branch_tri").mouseleave(function(){
+      $("#branch_col").slideUp(300);
+    });
+
+    $("#manager_col").hide();
+    $("#manager_tri").hover(function(){
+      $("#manager_col").slideDown(300);
+    });
+    $("#manager_tri").mouseleave(function(){
+      $("#manager_col").slideUp(300);
+    });
+
+    $("#customer_col").hide();
+    $("#customer_tri").hover(function(){
+      $("#customer_col").slideDown(300);
+    });
+    $("#customer_tri").mouseleave(function(){
+      $("#customer_col").slideUp(300);
+    });
+
+    $("#recipe_col").hide();
+    $("#recipe_tri").hover(function(){
+      $("#recipe_col").slideDown(300);
+    });
+    $("#recipe_tri").mouseleave(function(){
+      $("#recipe_col").slideUp(300);
+    });
+
+    $("#order_col").hide();
+    $("#order_tri").hover(function(){
+      $("#order_col").slideDown(300);
+    });
+    $("#order_tri").mouseleave(function(){
+      $("#order_col").slideUp(300);
+    });
   })
 </script>
 </body>
