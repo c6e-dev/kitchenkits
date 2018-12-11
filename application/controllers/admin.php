@@ -64,8 +64,9 @@ class admin extends CI_Controller {
 		}
 		echo json_encode($response);
 	}
-	public function view_recipe(){
-		$data['recipe'] = $this->admin_model->view_recipe($_GET['id']);
+	public function view_recipe($rcp_id,$co_id){
+		$data['recipe'] = $this->admin_model->view_recipe($rcp_id);
+		$data['country'] = $this->admin_model->country2($co_id);
 		$this->load->view('admin/layout/header');
 		$this->load->view('admin/view_recipe',$data);
 		$this->load->view('admin/layout/footer');
@@ -127,6 +128,7 @@ class admin extends CI_Controller {
 	public function manager_view(){
 		$this->load->view('admin/layout/header');
 		$data['manager'] = $this->admin_model->read_manager();
+		$data['ibranch'] = $this->admin_model->read_i_branch();
 		$this->load->view('admin/read_manager',$data);
 		$this->load->view('admin/layout/footer');
 	}
@@ -163,7 +165,8 @@ class admin extends CI_Controller {
 		$this->load->view('admin/layout/header');
 		$data = array(
 			'branch' => $this->admin_model->view_branch($_GET['id']),
-			'b_order' => $this->admin_model->view_branch_order($_GET['id'])
+			'b_order' => $this->admin_model->view_branch_order($_GET['id']),
+			'b_manager' => $this->admin_model->read_branch_manager()
 		);
 		$this->load->view('admin/branch_view',$data);
 		$this->load->view('admin/layout/footer');
@@ -172,6 +175,7 @@ class admin extends CI_Controller {
 	public function view_manager(){
 		$this->load->view('admin/layout/header');
 		$data['manager'] = $this->admin_model->view_manager($_GET['id']);
+		$data['ibranch'] = $this->admin_model->read_i_branch();
 		$this->load->view('admin/manager_view',$data);
 		// echo $manager[0]->;
 		$this->load->view('admin/layout/footer');
@@ -209,8 +213,8 @@ class admin extends CI_Controller {
 		redirect('admin/branch_view');
 	}
 
-	public function delete_manager(){
-		$this->admin_model->delete_manager($_GET['id']);
+	public function delete_manager($bm_id,$bm_uid){
+		$this->admin_model->delete_manager($bm_id,$bm_uid);
 		redirect('admin/manager_view');	
 	}
 
@@ -248,7 +252,7 @@ class admin extends CI_Controller {
 			$this->admin_model->update_counter($code[0]->ct_count+1,1);
 			if ($_POST['brmanager'] != 0) {
 				$branchdata = array(
-					'code' => $code[0]->ct_code.(sprintf('%08d', $code[0]->ct_count+1)),
+					'code' => $code[0]->ct_code.(sprintf('%05d', $code[0]->ct_count+1)),
 					'name' => str_replace("'","’",$_POST['name']),
 					'branch_address' => str_replace("'","’",$_POST['braddress']),
 					'manager_id' => $_POST['brmanager'],
@@ -256,7 +260,7 @@ class admin extends CI_Controller {
 				);
 			}else{
 				$branchdata = array(
-					'code' => $code[0]->ct_code.(sprintf('%08d', $code[0]->ct_count+1)),
+					'code' => $code[0]->ct_code.(sprintf('%05d', $code[0]->ct_count+1)),
 					'name' => str_replace("'","’",$_POST['name']),
 					'branch_address' => str_replace("'","’",$_POST['braddress']),
 					'manager_id' => $_POST['brmanager'],
@@ -285,6 +289,7 @@ class admin extends CI_Controller {
 	 	));
 	 	$this->form_validation->set_rules('name', 'Branch Manager Name', 'required');
 		if ($this->form_validation->run() == TRUE) {
+			$br_id = $_POST['br_id'];
 			$mngrdata = array(
 				'username' => str_replace("'","’",$_POST['username']),
 				'password' => str_replace("'","’",$_POST['password']),
@@ -298,11 +303,17 @@ class admin extends CI_Controller {
 			$this->admin_model->update_counter($code[0]->ct_count+1,2);
 			$managerdata = array(
 				'user_id' => $user_id,
-				'code' => $code[0]->ct_code.(sprintf('%08d', $code[0]->ct_count+1)),
+				'code' => $code[0]->ct_code.(sprintf('%05d', $code[0]->ct_count+1)),
 				'name' => str_replace("'","’",$_POST['name']),
 				'status' => 'U'
 			);
-			$data = $this->admin_model->add_manager($managerdata);
+			if ($br_id != 0) {
+				$data = $this->admin_model->add_manager($managerdata);
+				$manager_id = $this->db->insert_id();
+				$this->admin_model->update_manager($manager_id,$br_id);
+			}else{
+				$data = $this->admin_model->add_manager($managerdata);
+			}
 			$response['status'] = TRUE;
 			$response[] = $data;
 		}
@@ -315,12 +326,36 @@ class admin extends CI_Controller {
 
 	// EDIT FUNCTIONS 
 
-	public function edit_branch($id){
-
+	public function edit_branch(){
+		$response = array();
+		$this->form_validation->set_rules('brname', 'Branch Name', 'required');
+		$this->form_validation->set_rules('braddress', 'Branch Address', 'required');
+		
+		if ($this->form_validation->run() == TRUE) {
+			$data = $this->admin_model->edit_branch();
+			$response['status'] = TRUE;
+			$response[] = $data;
+		}
+		else {
+			$response['status'] = FALSE;
+	    	$response['notif']	= validation_errors();
+		}
+		echo json_encode($response);
 	}
 
-	public function edit_manager($id){
-
+	public function edit_manager(){
+		$response = array();
+		$this->form_validation->set_rules('mngr_nm', 'Branch Manager Name', 'required');
+		
+		if ($this->form_validation->run() == TRUE) {
+			$data = $this->admin_model->edit_manager();
+			$response['status'] = TRUE;
+			$response[] = $data;
+		}
+		else {
+			$response['status'] = FALSE;
+	    	$response['notif']	= validation_errors();
+		}
+		echo json_encode($response);
 	}	
-
 }

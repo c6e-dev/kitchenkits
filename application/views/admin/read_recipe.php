@@ -42,7 +42,7 @@
         <button type="button" class="btn btn-sm bg-purple btn-flat" data-toggle="tab" data-target="#inactive_recipe" style="margin: 0px 5px 10px 0px">Inactive Recipes</button>
       </div>
       <div class="box">
-        <div class="box-body">
+        <div class="box-body table-responsive">
           <div class="tab-content">
             <div class="tab-pane active" id="active_recipe">
               <table id="" class="display table table-bordered table-striped table-hover">
@@ -73,12 +73,9 @@
                               <td><?php echo $rcp->ct; ?></td>
                               <td><?php echo $rcp->se; ?></td>
                               <td><center>
-                                <a href="<?php echo site_url('admin/view_recipe'.'?id='.$rcp->id); ?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
-                                 <?php echo '
-                                <a href="#" class="btn btn-xs btn-success" data-target="#update_recipe'.$rcp->id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-edit"></i></a>';
-                                ?>
-                                <?php 
-                                  echo '<a href="#" class="btn btn-xs btn-danger" data-target="#Irecipe'.$rcp->id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-trash"></i></a>';
+                                <a href="<?php echo site_url('admin/view_recipe/'.$rcp->id.'/'.$rcp->cid); ?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
+                                <?php echo '
+                                  <button type="button" class="btn btn-xs btn-danger" data-target="#Irecipe'.$rcp->id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-trash"></i></button>';
                                 ?>
                               </center></td>
                             </tr>
@@ -103,72 +100,7 @@
                                 </div>
                               </div>
                             </div>
-                          </div>
-
-                          <div class="modal fade" id="update_recipe">
-                            <div class="modal-dialog">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span></button>
-                                  <h4 class="modal-title"><strong>Update Recipe</strong></h4>
-                                </div>
-                                <form class="form-horizontal">'
-                                  <div class="modal-body">
-                                    <div class="box-body">
-                                      <div class="form-group">
-                                        <div class="alert alert-danger" align="center" style="display: none;"></div>
-                                      </div>
-                                      <div class="row form-group">
-                                        <label class="col-md-1 control-label">Name</label>
-                                        <div class="col-md-11"><input type="text" name="uptrcpnm" id="uptrcpnm" class="form-control input-sm" value="<?php echo $rcp->nm; ?>" disabled></div>
-                                      </div>
-                                      <div class="row form-group" style="margin-bottom: 25px">
-                                        <div class="col-md-4">
-                                          <label>Cooking Time <small style="font-weight: normal;">(minutes)</small></label>
-                                          <input type="text" name="uptctime" id="uptctime" class="form-control input-sm" value="<?php echo $rcp->ct; ?>">
-                                        </div>
-                                        <div class="col-md-4">
-                                          <label>Servings</label>
-                                          <input type="text" name="uptserves" id="uptserves" class="form-control input-sm" value="<?php echo $rcp->se; ?>">
-                                        </div>
-                                        <div class="col-md-4">
-                                          <label>Price</label>
-                                          <input type="text" name="uptprice" id="uptprice" class="form-control input-sm" value="<?php echo $rcp->prc; ?>">
-                                        </div>
-                                      </div>
-                                      <div class="row form-group">
-                                        <div class="col-md-2">
-                                          <label class="control-label">Region</label> 
-                                        </div>
-                                        <div class="col-md-2">
-                                          <select name="uptregion" id="uptregion" class="form-control select2" style="width: 100%;" disabled>
-                                            <option value="<?php echo $rcp->rid; ?>"><?php echo $rcp->rnm; ?></option>
-                                          </select>   
-                                        </div>
-                                        <div class="col-md-2">
-                                          <label class="control-label">Country</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                          <!-- <input type="text" name="country" id="country" class="form-control input-sm" required> -->
-                                          <select name="uptcountry" id="uptcountry" class="form-control select2" style="width: 100%;" disabled>
-                                            <option value="<?php echo $rcp->cid; ?>"><?php echo $rcp->cnm; ?></option>
-                                          </select>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="modal-footer">
-                                    <input type="text" name="uptrecipe_id" id="uptrecipe_id" value="<?php echo $rcp->id;?>">
-                                    <button type="button" id="btn_rcpupt_save" class="btn btn-sm btn-primary">Save</button>
-                                    <button type="button" class="btn btn-sm" data-dismiss="modal">Close</button>
-                                  </div>
-                                </form>
-                              </div>
-                              <!-- /.modal-content -->
-                            </div>
-                            <!-- /.modal-dialog -->
-                          </div>
+                          </div> 
                         <?php
                       }
                     }
@@ -205,7 +137,7 @@
                               <td><?php echo $rcp->ct; ?></td>
                               <td><?php echo $rcp->se; ?></td>
                               <td><center>
-                                <a href="#" class="btn btn-xs btn-info" data-target="#myModal" data-toggle="modal" data-backdrop="static"><i class="fa fa-search"></i></a>
+                                <a href="<?php echo site_url('admin/view_recipe/'.$rcp->id.'/'.$rcp->cid); ?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
                                 <?php 
                                   echo '<a href="#" class="btn btn-xs btn-success" data-target="#Arecipe'.$rcp->id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-power-off"></i></a>';
                                 ?>

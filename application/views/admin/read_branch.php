@@ -41,7 +41,7 @@
         <a class="btn btn-sm bg-purple btn-flat" data-toggle="tab" href="#inactive" role="tab" style="margin: 0px 5px 10px 0px">Inactive Branches</a>
       </div>
       <div class="box">
-        <div class="box-body">
+        <div class="box-body table-responsive">
           <div class="tab-content">
             <div class="tab-pane active" id="active">
               <table class="display table table-bordered table-striped table-hover">
@@ -193,7 +193,7 @@
                     </div>
                     <div class="row form-group">
                       <div>
-                        <label class="col-md-1 control-label">Manager</label>
+                        <label class="col-md-1 control-label">Managers</label>
                       </div>
                       <label class="col-md-1"></label>
                       <div class="col-12 col-md-10">

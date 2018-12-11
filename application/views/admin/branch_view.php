@@ -54,7 +54,7 @@
                 <dt>Address</dt>
                 <dd><?php echo $branch[0]->br_address?></dd>
                 <?php 
-                  if ($branch[0]->mngr_id == '0' OR $branch[0]->mngr_id == NULL OR $branch[0]->br_status == 'U') {
+                  if ($branch[0]->mngr_id == '0' OR $branch[0]->mngr_id == NULL OR $branch[0]->bm_status == 'U') {
                     ?>
                       <dt>Manager</dt>
                       <dd></dd>
@@ -71,6 +71,60 @@
                 <dt>Last Update Date</dt>
                 <dd><?php echo $branch[0]->br_update?></dd>
               </dl>
+              <button type="button" class="btn btn-sm bg-purple btn-flat" data-target="#update_branch" data-toggle="modal" data-backdrop="static">Edit</button>
+              <div class="modal fade" id="update_branch">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title"><strong>Edit <?php echo $branch[0]->br_code?></strong></h4>
+                    </div>
+                    <form class="form-horizontal">
+                      <div class="modal-body">
+                        <div class="box-body">
+                          <div class="form-group">
+                            <div class="alert alert-danger" align="center" style="display: none;"></div>
+                          </div>
+                          <div class="row form-group">
+                            <label class="col-md-1 control-label">Name</label>
+                            <label class="col-md-1"></label>
+                            <div class="col-12 col-md-10"><input type="text" name="upt_brname" id="upt_brname" class="form-control input-sm" value="<?php echo $branch[0]->br_name?>"></div>
+                          </div>
+                          <div class="row form-group">
+                            <label class="col-md-1 control-label">Address</label>
+                            <label class="col-md-1"></label>
+                            <div class="col-12 col-md-10"><input type="text" name="upt_braddress" id="upt_braddress" class="form-control input-sm" value="<?php echo $branch[0]->br_address?>"></div>
+                          </div>
+                          <div class="row form-group">
+                            <div>
+                              <label class="col-md-1 control-label">Manager</label>
+                            </div>
+                            <label class="col-md-1"></label>
+                            <div class="col-12 col-md-10">
+                              <select name="upt_brmanager" id="upt_brmanager" class="form-control select2" style="width: 100%;">
+                                <option value="0">none</option>
+                                <?php
+                                  foreach ($b_manager as $bm) {
+                                    ?>
+                                      <option value="<?php echo $bm->bm_id; ?>"><?php echo $bm->bm_name; ?></option>
+                                    <?php
+                                  }
+                                ?>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <input type="hidden" name="branch_id" id="branch_id" value="<?php echo $branch[0]->br_id?>">
+                        <button type="submit" id="btn_brupt_save" class="btn btn-sm btn-primary">Save</button>
+                        <button type="button" class="btn btn-sm" data-dismiss="modal">Close</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
               <!-- <dl class="dl-horizontal">
                 <dt style="text-align: left">ID</dt>
                 <dd><?php echo $branch[0]->br_code?></dd>

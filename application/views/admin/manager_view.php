@@ -70,6 +70,56 @@
                 <dt>Last Update Date</dt>
                 <dd><?php echo $manager[0]->bm_update?></dd>
               </dl>
+              <button type="button" class="btn btn-sm bg-purple btn-flat" data-toggle="modal" data-target="#update_manager" >Edit</button>
+              <div class="modal fade" id="update_manager">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title"><strong>Edit <?php echo $manager[0]->bm_code?></strong></h4>
+                    </div>
+                    <form class="form-horizontal">
+                      <div class="modal-body">
+                        <div class="box-body">
+                          <div class="form-group">
+                            <div class="alert alert-danger" align="center" style="display: none;"></div>
+                          </div>
+                          <div class="row form-group">
+                            <label class="col-md-1 control-label">Name</label>
+                            <label class="col-md-1"></label>
+                            <div class="col-12 col-md-10"><input type="text" name="mngr_name" id="mngr_name" class="form-control" value="<?php echo $manager[0]->bm_name?>"></div>
+                          </div>
+                          <div class="row form-group">
+                            <div>
+                              <label class="col-md-1 control-label">Branch</label>
+                            </div>
+                            <label class="col-md-1"></label>
+                            <div class="col-12 col-md-10">
+                              <select name="upt_br" id="upt_br" class="form-control input-sm select2" style="width: 100%;">
+                                <option value="<?php echo $manager[0]->br_id?>"><?php echo $manager[0]->br_name?></option>
+                                <option value="0">none</option>
+                                <?php
+                                  foreach ($ibranch as $ibm) {
+                                    ?>
+                                      <option value="<?php echo $ibm->br_id; ?>"><?php echo $ibm->br_name; ?></option>
+                                    <?php
+                                  }
+                                ?>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <input type="hidden" name="manager_id" id="manager_id" value="<?php echo $manager[0]->bm_id?>">
+                        <button type="submit" id="btn_bmupt_save" class="btn btn-sm btn-primary">Save</button>
+                        <button type="button" class="btn btn-sm" data-dismiss="modal">Close</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
             <!-- /.box-body -->
             </div>
           <!-- /.box -->

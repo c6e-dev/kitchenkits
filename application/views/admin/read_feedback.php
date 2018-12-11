@@ -36,7 +36,7 @@
     <!-- Main content -->
     <section class="content container-fluid">
       <div class="box">
-        <div class="box-body">
+        <div class="box-body table-responsive">
           <table id="" class="display table table-bordered table-striped table-hover">
             <thead>
               <tr>

@@ -40,7 +40,7 @@
         <a class="btn btn-sm bg-purple btn-flat" data-toggle="tab" href="#complete" role="tab" style="margin: 0px 5px 10px 0px">Complete Orders</a>
       </div>
       <div class="box">
-        <div class="box-body">
+        <div class="box-body table-responsive">
           <div class="tab-content">
             <div class="tab-pane active" id="incomplete">
               <table id="" class="display table table-bordered table-striped table-hover">

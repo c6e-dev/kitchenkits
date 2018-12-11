@@ -84,31 +84,26 @@
       });return false;
     });
 
-    $('#list').on('click','.item_edit',function(){
-      var re_id = $(this).data('re_id');
-      var date_sched = $(this).data('date_sched');
-      var time_sched = $(this).data('time_sched');
-      var desc = $(this).data('desc');
-      
-      // $('#edit').modal({show: true, backdrop : false, keyboard : false});
-      $('[name="reimbursement_update"]').val(re_id);
-      $('[name="edit_date_sched"]').val(date_sched);
-      $('[name="edit_time_sched"]').val(time_sched);
-      $('[name="edit_desc"]').val(desc);
-    });
-
     $('#btn_rcpupt_save').on('click', function(){
-      var cooktime = $('#uptctime').val();
-      var serves = $('#uptserves').val();
-      var price = $('#uptprice').val();
-      var id = $('#uptrecipe_id').val();
+      var rcpname = $('#upt_rcpnm').val();
+      var cooktime = $('#upt_ctime').val();
+      var serves = $('#upt_serves').val();
+      var price = $('#upt_price').val();
+      var region = $("[name='upt_region']").val();
+      var country = $("[name='upt_country']").val();
+      var instruc = $('#instruc').val();
+      var id = $('#recipe_id').val();
       $.ajax({
           type: 'post',
           url: "<?php echo site_url('admin/update_recipe'); ?>",
           data: {
+              name: rcpname,
               cooktime: cooktime,
               servings: serves,
               price: price,
+              region: region,
+              country: country,
+              instruc: instruc,
               recipe_id: id
           },
           dataType: 'JSON',
@@ -157,12 +152,44 @@
       });return false;
     });
 
+    $('#btn_brupt_save').on('click', function(){
+      var brname = $('#upt_brname').val();
+      var braddress = $('#upt_braddress').val();
+      var brmanager = $("[name='upt_brmanager']").val();
+      var br_id = $('#branch_id').val();
+      $.ajax({
+          type: 'post',
+          url: "<?php echo site_url('admin/edit_branch'); ?>",
+          data: {
+              brname: brname,
+              braddress: braddress,
+              brmanager_id: brmanager,
+              branch_id: br_id
+          },
+          dataType: 'JSON',
+          success: function(data){
+              if (data.status) {
+                  alert("Branch Successfully Updated");
+                  location.reload();
+                  $('#update_branch').modal('hide');
+              }else{
+                  $('.alert').css('display', 'block');
+                  $('.alert').html(data.notif);
+              }
+          },
+          error: function(){
+            alert('ERROR!');
+          }
+      });return false;
+    });
+
     $('#btn_mngradd_save').on('click', function(){
       var srnm = $('#username').val();
       var pswrd = $('#password').val();
       var cpswrd = $('#cpassword').val();
       var nm = $('#mngr_name').val();
       var muti = $('#mngr_user_type_id').val();
+      var br_id = $('#br').val();
       $.ajax({
           type: 'post',
           url: "<?php echo site_url('admin/add_manager'); ?>",
@@ -171,7 +198,8 @@
               password: pswrd,
               cpassword: cpswrd,
               name: nm,
-              utid: muti
+              utid: muti,
+              br_id: br_id
           },
           dataType: 'JSON',
           success: function(data){
@@ -186,6 +214,35 @@
           },
           error: function(){
               alert('ERROR!');
+          }
+      });return false;
+    });
+
+    $('#btn_bmupt_save').on('click', function(){
+      var mngr_nm = $('#mngr_name').val();
+      var manager_id = $('#manager_id').val();
+      var br_id = $("[name='upt_br']").val();
+      $.ajax({
+          type: 'post',
+          url: "<?php echo site_url('admin/edit_manager'); ?>",
+          data: {
+              mngr_nm: mngr_nm,
+              manager_id: manager_id,
+              br_id: br_id,
+          },
+          dataType: 'JSON',
+          success: function(data){
+              if (data.status) {
+                  alert("Branch Manager Successfully Updated");
+                  location.reload();
+                  $('#update_manager').modal('hide');
+              }else{
+                  $('.alert').css('display', 'block');
+                  $('.alert').html(data.notif);
+              }
+          },
+          error: function(){
+            alert('ERROR!');
           }
       });return false;
     });

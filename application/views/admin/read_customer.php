@@ -41,7 +41,7 @@
         <a class="btn btn-sm bg-purple btn-flat" data-toggle="tab" href="#inactive" role="tab" style="margin: 0px 5px 10px 0px">Inactive Customers</a>
       </div>
       <div class="box">
-        <div class="box-body">
+        <div class="box-body table-responsive">
           <div class="tab-content">
             <div class="tab-pane active" id="active">
               <table class="display table table-bordered table-striped table-hover">

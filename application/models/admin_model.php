@@ -27,6 +27,18 @@ class admin_model extends CI_Model{
 			return NULL;
 		}
 	}
+	public function country2($cid){
+		$query = $this->db->query("
+			SELECT co.name cnm, co.id cid
+			FROM country co
+			WHERE co.id <> $cid
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}else{
+			return NULL;
+		}
+	}
 	public function delete_recipe($id){
 		$this->db->query("
 			UPDATE recipe rcp
@@ -45,15 +57,21 @@ class admin_model extends CI_Model{
 		);
 		$this->db->insert('recipe', $data);
 	}
-	public function update_recipe($id){
+	public function update_recipe(){
+		$name = $this->input->post('name');
 		$cooking_time = $this->input->post('cooktime');
 		$servings = $this->input->post('servings');
 		$price = $this->input->post('price');
-		// $id = $this->input->post('recipe_id');
+		$country = $this->input->post('country');
+		$instruc = $this->input->post('instruc');
+		$id = $this->input->post('recipe_id');
 
+		$this->db->set('name', $name);
 		$this->db->set('cooking_time', $cooking_time);
 		$this->db->set('servings', $servings);
 		$this->db->set('price', $price);
+		$this->db->set('country_id', $country);
+		$this->db->set('instructions', $instruc);
 		$this->db->where('id', $id);
 
 		$result = $this->db->update('recipe');
@@ -61,9 +79,10 @@ class admin_model extends CI_Model{
 	}
 	public function view_recipe($id){
 		$query = $this->db->query("
-			SELECT re.id id, re.name nm, re.price prc, re.recipe_ingredients_id , re.instructions ins, re.cooking_time ct, re.servings se, re.status st, rg.name rnm, rg.id rid, co.name cnm, co.id cid
-			FROM recipe re
-			INNER JOIN recipe_ingredients ring ON re.recipe_ingredients_id = ring.id
+			SELECT re.id re_id, re.name re_nm, re.price re_prc, re.instructions re_ins, re.cooking_time re_ct, re.servings re_se, re.status re_st, re.created_date re_cd, re.updated_date re_ud, rg.name rg_nm, rg.id rid, co.name co_nm, co.id cid, ing.name in_nm, ring.ingredient_amount in_am
+			FROM recipe_ingredients ring
+			INNER JOIN ingredients ing ON ring.ingredient_id = ing.id
+			RIGHT JOIN recipe re ON ring.recipe_id = re.id
 			INNER JOIN country co ON re.country_id = co.id
 			INNER JOIN region rg ON co.region_id = rg.id
 			WHERE re.id = '$id'
@@ -234,7 +253,7 @@ class admin_model extends CI_Model{
 
 	public function view_branch($id){
 		$query = $this->db->query("
-			SELECT br.code AS br_code, br.name AS br_name, br.branch_address AS br_address, br.manager_id mngr_id, bm.name AS br_manager, bm.status br_status, br.created_date AS br_create, br.updated_date AS br_update
+			SELECT br.id br_id, br.code AS br_code, br.name AS br_name, br.branch_address AS br_address, br.manager_id mngr_id, bm.name AS br_manager, bm.status bm_status, br.created_date AS br_create, br.updated_date AS br_update
 			FROM branch br
 			LEFT JOIN branch_manager bm ON br.manager_id = bm.id
 			WHERE br.id = '$id'
@@ -263,7 +282,7 @@ class admin_model extends CI_Model{
 
 	public function view_manager($id){
 		$query = $this->db->query("
-			SELECT bm.id AS bm_id, bm.code AS bm_code, bm.name AS bm_name, bm.status bm_status, br.name br_name, u.created_date AS bm_create, u.updated_date bm_update
+			SELECT bm.id AS bm_id, bm.code AS bm_code, bm.name AS bm_name, bm.status bm_status, br.id br_id, br.name br_name, u.created_date AS bm_create, u.updated_date bm_update
 			FROM branch br
 			INNER JOIN branch_manager bm ON br.manager_id = bm.id 
 			INNER JOIN user u ON bm.user_id = u.id
@@ -340,11 +359,11 @@ class admin_model extends CI_Model{
 		");
 	}
 
-	public function delete_manager($id){
+	public function delete_manager($bm_id,$bm_uid){
 		$this->db->query("
-			UPDATE user u, branch_manager bm
-			SET u.status = 'I', bm.status = 'U'
-			WHERE u.id = '$id' AND bm.user_id = '$id'
+			UPDATE user u, branch_manager bm, branch br
+			SET u.status = 'I', bm.status = 'U', br.status = 'I'
+			WHERE u.id = '$bm_uid' AND bm.user_id = '$bm_uid' AND br.manager_id = '$bm_id'
 		");
 	}
 
@@ -397,28 +416,34 @@ class admin_model extends CI_Model{
 	
 	// EDIT FUNCTIONS
 
-	public function edit_branch($id){
-		$name = $this->input->post('name');
-		$branch_address = $this->input->post('address');
-		$id = $this->input->post('branch_id');
-
-		$this->db->set('name', $name);
-		$this->db->set('address', $address);
-		$this->db->where('id', $id);
-
-		$result = $this->db->update('branch');
-		return $result;
+	public function edit_branch(){
+		$branch_id = $this->input->post('branch_id');
+		$branch_name = $this->input->post('brname');
+		$branch_address = $this->input->post('braddress');
+		$branch_manager = $this->input->post('brmanager_id');
+		$this->db->query("
+			UPDATE branch br, branch_manager bm
+			SET br.name = '$branch_name', br.branch_address = '$branch_address', br.manager_id = '$branch_manager', bm.status = 'A'
+			WHERE br.id = '$branch_id' AND bm.id = '$branch_manager'
+		");
 	}
 
-	public function edit_manager($id){
-		$name = $this->input->post('name');
+	public function edit_manager(){
+		$name = $this->input->post('mngr_nm');
 		$id = $this->input->post('manager_id');
-
-		$this->db->set('name', $name);
-		$this->db->where('id', $id);
-
-		$result = $this->db->update('branch_manager');
-		return $result;
+		$br_id = $this->input->post('br_id');
+		$this->db->query("
+			UPDATE branch_manager bm, branch br
+			SET bm.name = '$name', br.manager_id = '$id', br.status = 'A'
+			WHERE bm.id = '$id' AND br.id = '$br_id'
+		");
+	}
+	public function update_manager($id,$br_id){
+		$this->db->query("
+			UPDATE branch br, branch_manager bm
+			SET br.manager_id = '$id', br.status = 'A', bm.status = 'A'
+			WHERE br.id = '$br_id' AND bm.id = '$id'
+		");
 	}	
 
 	// DASHBOARD FUNCTIONS - Robert / 12-02-18 - THIS MODULE IS SUBJECT TO FURTHER IMPROVEMENTS
@@ -560,6 +585,18 @@ class admin_model extends CI_Model{
 			SET count = '$val' 
 			WHERE id = '$id'
 		");
+	}
+	public function read_i_branch(){
+		$query = $this->db->query("
+			SELECT br.id br_id, br.manager_id br_mi, br.name br_name
+			FROM branch br
+			WHERE br.status = 'I'
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}else{
+			return NULL;
+		}
 	}
 
 }

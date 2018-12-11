@@ -41,7 +41,7 @@
         <a class="btn btn-sm bg-purple btn-flat" data-toggle="tab" href="#inactive" role="tab" style="margin: 0px 5px 10px 0px">Inactive Managers</a>
       </div>
       <div class="box">
-        <div class="box-body">
+        <div class="box-body table-responsive">
           <div class="tab-content">
             <div class="tab-pane active" id="active">
               <table id="" class="display table table-bordered table-striped table-hover">
@@ -91,7 +91,7 @@
                                     <strong><center>Confirm Manager Account Deactivation</center></strong>
                                   </div>';?>
                                   <div class="modal-footer">
-                                    <a href="<?php echo site_url('admin/delete_manager'.'?id='.$bm->bm_uid);?>" class="btn btn-sm btn-primary">Confirm</a>
+                                    <a href="<?php echo site_url('admin/delete_manager/'.$bm->bm_id.'/'.$bm->bm_uid);?>" class="btn btn-sm btn-primary">Confirm</a>
                                     <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Cancel</button>
                                   </div>
                                 </div>
@@ -201,6 +201,25 @@
                       <label class="col-md-1"></label>
                       <div class="col-12 col-md-10"><input type="text" name="mngr_name" id="mngr_name" class="form-control input-sm" required></div>
                     </div>
+                    <div class="row form-group">
+                      <div>
+                        <label class="col-md-1 control-label">Branches</label>
+                      </div>
+                      <label class="col-md-1"></label>
+                      <div class="col-12 col-md-10">
+                        <select name="br" id="br" class="form-control input-sm select2" style="width: 100%;">
+                          <option value="0">none</option>
+                          <?php
+                            foreach ($ibranch as $ibm) {
+                              ?>
+                                <option value="<?php echo $ibm->br_id; ?>"><?php echo $ibm->br_name; ?></option>
+                              <?php
+                            }
+                          ?>
+                        </select>
+                      </div>
+                    </div>
+                    
                   </div>
                 </div>
                 <div class="modal-footer">
