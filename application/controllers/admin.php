@@ -5,10 +5,31 @@ class admin extends CI_Controller {
 	public function __construct(){
 		parent:: __construct();
 		$this->load->model('admin_model');
+		date_default_timezone_set('Asia/Kuala_Lumpur');
 	}
 	public function index(){
 		$this->load->view('admin/layout/header');
-		$this->load->view('admin/home');
+		$data = array(
+			'branch' => $this->admin_model->branch_count(),
+			'branch_a' => $this->admin_model->branch_count_a(),
+			'branch_i' => $this->admin_model->branch_count_i(),
+			'manager' => $this->admin_model->manager_count(),
+			'manager_a' => $this->admin_model->manager_count_a(),
+			'manager_u' => $this->admin_model->manager_count_u(),
+			'customer' => $this->admin_model->customer_count(),
+			'customer_a' => $this->admin_model->customer_count_a(),
+			'customer_i' => $this->admin_model->customer_count_i(),
+			'logged_in' => $this->admin_model->logged_in_count(),
+			'recipe' => $this->admin_model->recipe_count(),
+			'recipe_a' => $this->admin_model->recipe_count_a(),
+			'recipe_i' => $this->admin_model->recipe_count_i(),	
+			'order' => $this->admin_model->order_count(),
+			'order_c' => $this->admin_model->order_count_c(),
+			'order_i' => $this->admin_model->order_count_i(),
+			'feedback' => $this->admin_model->feedback_count(),
+			'logged_in' => $this->admin_model->loggedin_count()
+		);
+		$this->load->view('admin/home',$data);
 		$this->load->view('admin/layout/footer');
 	}
 	public function recipe_view(){
@@ -72,35 +93,6 @@ class admin extends CI_Controller {
 		$this->load->view('admin/layout/footer');
 	}
 
-	// DASHBOARD FUNCTION - Robert / 12-01-18
-
-	public function ad_dashboard(){
-		$this->load->view('admin/layout/header');
-		$data = array(
-			// 'admin' => $this->user->admin_count(),
-			// 'admin_a' => $this->user->admin_count_a(),
-			// 'admin_i' => $this->user->admin_count_i(),
-			// 'branch' => $this->user->branch_count(),
-			// 'branch_a' => $this->user->branch_count_a(),
-			// 'branch_i' => $this->user->branch_count_i(),
-			// 'manager' => $this->user->manager_count(),
-			// 'manager_a' => $this->user->manager_count_a(),
-			// 'manager_i' => $this->user->manager_count_u(),
-			'customer' => $this->user->customer_count(),
-			'customer_a' => $this->user->customer_count_a(),
-			'customer_i' => $this->user->customer_count_i(),
-			'logged_in' => $this->user->logged_in_count(),
-			// 'recipe' => $this->user->recipe_count(),
-			// 'recipe_a' => $this->user->recipe_count_a(),
-			// 'recipe_i' => $this->user->recipe_count_i(),
-			'order' => $this->user->order_count(),
-			'order_a' => $this->user->order_count_c(),
-			'order_i' => $this->user->order_count_i()
-		);
-		$this->load->view('admin/home',$data);
-		$this->load->view('admin/layout/footer');
-	}
-
 	// DATA TABLE FUNCTIONS - Robert / 12-01-18
 
 	// public function recipe_view(){
@@ -154,7 +146,7 @@ class admin extends CI_Controller {
 		$data = array(
 			'customer' => $this->admin_model->view_customer($_GET['id']),
 			'c_order' => $this->admin_model->view_customer_order($_GET['id']),
-			'C_activity' => $this->admin_model->view_customer_activity($_GET['id']),
+			'c_activity' => $this->admin_model->view_customer_activity($_GET['id']),
 			'c_feedback' => $this->admin_model->view_customer_feedback($_GET['id'])
 		);
 		$this->load->view('admin/customer_view',$data);

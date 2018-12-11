@@ -284,7 +284,7 @@ class admin_model extends CI_Model{
 		$query = $this->db->query("
 			SELECT bm.id AS bm_id, bm.code AS bm_code, bm.name AS bm_name, bm.status bm_status, br.id br_id, br.name br_name, u.created_date AS bm_create, u.updated_date bm_update
 			FROM branch br
-			INNER JOIN branch_manager bm ON br.manager_id = bm.id 
+			RIGHT JOIN branch_manager bm ON br.manager_id = bm.id 
 			INNER JOIN user u ON bm.user_id = u.id
 			WHERE bm.id = '$id'
 		");
@@ -334,14 +334,6 @@ class admin_model extends CI_Model{
 	}
 
 	// DELETE FUNCTIONS - Robert / 12-02-18
-
-	// public function delete_recipe($id){
-	// 	$this->db->query("
-	// 		UPDATE recipe re
-	// 		SET re.status = 'I' 
-	// 		WHERE re.id = '$id'
-	// 	");
-	// }
 
 	public function delete_customer($id){
 		$this->db->query("
@@ -448,51 +440,50 @@ class admin_model extends CI_Model{
 
 	// DASHBOARD FUNCTIONS - Robert / 12-02-18 - THIS MODULE IS SUBJECT TO FURTHER IMPROVEMENTS
 
-	// public function branch_count(){
-	// 	$query = $this->db->query("SELECT COUNT(id) AS br
-	// 		FROM branch");
-	// 	return $query->result();
-	// }
+	public function branch_count(){
+		$query = $this->db->query("SELECT COUNT(id) AS br
+			FROM branch");
+		return $query->result();
+	}
 
-	// public function branch_count_a(){
-	// 	$query = $this->db->query("SELECT COUNT(id) AS br_a
-	// 		FROM branch
-	// 		WHERE status = 'A'
-	// 		");
-	// 	return $query->result();
-	// }
+	public function branch_count_a(){
+		$query = $this->db->query("SELECT COUNT(id) AS br_a
+			FROM branch
+			WHERE status = 'A'
+			");
+		return $query->result();
+	}
 
-	// public function branch_count_i(){
-	// 	$query = $this->db->query("SELECT COUNT(id) AS br_i
-	// 		FROM branch
-	// 		WHERE status = 'I'
-	// 		");
-	// 	return $query->result();
-	// }
+	public function branch_count_i(){
+		$query = $this->db->query("SELECT COUNT(id) AS br_i
+			FROM branch
+			WHERE status = 'I'
+			");
+		return $query->result();
+	}
 
-	// public function manager_count(){
-	// 	$query = $this->db->query("SELECT COUNT(id) AS bm
-	// 		FROM user
-	// 		WHERE user_type_id = 2
-	// 		");
-	// 	return $query->result();
-	// }
+	public function manager_count(){
+		$query = $this->db->query("SELECT COUNT(id) AS bm
+			FROM branch_manager
+			");
+		return $query->result();
+	}
 
-	// public function manager_count_a(){
-	// 	$query = $this->db->query("SELECT COUNT(id) AS bm_a
-	// 		FROM user
-	// 		WHERE user_type_id = 2 AND status = 'A'
-	// 		");
-	// 	return $query->result();
-	// }
+	public function manager_count_a(){
+		$query = $this->db->query("SELECT COUNT(id) AS bm_a
+			FROM branch_manager
+			WHERE status = 'A'
+			");
+		return $query->result();
+	}
 
-	// public function manager_count_i(){
-	// 	$query = $this->db->query("SELECT COUNT(id) AS bm_u
-	// 		FROM user
-	// 		WHERE user_type_id = 2 AND status = 'U'
-	// 		");
-	// 	return $query->result();
-	// }
+	public function manager_count_u(){
+		$query = $this->db->query("SELECT COUNT(id) AS bm_u
+			FROM branch_manager
+			WHERE status = 'U'
+			");
+		return $query->result();
+	}
 
 	public function customer_count(){
 		$query = $this->db->query("SELECT COUNT(id) AS cs
@@ -526,39 +517,39 @@ class admin_model extends CI_Model{
 		return $query->result();
 	}
 
-	// public function recipe_count(){
-	// 	$query = $this->db->query("SELECT COUNT(id) AS rc
-	// 		FROM recipe
-	// 		");
-	// 	return $query->result();
-	// }
+	public function recipe_count(){
+		$query = $this->db->query("SELECT COUNT(id) AS rc
+			FROM recipe
+			");
+		return $query->result();
+	}
 
-	// public function recipe_count_a(){
-	// 	$query = $this->db->query("SELECT COUNT(id) AS rc_a
-	// 		FROM recipe
-	// 		WHERE status = 'A'
-	// 		");
-	// 	return $query->result();
-	// }
+	public function recipe_count_a(){
+		$query = $this->db->query("SELECT COUNT(id) AS rc_a
+			FROM recipe
+			WHERE status = 'A'
+			");
+		return $query->result();
+	}
 
-	// public function recipe_count_i(){
-	// 	$query = $this->db->query("SELECT COUNT(id) AS rc_i
-	// 		FROM recipe
-	// 		WHERE status = 'I'
-	// 		");
-	// 	return $query->result();
-	// }
+	public function recipe_count_i(){
+		$query = $this->db->query("SELECT COUNT(id) AS rc_i
+			FROM recipe
+			WHERE status = 'I'
+			");	
+		return $query->result();
+	}
 
 	public function order_count(){
 		$query = $this->db->query("SELECT COUNT(id) AS od
-			FROM order 
+			FROM delivery 
 			");
 		return $query->result();
 	}
 
 	public function order_count_c(){
 		$query = $this->db->query("SELECT COUNT(id) AS od_c
-			FROM order 
+			FROM delivery 
 			WHERE status = 'C'
 			");
 		return $query->result();
@@ -566,11 +557,29 @@ class admin_model extends CI_Model{
 
 	public function order_count_i(){
 		$query = $this->db->query("SELECT COUNT(id) AS od_i
-			FROM order 
+			FROM delivery
 			WHERE status = 'I'
 			");
 		return $query->result();
 	}
+
+	public function feedback_count(){
+		$query = $this->db->query("SELECT COUNT(id) AS fb
+			FROM feedback
+			");
+		return $query->result();
+	}
+
+	public function loggedin_count(){
+		$query = $this->db->query("SELECT COUNT(id) AS li
+			FROM user
+			WHERE logged_in = '1'
+		");
+		return $query->result();
+	}
+
+	// OTHER FUNCTIONS
+
 	public function get_code($id){
 		$query = $this->db->query("
 			SELECT code ct_code, count ct_count

@@ -18,7 +18,7 @@
         <li><a href="<?php echo site_url('admin/order_view');?>"><i class="fa fa-shopping-cart"></i> <span>Orders</span></a></li>
         <li><a href="<?php echo site_url('admin/feedback_view');?>"><i class="fa fa-comments"></i> <span>Feedback</span></a></li>
         <li><a href="<?php echo site_url('admin/recipe_view');?>"><i class="fa fa-cutlery"></i> <span>Recipes</span></a></li>
-        <li class="active"><a href="<?php echo site_url('admin/branch_view');?>"><i class="fa fa-sitemap"></i> <span>Branches</span></a></li>
+        <li class="active"><a href="<?php echo site_url('admin/branch_view');?>"><i class="ion ion-ios-home"></i> <span>Branches</span></a></li>
         <li><a href="<?php echo site_url('admin/manager_view');?>"><i class="fa fa-user"></i> <span>Managers</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
@@ -198,7 +198,7 @@
                       <label class="col-md-1"></label>
                       <div class="col-12 col-md-10">
                         <select name="brmanager" id="brmanager" class="form-control select2" style="width: 100%;">
-                          <option value="0">none</option>
+                          <option value="0">None</option>
                           <?php
                             foreach ($b_manager as $bm) {
                               ?>

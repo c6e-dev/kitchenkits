@@ -18,7 +18,7 @@
         <li><a href="<?php echo site_url('admin/order_view');?>"><i class="fa fa-shopping-cart"></i> <span>Orders</span></a></li>
         <li><a href="<?php echo site_url('admin/feedback_view');?>"><i class="fa fa-comments"></i> <span>Feedback</span></a></li>
         <li><a href="<?php echo site_url('admin/recipe_view');?>"><i class="fa fa-cutlery"></i> <span>Recipes</span></a></li>
-        <li><a href="<?php echo site_url('admin/branch_view');?>"><i class="fa fa-sitemap"></i> <span>Branches</span></a></li>
+        <li><a href="<?php echo site_url('admin/branch_view');?>"><i class="ion ion-ios-home"></i> <span>Branches</span></a></li>
         <li><a href="<?php echo site_url('admin/manager_view');?>"><i class="fa fa-user"></i> <span>Managers</span></a></li>
         
       </ul>
@@ -54,9 +54,9 @@
                 <dd><?php echo $customer[0]->cs_fname." ".$customer[0]->cs_lname?></dd>
                 <dt>Address</dt>
                 <dd><?php echo $customer[0]->cs_address?></dd>
-                <dt>Account Creation Date</dt>
+                <dt>Creation Date</dt>
                 <dd><?php echo $customer[0]->cs_create?></dd>
-                <dt>Account Last Update Date</dt>
+                <dt>Last Update Date</dt>
                 <dd><?php echo $customer[0]->cs_update?></dd>
               </dl>
             <!-- /.box-body -->
