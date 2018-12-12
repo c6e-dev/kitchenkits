@@ -98,7 +98,7 @@
                             <div class="col-12 col-md-10">
                               <select name="upt_br" id="upt_br" class="form-control input-sm select2" style="width: 100%;">
                                 <option value="<?php echo $manager[0]->br_id?>"><?php echo $manager[0]->br_name?></option>
-                                <option value="0">none</option>
+                                <option value="0">None</option>
                                 <?php
                                   foreach ($ibranch as $ibm) {
                                     ?>

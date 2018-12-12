@@ -95,13 +95,6 @@ class admin extends CI_Controller {
 
 	// DATA TABLE FUNCTIONS - Robert / 12-01-18
 
-	// public function recipe_view(){
-	// 	$data['recipe'] = $this->admin_model->read_recipe();
-	// 	$this->load->view('admin/layout/header');
-	// 	$this->load->view('admin/recipe',$data);
-	// 	$this->load->view('admin/layout/footer');
-	// }
-
 	public function customer_view(){
 		$this->load->view('admin/layout/header');
 		$data['customer'] = $this->admin_model->read_customer();
@@ -176,7 +169,7 @@ class admin extends CI_Controller {
 	public function view_order(){
 		$this->load->view('admin/layout/header');
 		$data['order'] = $this->admin_model->view_order($_GET['id']);
-		$data['o_content'] = $this->admin_model->view_order_content($_GET['id']);
+		$data['oc_content'] = $this->admin_model->view_order_content($_GET['id']);
 		$this->load->view('admin/order_view',$data);
 		$this->load->view('admin/layout/footer');
 	}
@@ -189,11 +182,6 @@ class admin extends CI_Controller {
 	}
 
 	// DELETE FUNCTIONS - Robert / 12-02-18
-
-	// public function delete_recipe($id){
-	// 	$this->admin_model->delete_recipe($id);
-	// 	redirect('admin/recipe_view');
-	// }
 
 	public function delete_customer(){
 		$this->admin_model->delete_customer($_GET['id']);

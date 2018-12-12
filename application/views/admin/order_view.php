@@ -30,11 +30,75 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1><?php echo $order[0]->od_code?><small>Under Construction</small></h1>
+      <h1>Orders<small>Kikay Kit</small></h1>
     </section>
 
     <!-- Main content -->
     <section class="content container-fluid">
-      
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box box-solid">
+            <div class="box-header with-border">
+              <i class="fa fa-info-circle"></i>
+              <h3 class="box-title">Order Information</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <dl class="dl-horizontal">
+                <dt>ID</dt>
+                <dd><?php echo $order[0]->od_code?></dd>
+                <dt>Customer Name</dt>
+                <dd><?php echo $order[0]->od_fname." ".$order[0]->od_lname?></dd>
+                <dt>Branch Name</dt>
+                <dd><?php echo $order[0]->od_branch?></dd>
+                <dt>Creation Date</dt>
+                <dd><?php echo $order[0]->od_create?></dd>
+              </dl>
+            <!-- /.box-body -->
+            </div>
+          <!-- /.box -->
+          </div>
+          <div class="box box-solid">
+            <div class="box-header with-border">
+              <i class="fa fa-book"></i>
+              <h3 class="box-title">Order Content</h3>
+            </div>
+            <div class="box-body">
+              <dl class="dl-horizontal">
+                <dt>Recipes</dt>
+                <dd>
+                  <?php
+                    if ($oc_content!=NULL) {
+                      foreach ($oc_content as $oc) {
+                        ?>
+                        <ul class="list-unstyled">
+                          <li><?php echo $oc->oc_recipe; ?></li>
+                        </ul>
+                        <?php
+                      }
+                    }
+                  ?>
+                </dd>
+                <dt>Additional Ingredients</dt>
+                <!-- <dd>
+                  <?php
+                    if ($oc_content!=NULL) {
+                      foreach ($oc_content as $oc) {
+                        ?>
+                        <ul class="list-unstyled">
+                          <li><?php echo $oc->oc_additional; ?></li>
+                        </ul>
+                        <?php
+                      }
+                    }
+                  ?>
+                </dd> -->
+              </dl>
+            </div>
+            <!-- /.box-body -->
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   </div>

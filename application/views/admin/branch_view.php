@@ -103,7 +103,7 @@
                             <label class="col-md-1"></label>
                             <div class="col-12 col-md-10">
                               <select name="upt_brmanager" id="upt_brmanager" class="form-control select2" style="width: 100%;">
-                                <option value="0">none</option>
+                                <option value="0">None</option>
                                 <?php
                                   foreach ($b_manager as $bm) {
                                     ?>
@@ -125,18 +125,6 @@
                   </div>
                 </div>
               </div>
-              <!-- <dl class="dl-horizontal">
-                <dt style="text-align: left">ID</dt>
-                <dd><?php echo $branch[0]->br_code?></dd>
-                <dt style="text-align: left">Name</dt>
-                <dd><?php echo $branch[0]->br_name?></dd>
-                <dt style="text-align: left">Address</dt>
-                <dd><?php echo $branch[0]->br_address?></dd>
-                <dt style="text-align: left">Creation Date</dt>
-                <dd><?php echo $branch[0]->br_create?></dd>
-                <dt style="text-align: left">Last Update Date</dt>
-                <dd><?php echo $branch[0]->br_update?></dd>
-              </dl> -->
             </div>
             <!-- /.box-body -->
           </div>

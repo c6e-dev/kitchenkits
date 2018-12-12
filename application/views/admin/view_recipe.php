@@ -67,9 +67,9 @@
                 ?>
                 <dt>Cooking Time</dt>
                 <dd><?php echo $recipe[0]->re_ct;?></dd>
-                <dt>Created Date</dt>
+                <dt>Creation Date</dt>
                 <dd><?php echo $recipe[0]->re_cd;?></dd>
-                <dt>Updated Date</dt>
+                <dt>Last Updated Date</dt>
                 <dd><?php echo $recipe[0]->re_ud;?></dd>
               </dl>
               <button type="button" class="btn btn-sm bg-purple btn-flat" data-target="#update_recipe" data-toggle="modal" data-backdrop="static">Edit</button>
@@ -93,7 +93,7 @@
                           </div>
                           <div class="row form-group" style="margin-bottom: 25px">
                             <div class="col-md-4">
-                              <label>Cooking Time <small style="font-weight: normal;">(minutes)</small></label>
+                              <label>Cooking Time <small style="font-weight: normal;">(Minutes)</small></label>
                               <input type="text" name="upt_ctime" id="upt_ctime" class="form-control input-sm" value="<?php echo $recipe[0]->re_ct;?>">
                             </div>
                             <div class="col-md-4">
@@ -169,7 +169,7 @@
         <div class="col-md-6">
           <div class="box box-solid">
             <div class="box-header with-border">
-              <i class="fa fa-sticky-note"></i>
+              <i class="fa fa-book"></i>
 
               <h3 class="box-title">Instructions</h3>
             </div>
@@ -189,7 +189,7 @@
         <div class="col-md-6">
           <div class="box box-solid">
             <div class="box-header with-border">
-              <i class="fa fa-delicious"></i>
+              <i class="fa fa-list-ul"></i>
 
               <h3 class="box-title">Ingredients</h3>
             </div>
