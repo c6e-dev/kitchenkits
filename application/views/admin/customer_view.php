@@ -66,7 +66,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
           <div class="box box-solid">
             <div class="box-header with-border">
               <i class="fa fa-history"></i>
@@ -87,40 +87,6 @@
                               <tr>
                                 <td><?php echo $ua->ua_recipe; ?></td>
                                 <td><?php echo $ua->ua_type; ?></td>
-                              </tr>
-                            <?php
-                          }
-                        }
-                      ?>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="box box-solid">
-            <div class="box-header with-border">
-              <i class="fa fa-comments"></i>
-
-              <h3 class="box-title">Feedback</h3>
-            </div>
-            <div class="box-body">
-              <div class="box">
-                <div class="box-body">
-                  <table id="" class="table table-bordered table-striped table-hover">
-                    <thead>
-                    </thead>
-                    <tbody>
-                      <?php
-                        if ($c_feedback!=NULL) {
-                          foreach ($c_feedback as $fb) {
-                            ?>
-                              <tr>
-                                <td><?php echo $fb->fb_recipe; ?></td>
-                                <td><?php echo $fb->fb_rating; ?></td>
-                                <td><?php echo $fb->fb_message; ?></td>
                               </tr>
                             <?php
                           }

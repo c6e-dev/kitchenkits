@@ -31,7 +31,7 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>Dashboard<small>Kikay Kit</small></h1>
+      <h1>Dashboard<small>Kitchen Kits</small></h1>
     </section>
     <section class="content container-fluid">
       <div class="row">
@@ -115,6 +115,46 @@
           </div>
         </div>
         <!-- ./col -->
+        
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div id="recipe_tri">
+            <a href="<?php echo site_url('admin/feedback_view');?>">
+              <div class="small-box bg-purple">
+                <div class="inner">
+                  <h3><?php echo " ".$comment[0]->co?></h3>
+
+                  <p>Comments</p>
+                </div>
+                <div class="icon">
+                  <i class="fa fa-comments"></i>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div id="recipe_tri">
+            <a href="<?php echo site_url('admin/feedback_view');?>">
+              <div class="small-box bg-purple">
+                <div class="inner">
+                  <h3><?php echo " ".$rating[0]->ra?></h3>
+
+                  <p>Ratings</p>
+                </div>
+                <div class="icon">
+                  <i class="fa fa-star"></i>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <!-- ./col -->
+      </div>
+      <div class="row">
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div id="customer_tri">
@@ -154,27 +194,6 @@
             </div>
           </div>
         </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div id="recipe_tri">
-            <a href="<?php echo site_url('admin/feedback_view');?>">
-              <div class="small-box bg-purple">
-                <div class="inner">
-                  <h3><?php echo " ".$feedback[0]->fb?></h3>
-
-                  <p>Feedback</p>
-                </div>
-                <div class="icon">
-                  <i class="fa fa-comments"></i>
-                </div>
-              </div>
-            </a>
-          </div>
-        </div>
-        <!-- ./col -->
-      </div>
-      <div class="row">
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div id="branch_tri">
@@ -276,7 +295,7 @@
       </div>
     </section>
     <section class="content-header">
-      <h1>Activity Feed<small>Kikay Kit</small></h1>
+      <h1>Activity Feed<small>Kitchen Kits</small></h1>
     </section>
     <section class="content container-fluid">
       <div class="row">

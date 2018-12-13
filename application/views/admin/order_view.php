@@ -30,7 +30,7 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>Orders<small>Kikay Kit</small></h1>
+      <h1>Orders<small>Kitchen Kits</small></h1>
     </section>
 
     <!-- Main content -->

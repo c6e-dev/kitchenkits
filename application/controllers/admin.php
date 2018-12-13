@@ -26,7 +26,8 @@ class admin extends CI_Controller {
 			'order' => $this->admin_model->order_count(),
 			'order_c' => $this->admin_model->order_count_c(),
 			'order_i' => $this->admin_model->order_count_i(),
-			'feedback' => $this->admin_model->feedback_count(),
+			'comment' => $this->admin_model->comment_count(),
+			'rating' => $this->admin_model->rating_count(),
 			'logged_in' => $this->admin_model->loggedin_count()
 		);
 		$this->load->view('admin/home',$data);
@@ -89,7 +90,7 @@ class admin extends CI_Controller {
 		$data['recipe'] = $this->admin_model->view_recipe($rcp_id);
 		$data['country'] = $this->admin_model->country2($co_id);
 		$this->load->view('admin/layout/header');
-		$this->load->view('admin/view_recipe',$data);
+		$this->load->view('admin/recipe_view',$data);
 		$this->load->view('admin/layout/footer');
 	}
 
@@ -140,7 +141,7 @@ class admin extends CI_Controller {
 			'customer' => $this->admin_model->view_customer($_GET['id']),
 			'c_order' => $this->admin_model->view_customer_order($_GET['id']),
 			'c_activity' => $this->admin_model->view_customer_activity($_GET['id']),
-			'c_feedback' => $this->admin_model->view_customer_feedback($_GET['id'])
+			// 'c_history' => $this->admin_model->view_customer_history($_GET['id'])
 		);
 		$this->load->view('admin/customer_view',$data);
 		$this->load->view('admin/layout/footer');

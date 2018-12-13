@@ -1,4 +1,4 @@
-<footer class="main-footer">
+  <footer class="main-footer">
     <!-- To the right -->
     <div class="pull-right hidden-xs">
       Kitchen Kits
@@ -33,7 +33,7 @@
      Both of these plugins are recommended to enhance the
      user experience. -->
 <script>
-  $(function () {    
+  $(function(){    
     $('table.display').DataTable({
       destroy: true,
       "order": [[ 0, 'desc' ]]

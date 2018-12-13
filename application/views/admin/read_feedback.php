@@ -37,73 +37,40 @@
     <section class="content container-fluid">
       <div class="box">
         <div class="box-body table-responsive">
-          <table id="" class="display table table-bordered table-striped table-hover">
-            <thead>
-              <tr>
-                <th>Customer</th>
-                <th>Recipe</th>
-                <th>Comment</th>
-                <th>Rating</th>
-                <th>Created Date</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php
-                if ($feedback!=NULL) {
-                  foreach ($feedback as $fb) {
-                    ?>
-                      <tr>
-                        <td><?php echo str_replace("’", "'", $fb->fb_fname." ".$fb->fb_lname)?></td>
-                        <td><?php echo $fb->fb_recipe; ?></td>
-                        <td><?php echo $fb->fb_message; ?></td>
-                        <td><?php echo $fb->fb_rating; ?></td>
-                        <td><?php echo $fb->fb_create; ?></td>
-                        <td><center>
-                          <?php echo'
-                          <a href="#" class="btn btn-xs btn-info" data-target="#viewfeed'.$fb->fb_id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-search"></i></a>';?>
-                        </center></td>
-                      </tr>
+          <ul class="timeline">
 
-                      <div class="container"> <!-- CHANGE LAYOUT  -->
-                      <?php echo'
-                        <div class="modal fade" id="viewfeed'.$fb->fb_id.'">
-                          <div class="modal-dialog">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                              </div>
-                              <div class="modal-body">
-                                <div class="post">
-                                  <div class="user-block">
-                                    <span>
-                                      <header><font size="3">'.$fb->fb_fname." ".$fb->fb_lname.'  -  '.$fb->fb_recipe.'</font></header>
-                                    </span>
-                                    <span>
-                                      <header>Commented On - '.$fb->fb_create.'</header>
-                                    </span>
-                                    <span>
-                                      <header>Rating: '.$fb->fb_rating.'</header>
-                                    </span>
-                                  </div>
-                                  <p>
-                                    '.$fb->fb_message.'
-                                  </p>
-                                </div>
-                              </div>';?>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    <?php
-                  }
-                }
-              ?>
-            </tbody>
-          </table>
+            <!-- timeline time label -->
+            <li class="time-label">
+                <span class="bg-red">
+                    10 Feb. 2014
+                </span>
+            </li>
+            <!-- /.timeline-label -->
+
+            <!-- timeline item -->
+            <li>
+                <!-- timeline icon -->
+                <i class="fa fa-envelope bg-blue"></i>
+                <div class="timeline-item">
+                    <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
+
+                    <h3 class="timeline-header"><a href="#">Support Team</a> ...</h3>
+
+                    <div class="timeline-body">
+                        ...
+                        Content goes here
+                    </div>
+
+                    <div class="timeline-footer">
+                        <a class="btn btn-primary btn-xs">...</a>
+                    </div>
+                </div>
+            </li>
+            <!-- END timeline item -->
+            <li>
+              <i class="fa fa-clock-o bg-gray"></i>
+            </li>
+          </ul>
         </div>
       </div>
     </section>
