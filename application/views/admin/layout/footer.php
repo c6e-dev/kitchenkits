@@ -1,4 +1,4 @@
-  <footer class="main-footer">
+<footer class="main-footer">
     <!-- To the right -->
     <div class="pull-right hidden-xs">
       Kitchen Kits
@@ -33,7 +33,7 @@
      Both of these plugins are recommended to enhance the
      user experience. -->
 <script>
-  $(function(){    
+  $(function () {    
     $('table.display').DataTable({
       destroy: true,
       "order": [[ 0, 'desc' ]]
@@ -157,6 +157,7 @@
       var braddress = $('#upt_braddress').val();
       var brmanager = $("[name='upt_brmanager']").val();
       var br_id = $('#branch_id').val();
+      var bm_id = $('#mngr_id').val();
       $.ajax({
           type: 'post',
           url: "<?php echo site_url('admin/edit_branch'); ?>",
@@ -164,7 +165,8 @@
               brname: brname,
               braddress: braddress,
               brmanager_id: brmanager,
-              branch_id: br_id
+              branch_id: br_id,
+              mngr_id: bm_id
           },
           dataType: 'JSON',
           success: function(data){
@@ -222,6 +224,8 @@
       var mngr_nm = $('#mngr_name').val();
       var manager_id = $('#manager_id').val();
       var br_id = $("[name='upt_br']").val();
+      var current_br_id = $('#br_id').val();
+      var user_id = $('#user_id').val();
       $.ajax({
           type: 'post',
           url: "<?php echo site_url('admin/edit_manager'); ?>",
@@ -229,6 +233,8 @@
               mngr_nm: mngr_nm,
               manager_id: manager_id,
               br_id: br_id,
+              cubr_id: current_br_id,
+              user_id: user_id
           },
           dataType: 'JSON',
           success: function(data){

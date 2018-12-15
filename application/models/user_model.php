@@ -15,5 +15,19 @@ class user_model extends CI_Model{
 			return NULL;
 		}					
 	}
+	public function logged_in($id){
+		$this->db->query("
+			UPDATE user
+			SET logged_in = '1' 
+			WHERE id = '$id'
+		");
+	}
+	public function logged_out($id){
+		$this->db->query("
+			UPDATE user
+			SET logged_in = '0' 
+			WHERE id = '$id'
+		");
+	}
 }
 

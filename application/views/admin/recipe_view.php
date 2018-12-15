@@ -68,9 +68,19 @@
                 <dt>Cooking Time</dt>
                 <dd><?php echo $recipe[0]->re_ct;?></dd>
                 <dt>Creation Date</dt>
-                <dd><?php echo $recipe[0]->re_cd;?></dd>
+                <dd><?php echo date('M d, Y - g:i a', strtotime($recipe[0]->re_cd));?></dd>
                 <dt>Last Updated Date</dt>
-                <dd><?php echo $recipe[0]->re_ud;?></dd>
+                <?php
+                  if ($recipe[0]->re_ud != NULL) {
+                    ?>
+                      <dd><?php echo date('M d, Y - g:i a', strtotime($recipe[0]->re_ud));?></dd>
+                    <?php
+                  }else{
+                    ?>
+                      <dd></dd>
+                    <?php
+                  }
+                ?>
               </dl>
               <button type="button" class="btn btn-sm bg-purple btn-flat" data-target="#update_recipe" data-toggle="modal" data-backdrop="static">Edit</button>
               <div class="modal fade" id="update_recipe">
@@ -93,7 +103,7 @@
                           </div>
                           <div class="row form-group" style="margin-bottom: 25px">
                             <div class="col-md-4">
-                              <label>Cooking Time <small style="font-weight: normal;">(Minutes)</small></label>
+                              <label>Cooking Time <small style="font-weight: normal;">(minutes)</small></label>
                               <input type="text" name="upt_ctime" id="upt_ctime" class="form-control input-sm" value="<?php echo $recipe[0]->re_ct;?>">
                             </div>
                             <div class="col-md-4">

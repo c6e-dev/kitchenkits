@@ -7,7 +7,8 @@ class user extends CI_Controller {
 		$this->load->model('user_model');
 	}
 	public function index(){
-		$this->load->view('home');
+		$this->load->view('login');
+		// $this->load->view('home');
 	}
 	public function load_login(){
 		$this->load->view('login');
@@ -24,6 +25,7 @@ class user extends CI_Controller {
 				'pass' => $userdata[0]->password,
 				'utype' => $userdata[0]->user_type_id
 			);
+			$this->user_model->logged_in($_SESSION['id']);	
 			switch ($userdata[0]->user_type_id) {
 				case '1':
 					redirect('admin');
@@ -43,6 +45,7 @@ class user extends CI_Controller {
 		mysqli_close($con);
 	}
 	public function logout(){
+		$this->user_model->logged_out($_SESSION['id']);	
 		session_destroy();
 		redirect();
 	}

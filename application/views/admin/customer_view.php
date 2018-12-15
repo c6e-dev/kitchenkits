@@ -67,37 +67,74 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <div class="box box-solid">
-            <div class="box-header with-border">
-              <i class="fa fa-history"></i>
-
-              <h3 class="box-title">Activity</h3>
-            </div>
-            <div class="box-body">
-              <div class="box">
-                <div class="box-body">
-                  <table id="" class="table table-bordered table-striped table-hover">
-                    <thead>
-                    </thead>
-                    <tbody>
-                      <?php
-                        if ($c_activity!=NULL) {
-                          foreach ($c_activity as $ua) {
+          <div class="box-header">
+            <i class="fa fa-history"></i>
+            <h3 class="box-title">Activity</h3>
+          </div>
+          <section class="content container-fluid">
+            <div class="row">
+              <div class="col-md-12">
+                <ul class="timeline">
+                  <li class="time-label">
+                    <span class="bg-green">
+                      <?php 
+                        $current_date = date('M d, Y');
+                        echo $current_date;
+                      ?>
+                    </span>
+                  </li>
+                  <?php
+                    if ($c_activity!=NULL) {
+                      foreach ($c_activity as $cact) {
+                        $new_date = date('M d, Y', strtotime($cact->fb_cdate));
+                        if ($new_date == $current_date) {
+                          if ($cact->fb_type == 1) {
                             ?>
-                              <tr>
-                                <td><?php echo $ua->ua_recipe; ?></td>
-                                <td><?php echo $ua->ua_type; ?></td>
-                              </tr>
-                            <?php
+                              <li>
+                                <i class="fa fa-shopping-cart bg-blue"></i>
+                                <div class="timeline-item">
+                                  <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($cact->fb_cdate));?></span>
+                                  <h3 class="timeline-header"><a href="#"><?php echo $cact->fb_fname; ?> <?php echo $cact->fb_lname; ?></a> ordered <?php echo $cact->fb_recipe; ?></h3>
+                                </div>
+                              </li>
+                            <?php  
+                          }
+                          if ($cact->fb_type == 3) {
+                            ?>
+                              <li>
+                                <i class="fa fa-star bg-yellow"></i>
+                                <div class="timeline-item">
+                                  <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($cact->fb_cdate));?></span>
+                                  <h3 class="timeline-header"><a href="#"><?php echo $cact->fb_fname; ?> <?php echo $cact->fb_lname; ?></a> rated <?php echo $cact->fb_rating; ?> stars on <?php echo $cact->fb_recipe; ?></h3>
+                                </div>
+                              </li>
+                            <?php  
+                          }
+                          if ($cact->fb_type == 4) {
+                            ?>
+                              <li>
+                                <i class="fa fa-comment bg-purple"></i>
+                                <div class="timeline-item">
+                                  <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($cact->fb_cdate));?></span>
+                                  <h3 class="timeline-header"><a href="#"><?php echo $cact->fb_fname; ?> <?php echo $cact->fb_lname; ?></a> commented on <?php echo $cact->fb_recipe; ?></h3>
+                                  <div class="timeline-body">
+                                    <?php echo $cact->fb_comment; ?>
+                                  </div>
+                                </div>
+                              </li>
+                            <?php  
                           }
                         }
-                      ?>
-                    </tbody>
-                  </table>
-                </div>
+                      }
+                    }
+                  ?>
+                  <li>
+                    <i class="fa fa-clock-o bg-gray"></i>
+                  </li>
+                </ul>
               </div>
             </div>
-          </div>
+          </section>
         </div>
       </div>
       <div class="row">

@@ -60,7 +60,7 @@ class admin_model extends CI_Model{
 		);
 		$this->db->insert('recipe', $data);
 	}
-	public function update_recipe(){
+	public function update_recipe($upt_date){
 		$name = $this->input->post('name');
 		$cooking_time = $this->input->post('cooktime');
 		$servings = $this->input->post('servings');
@@ -75,11 +75,13 @@ class admin_model extends CI_Model{
 		$this->db->set('price', $price);
 		$this->db->set('country_id', $country);
 		$this->db->set('instructions', $instruc);
+		$this->db->set('updated_date', $upt_date);
 		$this->db->where('id', $id);
 
 		$result = $this->db->update('recipe');
 		return $result;
 	}
+
 	public function view_recipe($id){
 		$query = $this->db->query("
 			SELECT re.id re_id, re.name re_nm, re.price re_prc, re.instructions re_ins, re.cooking_time re_ct, re.servings re_se, re.status re_st, re.created_date re_cd, re.updated_date re_ud, rg.name rg_nm, rg.id rid, co.name co_nm, co.id cid, ing.name in_nm, ring.ingredient_amount in_am
@@ -92,8 +94,7 @@ class admin_model extends CI_Model{
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();
-		}
-		else{
+		}else{
 			return NULL;
 		}
 	}
@@ -174,15 +175,15 @@ class admin_model extends CI_Model{
 		}
 	}
 
-	public function read_feedback(){ // FIX THIS
+	public function read_feedback(){
 		$query = $this->db->query("
-			SELECT ua.id AS fb_id, ua.activity_type_id AS fb_type, ua.created_date AS fb_create, co.message AS fb_comment, ra.rating AS fb_rating, cs.first_name AS fb_fname, cs.last_name AS fb_lname, re.name AS fb_recipe
-			FROM user_activity ua 
-			INNER JOIN comment co ON co.activity_id = ua.id
-			INNER JOIN rating ra ON ra.activity_id = ua.id
+			SELECT ua.activity_type_id fb_type, ua.created_date fb_cdate, co.message fb_comment, ra.rating fb_rating, cs.first_name fb_fname, cs.last_name fb_lname, re.name fb_recipe
+			FROM user_activity ua
+			INNER JOIN recipe re ON ua.recipe_id = re.id		
 			INNER JOIN customer cs ON ua.customer_id = cs.id
-			INNER JOIN recipe re ON ua.recipe_id = re.id
-			WHERE ua.activity_type_id = '3' OR ua.activity_type_id = '4'
+			LEFT JOIN comment co ON ua.id = co.activity_id
+			LEFT JOIN rating ra ON ua.id = ra.activity_id
+			ORDER BY ua.created_date DESC
 		");
 		if($query->num_rows()>0){
 			return $query->result();
@@ -195,6 +196,7 @@ class admin_model extends CI_Model{
 	// VIEW FUNCTIONS - Robert / 12-02-18
 
 	//CUSTOMER FUNCTIONS 
+
 
 	public function view_customer($id){ 
 		$query = $this->db->query("
@@ -227,14 +229,14 @@ class admin_model extends CI_Model{
 
 	public function view_customer_activity($id){ // FIX THIS
 		$query = $this->db->query("
-			SELECT ua.activity_type_id AS ua_type, ua.created_date AS ua_create, co.message AS ua_comment, ra.rating AS ua_rating, re.name AS ua_recipe
+			SELECT ua.activity_type_id fb_type, ua.created_date fb_cdate, co.message fb_comment, ra.rating fb_rating, cs.first_name fb_fname, cs.last_name fb_lname, re.name fb_recipe
 			FROM user_activity ua
-			INNER JOIN comment co ON co.activity_id = ua.id
-			INNER JOIN rating ra ON ra.activity_id = ua.id
+			INNER JOIN recipe re ON ua.recipe_id = re.id		
 			INNER JOIN customer cs ON ua.customer_id = cs.id
-			INNER JOIN recipe re ON ua.recipe_id = re.id
-			INNER JOIN activity_type at ON ua.activity_type_id = at.id
+			LEFT JOIN comment co ON ua.id = co.activity_id
+			LEFT JOIN rating ra ON ua.id = ra.activity_id
 			WHERE ua.customer_id = '$id'
+			ORDER BY ua.created_date DESC
 		");
 		if($query->num_rows()>0){
 			return $query->result();
@@ -278,7 +280,7 @@ class admin_model extends CI_Model{
 
 	public function view_manager($id){
 		$query = $this->db->query("
-			SELECT bm.id AS bm_id, bm.code AS bm_code, bm.name AS bm_name, bm.status bm_status, br.id br_id, br.name br_name, u.created_date AS bm_create, u.updated_date bm_update
+			SELECT bm.id AS bm_id, bm.code AS bm_code, bm.name AS bm_name, bm.status bm_status, br.id br_id, br.name br_name, u.created_date AS bm_create, u.updated_date bm_update, bm.user_id user_id
 			FROM branch br
 			RIGHT JOIN branch_manager bm ON br.manager_id = bm.id 
 			INNER JOIN user u ON bm.user_id = u.id
@@ -510,7 +512,6 @@ class admin_model extends CI_Model{
 			LEFT JOIN comment co ON ua.id = co.activity_id
 			LEFT JOIN rating ra ON ua.id = ra.activity_id
 			ORDER BY ua.created_date DESC
-			
 		");
 		if($query->num_rows()>0){
 			return $query->result();

@@ -77,7 +77,8 @@ class admin extends CI_Controller {
 		));
 		
 		if ($this->form_validation->run() == TRUE) {
-			$data = $this->admin_model->update_recipe();
+			$upt_date = date('Y-m-d H:i:s');
+			$data = $this->admin_model->update_recipe($upt_date);
 			$response['status'] = TRUE;
 			$response[] = $data;
 		}
