@@ -34,6 +34,9 @@ class admin extends CI_Controller {
 		$this->load->view('admin/home',$data);
 		$this->load->view('admin/layout/footer');
 	}
+
+	// DATA TABLE FUNCTIONS - Robert / 12-01-18
+
 	public function recipe_view(){
 		$data['recipe'] = $this->admin_model->read_recipe();
 		$data['country'] = $this->admin_model->country();
@@ -41,62 +44,6 @@ class admin extends CI_Controller {
 		$this->load->view('admin/read_recipe',$data);
 		$this->load->view('admin/layout/footer');
 	}
-	public function delete_recipe(){
-		$this->admin_model->delete_recipe($_GET['id']);
-		redirect('admin/recipe_view');
-	}
-	public function create_recipe(){
-		$response = array();
-		$this->form_validation->set_rules('name', 'Recipe Name', 'required|is_unique[recipe.name]',array(
-			'is_unique' => 'Recipe Name already exist!'
-		));
-		$this->form_validation->set_rules('servings', 'Servings', 'numeric',array(
-			'numeric' => 'Number of Servings not valid!'
-		));
-		$this->form_validation->set_rules('price', 'Recipe Price', 'numeric',array(
-			'numeric' => 'Value of Price not valid!'
-		));
-		if ($this->form_validation->run() == TRUE) {
-			$data = $this->admin_model->create_recipe();
-			$response['status'] = TRUE;
-			$response[] = $data;
-		}
-		else {
-			$response['status'] = FALSE;
-	    	$response['notif']	= validation_errors();
-		}
-		echo json_encode($response);
-	}
-	public function update_recipe(){
-		$response = array();
-		$this->form_validation->set_rules('servings', 'Servings', 'numeric',array(
-			'numeric' => 'Number of Servings not valid!'
-		));
-		$this->form_validation->set_rules('price', 'Recipe Price', 'numeric',array(
-			'numeric' => 'Value of Price not valid!'
-		));
-		
-		if ($this->form_validation->run() == TRUE) {
-			$upt_date = date('Y-m-d H:i:s');
-			$data = $this->admin_model->update_recipe($upt_date);
-			$response['status'] = TRUE;
-			$response[] = $data;
-		}
-		else {
-			$response['status'] = FALSE;
-	    	$response['notif']	= validation_errors();
-		}
-		echo json_encode($response);
-	}
-	public function view_recipe($rcp_id,$co_id){
-		$data['recipe'] = $this->admin_model->view_recipe($rcp_id);
-		$data['country'] = $this->admin_model->country2($co_id);
-		$this->load->view('admin/layout/header');
-		$this->load->view('admin/recipe_view',$data);
-		$this->load->view('admin/layout/footer');
-	}
-
-	// DATA TABLE FUNCTIONS - Robert / 12-01-18
 
 	public function customer_view(){
 		$this->load->view('admin/layout/header');
@@ -135,7 +82,15 @@ class admin extends CI_Controller {
 		$this->load->view('admin/layout/footer');
 	}
 
-	// VIEW FUNCTIONS - Robert / 12-02-18 
+	// VIEW FUNCTIONS 
+
+	public function view_recipe($rcp_id,$co_id){
+		$data['recipe'] = $this->admin_model->view_recipe($rcp_id);
+		$data['country'] = $this->admin_model->country2($co_id);
+		$this->load->view('admin/layout/header');
+		$this->load->view('admin/recipe_view',$data);
+		$this->load->view('admin/layout/footer');
+	}
 
 	public function view_customer(){
 		$this->load->view('admin/layout/header');
@@ -183,7 +138,12 @@ class admin extends CI_Controller {
 		$this->load->view('admin/layout/footer');
 	}
 
-	// DELETE FUNCTIONS - Robert / 12-02-18
+	// DELETE FUNCTIONS 
+
+	public function delete_recipe(){
+		$this->admin_model->delete_recipe($_GET['id']);
+		redirect('admin/recipe_view');
+	}
 
 	public function delete_customer(){
 		$this->admin_model->delete_customer($_GET['id']);
@@ -224,7 +184,30 @@ class admin extends CI_Controller {
 
 	// ADD FUNCTIONS 
 
-	public function add_branch(){ // IMPROVE
+	public function create_recipe(){
+		$response = array();
+		$this->form_validation->set_rules('name', 'Recipe Name', 'required|is_unique[recipe.name]',array(
+			'is_unique' => 'Recipe Name already exist!'
+		));
+		$this->form_validation->set_rules('servings', 'Servings', 'numeric',array(
+			'numeric' => 'Number of Servings not valid!'
+		));
+		$this->form_validation->set_rules('price', 'Recipe Price', 'numeric',array(
+			'numeric' => 'Value of Price not valid!'
+		));
+		if ($this->form_validation->run() == TRUE) {
+			$data = $this->admin_model->create_recipe();
+			$response['status'] = TRUE;
+			$response[] = $data;
+		}
+		else {
+			$response['status'] = FALSE;
+	    	$response['notif']	= validation_errors();
+		}
+		echo json_encode($response);
+	}
+
+	public function add_branch(){ 
 		$response = array();
 		$this->form_validation->set_rules('name', 'Branch Name', 'required|is_unique[branch.name]',array(
 			'is_unique' => 'Branch Name Already Exists'
@@ -307,6 +290,28 @@ class admin extends CI_Controller {
 	}
 
 	// EDIT FUNCTIONS 
+
+	public function update_recipe(){
+		$response = array();
+		$this->form_validation->set_rules('servings', 'Servings', 'numeric',array(
+			'numeric' => 'Number of Servings not valid!'
+		));
+		$this->form_validation->set_rules('price', 'Recipe Price', 'numeric',array(
+			'numeric' => 'Value of Price not valid!'
+		));
+		
+		if ($this->form_validation->run() == TRUE) {
+			$upt_date = date('Y-m-d H:i:s');
+			$data = $this->admin_model->update_recipe($upt_date);
+			$response['status'] = TRUE;
+			$response[] = $data;
+		}
+		else {
+			$response['status'] = FALSE;
+	    	$response['notif']	= validation_errors();
+		}
+		echo json_encode($response);
+	}
 
 	public function edit_branch(){
 		$response = array();

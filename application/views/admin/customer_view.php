@@ -113,7 +113,7 @@
                           if ($cact->fb_type == 4) {
                             ?>
                               <li>
-                                <i class="fa fa-comment bg-purple"></i>
+                                <i class="fa fa-comment bg-red"></i>
                                 <div class="timeline-item">
                                   <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($cact->fb_cdate));?></span>
                                   <h3 class="timeline-header"><a href="#"><?php echo $cact->fb_fname; ?> <?php echo $cact->fb_lname; ?></a> commented on <?php echo $cact->fb_recipe; ?></h3>
@@ -135,6 +135,7 @@
               </div>
             </div>
           </section>
+          </div>
         </div>
       </div>
       <div class="row">

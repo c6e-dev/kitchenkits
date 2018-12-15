@@ -133,12 +133,9 @@
                             <td><center>
                               <a href="<?php echo site_url('admin/view_branch'.'?id='.$br->br_id);?>" class="btn btn-xs btn-info"><i  class="fa fa-search"></i></a>
                               <?php 
-                                  if ($br->br_mi == 0) {
-                                    echo' <button type="button" class="btn btn-xs btn-success" data-target="#acbran'.$br->br_id.'" data-toggle="modal" data-backdrop="static" disabled><i class="fa fa-power-off"></i></button>';
-                                  }else{
-                                    echo' <button type="button" class="btn btn-xs btn-success" data-target="#acbran'.$br->br_id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-power-off"></i></button>';
-                                  }
-                                ?>
+                                if ($br->br_mi == 0) {
+                                  echo' <button type="button" class="btn btn-xs btn-success" data-target="#acbran'.$br->br_id.'" data-toggle="modal" data-backdrop="static" disabled><i class="fa fa-power-off"></i></button>';
+                                }else{
                             </center></td>
                           </tr>
 

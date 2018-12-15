@@ -8,12 +8,25 @@ class admin extends CI_Controller {
 		date_default_timezone_set('Asia/Kuala_Lumpur');
 	}
 
+	//CUSTOMER PROFILE FUNCTIONS
+
+	//VIEW FUNCTIONS 
+
 	public function view_profile(){
-		$data['profile'] = $this->customer_model->view_profile();
+		$data['v_profile'] = $this->customer_model->view_profile();
 		$this->load->view('customer/layout/header');
 		$this->load->view('customer/view_profile', $data);
 		$this->load->view('customer/layout/footer');
 	}
+
+	public function view_history(){
+		$data['v_history'] = $this->customer_model->view_history();
+		$this->load->view('customer/layout/header');
+		$this->load->view('customer/view_history', $data);
+		$this->load->view('customer/layout/footer');
+	}
+
+	//EDIT FUNCTIONS
 
 	public function edit_profile(){
 		$response = array();
@@ -35,8 +48,13 @@ class admin extends CI_Controller {
 		echo json_encode($response);
 	}
 
-	// public function view_cart(){
+	//CART FUNCTIONS
 
-	// }
+	public function view_cart(){
+		$date['cart'] = $this->customer_model->view_cart();
+		$this->load->view('customer/layout/header');
+		$this->load->view('customer/view_cart', $data);
+		$this->load->view('customer/layout/footer');
+	}
 
 }

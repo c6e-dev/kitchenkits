@@ -33,7 +33,7 @@
      Both of these plugins are recommended to enhance the
      user experience. -->
 <script>
-  $(function () {    
+  $(function(){    
     $('table.display').DataTable({
       destroy: true,
       "order": [[ 0, 'desc' ]]

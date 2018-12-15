@@ -65,7 +65,7 @@
                     if ($fb->fb_type == 4) {
                       ?>
                         <li>
-                          <i class="fa fa-comment bg-purple"></i>
+                          <i class="fa fa-comment bg-red"></i>
                           <div class="timeline-item">
                             <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($fb->fb_cdate));?></span>
                             <h3 class="timeline-header"><a href="#"><?php echo $fb->fb_fname; ?> <?php echo $fb->fb_lname; ?></a> commented on <?php echo $fb->fb_recipe; ?></h3>

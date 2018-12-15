@@ -103,7 +103,7 @@
                           </div>
                           <div class="row form-group" style="margin-bottom: 25px">
                             <div class="col-md-4">
-                              <label>Cooking Time <small style="font-weight: normal;">(minutes)</small></label>
+                              <label>Cooking Time <small style="font-weight: normal;">(Minutes)</small></label>
                               <input type="text" name="upt_ctime" id="upt_ctime" class="form-control input-sm" value="<?php echo $recipe[0]->re_ct;?>">
                             </div>
                             <div class="col-md-4">

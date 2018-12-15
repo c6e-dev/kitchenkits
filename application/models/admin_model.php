@@ -3,6 +3,9 @@ class admin_model extends CI_Model{
 	public function __construct(){
 		parent:: __construct();
 	}
+
+	// DATA TABLE FUNCTIONS 
+
 	public function read_recipe(){
 		$query = $this->db->query("
 			SELECT re.id id, re.name nm, re.price prc, re.instructions ins, re.cooking_time ct, re.servings se, re.status st, rg.name rnm, rg.id rid, co.name cnm, co.id cid
@@ -17,89 +20,6 @@ class admin_model extends CI_Model{
 			return NULL;
 		}
 	}
-	public function country(){
-		$query = $this->db->query("
-			SELECT co.name cnm, co.id cid
-			FROM country co
-		");
-		if ($query->num_rows() > 0){
-			return $query->result();
-		}
-		else{
-			return NULL;
-		}
-	}
-	public function country2($cid){
-		$query = $this->db->query("
-			SELECT co.name cnm, co.id cid
-			FROM country co
-			WHERE co.id <> $cid
-		");
-		if ($query->num_rows() > 0){
-			return $query->result();
-		}
-		else{
-			return NULL;
-		}
-	}
-	public function delete_recipe($id){
-		$this->db->query("
-			UPDATE recipe rcp
-			SET rcp.status = 'I' 
-			WHERE rcp.id = '$id'
-		");
-	}
-	public function create_recipe(){
-		$data = array(
-			'name' => $this->input->post('name'),
-			'cooking_time' => $this->input->post('cooktime'),
-			'servings' => $this->input->post('servings'),
-			'price' => $this->input->post('price'),
-			'country_id' => $this->input->post('country'),
-			'status' => "I"
-		);
-		$this->db->insert('recipe', $data);
-	}
-	public function update_recipe($upt_date){
-		$name = $this->input->post('name');
-		$cooking_time = $this->input->post('cooktime');
-		$servings = $this->input->post('servings');
-		$price = $this->input->post('price');
-		$country = $this->input->post('country');
-		$instruc = $this->input->post('instruc');
-		$id = $this->input->post('recipe_id');
-
-		$this->db->set('name', $name);
-		$this->db->set('cooking_time', $cooking_time);
-		$this->db->set('servings', $servings);
-		$this->db->set('price', $price);
-		$this->db->set('country_id', $country);
-		$this->db->set('instructions', $instruc);
-		$this->db->set('updated_date', $upt_date);
-		$this->db->where('id', $id);
-
-		$result = $this->db->update('recipe');
-		return $result;
-	}
-
-	public function view_recipe($id){
-		$query = $this->db->query("
-			SELECT re.id re_id, re.name re_nm, re.price re_prc, re.instructions re_ins, re.cooking_time re_ct, re.servings re_se, re.status re_st, re.created_date re_cd, re.updated_date re_ud, rg.name rg_nm, rg.id rid, co.name co_nm, co.id cid, ing.name in_nm, ring.ingredient_amount in_am
-			FROM recipe_ingredients ring
-			INNER JOIN ingredients ing ON ring.ingredient_id = ing.id
-			RIGHT JOIN recipe re ON ring.recipe_id = re.id
-			INNER JOIN country co ON re.country_id = co.id
-			INNER JOIN region rg ON co.region_id = rg.id
-			WHERE re.id = '$id'
-		");
-		if ($query->num_rows() > 0){
-			return $query->result();
-		}else{
-			return NULL;
-		}
-	}
-
-	// DATA TABLE FUNCTIONS - Robert / 12-01-18
 
 	public function read_customer(){
 		$query = $this->db->query("
@@ -195,8 +115,27 @@ class admin_model extends CI_Model{
 
 	// VIEW FUNCTIONS - Robert / 12-02-18
 
-	//CUSTOMER FUNCTIONS 
+	//RECIPE FUNCTIONS
 
+	public function view_recipe($id){
+		$query = $this->db->query("
+			SELECT re.id re_id, re.name re_nm, re.price re_prc, re.instructions re_ins, re.cooking_time re_ct, re.servings re_se, re.status re_st, re.created_date re_cd, re.updated_date re_ud, rg.name rg_nm, rg.id rid, co.name co_nm, co.id cid, ing.name in_nm, ring.ingredient_amount in_am
+			FROM recipe_ingredients ring
+			INNER JOIN ingredients ing ON ring.ingredient_id = ing.id
+			RIGHT JOIN recipe re ON ring.recipe_id = re.id
+			INNER JOIN country co ON re.country_id = co.id
+			INNER JOIN region rg ON co.region_id = rg.id
+			WHERE re.id = '$id'
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	//CUSTOMER FUNCTIONS 
 
 	public function view_customer($id){ 
 		$query = $this->db->query("
@@ -208,14 +147,12 @@ class admin_model extends CI_Model{
 		return $query->result();
 	}
 
-	public function view_customer_order($id){ // ADD BRANCH IF NEEDED
+	public function view_customer_order($id){
 		$query = $this->db->query("
-			SELECT od.code AS od_code, od.status AS od_status, ua.created_date AS od_create, re.name AS od_recipe, br.name AS od_branch
+			SELECT od.code AS od_code, od.status AS od_status, ua.created_date AS od_create, br.name AS od_branch
 			FROM delivery od
 			INNER JOIN user_activity ua ON od.activity_id = ua.id
 			INNER JOIN customer cs ON od.customer_id = cs.id
-			INNER JOIN order_content oc ON oc.order_id = od.id
-			INNER JOIN recipe re ON oc.recipe_id = re.id
 			INNER JOIN branch br ON od.branch_id = br.id
 			WHERE ua.customer_id = '$id'
 		");
@@ -227,7 +164,7 @@ class admin_model extends CI_Model{
 		}
 	}
 
-	public function view_customer_activity($id){ // FIX THIS
+	public function view_customer_activity($id){
 		$query = $this->db->query("
 			SELECT ua.activity_type_id fb_type, ua.created_date fb_cdate, co.message fb_comment, ra.rating fb_rating, cs.first_name fb_fname, cs.last_name fb_lname, re.name fb_recipe
 			FROM user_activity ua
@@ -245,6 +182,7 @@ class admin_model extends CI_Model{
 			return NULL;
 		}
 	}
+
 
 	// BRANCH FUNCTIONS
 
@@ -335,6 +273,14 @@ class admin_model extends CI_Model{
 
 	// DELETE FUNCTIONS - Robert / 12-02-18
 
+	public function delete_recipe($id){
+		$this->db->query("
+			UPDATE recipe rcp
+			SET rcp.status = 'I' 
+			WHERE rcp.id = '$id'
+		");
+	}
+
 	public function delete_customer($id){
 		$this->db->query("
 			UPDATE user u 
@@ -395,6 +341,18 @@ class admin_model extends CI_Model{
 
 	// ADD FUNCTIONS
 
+	public function create_recipe(){
+		$data = array(
+			'name' => $this->input->post('name'),
+			'cooking_time' => $this->input->post('cooktime'),
+			'servings' => $this->input->post('servings'),
+			'price' => $this->input->post('price'),
+			'country_id' => $this->input->post('country'),
+			'status' => "I"
+		);
+		$this->db->insert('recipe', $data);
+	}
+
 	public function add_branch($branchdata){ // INCLUDE BRANCH CODE
 		$this->db->insert('branch', $branchdata);
 	}
@@ -407,6 +365,28 @@ class admin_model extends CI_Model{
 	}
 	
 	// EDIT FUNCTIONS
+
+	public function update_recipe($upt_date){
+		$name = $this->input->post('name');
+		$cooking_time = $this->input->post('cooktime');
+		$servings = $this->input->post('servings');
+		$price = $this->input->post('price');
+		$country = $this->input->post('country');
+		$instruc = $this->input->post('instruc');
+		$id = $this->input->post('recipe_id');
+
+		$this->db->set('name', $name);
+		$this->db->set('cooking_time', $cooking_time);
+		$this->db->set('servings', $servings);
+		$this->db->set('price', $price);
+		$this->db->set('country_id', $country);
+		$this->db->set('instructions', $instruc);
+		$this->db->set('updated_date', $upt_date);
+		$this->db->where('id', $id);
+
+		$result = $this->db->update('recipe');
+		return $result;
+	}
 
 	public function edit_branch($upt_date){
 		$branch_id = $this->input->post('branch_id');
@@ -512,6 +492,7 @@ class admin_model extends CI_Model{
 			LEFT JOIN comment co ON ua.id = co.activity_id
 			LEFT JOIN rating ra ON ua.id = ra.activity_id
 			ORDER BY ua.created_date DESC
+			
 		");
 		if($query->num_rows()>0){
 			return $query->result();
@@ -696,6 +677,7 @@ class admin_model extends CI_Model{
 		");
 		return $query->result();
 	}
+	
 	public function update_counter($val,$id){
 		$this->db->query("
 			UPDATE counter
@@ -703,6 +685,7 @@ class admin_model extends CI_Model{
 			WHERE id = '$id'
 		");
 	}
+
 	public function read_i_branch(){
 		$query = $this->db->query("
 			SELECT br.id br_id, br.manager_id br_mi, br.name br_name
@@ -712,6 +695,33 @@ class admin_model extends CI_Model{
 		if ($query->num_rows() > 0){
 			return $query->result();
 		}else{
+			return NULL;
+		}
+	}
+
+	public function country(){
+		$query = $this->db->query("
+			SELECT co.name cnm, co.id cid
+			FROM country co
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function country2($cid){
+		$query = $this->db->query("
+			SELECT co.name cnm, co.id cid
+			FROM country co
+			WHERE co.id <> $cid
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}
+		else{
 			return NULL;
 		}
 	}
