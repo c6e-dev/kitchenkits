@@ -68,8 +68,8 @@
                 <dt>Recipes</dt>
                 <dd>
                   <?php
-                    if ($oc_content!=NULL) {
-                      foreach ($oc_content as $oc) {
+                    if ($o_content!=NULL) {
+                      foreach ($o_content as $oc) {
                         ?>
                         <ul class="list-unstyled">
                           <li><?php echo $oc->oc_recipe; ?></li>

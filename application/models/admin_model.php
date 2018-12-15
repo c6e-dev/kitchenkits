@@ -160,8 +160,9 @@ class admin_model extends CI_Model{
 
 	public function read_order(){ // CHANGE THIS IF NEEDED
 		$query = $this->db->query("
-			SELECT od.id AS od_id, od.code AS od_code, od.status AS od_status, od.created_date AS od_create, cs.first_name AS od_fname, cs.last_name AS od_lname, br.name AS od_branch
+			SELECT od.id AS od_id, od.code AS od_code, od.status AS od_status, ua.created_date AS od_create, cs.first_name AS od_fname, cs.last_name AS od_lname, br.name AS od_branch
 			FROM delivery od
+			INNER JOIN user_activity ua ON od.activity_id = ua.id
 			INNER JOIN customer cs ON od.customer_id = cs.id
 			INNER JOIN branch br ON od.branch_id = br.id
 		");
@@ -173,9 +174,9 @@ class admin_model extends CI_Model{
 		}
 	}
 
-	public function read_feedback(){
+	public function read_feedback(){ // FIX THIS
 		$query = $this->db->query("
-			SELECT ua.id AS fb_id, ua.activity_type_id AS fb_type, co.message AS fb_comment, co.created_date AS fb_ccreate, ra.rating AS fb_rating, ra.created_date AS fb_rcreate, cs.first_name AS fb_fname, cs.last_name AS fb_lname, re.name AS fb_recipe
+			SELECT ua.id AS fb_id, ua.activity_type_id AS fb_type, ua.created_date AS fb_create, co.message AS fb_comment, ra.rating AS fb_rating, cs.first_name AS fb_fname, cs.last_name AS fb_lname, re.name AS fb_recipe
 			FROM user_activity ua 
 			INNER JOIN comment co ON co.activity_id = ua.id
 			INNER JOIN rating ra ON ra.activity_id = ua.id
@@ -207,13 +208,14 @@ class admin_model extends CI_Model{
 
 	public function view_customer_order($id){ // ADD BRANCH IF NEEDED
 		$query = $this->db->query("
-			SELECT od.code AS od_code, od.status AS od_status, od.created_date AS od_create, re.name AS od_recipe, br.name AS od_branch
+			SELECT od.code AS od_code, od.status AS od_status, ua.created_date AS od_create, re.name AS od_recipe, br.name AS od_branch
 			FROM delivery od
+			INNER JOIN user_activity ua ON od.activity_id = ua.id
 			INNER JOIN customer cs ON od.customer_id = cs.id
 			INNER JOIN order_content oc ON oc.order_id = od.id
 			INNER JOIN recipe re ON oc.recipe_id = re.id
 			INNER JOIN branch br ON od.branch_id = br.id
-			WHERE od.customer_id = '$id'
+			WHERE ua.customer_id = '$id'
 		");
 		if($query->num_rows()>0){
 			return $query->result();
@@ -223,9 +225,9 @@ class admin_model extends CI_Model{
 		}
 	}
 
-	public function view_customer_activity($id){ //MODIFY IF MORE DETAILS ON ORDER IS NEEDED
+	public function view_customer_activity($id){ // FIX THIS
 		$query = $this->db->query("
-			SELECT ua.activity_type_id AS ua_type, co.message AS ua_comment, co.createed_date AS ua_ccreate, ra.rating AS ua_rating, ra.created_date AS ua_rcreate, re.name AS ua_recipe
+			SELECT ua.activity_type_id AS ua_type, ua.created_date AS ua_create, co.message AS ua_comment, ra.rating AS ua_rating, re.name AS ua_recipe
 			FROM user_activity ua
 			INNER JOIN comment co ON co.activity_id = ua.id
 			INNER JOIN rating ra ON ra.activity_id = ua.id
@@ -256,8 +258,9 @@ class admin_model extends CI_Model{
 
 	public function view_branch_order($id){
 		$query = $this->db->query("
-			SELECT od.code AS od_code, od.status AS od_status, od.created_date AS od_create, cs.first_name AS od_fname, cs.last_name AS od_lname, re.name AS od_recipe
+			SELECT od.code AS od_code, od.status AS od_status, ua.created_date AS od_create, cs.first_name AS od_fname, cs.last_name AS od_lname, re.name AS od_recipe
 			FROM delivery od
+			INNER JOIN user_activity ua ON od.activity_id = ua.id
 			INNER JOIN customer cs ON od.customer_id = cs.id
 			INNER JOIN order_content oc ON oc.order_id = od.id
 			INNER JOIN recipe re ON oc.recipe_id = re.id
@@ -288,8 +291,9 @@ class admin_model extends CI_Model{
 
 	public function view_order($id){
 		$query = $this->db->query("
-			SELECT od.code AS od_code, od.created_date AS od_create, cs.first_name AS od_fname, cs.last_name AS od_lname, br.name AS od_branch
+			SELECT od.code AS od_code, ua.created_date AS od_create, cs.first_name AS od_fname, cs.last_name AS od_lname, br.name AS od_branch
 			FROM delivery od
+			INNER JOIN user_activity ua ON od.activity_id = ua.id
 			INNER JOIN customer cs ON od.customer_id = cs.id
 			INNER JOIN branch br ON od.branch_id = br.id
 			WHERE od.id = '$id'
@@ -317,7 +321,7 @@ class admin_model extends CI_Model{
 
 	public function view_comment($id){
 		$query = $this->db->query("
-			SELECT co.message AS ua_comment, co.created_date AS co_create, cs.name AS ua_customer, re.name AS ua_recipe
+			SELECT ua.created_date AS co_create, co.message AS ua_comment, cs.name AS ua_customer, re.name AS ua_recipe
 			FROM user_activity ua
 			INNER JOIN comment co ON 
 			INNER JOIN customer cs ON ua.customer_id = cs.id
@@ -402,28 +406,91 @@ class admin_model extends CI_Model{
 	
 	// EDIT FUNCTIONS
 
-	public function edit_branch(){
+	public function edit_branch($upt_date){
 		$branch_id = $this->input->post('branch_id');
 		$branch_name = $this->input->post('brname');
 		$branch_address = $this->input->post('braddress');
 		$branch_manager = $this->input->post('brmanager_id');
 		$this->db->query("
 			UPDATE branch br, branch_manager bm
-			SET br.name = '$branch_name', br.branch_address = '$branch_address', br.manager_id = '$branch_manager', bm.status = 'A'
+			SET br.name = '$branch_name', br.branch_address = '$branch_address', br.manager_id = '$branch_manager', br.updated_date = '$upt_date', bm.status = 'A'
 			WHERE br.id = '$branch_id' AND bm.id = '$branch_manager'
 		");
 	}
 
-	public function edit_manager(){
+	public function edit_branchnm($upt_date){
+		$branch_id = $this->input->post('branch_id');
+		$branch_name = $this->input->post('brname');
+		$branch_address = $this->input->post('braddress');
+		$this->db->query("
+			UPDATE branch br
+			SET br.name = '$branch_name', br.branch_address = '$branch_address', br.manager_id = 0, br.updated_date = '$upt_date'
+			WHERE br.id = '$branch_id'
+		");
+	}
+
+	public function edit_branch1($upt_date){ //mngr to none 
+		$branch_id = $this->input->post('branch_id');
+		$branch_name = $this->input->post('brname');
+		$branch_address = $this->input->post('braddress');
+		$this->db->query("
+			UPDATE branch br
+			SET br.name = '$branch_name', br.branch_address = '$branch_address', br.manager_id = 0, br.updated_date = '$upt_date', br.status = 'I'
+			WHERE br.id = '$branch_id'
+		");
+	}
+
+	public function edit_branch_newmngr($mngr_id){ //mngr to new mngr
+		$this->db->query("
+			UPDATE branch_manager bm
+			SET bm.status = 'U'
+			WHERE bm.id = '$mngr_id'
+		");
+	}
+
+	public function edit_manager($upt_date){
 		$name = $this->input->post('mngr_nm');
 		$id = $this->input->post('manager_id');
 		$br_id = $this->input->post('br_id');
+		$u_id = $this->input->post('user_id');
 		$this->db->query("
-			UPDATE branch_manager bm, branch br
-			SET bm.name = '$name', br.manager_id = '$id', br.status = 'A'
-			WHERE bm.id = '$id' AND br.id = '$br_id'
+			UPDATE branch_manager bm, branch br, user u
+			SET bm.name = '$name', bm.status = 'A', u.updated_date = '$upt_date', br.manager_id = '$id', br.status = 'A'
+			WHERE bm.id = '$id' AND br.id = '$br_id' AND u.id = '$u_id'
 		");
 	}
+
+	public function edit_managernm($upt_date){
+		$name = $this->input->post('mngr_nm');
+		$id = $this->input->post('manager_id');
+		$u_id = $this->input->post('user_id');
+		$this->db->query("
+			UPDATE branch_manager bm, user u
+			SET bm.name = '$name', u.updated_date = '$upt_date'
+			WHERE bm.id = '$id' AND u.id = '$u_id'
+		");
+	}
+
+	public function edit_manager1($upt_date){
+		$name = $this->input->post('mngr_nm');
+		$id = $this->input->post('manager_id');
+		$br_id = $this->input->post('br_id');
+		$u_id = $this->input->post('user_id');
+		$this->db->query("
+			UPDATE branch_manager bm, user u
+			SET bm.name = '$name', bm.status = 'U', u.updated_date = '$upt_date'
+			WHERE bm.id = '$id'AND u.id = '$u_id'
+		");
+	}
+
+	public function edit_manager_newbr($cubr_id){
+		$this->db->query("
+			UPDATE branch br
+			SET br.status = 'I', br.manager_id = 0
+			WHERE br.id = '$cubr_id'
+		");
+	}
+
 	public function update_manager($id,$br_id){
 		$this->db->query("
 			UPDATE branch br, branch_manager bm
@@ -434,15 +501,16 @@ class admin_model extends CI_Model{
 
 	// DASHBOARD FUNCTIONS - Robert / 12-02-18 - THIS MODULE IS SUBJECT TO FURTHER IMPROVEMENTS
 
-	public function activity_feed(){ //MODIFY IF MORE DETAILS ON ORDER IS NEEDED
+	public function read_activity_feed(){
 		$query = $this->db->query("
-			SELECT ua.id AS fb_id, ua.activity_type_id AS fb_type, co.message AS fb_comment, co.created_date AS fb_ccreate, ra.rating AS fb_rating, ra.created_date AS fb_rcreate, cs.first_name AS fb_fname, cs.last_name AS fb_lname, re.name AS fb_recipe
-			FROM user_activity ua 
+			SELECT ua.activity_type_id fb_type, ua.created_date fb_cdate, co.message fb_comment, ra.rating fb_rating, cs.first_name fb_fname, cs.last_name fb_lname, re.name fb_recipe
+			FROM user_activity ua
+			INNER JOIN recipe re ON ua.recipe_id = re.id		
 			INNER JOIN customer cs ON ua.customer_id = cs.id
-			INNER JOIN recipe re ON ua.recipe_id = re.id
-			INNER JOIN comment co ON co.activity_id = ua.id
-			INNER JOIN rating ra ON ra.activity_id = ua.id
-			WHERE ua.activity_type_id = '3' OR ua.activity_type_id = '4' OR ua.activity_type_id = '1'
+			LEFT JOIN comment co ON ua.id = co.activity_id
+			LEFT JOIN rating ra ON ua.id = ra.activity_id
+			ORDER BY ua.created_date DESC
+			
 		");
 		if($query->num_rows()>0){
 			return $query->result();

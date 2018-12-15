@@ -66,11 +66,11 @@
                   }
                 ?>
                 <dt>Creation Date</dt>
-                <dd><?php echo $manager[0]->bm_create?></dd>
+                <dd><?php echo date('M d, Y - g:i a', strtotime($manager[0]->bm_create));?></dd>
                 <dt>Last Update Date</dt>
-                <dd><?php echo $manager[0]->bm_update?></dd>
+                <dd><?php echo date('M d, Y - g:i a', strtotime($manager[0]->bm_update));?></dd>
               </dl>
-              <button type="button" class="btn btn-sm bg-purple btn-flat" data-toggle="modal" data-target="#update_manager" >Edit</button>
+              <button type="button" class="btn btn-sm bg-purple btn-flat" data-toggle="modal" data-target="#update_manager" data-backdrop="static">Edit</button>
               <div class="modal fade" id="update_manager">
                 <div class="modal-dialog">
                   <div class="modal-content">
@@ -97,12 +97,29 @@
                             <label class="col-md-1"></label>
                             <div class="col-12 col-md-10">
                               <select name="upt_br" id="upt_br" class="form-control input-sm select2" style="width: 100%;">
-                                <option value="<?php echo $manager[0]->br_id?>"><?php echo $manager[0]->br_name?></option>
-                                <option value="0">None</option>
                                 <?php
-                                  foreach ($ibranch as $ibm) {
+                                  if ($manager[0]->bm_status == 'A') {
                                     ?>
-                                      <option value="<?php echo $ibm->br_id; ?>"><?php echo $ibm->br_name; ?></option>
+                                      <option value="<?php echo $manager[0]->br_id?>"><?php echo $manager[0]->br_name?></option>
+                                      <option value="0">none</option>
+                                      <?php 
+                                        foreach ($ibranch as $ibm) {
+                                          ?>
+                                            <option value="<?php echo $ibm->br_id; ?>"><?php echo $ibm->br_name; ?></option>
+                                          <?php
+                                        } 
+                                      ?>
+                                    <?php
+                                  }else{
+                                    ?>
+                                      <option value="0">none</option>
+                                      <?php
+                                        foreach ($ibranch as $ibm) {
+                                          ?>
+                                            <option value="<?php echo $ibm->br_id; ?>"><?php echo $ibm->br_name; ?></option>
+                                          <?php
+                                        }
+                                      ?>
                                     <?php
                                   }
                                 ?>
@@ -113,6 +130,8 @@
                       </div>
                       <div class="modal-footer">
                         <input type="hidden" name="manager_id" id="manager_id" value="<?php echo $manager[0]->bm_id?>">
+                        <input type="hidden" name="br_id" id="br_id" value="<?php echo $manager[0]->br_id?>">
+                        <input type="hidden" name="user_id" id="user_id" value="<?php echo $manager[0]->user_id?>">
                         <button type="submit" id="btn_bmupt_save" class="btn btn-sm btn-primary">Save</button>
                         <button type="button" class="btn btn-sm" data-dismiss="modal">Close</button>
                       </div>

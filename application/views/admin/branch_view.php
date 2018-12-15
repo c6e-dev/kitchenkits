@@ -54,7 +54,7 @@
                 <dt>Address</dt>
                 <dd><?php echo $branch[0]->br_address?></dd>
                 <?php 
-                  if ($branch[0]->mngr_id == '0' OR $branch[0]->mngr_id == NULL OR $branch[0]->bm_status == 'U') {
+                  if ($branch[0]->mngr_id == '0') {
                     ?>
                       <dt>Manager</dt>
                       <dd></dd>
@@ -67,9 +67,19 @@
                   }
                 ?>
                 <dt>Creation Date</dt>
-                <dd><?php echo $branch[0]->br_create?></dd>
+                <dd><?php echo date('M d, Y - g:i a', strtotime($branch[0]->br_create));?></dd>
                 <dt>Last Update Date</dt>
-                <dd><?php echo $branch[0]->br_update?></dd>
+                <?php
+                  if ($branch[0]->br_update != NULL) {
+                    ?>
+                      <dd><?php echo date('M d, Y - g:i a', strtotime($branch[0]->br_update));?></dd>
+                    <?php
+                  }else{
+                    ?>
+                      <dd></dd>
+                    <?php
+                  }
+                ?>
               </dl>
               <button type="button" class="btn btn-sm bg-purple btn-flat" data-target="#update_branch" data-toggle="modal" data-backdrop="static">Edit</button>
               <div class="modal fade" id="update_branch">
@@ -103,11 +113,29 @@
                             <label class="col-md-1"></label>
                             <div class="col-12 col-md-10">
                               <select name="upt_brmanager" id="upt_brmanager" class="form-control select2" style="width: 100%;">
-                                <option value="0">None</option>
                                 <?php
-                                  foreach ($b_manager as $bm) {
+                                  if ($branch[0]->mngr_id == 0) {
                                     ?>
-                                      <option value="<?php echo $bm->bm_id; ?>"><?php echo $bm->bm_name; ?></option>
+                                      <option value="0">none</option>
+                                      <?php 
+                                        foreach ($b_manager as $bm) {
+                                          ?>
+                                            <option value="<?php echo $bm->bm_id; ?>"><?php echo $bm->bm_name; ?></option>
+                                          <?php
+                                        }
+                                      ?>
+                                    <?php
+                                  }else{
+                                    ?>
+                                      <option value="<?php echo $branch[0]->mngr_id; ?>"><?php echo $branch[0]->br_manager?></option>
+                                      <option value="0">none</option>
+                                      <?php
+                                        foreach ($b_manager as $bm) {
+                                          ?>
+                                            <option value="<?php echo $bm->bm_id; ?>"><?php echo $bm->bm_name; ?></option>
+                                          <?php
+                                        }
+                                      ?>
                                     <?php
                                   }
                                 ?>
@@ -118,6 +146,7 @@
                       </div>
                       <div class="modal-footer">
                         <input type="hidden" name="branch_id" id="branch_id" value="<?php echo $branch[0]->br_id?>">
+                        <input type="hidden" name="mngr_id" id="mngr_id" value="<?php echo $branch[0]->mngr_id?>">
                         <button type="submit" id="btn_brupt_save" class="btn btn-sm btn-primary">Save</button>
                         <button type="button" class="btn btn-sm" data-dismiss="modal">Close</button>
                       </div>
@@ -126,10 +155,7 @@
                 </div>
               </div>
             </div>
-            <!-- /.box-body -->
           </div>
-
-          <!-- /.box -->
         </div>
       </div>
       <div class="row">

@@ -300,43 +300,65 @@
     <section class="content container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <!-- The time line -->
           <ul class="timeline">
-
-            <!-- timeline time label -->
             <li class="time-label">
-                <span class="bg-red">
-                    10 Feb. 2014
-                </span>
+              <span class="bg-green">
+                <?php 
+                  $current_date = date('M d, Y');
+                  echo $current_date;
+                ?>
+              </span>
             </li>
-            <!-- /.timeline-label -->
-
-            <!-- timeline item -->
-            <li>
-                <!-- timeline icon -->
-                <i class="fa fa-envelope bg-blue"></i>
-                <div class="timeline-item">
-                    <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
-
-                    <h3 class="timeline-header"><a href="#">Support Team</a> ...</h3>
-
-                    <div class="timeline-body">
-                        ...
-                        Content goes here
-                    </div>
-
-                    <div class="timeline-footer">
-                        <a class="btn btn-primary btn-xs">...</a>
-                    </div>
-                </div>
-            </li>
-            <!-- END timeline item -->
+            <?php
+              if ($act_feed!=NULL) {
+                foreach ($act_feed as $af) {
+                  $new_date = date('M d, Y', strtotime($af->fb_cdate));
+                  if ($new_date == $current_date) {
+                    if ($af->fb_type == 1) {
+                      ?>
+                        <li>
+                          <i class="fa fa-shopping-cart bg-blue"></i>
+                          <div class="timeline-item">
+                            <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($af->fb_cdate));?></span>
+                            <h3 class="timeline-header"><a href="#"><?php echo $af->fb_fname; ?> <?php echo $af->fb_lname; ?></a> ordered <?php echo $af->fb_recipe; ?></h3>
+                          </div>
+                        </li>
+                      <?php  
+                    }
+                    if ($af->fb_type == 3) {
+                      ?>
+                        <li>
+                          <i class="fa fa-star bg-yellow"></i>
+                          <div class="timeline-item">
+                            <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($af->fb_cdate));?></span>
+                            <h3 class="timeline-header"><a href="#"><?php echo $af->fb_fname; ?> <?php echo $af->fb_lname; ?></a> rated <?php echo $af->fb_rating; ?> stars on <?php echo $af->fb_recipe; ?></h3>
+                          </div>
+                        </li>
+                      <?php  
+                    }
+                    if ($af->fb_type == 4) {
+                      ?>
+                        <li>
+                          <i class="fa fa-comment bg-red"></i>
+                          <div class="timeline-item">
+                            <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($af->fb_cdate));?></span>
+                            <h3 class="timeline-header"><a href="#"><?php echo $af->fb_fname; ?> <?php echo $af->fb_lname; ?></a> commented on <?php echo $af->fb_recipe; ?></h3>
+                            <div class="timeline-body">
+                              <?php echo $af->fb_comment; ?>
+                            </div>
+                          </div>
+                        </li>
+                      <?php  
+                    }
+                  }
+                }
+              }
+            ?>
             <li>
               <i class="fa fa-clock-o bg-gray"></i>
             </li>
           </ul>
         </div>
-        <!-- /.col -->
       </div>
     </section>
 

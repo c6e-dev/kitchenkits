@@ -22,6 +22,17 @@ class admin extends CI_Controller {
 		$this->form_validation->set_rules('cs_address', 'Address', 'required');
 		$this->form_validation->set_rules('cs_email', 'EMail', 'required');
 		$this->form_validation->set_rules('cs_username', 'Username', 'required');
+
+		if($this->form_validation->run() == TRUE){
+			$data = $this->customer_model->edit_profile();
+			$response['status'] = TRUE;
+			$response[] = $data;
+		}
+		else{
+			$response['status'] = FALSE;
+			$response['notif'] = validation_errors();
+		}
+		echo json_encode($response);
 	}
 
 	// public function view_cart(){
