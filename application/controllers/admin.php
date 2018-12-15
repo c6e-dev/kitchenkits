@@ -26,15 +26,16 @@ class admin extends CI_Controller {
 			'order' => $this->admin_model->order_count(),
 			'order_c' => $this->admin_model->order_count_c(),
 			'order_i' => $this->admin_model->order_count_i(),
-			'comment' => $this->admin_model->comment_count(),
-			'rating' => $this->admin_model->rating_count(),
-			'logged_in' => $this->admin_model->loggedin_count()
+			'feedback' => $this->admin_model->feedback_count(),
+			'logged_in' => $this->admin_model->loggedin_count(),
+			'act_feed' => $this->admin_model->read_activity_feed()
 		);
 		$this->load->view('admin/home',$data);
 		$this->load->view('admin/layout/footer');
 	}
 	public function recipe_view(){
 		$data['recipe'] = $this->admin_model->read_recipe();
+		// $data['test'] = $this->admin_model->test();
 		$data['country'] = $this->admin_model->country();
 		$this->load->view('admin/layout/header');
 		$this->load->view('admin/read_recipe',$data);
@@ -76,7 +77,8 @@ class admin extends CI_Controller {
 		));
 		
 		if ($this->form_validation->run() == TRUE) {
-			$data = $this->admin_model->update_recipe();
+			$upt_date = date('Y-m-d H:i:s');
+			$data = $this->admin_model->update_recipe($upt_date);
 			$response['status'] = TRUE;
 			$response[] = $data;
 		}
@@ -90,11 +92,18 @@ class admin extends CI_Controller {
 		$data['recipe'] = $this->admin_model->view_recipe($rcp_id);
 		$data['country'] = $this->admin_model->country2($co_id);
 		$this->load->view('admin/layout/header');
-		$this->load->view('admin/recipe_view',$data);
+		$this->load->view('admin/view_recipe',$data);
 		$this->load->view('admin/layout/footer');
 	}
 
 	// DATA TABLE FUNCTIONS - Robert / 12-01-18
+
+	// public function recipe_view(){
+	// 	$data['recipe'] = $this->admin_model->read_recipe();
+	// 	$this->load->view('admin/layout/header');
+	// 	$this->load->view('admin/recipe',$data);
+	// 	$this->load->view('admin/layout/footer');
+	// }
 
 	public function customer_view(){
 		$this->load->view('admin/layout/header');
@@ -141,7 +150,7 @@ class admin extends CI_Controller {
 			'customer' => $this->admin_model->view_customer($_GET['id']),
 			'c_order' => $this->admin_model->view_customer_order($_GET['id']),
 			'c_activity' => $this->admin_model->view_customer_activity($_GET['id']),
-			// 'c_history' => $this->admin_model->view_customer_history($_GET['id'])
+			'c_feedback' => $this->admin_model->view_customer_feedback($_GET['id'])
 		);
 		$this->load->view('admin/customer_view',$data);
 		$this->load->view('admin/layout/footer');
@@ -170,7 +179,7 @@ class admin extends CI_Controller {
 	public function view_order(){
 		$this->load->view('admin/layout/header');
 		$data['order'] = $this->admin_model->view_order($_GET['id']);
-		$data['oc_content'] = $this->admin_model->view_order_content($_GET['id']);
+		$data['o_content'] = $this->admin_model->view_order_content($_GET['id']);
 		$this->load->view('admin/order_view',$data);
 		$this->load->view('admin/layout/footer');
 	}
@@ -183,6 +192,11 @@ class admin extends CI_Controller {
 	}
 
 	// DELETE FUNCTIONS - Robert / 12-02-18
+
+	// public function delete_recipe($id){
+	// 	$this->admin_model->delete_recipe($id);
+	// 	redirect('admin/recipe_view');
+	// }
 
 	public function delete_customer(){
 		$this->admin_model->delete_customer($_GET['id']);
@@ -228,6 +242,7 @@ class admin extends CI_Controller {
 		$this->form_validation->set_rules('name', 'Branch Name', 'required|is_unique[branch.name]',array(
 			'is_unique' => 'Branch Name Already Exists'
 		));
+		$this->form_validation->set_rules('braddress', 'Branch Address', 'required');
 		if ($this->form_validation->run() == TRUE) {
 			$code = $this->admin_model->get_code(1);
 			$this->admin_model->update_counter($code[0]->ct_count+1,1);
@@ -285,8 +300,7 @@ class admin extends CI_Controller {
 			$managerdata = array(
 				'user_id' => $user_id,
 				'code' => $code[0]->ct_code.(sprintf('%05d', $code[0]->ct_count+1)),
-				'name' => str_replace("'","’",$_POST['name']),
-				'status' => 'U'
+				'name' => str_replace("'","’",$_POST['name'])
 			);
 			if ($br_id != 0) {
 				$data = $this->admin_model->add_manager($managerdata);
@@ -313,7 +327,22 @@ class admin extends CI_Controller {
 		$this->form_validation->set_rules('braddress', 'Branch Address', 'required');
 		
 		if ($this->form_validation->run() == TRUE) {
-			$data = $this->admin_model->edit_branch();
+			$upt_date = date('Y-m-d H:i:s');
+			$mngr_id = $_POST['mngr_id'];
+			$brmngr_id = $_POST['brmanager_id'];
+			if ($mngr_id == 0 && $brmngr_id == 0) {
+				$data = $this->admin_model->edit_branchnm($upt_date);			}
+			elseif ($mngr_id == $brmngr_id || ($mngr_id == 0 && $brmngr_id != 0)) {
+				$data = $this->admin_model->edit_branch($upt_date);
+			}
+			elseif ($mngr_id != 0 && $brmngr_id == 0) {
+				$this->admin_model->edit_branch_newmngr($mngr_id);
+				$data = $this->admin_model->edit_branch1($upt_date);
+			}
+			else{
+				$this->admin_model->edit_branch_newmngr($mngr_id);
+				$data = $this->admin_model->edit_branch($upt_date);
+			}
 			$response['status'] = TRUE;
 			$response[] = $data;
 		}
@@ -329,7 +358,23 @@ class admin extends CI_Controller {
 		$this->form_validation->set_rules('mngr_nm', 'Branch Manager Name', 'required');
 		
 		if ($this->form_validation->run() == TRUE) {
-			$data = $this->admin_model->edit_manager();
+			$upt_date = date('Y-m-d H:i:s');
+			$cubr_id = $_POST['cubr_id'];
+			$br_id = $_POST['br_id'];
+			if (($cubr_id == NULL && $br_id == 0) || ($cubr_id == '' && $br_id == 0)) {
+				$data = $this->admin_model->edit_managernm($upt_date);
+			}
+			elseif ($cubr_id == $br_id || ($cubr_id == 0 && $br_id != 0)) {
+				$data = $this->admin_model->edit_manager($upt_date);
+			}
+			elseif ($cubr_id != 0 && $br_id == 0) {
+				$this->admin_model->edit_manager_newbr($cubr_id);
+				$data = $this->admin_model->edit_manager1($upt_date);
+			}
+			else{
+				$this->admin_model->edit_manager_newbr($cubr_id);
+				$data = $this->admin_model->edit_manager($upt_date);
+			}
 			$response['status'] = TRUE;
 			$response[] = $data;
 		}

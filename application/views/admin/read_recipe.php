@@ -1,4 +1,4 @@
-<!-- Left side column. contains the logo and sidebar -->
+  <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
 
     <!-- sidebar: style can be found in sidebar.less -->
@@ -37,7 +37,7 @@
     <!-- Main content -->
     <section class="content container-fluid">
       <div class="nav" role="tablist">
-        <a href="#" class="btn btn-sm bg-purple btn-flat" style="margin: 0px 5px 10px 0px" data-toggle="modal" data-target="#add_recipe" ><i class="fa fa-plus-circle"></i> </a>
+        <button type="button" class="btn btn-sm bg-purple btn-flat" data-toggle="modal" data-target="#add_recipe" data-backdrop="static" style="margin: 0px 5px 10px 0"><i class="fa fa-fw fa-plus-circle"></i></button>
         <button type="button" class="btn btn-sm bg-purple btn-flat"  data-toggle="tab" data-target="#active_recipe" style="margin: 0px 5px 10px 0px">Active Recipes</button>
         <button type="button" class="btn btn-sm bg-purple btn-flat" data-toggle="tab" data-target="#inactive_recipe" style="margin: 0px 5px 10px 0px">Inactive Recipes</button>
       </div>
@@ -139,7 +139,11 @@
                               <td><center>
                                 <a href="<?php echo site_url('admin/view_recipe/'.$rcp->id.'/'.$rcp->cid); ?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
                                 <?php 
-                                  echo '<a href="#" class="btn btn-xs btn-success" data-target="#Arecipe'.$rcp->id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-power-off"></i></a>';
+                                  if ($rcp->prc == '' || $rcp->ct == ''|| $rcp->se == '' || $rcp->ins == '') {
+                                    echo '<button type="button" class="btn btn-xs btn-success" data-target="#Arecipe'.$rcp->id.'" data-toggle="modal" data-backdrop="static" disabled><i class="fa fa-power-off"></i></button>';
+                                  }else{
+                                    echo '<button type="button" class="btn btn-xs btn-success" data-target="#Arecipe'.$rcp->id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-power-off"></i></button>';  
+                                  }
                                 ?>
                               </center></td>
                             </tr>

@@ -12,8 +12,7 @@ class admin_model extends CI_Model{
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();
-		}
-		else{
+		}else{
 			return NULL;
 		}
 	}
@@ -24,8 +23,7 @@ class admin_model extends CI_Model{
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();
-		}
-		else{
+		}else{
 			return NULL;
 		}
 	}
@@ -37,8 +35,7 @@ class admin_model extends CI_Model{
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();
-		}
-		else{
+		}else{
 			return NULL;
 		}
 	}
@@ -60,7 +57,7 @@ class admin_model extends CI_Model{
 		);
 		$this->db->insert('recipe', $data);
 	}
-	public function update_recipe(){
+	public function update_recipe($upt_date){
 		$name = $this->input->post('name');
 		$cooking_time = $this->input->post('cooktime');
 		$servings = $this->input->post('servings');
@@ -75,6 +72,7 @@ class admin_model extends CI_Model{
 		$this->db->set('price', $price);
 		$this->db->set('country_id', $country);
 		$this->db->set('instructions', $instruc);
+		$this->db->set('updated_date', $upt_date);
 		$this->db->where('id', $id);
 
 		$result = $this->db->update('recipe');
@@ -92,8 +90,7 @@ class admin_model extends CI_Model{
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();
-		}
-		else{
+		}else{
 			return NULL;
 		}
 	}
@@ -175,13 +172,50 @@ class admin_model extends CI_Model{
 
 	public function read_feedback(){
 		$query = $this->db->query("
-			SELECT ua.id AS fb_id, ua.activity_type_id AS fb_type, co.message AS fb_comment, co.created_date AS fb_ccreate, ra.rating AS fb_rating, ra.created_date AS fb_rcreate, cs.first_name AS fb_fname, cs.last_name AS fb_lname, re.name AS fb_recipe
+			SELECT ua.id AS fb_id, ua.activity_type_id AS fb_type, co.message AS fb_comment, ra.rating AS fb_rating, co.created_date AS fb_ccreate, ra.created_date AS fb_ocreate, cs.first_name AS fb_fname, cs.last_name AS fb_lname, re.name AS fb_recipe
 			FROM user_activity ua 
-			INNER JOIN comment co ON co.activity_id = ua.id
-			INNER JOIN rating ra ON ra.activity_id = ua.id
 			INNER JOIN customer cs ON ua.customer_id = cs.id
 			INNER JOIN recipe re ON ua.recipe_id = re.id
+			INNER JOIN comment co ON co.activity_id = ua.id
+			INNER JOIN rating ra ON ra.activity_id = ua.id
 			WHERE ua.activity_type_id = '3' OR ua.activity_type_id = '4'
+		");
+		if($query->num_rows()>0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	// public function read_activity_feed(){
+	// 	$query = $this->db->query("
+	// 		SELECT ua.activity_type_id AS fb_type, co.message AS fb_comment, ra.rating AS fb_rating, cs.first_name AS fb_fname, cs.last_name AS fb_lname, re.name AS fb_recipe, DATE_FORMAT(co.created_date, '%Y-%m-%d') codateonly, DATE_FORMAT(ra.created_date, '%Y-%m-%d') radateonly, DATE_FORMAT(co.created_date, '%H:%i:%s') cotimeonly, DATE_FORMAT(ra.created_date, '%H:%i:%s') ratimeonly
+	// 		FROM user_activity ua 
+	// 		INNER JOIN customer cs ON ua.customer_id = cs.id
+	// 		INNER JOIN recipe re ON ua.recipe_id = re.id
+	// 		INNER JOIN comment co ON co.activity_id = ua.id
+	// 		INNER JOIN rating ra ON ra.activity_id = ua.id
+	// 		-- WHERE ua.activity_type_id = '3' OR ua.activity_type_id = '4' OR ua.activity_type_id = '1'
+	// 	");
+	// 	if($query->num_rows()>0){
+	// 		return $query->result();
+	// 	}
+	// 	else{
+	// 		return NULL;
+	// 	}
+	// }
+
+	public function read_activity_feed(){
+		$query = $this->db->query("
+			SELECT ua.activity_type_id fb_type, ua.created_date fb_cdate, co.message fb_comment, ra.rating fb_rating, cs.first_name fb_fname, cs.last_name fb_lname, re.name fb_recipe
+			FROM user_activity ua
+			INNER JOIN recipe re ON ua.recipe_id = re.id		
+			INNER JOIN customer cs ON ua.customer_id = cs.id
+			LEFT JOIN comment co ON ua.id = co.activity_id
+			LEFT JOIN rating ra ON ua.id = ra.activity_id
+			ORDER BY ua.created_date DESC
+			
 		");
 		if($query->num_rows()>0){
 			return $query->result();
@@ -223,16 +257,30 @@ class admin_model extends CI_Model{
 		}
 	}
 
-	public function view_customer_activity($id){ //MODIFY IF MORE DETAILS ON ORDER IS NEEDED
+	public function view_customer_activity($id){
 		$query = $this->db->query("
-			SELECT ua.activity_type_id AS ua_type, co.message AS ua_comment, co.createed_date AS ua_ccreate, ra.rating AS ua_rating, ra.created_date AS ua_rcreate, re.name AS ua_recipe
+			SELECT re.name AS ua_recipe, at.name AS ua_type
 			FROM user_activity ua
-			INNER JOIN comment co ON co.activity_id = ua.id
-			INNER JOIN rating ra ON ra.activity_id = ua.id
 			INNER JOIN customer cs ON ua.customer_id = cs.id
 			INNER JOIN recipe re ON ua.recipe_id = re.id
 			INNER JOIN activity_type at ON ua.activity_type_id = at.id
 			WHERE ua.customer_id = '$id'
+		");
+		if($query->num_rows()>0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function view_customer_feedback($id){
+		$query = $this->db->query("
+			SELECT fb.message AS fb_message, fb.rating AS fb_rating, re.name AS fb_recipe 
+			FROM feedback fb 
+			INNER JOIN customer cs ON fb.customer_id = cs.id
+			INNER JOIN recipe re ON fb.recipe_id = re.id
+			WHERE fb.customer_id = '$id'
 		");
 		if($query->num_rows()>0){
 			return $query->result();
@@ -275,7 +323,7 @@ class admin_model extends CI_Model{
 
 	public function view_manager($id){
 		$query = $this->db->query("
-			SELECT bm.id AS bm_id, bm.code AS bm_code, bm.name AS bm_name, bm.status bm_status, br.id br_id, br.name br_name, u.created_date AS bm_create, u.updated_date bm_update
+			SELECT bm.id AS bm_id, bm.code AS bm_code, bm.name AS bm_name, bm.status bm_status, br.id br_id, br.name br_name, u.created_date AS bm_create, u.updated_date bm_update, bm.user_id user_id
 			FROM branch br
 			RIGHT JOIN branch_manager bm ON br.manager_id = bm.id 
 			INNER JOIN user u ON bm.user_id = u.id
@@ -315,14 +363,13 @@ class admin_model extends CI_Model{
 
 	// FEEDBACK FUNCTION
 
-	public function view_comment($id){
+	public function view_feedback($id){
 		$query = $this->db->query("
-			SELECT co.message AS ua_comment, co.created_date AS co_create, cs.name AS ua_customer, re.name AS ua_recipe
-			FROM user_activity ua
-			INNER JOIN comment co ON 
-			INNER JOIN customer cs ON ua.customer_id = cs.id
-			INNER JOIN recipe re ON ua.recipe_id = re.id
-			WHERE ua.id ='$id'
+			SELECT fb.message AS fb_massage, fb.rating AS fb_rating, fb.created_date AS fb_create, cs.first_name AS fb_fname, cs.last_name AS cs_lname, re.name AS fb_recipe
+			FROM feedback fb
+			INNER JOIN customer cs ON fb.customer_id = cs.id
+			INNER JOIN recipe re ON fb.recipe_id = re.id
+			WHERE fb.id ='$id'
 		");
 		return $query->result();
 	}
@@ -348,7 +395,7 @@ class admin_model extends CI_Model{
 	public function delete_manager($bm_id,$bm_uid){
 		$this->db->query("
 			UPDATE user u, branch_manager bm, branch br
-			SET u.status = 'I', bm.status = 'U', br.status = 'I'
+			SET u.status = 'I', bm.status = 'U', br.status = 'I', br.manager_id = 0
 			WHERE u.id = '$bm_uid' AND bm.user_id = '$bm_uid' AND br.manager_id = '$bm_id'
 		");
 	}
@@ -402,28 +449,91 @@ class admin_model extends CI_Model{
 	
 	// EDIT FUNCTIONS
 
-	public function edit_branch(){
+	public function edit_branch($upt_date){
 		$branch_id = $this->input->post('branch_id');
 		$branch_name = $this->input->post('brname');
 		$branch_address = $this->input->post('braddress');
 		$branch_manager = $this->input->post('brmanager_id');
 		$this->db->query("
 			UPDATE branch br, branch_manager bm
-			SET br.name = '$branch_name', br.branch_address = '$branch_address', br.manager_id = '$branch_manager', bm.status = 'A'
+			SET br.name = '$branch_name', br.branch_address = '$branch_address', br.manager_id = '$branch_manager', br.updated_date = '$upt_date', bm.status = 'A'
 			WHERE br.id = '$branch_id' AND bm.id = '$branch_manager'
 		");
 	}
 
-	public function edit_manager(){
+	public function edit_branchnm($upt_date){
+		$branch_id = $this->input->post('branch_id');
+		$branch_name = $this->input->post('brname');
+		$branch_address = $this->input->post('braddress');
+		$this->db->query("
+			UPDATE branch br
+			SET br.name = '$branch_name', br.branch_address = '$branch_address', br.manager_id = 0, br.updated_date = '$upt_date'
+			WHERE br.id = '$branch_id'
+		");
+	}
+
+	public function edit_branch1($upt_date){ //mngr to none 
+		$branch_id = $this->input->post('branch_id');
+		$branch_name = $this->input->post('brname');
+		$branch_address = $this->input->post('braddress');
+		$this->db->query("
+			UPDATE branch br
+			SET br.name = '$branch_name', br.branch_address = '$branch_address', br.manager_id = 0, br.updated_date = '$upt_date', br.status = 'I'
+			WHERE br.id = '$branch_id'
+		");
+	}
+
+	public function edit_branch_newmngr($mngr_id){ //mngr to new mngr
+		$this->db->query("
+			UPDATE branch_manager bm
+			SET bm.status = 'U'
+			WHERE bm.id = '$mngr_id'
+		");
+	}
+
+	public function edit_manager($upt_date){
 		$name = $this->input->post('mngr_nm');
 		$id = $this->input->post('manager_id');
 		$br_id = $this->input->post('br_id');
+		$u_id = $this->input->post('user_id');
 		$this->db->query("
-			UPDATE branch_manager bm, branch br
-			SET bm.name = '$name', br.manager_id = '$id', br.status = 'A'
-			WHERE bm.id = '$id' AND br.id = '$br_id'
+			UPDATE branch_manager bm, branch br, user u
+			SET bm.name = '$name', bm.status = 'A', u.updated_date = '$upt_date', br.manager_id = '$id', br.status = 'A'
+			WHERE bm.id = '$id' AND br.id = '$br_id' AND u.id = '$u_id'
 		");
 	}
+
+	public function edit_managernm($upt_date){
+		$name = $this->input->post('mngr_nm');
+		$id = $this->input->post('manager_id');
+		$u_id = $this->input->post('user_id');
+		$this->db->query("
+			UPDATE branch_manager bm, user u
+			SET bm.name = '$name', u.updated_date = '$upt_date'
+			WHERE bm.id = '$id' AND u.id = '$u_id'
+		");
+	}
+
+	public function edit_manager1($upt_date){
+		$name = $this->input->post('mngr_nm');
+		$id = $this->input->post('manager_id');
+		$br_id = $this->input->post('br_id');
+		$u_id = $this->input->post('user_id');
+		$this->db->query("
+			UPDATE branch_manager bm, user u
+			SET bm.name = '$name', bm.status = 'U', u.updated_date = '$upt_date'
+			WHERE bm.id = '$id'AND u.id = '$u_id'
+		");
+	}
+
+	public function edit_manager_newbr($cubr_id){
+		$this->db->query("
+			UPDATE branch br
+			SET br.status = 'I', br.manager_id = 0
+			WHERE br.id = '$cubr_id'
+		");
+	}
+
 	public function update_manager($id,$br_id){
 		$this->db->query("
 			UPDATE branch br, branch_manager bm
@@ -434,34 +544,14 @@ class admin_model extends CI_Model{
 
 	// DASHBOARD FUNCTIONS - Robert / 12-02-18 - THIS MODULE IS SUBJECT TO FURTHER IMPROVEMENTS
 
-	public function activity_feed(){ //MODIFY IF MORE DETAILS ON ORDER IS NEEDED
-		$query = $this->db->query("
-			SELECT ua.id AS fb_id, ua.activity_type_id AS fb_type, co.message AS fb_comment, co.created_date AS fb_ccreate, ra.rating AS fb_rating, ra.created_date AS fb_rcreate, cs.first_name AS fb_fname, cs.last_name AS fb_lname, re.name AS fb_recipe
-			FROM user_activity ua 
-			INNER JOIN customer cs ON ua.customer_id = cs.id
-			INNER JOIN recipe re ON ua.recipe_id = re.id
-			INNER JOIN comment co ON co.activity_id = ua.id
-			INNER JOIN rating ra ON ra.activity_id = ua.id
-			WHERE ua.activity_type_id = '3' OR ua.activity_type_id = '4' OR ua.activity_type_id = '1'
-		");
-		if($query->num_rows()>0){
-			return $query->result();
-		}
-		else{
-			return NULL;
-		}
-	}
-
 	public function branch_count(){
-		$query = $this->db->query("
-			SELECT COUNT(id) AS br
+		$query = $this->db->query("SELECT COUNT(id) AS br
 			FROM branch");
 		return $query->result();
 	}
 
 	public function branch_count_a(){
-		$query = $this->db->query("
-			SELECT COUNT(id) AS br_a
+		$query = $this->db->query("SELECT COUNT(id) AS br_a
 			FROM branch
 			WHERE status = 'A'
 			");
@@ -469,8 +559,7 @@ class admin_model extends CI_Model{
 	}
 
 	public function branch_count_i(){
-		$query = $this->db->query("
-			SELECT COUNT(id) AS br_i
+		$query = $this->db->query("SELECT COUNT(id) AS br_i
 			FROM branch
 			WHERE status = 'I'
 			");
@@ -478,16 +567,14 @@ class admin_model extends CI_Model{
 	}
 
 	public function manager_count(){
-		$query = $this->db->query("
-			SELECT COUNT(id) AS bm
+		$query = $this->db->query("SELECT COUNT(id) AS bm
 			FROM branch_manager
 			");
 		return $query->result();
 	}
 
 	public function manager_count_a(){
-		$query = $this->db->query("
-			SELECT COUNT(id) AS bm_a
+		$query = $this->db->query("SELECT COUNT(id) AS bm_a
 			FROM branch_manager
 			WHERE status = 'A'
 			");
@@ -495,8 +582,7 @@ class admin_model extends CI_Model{
 	}
 
 	public function manager_count_u(){
-		$query = $this->db->query("
-			SELECT COUNT(id) AS bm_u
+		$query = $this->db->query("SELECT COUNT(id) AS bm_u
 			FROM branch_manager
 			WHERE status = 'U'
 			");
@@ -504,8 +590,7 @@ class admin_model extends CI_Model{
 	}
 
 	public function customer_count(){
-		$query = $this->db->query("
-			SELECT COUNT(id) AS cs
+		$query = $this->db->query("SELECT COUNT(id) AS cs
 			FROM user
 			WHERE user_type_id = 3
 			");
@@ -513,8 +598,7 @@ class admin_model extends CI_Model{
 	}
 
 	public function customer_count_a(){
-		$query = $this->db->query("
-			SELECT COUNT(id) AS cs_a
+		$query = $this->db->query("SELECT COUNT(id) AS cs_a
 			FROM user
 			WHERE user_type_id = 3 AND status = 'A'
 			");
@@ -522,8 +606,7 @@ class admin_model extends CI_Model{
 	}
 
 	public function customer_count_i(){
-		$query = $this->db->query("
-			SELECT COUNT(id) AS cs_i
+		$query = $this->db->query("SELECT COUNT(id) AS cs_i
 			FROM user
 			WHERE user_type_id = 3 AND status = 'I'
 			");
@@ -531,8 +614,7 @@ class admin_model extends CI_Model{
 	}
 
 	public function logged_in_count(){
-		$query = $this->db->query("
-			SELECT COUNT(id) AS li
+		$query = $this->db->query("SELECT COUNT(id) AS li
 			FROM user
 			WHERE user_type_id = 3 AND logged_in = 1
 			");
@@ -540,16 +622,14 @@ class admin_model extends CI_Model{
 	}
 
 	public function recipe_count(){
-		$query = $this->db->query("
-			SELECT COUNT(id) AS rc
+		$query = $this->db->query("SELECT COUNT(id) AS rc
 			FROM recipe
 			");
 		return $query->result();
 	}
 
 	public function recipe_count_a(){
-		$query = $this->db->query("
-			SELECT COUNT(id) AS rc_a
+		$query = $this->db->query("SELECT COUNT(id) AS rc_a
 			FROM recipe
 			WHERE status = 'A'
 			");
@@ -557,8 +637,7 @@ class admin_model extends CI_Model{
 	}
 
 	public function recipe_count_i(){
-		$query = $this->db->query("
-			SELECT COUNT(id) AS rc_i
+		$query = $this->db->query("SELECT COUNT(id) AS rc_i
 			FROM recipe
 			WHERE status = 'I'
 			");	
@@ -566,16 +645,14 @@ class admin_model extends CI_Model{
 	}
 
 	public function order_count(){
-		$query = $this->db->query("
-			SELECT COUNT(id) AS od
+		$query = $this->db->query("SELECT COUNT(id) AS od
 			FROM delivery 
 			");
 		return $query->result();
 	}
 
 	public function order_count_c(){
-		$query = $this->db->query("
-			SELECT COUNT(id) AS od_c
+		$query = $this->db->query("SELECT COUNT(id) AS od_c
 			FROM delivery 
 			WHERE status = 'C'
 			");
@@ -583,29 +660,18 @@ class admin_model extends CI_Model{
 	}
 
 	public function order_count_i(){
-		$query = $this->db->query("
-			SELECT COUNT(id) AS od_i
+		$query = $this->db->query("SELECT COUNT(id) AS od_i
 			FROM delivery
 			WHERE status = 'I'
 			");
 		return $query->result();
 	}
 
-	public function comment_count(){
-		$query = $this->db->query("
-			SELECT COUNT(id) AS co
-			FROM user_activity
-			WHERE activity_type_id = '4'
-		");
-		return $query->result();
-	}
-
-	public function rating_count(){
-		$query = $this->db->query("
-			SELECT COUNT(id) AS ra
-			FROM user_activity
-			WHERE activity_type_id = '3'
-		");
+	public function feedback_count(){
+		$query = $this->db->query("SELECT COUNT(id) AS fb
+			FROM user_activity ua
+			WHERE ua.activity_type_id = '3' OR ua.activity_type_id = '4'
+			");
 		return $query->result();
 	}
 

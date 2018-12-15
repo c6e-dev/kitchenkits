@@ -31,7 +31,7 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>Dashboard<small>Kitchen Kits</small></h1>
+      <h1>Dashboard<small>Kikay Kit</small></h1>
     </section>
     <section class="content container-fluid">
       <div class="row">
@@ -115,46 +115,6 @@
           </div>
         </div>
         <!-- ./col -->
-        
-        <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div id="recipe_tri">
-            <a href="<?php echo site_url('admin/feedback_view');?>">
-              <div class="small-box bg-purple">
-                <div class="inner">
-                  <h3><?php echo " ".$comment[0]->co?></h3>
-
-                  <p>Comments</p>
-                </div>
-                <div class="icon">
-                  <i class="fa fa-comments"></i>
-                </div>
-              </div>
-            </a>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div id="recipe_tri">
-            <a href="<?php echo site_url('admin/feedback_view');?>">
-              <div class="small-box bg-purple">
-                <div class="inner">
-                  <h3><?php echo " ".$rating[0]->ra?></h3>
-
-                  <p>Ratings</p>
-                </div>
-                <div class="icon">
-                  <i class="fa fa-star"></i>
-                </div>
-              </div>
-            </a>
-          </div>
-        </div>
-        <!-- ./col -->
-      </div>
-      <div class="row">
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div id="customer_tri">
@@ -194,6 +154,27 @@
             </div>
           </div>
         </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div id="recipe_tri">
+            <a href="<?php echo site_url('admin/feedback_view');?>">
+              <div class="small-box bg-purple">
+                <div class="inner">
+                  <h3><?php echo " ".$feedback[0]->fb?></h3>
+
+                  <p>Feedback</p>
+                </div>
+                <div class="icon">
+                  <i class="fa fa-comments"></i>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <!-- ./col -->
+      </div>
+      <div class="row">
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div id="branch_tri">
@@ -295,48 +276,70 @@
       </div>
     </section>
     <section class="content-header">
-      <h1>Activity Feed<small>Kitchen Kits</small></h1>
+      <h1>Activity Feed<small>Kikay Kit</small></h1>
     </section>
     <section class="content container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <!-- The time line -->
           <ul class="timeline">
-
-            <!-- timeline time label -->
             <li class="time-label">
-                <span class="bg-red">
-                    10 Feb. 2014
-                </span>
+              <span class="bg-green">
+                <?php 
+                  $current_date = date('M d, Y');
+                  echo $current_date;
+                ?>
+              </span>
             </li>
-            <!-- /.timeline-label -->
-
-            <!-- timeline item -->
-            <li>
-                <!-- timeline icon -->
-                <i class="fa fa-envelope bg-blue"></i>
-                <div class="timeline-item">
-                    <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
-
-                    <h3 class="timeline-header"><a href="#">Support Team</a> ...</h3>
-
-                    <div class="timeline-body">
-                        ...
-                        Content goes here
-                    </div>
-
-                    <div class="timeline-footer">
-                        <a class="btn btn-primary btn-xs">...</a>
-                    </div>
-                </div>
-            </li>
-            <!-- END timeline item -->
+            <?php
+              if ($act_feed!=NULL) {
+                foreach ($act_feed as $af) {
+                  $new_date = date('M d, Y', strtotime($af->fb_cdate));
+                  if ($new_date == $current_date) {
+                    if ($af->fb_type == 1) {
+                      ?>
+                        <li>
+                          <i class="fa fa-shopping-cart bg-blue"></i>
+                          <div class="timeline-item">
+                            <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($af->fb_cdate));?></span>
+                            <h3 class="timeline-header"><a href="#"><?php echo $af->fb_fname; ?> <?php echo $af->fb_lname; ?></a> ordered <?php echo $af->fb_recipe; ?></h3>
+                          </div>
+                        </li>
+                      <?php  
+                    }
+                    if ($af->fb_type == 3) {
+                      ?>
+                        <li>
+                          <i class="fa fa-star bg-yellow"></i>
+                          <div class="timeline-item">
+                            <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($af->fb_cdate));?></span>
+                            <h3 class="timeline-header"><a href="#"><?php echo $af->fb_fname; ?> <?php echo $af->fb_lname; ?></a> rated <?php echo $af->fb_rating; ?> stars on <?php echo $af->fb_recipe; ?></h3>
+                          </div>
+                        </li>
+                      <?php  
+                    }
+                    if ($af->fb_type == 4) {
+                      ?>
+                        <li>
+                          <i class="fa fa-comment bg-purple"></i>
+                          <div class="timeline-item">
+                            <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($af->fb_cdate));?></span>
+                            <h3 class="timeline-header"><a href="#"><?php echo $af->fb_fname; ?> <?php echo $af->fb_lname; ?></a> commented on <?php echo $af->fb_recipe; ?></h3>
+                            <div class="timeline-body">
+                              <?php echo $af->fb_comment; ?>
+                            </div>
+                          </div>
+                        </li>
+                      <?php  
+                    }
+                  }
+                }
+              }
+            ?>
             <li>
               <i class="fa fa-clock-o bg-gray"></i>
             </li>
           </ul>
         </div>
-        <!-- /.col -->
       </div>
     </section>
 

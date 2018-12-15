@@ -36,7 +36,7 @@
     <!-- Main content -->
     <section class="content container-fluid">
       <div>
-        <a href="#" class="btn btn-sm bg-purple btn-flat" style="margin: 0px 5px 10px 0px" data-toggle="modal" data-target="#addbranch" ><i class="fa fa-plus-circle"></i> </a>
+        <a href="#" class="btn btn-sm bg-purple btn-flat" style="margin: 0px 5px 10px 0px" data-toggle="modal" data-target="#addbranch" data-backdrop="static"><i class="fa fa-plus-circle"></i> </a>
         <a class="btn btn-sm bg-purple btn-flat active" data-toggle="tab" href="#active" role="tab" style="margin: 0px 5px 10px 0px">Active Branches</a>
         <a class="btn btn-sm bg-purple btn-flat" data-toggle="tab" href="#inactive" role="tab" style="margin: 0px 5px 10px 0px">Inactive Branches</a>
       </div>
@@ -132,9 +132,13 @@
                             <td><?php echo $br->br_update; ?></td>
                             <td><center>
                               <a href="<?php echo site_url('admin/view_branch'.'?id='.$br->br_id);?>" class="btn btn-xs btn-info"><i  class="fa fa-search"></i></a>
-                              <!-- <a href="#" class="btn btn-xs btn-warning" data-target="" data-toggle="modal" data-backdrop="static"><i class="fa fa-edit"></i></a> -->
-                              <?php echo'
-                              <a href="#" class="btn btn-xs btn-success" data-target="#acbran'.$br->br_id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-power-off"></i></a>';?>
+                              <?php 
+                                  if ($br->br_mi == 0) {
+                                    echo' <button type="button" class="btn btn-xs btn-success" data-target="#acbran'.$br->br_id.'" data-toggle="modal" data-backdrop="static" disabled><i class="fa fa-power-off"></i></button>';
+                                  }else{
+                                    echo' <button type="button" class="btn btn-xs btn-success" data-target="#acbran'.$br->br_id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-power-off"></i></button>';
+                                  }
+                                ?>
                             </center></td>
                           </tr>
 

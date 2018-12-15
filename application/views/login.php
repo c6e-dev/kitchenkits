@@ -6,10 +6,6 @@
     <title>Kitchen Kits | Log in</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-
-    <link rel="apple-touch-icon" href="<?php echo base_url('assets/img/KKIcon.png');?>">
-    <link rel="shortcut icon" href="<?php echo base_url('assets/img/KKIcon.png');?>">
-
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
     <!-- Font Awesome -->
@@ -30,7 +26,7 @@
       </div>
       <!-- /.login-logo -->
       <div class="login-box-body">
-        <p class="login-box-msg">Sign-In To Start Your Session</p>
+        <p class="login-box-msg">Sign in to start your session</p>
         <?php
           $error_msg = $this->session->flashdata('error_msg');
           if ($error_msg) {
@@ -61,7 +57,7 @@
             <!-- /.col -->
           </div>
         </form>
-        <a href="<?php echo site_url('user/register_view'); ?>" class="text-center">Create An Account</a>
+        <a href="<?php echo site_url('user/register_view'); ?>" class="text-center">Create an account</a>
       </div>
       <!-- /.login-box-body -->
     </div>

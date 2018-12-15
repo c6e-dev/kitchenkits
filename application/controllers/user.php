@@ -7,9 +7,6 @@ class user extends CI_Controller {
 		$this->load->model('user_model');
 	}
 	public function index(){
-		$this->load->view('home');
-	}
-	public function load_login(){
 		$this->load->view('login');
 	}
 	public function login(){
