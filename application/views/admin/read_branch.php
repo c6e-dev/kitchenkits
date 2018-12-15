@@ -136,6 +136,9 @@
                                 if ($br->br_mi == 0) {
                                   echo' <button type="button" class="btn btn-xs btn-success" data-target="#acbran'.$br->br_id.'" data-toggle="modal" data-backdrop="static" disabled><i class="fa fa-power-off"></i></button>';
                                 }else{
+                                  echo' <button type="button" class="btn btn-xs btn-success" data-target="#acbran'.$br->br_id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-power-off"></i></button>';
+                                }
+                              ?>
                             </center></td>
                           </tr>
 
