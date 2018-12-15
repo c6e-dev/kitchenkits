@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 08, 2018 at 07:59 AM
+-- Generation Time: Dec 15, 2018 at 12:40 PM
 -- Server version: 5.7.23
 -- PHP Version: 7.2.10
 
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `activity_type` (
 INSERT INTO `activity_type` (`id`, `name`) VALUES
 (1, 'Order'),
 (2, 'View'),
-(3, 'Rated'),
+(3, 'Rating'),
 (4, 'Comment');
 
 -- --------------------------------------------------------
@@ -95,27 +95,30 @@ CREATE TABLE IF NOT EXISTS `branch` (
   `manager_id` int(10) DEFAULT NULL,
   `code` varchar(10) DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
-  `branch_address` varchar(50) DEFAULT NULL,
+  `branch_address` varchar(100) DEFAULT NULL,
   `status` varchar(5) DEFAULT 'I',
   `created_date` datetime DEFAULT CURRENT_TIMESTAMP,
-  `updated_date` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `branch`
 --
 
 INSERT INTO `branch` (`id`, `manager_id`, `code`, `name`, `branch_address`, `status`, `created_date`, `updated_date`) VALUES
-(1, 1, 'BR00001', 'Branch_1', '06A Brown Mill, Poblacion, Bago 9322 Sultan Kudara', 'A', '2018-12-04 11:42:54', '2018-12-04 11:42:54'),
+(1, 1, 'BR00001', 'Branch_1', '06A Brown Mill, Poblacion, Bago 9322 Sultan Kudarat', 'A', '2018-12-04 11:42:54', '2018-12-04 11:42:54'),
 (2, 2, 'BR00002', 'Branch_2', '38A/69 Kirlin Way Apt. 830, Jimalalud 2342 Nueva E', 'A', '2018-12-04 11:42:54', '2018-12-04 11:42:54'),
 (3, 3, 'BR00003', 'Branch_3', '02A/76 Nienow Field Apt. 081, Pinamalayan 8393 Isa', 'A', '2018-12-04 11:42:54', '2018-12-04 11:42:54'),
 (4, 4, 'BR00004', 'Branch_4', '03A Block Garden Apt. 569, Oroquieta City 4066 Cot', 'A', '2018-12-04 11:42:54', '2018-12-04 11:42:54'),
 (5, 5, 'BR00005', 'Branch_5', '35A/44 Nolan Mews Apt. 283, Poblacion, Ilagan 2836', 'A', '2018-12-04 11:42:54', '2018-12-04 11:42:54'),
-(6, 7, 'BR00006', 'Branch_6', '51A Kessler Crescent Apt. 709, Bacacay 6960 Laguna', 'I', '2018-12-05 20:20:34', '2018-12-05 20:20:34'),
-(7, 7, 'BR00007', 'Branch_7', '68A/94 Bednar Field, Poblacion, Naga 4664 Batanes', 'I', '2018-12-05 20:20:37', '2018-12-05 20:20:37'),
-(10, 7, NULL, 'Branch_8', '66A Cummings Meadow Apt. 241, Pililla 5006 Quezon', 'I', '2018-12-05 21:06:14', '2018-12-05 21:06:14'),
-(11, 8, NULL, 'Branch_9', '07 Huel Landing, Poblacion, Las Piñas 1102 Norther', 'I', '2018-12-05 21:24:07', '2018-12-05 21:24:07');
+(6, 11, 'BR00006', 'Branch_6', '51A Kessler Crescent Apt. 709, Bacacay 6960 Laguna', 'I', '2018-12-05 20:20:34', '2018-12-05 20:20:34'),
+(7, 0, 'BR00007', 'Branch_7', '68A/94 Bednar Field, Poblacion, Naga 4664 Batanes', 'I', '2018-12-05 20:20:37', '2018-12-05 20:20:37'),
+(10, 0, 'BR00008', 'Branch_8', '66A Cummings Meadow Apt. 241, Pililla 5006 Quezon', 'I', '2018-12-05 21:06:14', '2018-12-05 21:06:14'),
+(11, 0, 'BR00009', 'Branch_9', '07 Huel Landing, Poblacion, Las Piñas 1102 Norther', 'I', '2018-12-05 21:24:07', '2018-12-05 21:24:07'),
+(12, 8, 'BR00012', 'Branch_10', '96 Marvin Burgs, Poblacion, Urdaneta 1609 Aklan', 'A', '2018-12-11 13:51:59', '2018-12-11 13:51:59'),
+(13, 0, 'BR00013', 'Branch_11', '30A Barton Cliffs, Poblacion, Samal 1572 Apayao', 'I', '2018-12-11 13:55:30', '2018-12-11 13:55:30'),
+(14, 10, 'BR00014', 'Branch_12', '27 Pfeffer Motorway, San Fernando 1430 Surigao del', 'A', '2018-12-11 14:01:13', '2018-12-11 14:01:13');
 
 -- --------------------------------------------------------
 
@@ -131,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `branch_manager` (
   `name` varchar(50) DEFAULT NULL,
   `status` varchar(5) DEFAULT 'U',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `branch_manager`
@@ -145,8 +148,56 @@ INSERT INTO `branch_manager` (`id`, `user_id`, `code`, `name`, `status`) VALUES
 (5, 6, 'BM00005', 'Rhianna Key', 'A'),
 (6, 19, 'BM00006', 'Ilayda Burt', 'U'),
 (7, 20, 'BM00007', 'Ellie-Mae Storey', 'U'),
-(8, 21, 'BM00008', 'Rian Lindsey', 'U'),
-(9, 22, 'BM00009', 'Sabrina Jacobs', 'U');
+(8, 21, 'BM00008', 'Rian Lindsey', 'A'),
+(9, 22, 'BM00009', 'Sabrina Jacobs', 'U'),
+(10, 23, 'BM00010', 'Robert Estopace', 'U'),
+(11, 24, 'BM00011', 'Charlone Poserio', 'U');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `comment`
+--
+
+DROP TABLE IF EXISTS `comment`;
+CREATE TABLE IF NOT EXISTS `comment` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `activity_id` int(10) DEFAULT NULL,
+  `message` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `comment`
+--
+
+INSERT INTO `comment` (`id`, `activity_id`, `message`) VALUES
+(1, 15, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),
+(2, 16, 'Aliquam erat volutpat. Curabitur quis enim vehicula, porta magna sed, consectetur nunc.'),
+(3, 17, 'Donec in lacinia mauris. Aenean mi nisi, suscipit convallis augue eget, facilisis imperdiet velit.');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `counter`
+--
+
+DROP TABLE IF EXISTS `counter`;
+CREATE TABLE IF NOT EXISTS `counter` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `code` varchar(10) DEFAULT NULL,
+  `count` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `counter`
+--
+
+INSERT INTO `counter` (`id`, `code`, `count`) VALUES
+(1, 'BR', 14),
+(2, 'BM', 11),
+(3, 'CS', 10);
 
 -- --------------------------------------------------------
 
@@ -188,7 +239,7 @@ CREATE TABLE IF NOT EXISTS `customer` (
   `first_name` char(50) DEFAULT NULL,
   `last_name` char(50) DEFAULT NULL,
   `email_address` varchar(50) DEFAULT NULL,
-  `home_address` varchar(50) DEFAULT NULL,
+  `home_address` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
@@ -216,12 +267,12 @@ INSERT INTO `customer` (`id`, `user_id`, `code`, `first_name`, `last_name`, `ema
 
 DROP TABLE IF EXISTS `delivery`;
 CREATE TABLE IF NOT EXISTS `delivery` (
-  `id` int(5) NOT NULL,
-  `customer_id` int(5) DEFAULT NULL,
-  `branch_id` int(5) DEFAULT NULL,
+  `id` int(10) NOT NULL,
+  `customer_id` int(10) DEFAULT NULL,
+  `branch_id` int(10) DEFAULT NULL,
+  `activity_id` int(10) DEFAULT NULL,
   `code` varchar(10) DEFAULT NULL,
-  `status` varchar(5) DEFAULT NULL,
-  `created_date` datetime DEFAULT CURRENT_TIMESTAMP,
+  `status` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -229,46 +280,20 @@ CREATE TABLE IF NOT EXISTS `delivery` (
 -- Dumping data for table `delivery`
 --
 
-INSERT INTO `delivery` (`id`, `customer_id`, `branch_id`, `code`, `status`, `created_date`) VALUES
-(1, 1, 1, 'OR00001', 'C', '2018-12-04 12:22:58'),
-(2, 2, 1, 'OR00002', 'C', '2018-12-04 12:22:24'),
-(3, 3, 2, 'OR00003', 'I', '2018-12-04 12:22:25'),
-(4, 4, 2, 'OR00004', 'C', '2018-12-04 12:22:25'),
-(5, 5, 3, 'OR00005', 'I', '2018-12-04 12:22:25'),
-(6, 6, 3, 'OR00006', 'C', '2018-12-04 12:22:26'),
-(7, 7, 4, 'OR00007', 'C', '2018-12-04 12:22:30'),
-(8, 8, 4, 'OR00008', 'I', '2018-12-04 12:22:31'),
-(9, 9, 5, 'OR00009', 'C', '2018-12-04 12:22:32'),
-(10, 10, 5, 'OR00010', 'I', '2018-12-04 12:22:32'),
-(11, 1, 1, 'OR00011', 'I', '2018-12-04 12:22:35'),
-(12, 2, 1, 'OR00012', 'I', '2018-12-04 12:22:35'),
-(13, 3, 2, 'OR00013', 'I', '2018-12-04 12:22:36');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `feedback`
---
-
-DROP TABLE IF EXISTS `feedback`;
-CREATE TABLE IF NOT EXISTS `feedback` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `customer_id` int(10) DEFAULT NULL,
-  `recipe_id` int(10) DEFAULT NULL,
-  `message` text,
-  `rating` int(5) DEFAULT NULL,
-  `created_date` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `feedback`
---
-
-INSERT INTO `feedback` (`id`, `customer_id`, `recipe_id`, `message`, `rating`, `created_date`) VALUES
-(1, 1, 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 5, '2018-11-28 19:38:21'),
-(2, 2, 2, 'Aliquam erat volutpat. Curabitur quis enim vehicula, porta magna sed, consectetur nunc.', 5, '2018-11-28 19:38:21'),
-(3, 3, 12, 'Donec in lacinia mauris. Aenean mi nisi, suscipit convallis augue eget, facilisis imperdiet velit.', 4, '2018-11-28 19:38:22');
+INSERT INTO `delivery` (`id`, `customer_id`, `branch_id`, `activity_id`, `code`, `status`) VALUES
+(1, 1, 1, 1, 'OR00001', 'C'),
+(2, 2, 1, 2, 'OR00002', 'C'),
+(3, 3, 2, 3, 'OR00003', 'I'),
+(4, 4, 2, 4, 'OR00004', 'C'),
+(5, 5, 3, 5, 'OR00005', 'I'),
+(6, 6, 3, 6, 'OR00006', 'C'),
+(7, 7, 4, 7, 'OR00007', 'C'),
+(8, 8, 4, 8, 'OR00008', 'I'),
+(9, 9, 5, 9, 'OR00009', 'C'),
+(10, 10, 5, 10, 'OR00010', 'I'),
+(11, 1, 1, 11, 'OR00011', 'I'),
+(12, 2, 1, 12, 'OR00012', 'I'),
+(13, 3, 2, 13, 'OR00013', 'I');
 
 -- --------------------------------------------------------
 
@@ -329,6 +354,31 @@ INSERT INTO `order_content` (`id`, `recipe_id`, `order_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `rating`
+--
+
+DROP TABLE IF EXISTS `rating`;
+CREATE TABLE IF NOT EXISTS `rating` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `activity_id` int(10) DEFAULT NULL,
+  `rating` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `rating`
+--
+
+INSERT INTO `rating` (`id`, `activity_id`, `rating`) VALUES
+(1, 1, 4),
+(2, 2, 5),
+(3, 3, 3),
+(4, 1, 5),
+(5, 2, 4);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `recipe`
 --
 
@@ -343,7 +393,7 @@ CREATE TABLE IF NOT EXISTS `recipe` (
   `servings` int(10) DEFAULT NULL,
   `status` varchar(5) DEFAULT 'I',
   `created_date` datetime DEFAULT CURRENT_TIMESTAMP,
-  `updated_date` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
@@ -470,9 +520,9 @@ CREATE TABLE IF NOT EXISTS `user` (
   `status` varchar(5) DEFAULT NULL,
   `logged_in` varchar(5) DEFAULT '0',
   `created_date` datetime DEFAULT CURRENT_TIMESTAMP,
-  `updated_date` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user`
@@ -485,22 +535,24 @@ INSERT INTO `user` (`id`, `user_type_id`, `username`, `password`, `status`, `log
 (4, 2, 'manager03', '123', 'A', '0', '2018-11-28 15:02:37', '2018-11-28 15:02:37'),
 (5, 2, 'manager04', '123', 'A', '0', '2018-11-28 15:02:59', '2018-11-28 15:02:59'),
 (6, 2, 'manager05', '123', 'A', '0', '2018-11-28 15:03:03', '2018-11-28 15:03:03'),
-(7, 3, 'customer01', '123', 'A', '0', '2018-11-28 15:02:05', '2018-11-28 15:02:05'),
-(8, 3, 'customer02', '123', 'A', '0', '2018-11-28 15:02:06', '2018-11-28 15:02:06'),
+(7, 3, 'customer01', '123', 'A', '1', '2018-11-28 15:02:05', '2018-11-28 15:02:05'),
+(8, 3, 'customer02', '123', 'A', '1', '2018-11-28 15:02:06', '2018-11-28 15:02:06'),
 (9, 3, 'customer03', '123', 'A', '0', '2018-11-28 15:02:06', '2018-11-28 15:02:06'),
 (10, 3, 'customer04', '123', 'A', '0', '2018-11-28 15:02:07', '2018-11-28 15:02:07'),
 (11, 3, 'customer05', '123', 'A', '0', '2018-11-28 15:02:09', '2018-11-28 15:02:09'),
 (12, 3, 'customer06', '123', 'A', '0', '2018-11-28 15:02:10', '2018-11-28 15:02:10'),
-(13, 3, 'customer07', '123', 'A', '0', '2018-11-28 15:02:10', '2018-11-28 15:02:10'),
-(14, 3, 'customer08', '123', 'A', '0', '2018-11-28 15:02:11', '2018-11-28 15:02:11'),
-(15, 3, 'customer09', '123', 'I', '0', '2018-11-28 15:02:11', '2018-11-28 15:02:11'),
-(16, 3, 'customer10', '123', 'A', '0', '2018-11-28 15:02:12', '2018-11-28 15:02:12'),
+(13, 3, 'customer07', '123', 'A', '1', '2018-11-28 15:02:10', '2018-11-28 15:02:10'),
+(14, 3, 'customer08', '123', 'A', '1', '2018-11-28 15:02:11', '2018-11-28 15:02:11'),
+(15, 3, 'customer09', '123', 'I', '1', '2018-11-28 15:02:11', '2018-11-28 15:02:11'),
+(16, 3, 'customer10', '123', 'A', '1', '2018-11-28 15:02:12', '2018-11-28 15:02:12'),
 (17, 1, 'admin02', '123', 'A', '0', '2018-11-28 15:57:20', '2018-11-28 15:57:20'),
 (18, 1, 'admin03', '123', 'A', '0', '2018-11-28 15:57:22', '2018-11-28 15:57:22'),
-(19, 2, 'manager06', '123', 'I', '0', '2018-12-05 20:09:53', '2018-12-05 20:09:53'),
+(19, 2, 'manager06', '123', 'I', '1', '2018-12-05 20:09:53', '2018-12-05 20:09:53'),
 (20, 2, 'manager07', '123', 'A', '0', '2018-12-05 20:09:55', '2018-12-05 20:09:55'),
 (21, 2, 'manager08', '123', 'A', '0', '2018-12-05 20:36:20', '2018-12-05 20:36:20'),
-(22, 2, 'manager09', '123', 'A', '0', '2018-12-05 20:36:23', '2018-12-05 20:36:23');
+(22, 2, 'manager09', '123', 'A', '0', '2018-12-05 20:36:23', '2018-12-05 20:36:23'),
+(23, 2, 'manager10', '123', 'A', '0', '2018-12-11 13:58:01', '2018-12-11 13:58:01'),
+(24, 2, 'manager11', '123', 'I', '0', '2018-12-11 13:58:34', '2018-12-11 13:58:34');
 
 -- --------------------------------------------------------
 
@@ -514,28 +566,36 @@ CREATE TABLE IF NOT EXISTS `user_activity` (
   `recipe_id` int(10) DEFAULT NULL,
   `customer_id` int(10) DEFAULT NULL,
   `activity_type_id` int(10) DEFAULT NULL,
+  `created_date` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user_activity`
 --
 
-INSERT INTO `user_activity` (`id`, `recipe_id`, `customer_id`, `activity_type_id`) VALUES
-(1, 1, 1, 1),
-(2, 2, 2, 1),
-(3, 3, 3, 1),
-(4, 4, 4, 1),
-(5, 5, 5, 1),
-(6, 6, 6, 1),
-(7, 7, 7, 1),
-(8, 8, 8, 1),
-(9, 9, 9, 1),
-(10, 10, 10, 1),
-(11, 11, 1, 1),
-(12, 12, 2, 1),
-(13, 13, 3, 1),
-(14, 13, 3, 1);
+INSERT INTO `user_activity` (`id`, `recipe_id`, `customer_id`, `activity_type_id`, `created_date`) VALUES
+(1, 1, 1, 1, '2018-12-15 18:00:36'),
+(2, 2, 2, 1, '2018-12-15 18:00:36'),
+(3, 3, 3, 1, '2018-12-15 18:00:36'),
+(4, 4, 4, 1, '2018-12-15 18:00:36'),
+(5, 5, 5, 1, '2018-12-15 18:00:36'),
+(6, 6, 6, 1, '2018-12-15 18:00:36'),
+(7, 7, 7, 1, '2018-12-15 18:00:36'),
+(8, 8, 8, 1, '2018-12-15 18:00:36'),
+(9, 9, 9, 1, '2018-12-15 18:00:36'),
+(10, 10, 10, 1, '2018-12-15 18:00:36'),
+(11, 11, 1, 1, '2018-12-15 18:00:36'),
+(12, 12, 2, 1, '2018-12-15 18:00:36'),
+(13, 13, 3, 1, '2018-12-15 18:00:36'),
+(15, 1, 1, 4, '2018-12-15 18:00:36'),
+(16, 1, 2, 4, '2018-12-15 18:00:36'),
+(17, 2, 3, 4, '2018-12-15 18:00:36'),
+(18, 1, 1, 3, '2018-12-15 18:00:36'),
+(19, 2, 1, 3, '2018-12-15 18:00:36'),
+(20, 3, 1, 3, '2018-12-15 18:00:36'),
+(21, 1, 2, 3, '2018-12-15 18:00:36'),
+(22, 2, 3, 3, '2018-12-15 18:00:36');
 
 -- --------------------------------------------------------
 
