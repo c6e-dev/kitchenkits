@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 15, 2018 at 12:40 PM
+-- Generation Time: Dec 15, 2018 at 05:28 PM
 -- Server version: 5.7.23
 -- PHP Version: 7.2.10
 
@@ -238,6 +238,7 @@ CREATE TABLE IF NOT EXISTS `customer` (
   `code` varchar(10) DEFAULT NULL,
   `first_name` char(50) DEFAULT NULL,
   `last_name` char(50) DEFAULT NULL,
+  `image` blob,
   `email_address` varchar(50) DEFAULT NULL,
   `home_address` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -247,17 +248,17 @@ CREATE TABLE IF NOT EXISTS `customer` (
 -- Dumping data for table `customer`
 --
 
-INSERT INTO `customer` (`id`, `user_id`, `code`, `first_name`, `last_name`, `email_address`, `home_address`) VALUES
-(1, 7, 'CS00001', 'Devon', 'Marsh', 'devmar@gmail.com', '89 McGlynn Parkways, Poblacion, Samal 5867 Biliran'),
-(2, 8, 'CS00002', 'Sinead', 'Downs', 'sindow@gmail.com', '22/68 Nader Mission, Poblacion, Dasmariñas 9105 Co'),
-(3, 9, 'CS00003', 'Patsy', 'Gardiner', 'patgar@gmail.com', '53 Hirthe Unions, Poblacion, Malolos 0893 Pangasin'),
-(4, 10, 'CS00004', 'Javier', 'Nieves', 'javnie@gmail.com', '11 Haley Causeway, Molave 5749 Bulacan'),
-(5, 11, 'CS00005', 'Yusha', 'England', 'yuseng@gmail.com', '53/28 Osinski Crossroad Apt. 778, Poblacion, Talis'),
-(6, 12, 'CS00006', 'Ashwin', 'Jaramillo', 'ashjar@gmail.com', '16 Ruecker Tunnel, Poblacion, Catbalogan 2334 Isab'),
-(7, 13, 'CS00007', 'Poppy', 'Harper', 'pophar@gmail.com', '11/83 Bergstrom Inlet, Poblacion, Ligao 9088 Negro'),
-(8, 14, 'CS00008', 'Celeste', 'Calderon', 'celcal@gmail.com', '26 Stoltenberg Terrace, Sadanga 0080 Ilocos Sur'),
-(9, 15, 'CS00009', 'Izzy', 'Curry', 'izzcur@gmail.com', '74 Pfannerstill Causeway, Bakun 8640 Antique'),
-(10, 16, 'CS00010', 'Greg', 'Koch', 'grekoc@gmail.com', '58/32 Ledner Estates, Poblacion, Tagaytay 8983 Ilo');
+INSERT INTO `customer` (`id`, `user_id`, `code`, `first_name`, `last_name`, `image`, `email_address`, `home_address`) VALUES
+(1, 7, 'CS00001', 'Devon', 'Marsh', NULL, 'devmar@gmail.com', '89 McGlynn Parkways, Poblacion, Samal 5867 Biliran'),
+(2, 8, 'CS00002', 'Sinead', 'Downs', NULL, 'sindow@gmail.com', '22/68 Nader Mission, Poblacion, Dasmariñas 9105 Co'),
+(3, 9, 'CS00003', 'Patsy', 'Gardiner', NULL, 'patgar@gmail.com', '53 Hirthe Unions, Poblacion, Malolos 0893 Pangasin'),
+(4, 10, 'CS00004', 'Javier', 'Nieves', NULL, 'javnie@gmail.com', '11 Haley Causeway, Molave 5749 Bulacan'),
+(5, 11, 'CS00005', 'Yusha', 'England', NULL, 'yuseng@gmail.com', '53/28 Osinski Crossroad Apt. 778, Poblacion, Talis'),
+(6, 12, 'CS00006', 'Ashwin', 'Jaramillo', NULL, 'ashjar@gmail.com', '16 Ruecker Tunnel, Poblacion, Catbalogan 2334 Isab'),
+(7, 13, 'CS00007', 'Poppy', 'Harper', NULL, 'pophar@gmail.com', '11/83 Bergstrom Inlet, Poblacion, Ligao 9088 Negro'),
+(8, 14, 'CS00008', 'Celeste', 'Calderon', NULL, 'celcal@gmail.com', '26 Stoltenberg Terrace, Sadanga 0080 Ilocos Sur'),
+(9, 15, 'CS00009', 'Izzy', 'Curry', NULL, 'izzcur@gmail.com', '74 Pfannerstill Causeway, Bakun 8640 Antique'),
+(10, 16, 'CS00010', 'Greg', 'Koch', NULL, 'grekoc@gmail.com', '58/32 Ledner Estates, Poblacion, Tagaytay 8983 Ilo');
 
 -- --------------------------------------------------------
 
@@ -391,6 +392,7 @@ CREATE TABLE IF NOT EXISTS `recipe` (
   `instructions` text,
   `cooking_time` varchar(10) DEFAULT '00:00:00',
   `servings` int(10) DEFAULT NULL,
+  `image` blob,
   `status` varchar(5) DEFAULT 'I',
   `created_date` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated_date` datetime DEFAULT NULL,
@@ -401,22 +403,22 @@ CREATE TABLE IF NOT EXISTS `recipe` (
 -- Dumping data for table `recipe`
 --
 
-INSERT INTO `recipe` (`id`, `country_id`, `name`, `price`, `instructions`, `cooking_time`, `servings`, `status`, `created_date`, `updated_date`) VALUES
-(1, 1, 'Spinach-and-Pork Wantons', '300', NULL, '01:00:00', 8, 'A', '2018-11-28 16:43:56', '2018-11-28 16:43:56'),
-(2, 1, 'Stir-Fried Chicken With Chinese Cabbage ', NULL, NULL, '00:30:00', 4, 'A', '2018-11-28 16:43:57', '2018-11-28 16:43:57'),
-(3, 2, 'Yakitori-Style Pan-Roasted Duck Breast', NULL, NULL, '01:35:00', 6, 'A', '2018-11-28 16:43:58', '2018-11-28 16:43:58'),
-(4, 2, 'Eggplant Tempura', NULL, NULL, '00:30:00', 4, 'A', '2018-11-28 16:43:59', '2018-11-28 16:43:59'),
-(5, 3, 'Chicken-And-Pork Adobo', NULL, NULL, '01:20:00', 6, 'A', '2018-11-28 16:43:59', '2018-11-28 16:43:59'),
-(6, 3, 'Filipino Pork Barbecue', NULL, NULL, '00:50:00', 6, 'A', '2018-11-28 16:44:01', '2018-11-28 16:44:01'),
-(7, 4, 'Baked Beans', NULL, NULL, '04:15:00', 8, 'A', '2018-11-28 16:44:03', '2018-11-28 16:44:03'),
-(8, 4, 'Meat Loaf With Bacon', NULL, NULL, '02:00:00', 8, 'A', '2018-11-28 16:44:04', '2018-11-28 16:44:04'),
-(9, 5, 'Chicken Dijon', NULL, NULL, '00:45:00', 4, 'A', '2018-11-28 16:44:04', '2018-11-28 16:44:04'),
-(10, 5, 'Potatos Lyonnaise With Lemon And Chile', NULL, NULL, '00:50:00', 4, 'A', '2018-11-28 16:44:06', '2018-11-28 16:44:06'),
-(11, 6, 'Grilled-Chicken Tacos', NULL, NULL, '00:30:00', 6, 'A', '2018-11-28 17:27:05', '2018-11-28 17:27:05'),
-(12, 6, 'Baked Huevos Rancheros ', NULL, NULL, '00:45:00', 4, 'A', '2018-11-28 17:27:06', '2018-11-28 17:27:06'),
-(13, 3, 'Sinigang Na Lanz', '690', NULL, '00:01:20', 3, 'I', '2018-12-05 19:02:19', '2018-12-05 19:02:19'),
-(14, 3, 'Adobong Quail Eggs', '250', NULL, '00:01:20', 5, 'I', '2018-12-05 19:05:24', '2018-12-05 19:05:24'),
-(15, 3, 'Nilagang Sibuyas', '200', NULL, '180', 8, 'I', '2018-12-05 19:18:37', '2018-12-05 19:18:37');
+INSERT INTO `recipe` (`id`, `country_id`, `name`, `price`, `instructions`, `cooking_time`, `servings`, `image`, `status`, `created_date`, `updated_date`) VALUES
+(1, 1, 'Spinach-and-Pork Wantons', '300', NULL, '01:00:00', 8, NULL, 'A', '2018-11-28 16:43:56', '2018-11-28 16:43:56'),
+(2, 1, 'Stir-Fried Chicken With Chinese Cabbage ', NULL, NULL, '00:30:00', 4, NULL, 'A', '2018-11-28 16:43:57', '2018-11-28 16:43:57'),
+(3, 2, 'Yakitori-Style Pan-Roasted Duck Breast', NULL, NULL, '01:35:00', 6, NULL, 'A', '2018-11-28 16:43:58', '2018-11-28 16:43:58'),
+(4, 2, 'Eggplant Tempura', NULL, NULL, '00:30:00', 4, NULL, 'A', '2018-11-28 16:43:59', '2018-11-28 16:43:59'),
+(5, 3, 'Chicken-And-Pork Adobo', NULL, NULL, '01:20:00', 6, NULL, 'A', '2018-11-28 16:43:59', '2018-11-28 16:43:59'),
+(6, 3, 'Filipino Pork Barbecue', NULL, NULL, '00:50:00', 6, NULL, 'A', '2018-11-28 16:44:01', '2018-11-28 16:44:01'),
+(7, 4, 'Baked Beans', NULL, NULL, '04:15:00', 8, NULL, 'A', '2018-11-28 16:44:03', '2018-11-28 16:44:03'),
+(8, 4, 'Meat Loaf With Bacon', NULL, NULL, '02:00:00', 8, NULL, 'A', '2018-11-28 16:44:04', '2018-11-28 16:44:04'),
+(9, 5, 'Chicken Dijon', NULL, NULL, '00:45:00', 4, NULL, 'A', '2018-11-28 16:44:04', '2018-11-28 16:44:04'),
+(10, 5, 'Potatos Lyonnaise With Lemon And Chile', NULL, NULL, '00:50:00', 4, NULL, 'A', '2018-11-28 16:44:06', '2018-11-28 16:44:06'),
+(11, 6, 'Grilled-Chicken Tacos', NULL, NULL, '00:30:00', 6, NULL, 'A', '2018-11-28 17:27:05', '2018-11-28 17:27:05'),
+(12, 6, 'Baked Huevos Rancheros ', NULL, NULL, '00:45:00', 4, NULL, 'A', '2018-11-28 17:27:06', '2018-11-28 17:27:06'),
+(13, 3, 'Sinigang Na Lanz', '690', NULL, '00:01:20', 3, NULL, 'I', '2018-12-05 19:02:19', '2018-12-05 19:02:19'),
+(14, 3, 'Adobong Quail Eggs', '250', NULL, '00:01:20', 5, NULL, 'I', '2018-12-05 19:05:24', '2018-12-05 19:05:24'),
+(15, 3, 'Nilagang Sibuyas', '200', NULL, '180', 8, NULL, 'I', '2018-12-05 19:18:37', '2018-12-05 19:18:37');
 
 -- --------------------------------------------------------
 
@@ -575,26 +577,26 @@ CREATE TABLE IF NOT EXISTS `user_activity` (
 --
 
 INSERT INTO `user_activity` (`id`, `recipe_id`, `customer_id`, `activity_type_id`, `created_date`) VALUES
-(1, 1, 1, 1, '2018-12-15 18:00:36'),
-(2, 2, 2, 1, '2018-12-15 18:00:36'),
-(3, 3, 3, 1, '2018-12-15 18:00:36'),
-(4, 4, 4, 1, '2018-12-15 18:00:36'),
-(5, 5, 5, 1, '2018-12-15 18:00:36'),
-(6, 6, 6, 1, '2018-12-15 18:00:36'),
-(7, 7, 7, 1, '2018-12-15 18:00:36'),
-(8, 8, 8, 1, '2018-12-15 18:00:36'),
-(9, 9, 9, 1, '2018-12-15 18:00:36'),
-(10, 10, 10, 1, '2018-12-15 18:00:36'),
-(11, 11, 1, 1, '2018-12-15 18:00:36'),
-(12, 12, 2, 1, '2018-12-15 18:00:36'),
-(13, 13, 3, 1, '2018-12-15 18:00:36'),
-(15, 1, 1, 4, '2018-12-15 18:00:36'),
-(16, 1, 2, 4, '2018-12-15 18:00:36'),
-(17, 2, 3, 4, '2018-12-15 18:00:36'),
-(18, 1, 1, 3, '2018-12-15 18:00:36'),
-(19, 2, 1, 3, '2018-12-15 18:00:36'),
-(20, 3, 1, 3, '2018-12-15 18:00:36'),
-(21, 1, 2, 3, '2018-12-15 18:00:36'),
+(1, 1, 1, 1, '2018-12-16 18:00:36'),
+(2, 2, 2, 1, '2018-12-16 18:00:36'),
+(3, 3, 3, 1, '2018-12-16 18:00:36'),
+(4, 4, 4, 1, '2018-12-16 18:00:36'),
+(5, 5, 5, 1, '2018-12-16 18:00:36'),
+(6, 6, 6, 1, '2018-12-16 18:00:36'),
+(7, 7, 7, 1, '2018-12-16 18:00:36'),
+(8, 8, 8, 1, '2018-12-16 18:00:36'),
+(9, 9, 9, 1, '2018-12-16 18:00:36'),
+(10, 10, 10, 1, '2018-12-16 18:00:36'),
+(11, 11, 1, 1, '2018-12-16 18:00:36'),
+(12, 12, 2, 1, '2018-12-16 18:00:36'),
+(13, 13, 3, 1, '2018-12-16 18:00:36'),
+(15, 1, 1, 4, '2018-12-16 18:00:36'),
+(16, 1, 2, 4, '2018-12-16 18:00:36'),
+(17, 2, 3, 4, '2018-12-16 18:00:36'),
+(18, 1, 1, 3, '2018-12-16 18:00:36'),
+(19, 2, 1, 3, '2018-12-16 18:00:36'),
+(20, 3, 1, 3, '2018-12-16 18:00:36'),
+(21, 1, 2, 3, '2018-12-16 18:00:36'),
 (22, 2, 3, 3, '2018-12-15 18:00:36');
 
 -- --------------------------------------------------------
