@@ -287,7 +287,7 @@ class admin_model extends CI_Model{
 		return $query->result();
 	}
 
-	// BRANCH FUNCTIONS
+	// ORDER FUNCTIONS
 
 	public function view_order($id){
 		$query = $this->db->query("
