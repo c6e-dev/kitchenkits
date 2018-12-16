@@ -48,6 +48,13 @@
       $(this).find('form')[0].reset();
       $('.alert').css('display', 'none');
     });
+
+    $("#demo").on("hide.bs.collapse", function(){
+    $(".btn").html('View History');
+    });
+    $("#demo").on("show.bs.collapse", function(){
+      $(".btn").html('Hide History');
+    });
     
     $('#btn_rcp_save').on('click', function(){
       var rcpname = $('#rcpnm').val();

@@ -358,6 +358,68 @@
               <i class="fa fa-clock-o bg-gray"></i>
             </li>
           </ul>
+          <button type="button" class="btn btn-xs btn-flat" data-target="#demo" data-toggle="collapse">View History</button>
+          <div style="height: 500px; overflow: auto;">
+            <div id="demo" class="collapse">
+              <ul class="timeline">
+                <?php 
+                  for ($i=1; $i <= 7 ; $i++) { 
+                    $prev_date = date('M d, Y', strtotime('-'.$i.' day',strtotime($current_date)));
+                    ?>
+                      <li class="time-label">
+                        <span class="bg-gray" style="color: gray;">
+                          <?php 
+                            echo $prev_date;
+                          ?>
+                        </span>
+                      </li>
+                    <?php
+                    foreach ($act_feed as $paf) {
+                      $new_date = date('M d, Y', strtotime($paf->fb_cdate));
+                      if ($new_date == $prev_date) {
+                        if ($paf->fb_type == 1) {
+                          ?>
+                            <li>
+                              <i class="fa fa-shopping-cart bg-blue"></i>
+                              <div class="timeline-item">
+                                <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($paf->fb_cdate));?></span>
+                                <h3 class="timeline-header"><a href="#"><?php echo $paf->fb_fname; ?> <?php echo $paf->fb_lname; ?></a> ordered <?php echo $paf->fb_recipe; ?></h3>
+                              </div>
+                            </li>
+                          <?php  
+                        }
+                        if ($paf->fb_type == 3) {
+                          ?>
+                            <li>
+                              <i class="fa fa-star bg-yellow"></i>
+                              <div class="timeline-item">
+                                <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($paf->fb_cdate));?></span>
+                                <h3 class="timeline-header"><a href="#"><?php echo $paf->fb_fname; ?> <?php echo $paf->fb_lname; ?></a> rated <?php echo $paf->fb_rating; ?> stars on <?php echo $paf->fb_recipe; ?></h3>
+                              </div>
+                            </li>
+                          <?php  
+                        }
+                        if ($paf->fb_type == 4) {
+                          ?>
+                            <li>
+                              <i class="fa fa-comment bg-red"></i>
+                              <div class="timeline-item">
+                                <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($paf->fb_cdate));?></span>
+                                <h3 class="timeline-header"><a href="#"><?php echo $paf->fb_fname; ?> <?php echo $paf->fb_lname; ?></a> commented on <?php echo $paf->fb_recipe; ?></h3>
+                                <div class="timeline-body">
+                                  <?php echo $paf->fb_comment; ?>
+                                </div>
+                              </div>
+                            </li>
+                          <?php  
+                        }
+                      }
+                    }
+                  }
+                ?>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </section>

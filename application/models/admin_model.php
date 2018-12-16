@@ -4,7 +4,7 @@ class admin_model extends CI_Model{
 		parent:: __construct();
 	}
 
-	// DATA TABLE FUNCTIONS 
+	// DATA TABLE FUNCTIONS
 
 	public function read_recipe(){
 		$query = $this->db->query("
@@ -129,8 +129,7 @@ class admin_model extends CI_Model{
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();
-		}
-		else{
+		}else{
 			return NULL;
 		}
 	}
@@ -182,7 +181,6 @@ class admin_model extends CI_Model{
 			return NULL;
 		}
 	}
-
 
 	// BRANCH FUNCTIONS
 
@@ -271,7 +269,7 @@ class admin_model extends CI_Model{
 		return $query->result();
 	}
 
-	// DELETE FUNCTIONS - Robert / 12-02-18
+	// DELETE FUNCTIONS
 
 	public function delete_recipe($id){
 		$this->db->query("
@@ -300,7 +298,7 @@ class admin_model extends CI_Model{
 	public function delete_manager($bm_id,$bm_uid){
 		$this->db->query("
 			UPDATE user u, branch_manager bm, branch br
-			SET u.status = 'I', bm.status = 'U', br.status = 'I'
+			SET u.status = 'I', bm.status = 'U', br.status = 'I', br.manager_id = 0
 			WHERE u.id = '$bm_uid' AND bm.user_id = '$bm_uid' AND br.manager_id = '$bm_id'
 		");
 	}
@@ -353,19 +351,19 @@ class admin_model extends CI_Model{
 		$this->db->insert('recipe', $data);
 	}
 
-	public function add_branch($branchdata){ // INCLUDE BRANCH CODE
+	public function add_branch($branchdata){
 		$this->db->insert('branch', $branchdata);
 	}
 
 	public function add_user_manager($mngrdata){
 		$this->db->insert('user', $mngrdata);
 	}
-	public function add_manager($managerdata){ // NEEDS A LOT OF WORK, FIND A WAY TO INCLUDE BRANCH_ID, BM_STATUS, USER/BM CODE
+	public function add_manager($managerdata){
 		$this->db->insert('branch_manager', $managerdata);
 	}
-	
-	// EDIT FUNCTIONS
 
+	// EDIT FUNCTIONS
+	
 	public function update_recipe($upt_date){
 		$name = $this->input->post('name');
 		$cooking_time = $this->input->post('cooktime');
@@ -479,7 +477,7 @@ class admin_model extends CI_Model{
 			SET br.manager_id = '$id', br.status = 'A', bm.status = 'A'
 			WHERE br.id = '$br_id' AND bm.id = '$id'
 		");
-	}	
+	}
 
 	// DASHBOARD FUNCTIONS - Robert / 12-02-18 - THIS MODULE IS SUBJECT TO FURTHER IMPROVEMENTS
 
@@ -492,7 +490,6 @@ class admin_model extends CI_Model{
 			LEFT JOIN comment co ON ua.id = co.activity_id
 			LEFT JOIN rating ra ON ua.id = ra.activity_id
 			ORDER BY ua.created_date DESC
-			
 		");
 		if($query->num_rows()>0){
 			return $query->result();
@@ -677,7 +674,7 @@ class admin_model extends CI_Model{
 		");
 		return $query->result();
 	}
-	
+
 	public function update_counter($val,$id){
 		$this->db->query("
 			UPDATE counter
@@ -711,7 +708,6 @@ class admin_model extends CI_Model{
 			return NULL;
 		}
 	}
-
 	public function country2($cid){
 		$query = $this->db->query("
 			SELECT co.name cnm, co.id cid
@@ -725,6 +721,6 @@ class admin_model extends CI_Model{
 			return NULL;
 		}
 	}
-
+	
 }
 

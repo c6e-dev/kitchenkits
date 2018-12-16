@@ -101,7 +101,7 @@
                                   if ($manager[0]->bm_status == 'A') {
                                     ?>
                                       <option value="<?php echo $manager[0]->br_id?>"><?php echo $manager[0]->br_name?></option>
-                                      <option value="0">none</option>
+                                      <option value="0">None</option>
                                       <?php 
                                         foreach ($ibranch as $ibm) {
                                           ?>
@@ -112,7 +112,7 @@
                                     <?php
                                   }else{
                                     ?>
-                                      <option value="0">none</option>
+                                      <option value="0">None</option>
                                       <?php
                                         foreach ($ibranch as $ibm) {
                                           ?>

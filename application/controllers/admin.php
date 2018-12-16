@@ -81,8 +81,8 @@ class admin extends CI_Controller {
 		$this->load->view('admin/read_feedback',$data);
 		$this->load->view('admin/layout/footer');
 	}
-
-	// VIEW FUNCTIONS 
+	
+	// VIEW FUNCTIONS
 
 	public function view_recipe($rcp_id,$co_id){
 		$data['recipe'] = $this->admin_model->view_recipe($rcp_id);
@@ -119,7 +119,6 @@ class admin extends CI_Controller {
 		$data['manager'] = $this->admin_model->view_manager($_GET['id']);
 		$data['ibranch'] = $this->admin_model->read_i_branch();
 		$this->load->view('admin/manager_view',$data);
-		// echo $manager[0]->;
 		$this->load->view('admin/layout/footer');
 	}
 
@@ -138,7 +137,7 @@ class admin extends CI_Controller {
 		$this->load->view('admin/layout/footer');
 	}
 
-	// DELETE FUNCTIONS 
+	// DELETE FUNCTIONS
 
 	public function delete_recipe(){
 		$this->admin_model->delete_recipe($_GET['id']);
@@ -207,7 +206,7 @@ class admin extends CI_Controller {
 		echo json_encode($response);
 	}
 
-	public function add_branch(){ 
+	public function add_branch(){
 		$response = array();
 		$this->form_validation->set_rules('name', 'Branch Name', 'required|is_unique[branch.name]',array(
 			'is_unique' => 'Branch Name Already Exists'
@@ -244,7 +243,7 @@ class admin extends CI_Controller {
 		echo json_encode($response);
 	}
 
-	public function add_manager(){ // IMPROVE
+	public function add_manager(){
 		$response = array();
 		$this->form_validation->set_rules('username', 'Username', 'required|is_unique[user.username]',array(
 			'is_unique' => 'Username Name Already Exists'

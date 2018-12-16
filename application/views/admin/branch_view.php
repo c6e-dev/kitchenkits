@@ -116,7 +116,7 @@
                                 <?php
                                   if ($branch[0]->mngr_id == 0) {
                                     ?>
-                                      <option value="0">none</option>
+                                      <option value="0">None</option>
                                       <?php 
                                         foreach ($b_manager as $bm) {
                                           ?>
@@ -128,7 +128,7 @@
                                   }else{
                                     ?>
                                       <option value="<?php echo $branch[0]->mngr_id; ?>"><?php echo $branch[0]->br_manager?></option>
-                                      <option value="0">none</option>
+                                      <option value="0">None</option>
                                       <?php
                                         foreach ($b_manager as $bm) {
                                           ?>

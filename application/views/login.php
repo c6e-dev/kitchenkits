@@ -4,23 +4,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Kitchen Kits | Log in</title>
-    <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-
     <link rel="apple-touch-icon" href="<?php echo base_url('assets/img/KKIcon.png');?>">
     <link rel="shortcut icon" href="<?php echo base_url('assets/img/KKIcon.png');?>">
-
-    <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="assets/bower_components/font-awesome/css/font-awesome.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="assets/bower_components/Ionicons/css/ionicons.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="assets/dist/css/AdminLTE.min.css">
-    <!-- iCheck -->
-    <link rel="stylesheet" href="assets/plugins/iCheck/square/blue.css">
-    <!-- Google Font -->
+    <link rel="stylesheet" href="<?php echo base_url('assets/bower_components/bootstrap/dist/css/bootstrap.min.css');?>">
+    <link rel="stylesheet" href="<?php echo base_url('assets/bower_components/font-awesome/css/font-awesome.min.css');?>">
+    <link rel="stylesheet" href="<?php echo base_url('assets/bower_components/Ionicons/css/ionicons.min.css');?>">
+    <link rel="stylesheet" href="<?php echo base_url('assets/dist/css/AdminLTE.min.css');?>">
+    <link rel="stylesheet" href="<?php echo base_url('assets/plugins/iCheck/square/blue.css');?>">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   </head>
   <body class="hold-transition login-page">
@@ -28,7 +19,6 @@
       <div class="login-logo">
         <a href="#"><b>Kitchen Kits</b></a>
       </div>
-      <!-- /.login-logo -->
       <div class="login-box-body">
         <p class="login-box-msg">Sign-In To Start Your Session</p>
         <?php
@@ -54,25 +44,20 @@
             <div class="col-xs-8">
               
             </div>
-            <!-- /.col -->
             <div class="col-xs-4">
               <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
             </div>
-            <!-- /.col -->
           </div>
         </form>
         <a href="<?php echo site_url('user/register_view'); ?>" class="text-center">Create An Account</a>
       </div>
-      <!-- /.login-box-body -->
     </div>
-  <!-- /.login-box -->
-
   <!-- jQuery 3 -->
-  <script src="assets/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="<?php echo base_url('assets/bower_components/jquery/dist/jquery.min.js');?>"></script>
   <!-- Bootstrap 3.3.7 -->
-  <script src="assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="<?php echo base_url('assets/bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
   <!-- iCheck -->
-  <script src="assets/plugins/iCheck/icheck.min.js"></script>
+  <script src="<?php echo base_url('assets/plugins/iCheck/icheck.min.js');?>"></script>
   <script>
     $(function () {
       $('input').iCheck({

@@ -3,40 +3,26 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 2 | Registration Page</title>
-  <!-- Tell the browser to be responsive to screen width -->
+  <title>Kitchen Kits | Sign Up</title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- Bootstrap 3.3.7 -->
+  <link rel="apple-touch-icon" href="<?php echo base_url('assets/img/KKIcon.png');?>">
+  <link rel="shortcut icon" href="<?php echo base_url('assets/img/KKIcon.png');?>">
   <link rel="stylesheet" href="<?php echo base_url('assets/bower_components/bootstrap/dist/css/bootstrap.min.css');?>">
-  <!-- Font Awesome -->
   <link rel="stylesheet" href="<?php echo base_url('assets/bower_components/font-awesome/css/font-awesome.min.css');?>">
-  <!-- Ionicons -->
   <link rel="stylesheet" href="<?php echo base_url('assets/bower_components/Ionicons/css/ionicons.min.css');?>">
-  <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url('assets/dist/css/AdminLTE.min.css');?>">
-  <!-- iCheck -->
   <link rel="stylesheet" href="<?php echo base_url('assets/plugins/iCheck/square/blue.css');?>">
-
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
-
-  <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 <body class="hold-transition register-page">
 <div class="register-box">
   <div class="register-logo">
-    <a href="../../index2.html"><b>Kitchen Kits</b></a>
+    <a href="#"><b>Kitchen Kits</b></a>
   </div>
-
   <div class="register-box-body">
     <p class="login-box-msg">Register a new account</p>
-
-    <form method="post" id="registrationform">
+    <?php echo validation_errors(); ?>
+    <form action="<?php echo site_url('user/register'.'?id=3'); ?>" method="post">
       <div class="form-group has-feedback">
         <input type="text" name="username" id="username" class="form-control" placeholder="Username">
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
@@ -61,9 +47,8 @@
           </div>
         </div>
       </div>
-      
       <div class="form-group has-feedback">
-        <input type="email" name="emailadd" id="emailaddr" class="form-control" placeholder="Email">
+        <input type="email" name="emailaddr" id="emailaddr" class="form-control" placeholder="Email">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
@@ -78,21 +63,14 @@
             </label>
           </div>
         </div>
-        <!-- /.col -->
         <div class="col-xs-4">
           <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
         </div>
-        <!-- /.col -->
       </div>
     </form>
-
-    
-
     <a href="<?php echo site_url('user'); ?>" class="text-center">I already have an account</a>
   </div>
-  <!-- /.form-box -->
 </div>
-<!-- /.register-box -->
 
 <!-- jQuery 3 -->
 <script src="<?php echo base_url('assets/bower_components/jquery/dist/jquery.min.js');?>"></script>
@@ -108,42 +86,6 @@
       increaseArea: '20%' /* optional */
     });
   });
-  // $('#changepasswordform').submit( function(){
-  //   var srnm = $('#username').val();
-  //   var pswrd = $('#password').val();
-  //   var cpswrd = $('#cpassword').val();
-  //   var fnm = $('#fname').val();
-  //   var lnm = $('#lname').val();
-  //   var mlddr = $('#emailaddr').val();
-  //   var hddrss = $('#haddress').val();
-  //   $.ajax({
-  //     url: "<?php echo site_url('user/register'); ?>",
-  //     method: 'POST',
-  //     data: {
-  //         username: srnm,
-  //         password: pswrd,
-  //         cpassword: cpswrd,
-  //         fnm: fname,
-  //         lnm: lname,
-  //         mlddr: emailaddr,
-  //         hddrss: haddress
-  //     },
-  //     dataType: 'JSON',
-  //     success: function(data){
-  //         if (data.status) {
-  //             alert("Password successfully updated!");
-              
-  //             // location.reload();
-  //         }else{
-  //             $('.alert').css('display', 'block');
-  //             $('.alert').html(data.notif);
-  //         }
-  //     },
-  //     error: function(){
-  //         alert('ERROR!');
-  //     }
-  //   });return false;
-  // });
 </script>
 </body>
 </html>
