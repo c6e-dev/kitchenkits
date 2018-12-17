@@ -13,7 +13,7 @@ class customer_model extends CI_Model{
 			SELECT cs.id AS cs_id,  cs.code AS cs_code, cs.first_name AS cs_fname, cs.last_name AS cs_lname, cs.image AS cs_image, cs.email_address AS cs_email, cs.home_address AS cs_address, u.id AS cs_uid, u.username AS cs_username, u.password AS cs_password, u.created_date AS cs_create, u.updated_date AS cs_update
 			FROM customer cs
 			INNER JOIN user u ON cs.user_id = u.id
-			WHERE cs.id = '$id'
+			WHERE u.id = '$id'
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();
@@ -31,8 +31,9 @@ class customer_model extends CI_Model{
 			INNER JOIN customer cs ON ua.customer_id = cs.id
 			LEFT JOIN comment co ON ua.id = co.activity_id
 			LEFT JOIN rating ra ON ua.id = ra.activity_id
+			INNER JOIN user u ON cs.user_id = u.id 
+			WHERE u.id = '$id' 
 			ORDER BY ua.created_date DESC
-			WHERE ua.customer_id = '$id' 
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();

@@ -67,136 +67,140 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <div class="box-header">
-            <i class="fa fa-history"></i>
-            <h3 class="box-title">Activity</h3>
-          </div>
-          <section class="content container-fluid">
-            <div class="row">
-              <div class="col-md-12">
-                <ul class="timeline">
-                  <li class="time-label">
-                    <span class="bg-green">
-                      <?php 
-                        $current_date = date('M d, Y');
-                        echo $current_date;
-                      ?>
-                    </span>
-                  </li>
-                  <?php
-                    if ($c_activity!=NULL) {
-                      foreach ($c_activity as $cact) {
-                        $new_date = date('M d, Y', strtotime($cact->fb_cdate));
-                        if ($new_date == $current_date) {
-                          if ($cact->fb_type == 1) {
-                            ?>
-                              <li>
-                                <i class="fa fa-shopping-cart bg-blue"></i>
-                                <div class="timeline-item">
-                                  <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($cact->fb_cdate));?></span>
-                                  <h3 class="timeline-header"><a href="#"><?php echo $cact->fb_fname; ?> <?php echo $cact->fb_lname; ?></a> ordered <?php echo $cact->fb_recipe; ?></h3>
-                                </div>
-                              </li>
-                            <?php  
-                          }
-                          if ($cact->fb_type == 3) {
-                            ?>
-                              <li>
-                                <i class="fa fa-star bg-yellow"></i>
-                                <div class="timeline-item">
-                                  <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($cact->fb_cdate));?></span>
-                                  <h3 class="timeline-header"><a href="#"><?php echo $cact->fb_fname; ?> <?php echo $cact->fb_lname; ?></a> rated <?php echo $cact->fb_rating; ?> stars on <?php echo $cact->fb_recipe; ?></h3>
-                                </div>
-                              </li>
-                            <?php  
-                          }
-                          if ($cact->fb_type == 4) {
-                            ?>
-                              <li>
-                                <i class="fa fa-comment bg-red"></i>
-                                <div class="timeline-item">
-                                  <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($cact->fb_cdate));?></span>
-                                  <h3 class="timeline-header"><a href="#"><?php echo $cact->fb_fname; ?> <?php echo $cact->fb_lname; ?></a> commented on <?php echo $cact->fb_recipe; ?></h3>
-                                  <div class="timeline-body">
-                                    <?php echo $cact->fb_comment; ?>
+          <div class="box box-solid">
+            <div class="box-header with-border">
+              <i class="fa fa-history"></i>
+              <h3 class="box-title">Activity</h3>
+            </div>
+            <section class="content container-fluid">
+              <div class="row">
+                <div class="col-md-12">
+                  <ul class="timeline">
+                    <li class="time-label">
+                      <span class="bg-green">
+                        <?php 
+                          $current_date = date('M d, Y');
+                          echo $current_date;
+                        ?>
+                      </span>
+                    </li>
+                    <?php
+                      if ($c_activity!=NULL) {
+                        foreach ($c_activity as $cact) {
+                          $new_date = date('M d, Y', strtotime($cact->fb_cdate));
+                          if ($new_date == $current_date) {
+                            if ($cact->fb_type == 1) {
+                              ?>
+                                <li>
+                                  <i class="fa fa-shopping-cart bg-blue"></i>
+                                  <div class="timeline-item">
+                                    <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($cact->fb_cdate));?></span>
+                                    <h3 class="timeline-header"><a href="#"><?php echo $cact->fb_fname; ?> <?php echo $cact->fb_lname; ?></a> ordered <?php echo $cact->fb_recipe; ?></h3>
                                   </div>
-                                </div>
-                              </li>
-                            <?php  
-                          }
-                        }
-                      }
-                    }
-                  ?>
-                  <li>
-                    <i class="fa fa-clock-o bg-gray"></i>
-                  </li>
-                </ul>
-                <button type="button" class="btn btn-xs btn-flat" data-target="#demo" data-toggle="collapse">View History</button>
-                <div style="height: 400px; overflow: auto;">
-                  <div id="demo" class="collapse">
-                    <ul class="timeline">
-                      <?php 
-                        for ($i=1; $i <= 7 ; $i++) { 
-                          $prev_date = date('M d, Y', strtotime('-'.$i.' day',strtotime($current_date)));
-                          ?>
-                            <li class="time-label">
-                              <span class="bg-gray" style="color: gray;">
-                                <?php 
-                                  echo $prev_date;
-                                ?>
-                              </span>
-                            </li>
-                          <?php
-                          foreach ($c_activity as $pcact) {
-                            $new_date = date('M d, Y', strtotime($pcact->fb_cdate));
-                            if ($new_date == $prev_date) {
-                              if ($pcact->fb_type == 1) {
-                                ?>
-                                  <li>
-                                    <i class="fa fa-shopping-cart bg-blue"></i>
-                                    <div class="timeline-item">
-                                      <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($pcact->fb_cdate));?></span>
-                                      <h3 class="timeline-header"><a href="#"><?php echo $pcact->fb_fname; ?> <?php echo $pcact->fb_lname; ?></a> ordered <?php echo $pcact->fb_recipe; ?></h3>
+                                </li>
+                              <?php  
+                            }
+                            if ($cact->fb_type == 3) {
+                              ?>
+                                <li>
+                                  <i class="fa fa-star bg-yellow"></i>
+                                  <div class="timeline-item">
+                                    <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($cact->fb_cdate));?></span>
+                                    <h3 class="timeline-header"><a href="#"><?php echo $cact->fb_fname; ?> <?php echo $cact->fb_lname; ?></a> rated <?php echo $cact->fb_rating; ?> stars on <?php echo $cact->fb_recipe; ?></h3>
+                                  </div>
+                                </li>
+                              <?php  
+                            }
+                            if ($cact->fb_type == 4) {
+                              ?>
+                                <li>
+                                  <i class="fa fa-comment bg-red"></i>
+                                  <div class="timeline-item">
+                                    <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($cact->fb_cdate));?></span>
+                                    <h3 class="timeline-header"><a href="#"><?php echo $cact->fb_fname; ?> <?php echo $cact->fb_lname; ?></a> commented on <?php echo $cact->fb_recipe; ?></h3>
+                                    <div class="timeline-body">
+                                      <?php echo $cact->fb_comment; ?>
                                     </div>
-                                  </li>
-                                <?php  
-                              }
-                              if ($pcact->fb_type == 3) {
-                                ?>
-                                  <li>
-                                    <i class="fa fa-star bg-yellow"></i>
-                                    <div class="timeline-item">
-                                      <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($pcact->fb_cdate));?></span>
-                                      <h3 class="timeline-header"><a href="#"><?php echo $pcact->fb_fname; ?> <?php echo $pcact->fb_lname; ?></a> rated <?php echo $pcact->fb_rating; ?> stars on <?php echo $pcact->fb_recipe; ?></h3>
-                                    </div>
-                                  </li>
-                                <?php  
-                              }
-                              if ($pcact->fb_type == 4) {
-                                ?>
-                                  <li>
-                                    <i class="fa fa-comment bg-red"></i>
-                                    <div class="timeline-item">
-                                      <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($pcact->fb_cdate));?></span>
-                                      <h3 class="timeline-header"><a href="#"><?php echo $pcact->fb_fname; ?> <?php echo $pcact->fb_lname; ?></a> commented on <?php echo $pcact->fb_recipe; ?></h3>
-                                      <div class="timeline-body">
-                                        <?php echo $pcact->fb_comment; ?>
-                                      </div>
-                                    </div>
-                                  </li>
-                                <?php  
-                              }
+                                  </div>
+                                </li>
+                              <?php  
                             }
                           }
                         }
-                      ?>
-                    </ul>
+                      }
+                    ?>
+                    <li>
+                      <i class="fa fa-clock-o bg-gray"></i>
+                    </li>
+                  </ul>
+                  <br>
+                  <button type="button" class="btn btn-sm bg-purple btn-flat active" data-target="#demo" data-toggle="collapse" style="margin: 0px 5px 10px 0px">View History</button>
+                  <hr>
+                  <div style="height: 400px; overflow: auto;">
+                    <div id="demo" class="collapse">
+                      <ul class="timeline">
+                        <?php 
+                          for ($i=1; $i <= 7 ; $i++) { 
+                            $prev_date = date('M d, Y', strtotime('-'.$i.' day',strtotime($current_date)));
+                            ?>
+                              <li class="time-label">
+                                <span class="bg-gray" style="color: gray;">
+                                  <?php 
+                                    echo $prev_date;
+                                  ?>
+                                </span>
+                              </li>
+                            <?php
+                            foreach ($c_activity as $pcact) {
+                              $new_date = date('M d, Y', strtotime($pcact->fb_cdate));
+                              if ($new_date == $prev_date) {
+                                if ($pcact->fb_type == 1) {
+                                  ?>
+                                    <li>
+                                      <i class="fa fa-shopping-cart bg-blue"></i>
+                                      <div class="timeline-item">
+                                        <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($pcact->fb_cdate));?></span>
+                                        <h3 class="timeline-header"><a href="#"><?php echo $pcact->fb_fname; ?> <?php echo $pcact->fb_lname; ?></a> ordered <?php echo $pcact->fb_recipe; ?></h3>
+                                      </div>
+                                    </li>
+                                  <?php  
+                                }
+                                if ($pcact->fb_type == 3) {
+                                  ?>
+                                    <li>
+                                      <i class="fa fa-star bg-yellow"></i>
+                                      <div class="timeline-item">
+                                        <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($pcact->fb_cdate));?></span>
+                                        <h3 class="timeline-header"><a href="#"><?php echo $pcact->fb_fname; ?> <?php echo $pcact->fb_lname; ?></a> rated <?php echo $pcact->fb_rating; ?> stars on <?php echo $pcact->fb_recipe; ?></h3>
+                                      </div>
+                                    </li>
+                                  <?php  
+                                }
+                                if ($pcact->fb_type == 4) {
+                                  ?>
+                                    <li>
+                                      <i class="fa fa-comment bg-red"></i>
+                                      <div class="timeline-item">
+                                        <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($pcact->fb_cdate));?></span>
+                                        <h3 class="timeline-header"><a href="#"><?php echo $pcact->fb_fname; ?> <?php echo $pcact->fb_lname; ?></a> commented on <?php echo $pcact->fb_recipe; ?></h3>
+                                        <div class="timeline-body">
+                                          <?php echo $pcact->fb_comment; ?>
+                                        </div>
+                                      </div>
+                                    </li>
+                                  <?php  
+                                }
+                              }
+                            }
+                          }
+                        ?>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </section>
+            </section>
+          </div>
         </div>
       </div>
       <div class="row">

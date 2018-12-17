@@ -79,12 +79,9 @@
                         <span aria-hidden="true">&times;</span></button>
                       <h4 class="modal-title"><strong>Edit <?php echo $manager[0]->bm_code?></strong></h4>
                     </div>
-                    <form class="form-horizontal">
+                    <form>
                       <div class="modal-body">
                         <div class="box-body">
-                          <div class="form-group">
-                            <div class="alert alert-danger" align="center" style="display: none;"></div>
-                          </div>
                           <div class="row form-group">
                             <label class="col-md-1 control-label">Name</label>
                             <label class="col-md-1"></label>
@@ -101,7 +98,7 @@
                                   if ($manager[0]->bm_status == 'A') {
                                     ?>
                                       <option value="<?php echo $manager[0]->br_id?>"><?php echo $manager[0]->br_name?></option>
-                                      <option value="0">None</option>
+                                      <option value="0">none</option>
                                       <?php 
                                         foreach ($ibranch as $ibm) {
                                           ?>
@@ -112,7 +109,7 @@
                                     <?php
                                   }else{
                                     ?>
-                                      <option value="0">None</option>
+                                      <option value="0">none</option>
                                       <?php
                                         foreach ($ibranch as $ibm) {
                                           ?>

@@ -20,7 +20,7 @@
     <a href="#"><b>Kitchen Kits</b></a>
   </div>
   <div class="register-box-body">
-    <p class="login-box-msg">Register a new account</p>
+    <p class="login-box-msg">Register A New Account</p>
     <?php echo validation_errors(); ?>
     <form action="<?php echo site_url('user/register'.'?id=3'); ?>" method="post">
       <div class="form-group has-feedback">
@@ -59,7 +59,7 @@
         <div class="col-xs-8">
           <div class="checkbox icheck">
             <label>
-              <input type="checkbox"> I agree to the <a href="#">terms</a>
+              <input type="checkbox"> I Agree To The <a href="#">Terms</a>
             </label>
           </div>
         </div>
@@ -68,7 +68,7 @@
         </div>
       </div>
     </form>
-    <a href="<?php echo site_url('user'); ?>" class="text-center">I already have an account</a>
+    <a href="<?php echo site_url('user'); ?>" class="text-center">I Already Have An Account</a>
   </div>
 </div>
 

@@ -18,7 +18,7 @@
 		<div class="collapse navbar-collapse justify-content-md-center w-100" id="navbarNav">
 			<ul class="navbar-nav text-center">
 				<li class="nav-item active">
-					<a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
+					<a class="nav-link" href="#">Home<span class="sr-only">(Current)</span></a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#">Menu</a>

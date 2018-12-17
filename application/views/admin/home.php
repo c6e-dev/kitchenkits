@@ -276,8 +276,8 @@
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div id="customer_tri">
-            <a href="<?php echo site_url('admin/customer_view');?>">
+          <div>
+            <a href="#">
               <div class="small-box bg-purple">
                 <div class="inner">
                   <h3><?php echo " ".$logged_in[0]->li?></h3>
@@ -358,7 +358,9 @@
               <i class="fa fa-clock-o bg-gray"></i>
             </li>
           </ul>
-          <button type="button" class="btn btn-xs btn-flat" data-target="#demo" data-toggle="collapse">View History</button>
+          <br>
+          <button type="button" class="btn btn-sm bg-purple btn-flat active" data-target="#demo" data-toggle="collapse">View History</button>
+          <hr>
           <div style="height: 500px; overflow: auto;">
             <div id="demo" class="collapse">
               <ul class="timeline">

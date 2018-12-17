@@ -91,15 +91,12 @@
                         <span aria-hidden="true">&times;</span></button>
                       <h4 class="modal-title"><strong>Edit Recipe <?php echo $recipe[0]->re_id;?></strong></h4>
                     </div>
-                    <form class="form-horizontal">
+                    <form>
                       <div class="modal-body">
                         <div class="box-body">
-                          <div class="form-group">
-                            <div class="alert alert-danger" align="center" style="display: none;"></div>
-                          </div>
                           <div class="row form-group">
-                            <label class="col-md-1 control-label">Name</label>
-                            <div class="col-md-11"><input type="text" name="upt_rcpnm" id="upt_rcpnm" class="form-control input-sm" value="<?php echo $recipe[0]->re_nm;?>"></div>
+                            <label class="col-md-2 control-label">Name</label>
+                            <div class="col-md-10"><input type="text" name="upt_rcpnm" id="upt_rcpnm" class="form-control input-sm" value="<?php echo $recipe[0]->re_nm;?>"></div>
                           </div>
                           <div class="row form-group" style="margin-bottom: 25px">
                             <div class="col-md-4">
