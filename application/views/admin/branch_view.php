@@ -90,12 +90,12 @@
                         <span aria-hidden="true">&times;</span></button>
                       <h4 class="modal-title"><strong>Edit <?php echo $branch[0]->br_code?></strong></h4>
                     </div>
-                    <form>
+                    <form class="form-horizontal">
                       <div class="modal-body">
                         <div class="box-body">
-                          <!-- <div class="form-group">
+                          <div class="form-group">
                             <div class="alert alert-danger" align="center" style="display: none;"></div>
-                          </div> -->
+                          </div>
                           <div class="row form-group">
                             <label class="col-md-1 control-label">Name</label>
                             <label class="col-md-1"></label>
@@ -116,7 +116,7 @@
                                 <?php
                                   if ($branch[0]->mngr_id == 0) {
                                     ?>
-                                      <option value="0">none</option>
+                                      <option value="0">None</option>
                                       <?php 
                                         foreach ($b_manager as $bm) {
                                           ?>
@@ -128,7 +128,7 @@
                                   }else{
                                     ?>
                                       <option value="<?php echo $branch[0]->mngr_id; ?>"><?php echo $branch[0]->br_manager?></option>
-                                      <option value="0">none</option>
+                                      <option value="0">None</option>
                                       <?php
                                         foreach ($b_manager as $bm) {
                                           ?>
