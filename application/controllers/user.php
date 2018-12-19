@@ -83,7 +83,7 @@ class user extends CI_Controller {
 			);
 			$this->user_model->add_customer($customerdata);
 			redirect();
-			// $customer_id = $this->db->insert_id();
+			// $customer_id = $this->db->insert_id(); //don't delete
 			// $_SESSION = array( 
 			// 	'id' => $customer_id, 
 			// 	'username' => str_replace("'","’",$_POST['username']), 

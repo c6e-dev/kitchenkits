@@ -37,8 +37,8 @@
     <!-- Main content -->
     <section class="content container-fluid">
       <div>
-        <a class="btn btn-sm bg-purple btn-flat active" data-toggle="tab" href="#active" role="tab" style="margin: 0px 5px 10px 0px">Active Customers</a>
-        <a class="btn btn-sm bg-purple btn-flat" data-toggle="tab" href="#inactive" role="tab" style="margin: 0px 5px 10px 0px">Inactive Customers</a>
+        <button type="button" class="btn btn-sm bg-purple btn-flat active" data-toggle="tab" data-target="#active" role="tab" style="margin: 0px 5px 10px 0px">Active Customers</button>
+        <button type="button" class="btn btn-sm bg-purple btn-flat" data-toggle="tab" data-target="#inactive" role="tab" style="margin: 0px 5px 10px 0px">Inactive Customers</button>
       </div>
       <div class="box">
         <div class="box-body table-responsive">
@@ -72,7 +72,7 @@
                             <td><center>
                               <a href="<?php echo site_url('admin/view_customer'.'?id='.$cs->cs_id);?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
                               <?php echo'
-                              <a href="#" class="btn btn-xs btn-danger" data-target="#deaccust'.$cs->cs_id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-trash"></i></a>';?>
+                              <button type="button" class="btn btn-xs btn-danger" data-target="#deaccust'.$cs->cs_id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-trash"></i></button>';?>
                             </center></td>
                           </tr>
                           <div class="container">
@@ -131,7 +131,7 @@
                             <td><center>
                               <a href="<?php echo site_url('admin/view_customer'.'?id='.$cs->cs_id);?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
                               <?php echo'
-                              <a href="#" class="btn btn-xs btn-success" data-target="#accust'.$cs->cs_id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-power-off"></i></a>';?>
+                              <button type="button" class="btn btn-xs btn-success" data-target="#accust'.$cs->cs_id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-power-off"></i></button>';?>
                             </center></td>
                           </tr>
                           <div class="container">

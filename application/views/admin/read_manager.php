@@ -36,9 +36,9 @@
     <!-- Main content -->
     <section class="content container-fluid">
       <div>
-        <button href="#" class="btn btn-sm bg-purple btn-flat" style="margin: 0px 5px 10px 0px" data-toggle="modal" data-target="#addmanager" data-backdrop="static"><i class="fa fa-plus-circle"></i> </button>
-        <button class="btn btn-sm bg-purple btn-flat active" data-toggle="tab" href="#active" role="tab" style="margin: 0px 5px 10px 0px">Active Managers</button>
-        <button class="btn btn-sm bg-purple btn-flat" data-toggle="tab" href="#inactive" role="tab" style="margin: 0px 5px 10px 0px">Inactive Managers</button>
+        <button type="button" class="btn btn-sm bg-purple btn-flat" style="margin: 0px 5px 10px 0px" data-toggle="modal" data-target="#addmanager" data-backdrop="static"><i class="fa fa-plus-circle"></i> </button>
+        <button type="button" class="btn btn-sm bg-purple btn-flat active" data-toggle="tab" data-target="#active" role="tab" style="margin: 0px 5px 10px 0px">Active Managers</button>
+        <button type="button" class="btn btn-sm bg-purple btn-flat" data-toggle="tab" data-target="#inactive" role="tab" style="margin: 0px 5px 10px 0px">Inactive Managers</button>
       </div>
       <div class="box">
         <div class="box-body table-responsive">
@@ -73,7 +73,7 @@
                                 <a href="<?php echo site_url('admin/view_manager'.'?id='.$bm->bm_id);?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
                                 <!-- <a href="#" class="btn btn-xs btn-warning" data-target="" data-toggle="modal" data-backdrop="static"><i class="fa fa-edit"></i></a> -->
                                 <?php echo'
-                                <a href="#" class="btn btn-xs btn-danger" data-target="#deacman'.$bm->bm_uid.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-trash"></i></a>';?>
+                                <button type="button" class="btn btn-xs btn-danger" data-target="#deacman'.$bm->bm_uid.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-trash"></i></button>';?>
                               </center></td>
                             </tr>
                           <?php
@@ -135,7 +135,7 @@
                               <a href="<?php echo site_url('admin/view_manager'.'?id='.$bm->bm_id);?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
                               <!-- <a href="#" class="btn btn-xs btn-warning" data-target="" data-toggle="modal" data-backdrop="static"><i class="fa fa-edit"></i></a> -->
                               <?php echo'
-                              <a href="#" class="btn btn-xs btn-success" data-target="#acman'.$bm->bm_uid.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-power-off"></i></a>';?>
+                              <button type="button" class="btn btn-xs btn-success" data-target="#acman'.$bm->bm_uid.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-power-off"></i></button>';?>
                             </center></td>
                           </tr>
                           <div class="container">

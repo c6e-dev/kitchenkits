@@ -43,9 +43,29 @@ class customer_model extends CI_Model{
 		}
 	}
 
+	public function view_recent_order($id){
+		$query = $this->db->query("
+			SELECT ua.created_date cdate, tr.total_cost total, re.name rname
+			FROM order_content oc
+			INNER JOIN delivery de ON oc.order_id = de.id
+			INNER JOIN recipe re ON oc.recipe_id = re.id
+			INNER JOIN customer cu ON de.customer_id = cu.id
+			INNER JOIN branch br ON de.branch_id = br.id
+			INNER JOIN transaction tr ON de.id = tr.order_id
+			INNER JOIN user_activity ua ON de.activity_id = ua.id
+			WHERE de.customer_id = '$id' AND de.status = 'C'
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
 	//EDIT FUNCTIONS
 
-	public function edit_profile(){ //ADD IMAGE 
+	public function edit_profile($upt_date){ //ADD IMAGE 
 		$customer_id = $this->input->post('cs_id');
 		$user_id = $this->input->post('u_id');
 		$first_name = $this->input->post('cs_fname');
@@ -55,8 +75,18 @@ class customer_model extends CI_Model{
 		$username = $this->input->post('cs_username');
 		$this->db->query("
 			UPDATE customer cs, user u
-			SET cs.first_name = '$first_name', cs.last_name = '$last_name', cs.home_address = '$home_address', cs.email_address = '$email_address', u.username = '$username'
+			SET cs.first_name = '$first_name', cs.last_name = '$last_name', cs.home_address = '$home_address', cs.email_address = '$email_address', u.username = '$username', u.updated_date = '$upt_date'
 			WHERE cs.id ='$customer_id' AND u.id = '$user_id'
+		");
+	}
+
+	public function edit_password($upt_date){
+		$password = $this->input->post('new_password');
+		$user_id = $this->input->post('user_id');
+		$this->db->query("
+			UPDATE user u
+			SET u.password = '$password', u.updated_date = '$upt_date' 
+			WHERE u.id = '$user_id'
 		");
 	}
 
@@ -65,7 +95,7 @@ class customer_model extends CI_Model{
 	public function view_cart($id){
 		$query = $this->db->query("
 			SELECT re.name AS re_name, re.price AS re_price, ai.ingredient_amount AS re_amount, ig.name = re_additional
-			FROM delivery o
+			FROM delivery od
 			INNER JOIN order_content oc ON oc.order_id = od.id
 			INNER JOIN recipe re ON oc.recipe_id = re.id
 			INNER JOIN add_ingredient ai ON ai.order_id = od.id  
@@ -79,6 +109,18 @@ class customer_model extends CI_Model{
 		else{
 			return NULL;
 		}
+	}
+
+	//Checker
+
+	public function user_check($id){
+		$query = $this->db->query("
+			SELECT c.email_address cemail, u.username usrnm
+			FROM customer c
+			INNER JOIN user u ON c.user_id = u.id
+			WHERE c.user_id = '$id' AND u.id = '$id'
+		");
+		return $query->result();
 	}
 
 }

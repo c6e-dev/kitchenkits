@@ -23,8 +23,8 @@
 <script src="<?php echo base_url('assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js');?>"></script>
 <!-- FastClick -->
 <script src="<?php echo base_url('assets/plugins/iCheck/icheck.min.js');?>"></script>
+<!-- <script src="<?php echo base_url('assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js');?>"></script> -->
 <script src="<?php echo base_url('assets/bower_components/fastclick/lib/fastclick.js');?>"></script>
-
 <!-- AdminLTE App -->
 <script src="<?php echo base_url('assets/dist/js/adminlte.min.js');?>"></script>
 <script src="<?php echo base_url('assets/dist/js/demo.js');?>"></script>
@@ -49,13 +49,18 @@
       $('.alert').css('display', 'none');
     });
 
-    $("#demo").on("hide.bs.collapse", function(){
-    $(".btn").html('View History');
+    $("#history").on("hide.bs.collapse", function(){
+    $("#3gr").html('View History');
     });
-    $("#demo").on("show.bs.collapse", function(){
-      $(".btn").html('Hide History');
+
+    $("#history").on("show.bs.collapse", function(){
+      $("#3gr").html('Hide History');
     });
     
+    // $('#chat-box').slimScroll({
+    //   height: '500px'
+    // }); 
+
     $('#btn_rcp_save').on('click', function(){
       var rcpname = $('#rcpnm').val();
       var cooktime = $('#ctime').val();

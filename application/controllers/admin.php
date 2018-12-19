@@ -186,10 +186,10 @@ class admin extends CI_Controller {
 	public function create_recipe(){
 		$response = array();
 		$this->form_validation->set_rules('name', 'Recipe Name', 'required|is_unique[recipe.name]',array(
-			'is_unique' => 'Recipe Name already exist!'
+			'is_unique' => '%s already exist!'
 		));
 		$this->form_validation->set_rules('servings', 'Servings', 'numeric',array(
-			'numeric' => 'Number of Servings not valid!'
+			'numeric' => 'Number of %s not valid!'
 		));
 		$this->form_validation->set_rules('price', 'Recipe Price', 'numeric',array(
 			'numeric' => 'Value of Price not valid!'
@@ -209,7 +209,7 @@ class admin extends CI_Controller {
 	public function add_branch(){
 		$response = array();
 		$this->form_validation->set_rules('name', 'Branch Name', 'required|is_unique[branch.name]',array(
-			'is_unique' => 'Branch Name Already Exists'
+			'is_unique' => '%s Already Exists'
 		));
 		$this->form_validation->set_rules('braddress', 'Branch Address', 'required');
 		if ($this->form_validation->run() == TRUE) {
@@ -246,7 +246,7 @@ class admin extends CI_Controller {
 	public function add_manager(){
 		$response = array();
 		$this->form_validation->set_rules('username', 'Username', 'required|is_unique[user.username]',array(
-			'is_unique' => 'Username Name Already Exists'
+			'is_unique' => '%s Already Exists'
 		));
 		$this->form_validation->set_rules('password', 'Password', 'required');
 		$this->form_validation->set_rules('cpassword', 'Confirm Password', 'matches[password]',array(
@@ -293,7 +293,7 @@ class admin extends CI_Controller {
 	public function update_recipe(){
 		$response = array();
 		$this->form_validation->set_rules('servings', 'Servings', 'numeric',array(
-			'numeric' => 'Number of Servings not valid!'
+			'numeric' => 'Number of %s not valid!'
 		));
 		$this->form_validation->set_rules('price', 'Recipe Price', 'numeric',array(
 			'numeric' => 'Value of Price not valid!'

@@ -25,10 +25,17 @@
 
 <script>
   $(function(){
-
     $('.modal').on('hidden.bs.modal', function(){
       $(this).find('form')[0].reset();
       $('.alert').css('display', 'none');
+    });
+
+    $("#history").on("hide.bs.collapse", function(){
+    $("#3gr").html('View History');
+    });
+
+    $("#history").on("show.bs.collapse", function(){
+      $("#3gr").html('Hide History');
     });
 
     $('#edit_profile').on('click', function(){
@@ -43,13 +50,13 @@
           type: 'post',
           url: "<?php echo site_url('customer/edit_profile'); ?>",
           data: {
+              cs_username: cs_username,
               cs_fname: cs_fname,
               cs_lname: cs_lname,
               cs_address: cs_address,
               cs_email : cs_email,
               cs_id: cs_id,
               u_id: u_id
-
           },
           dataType: 'JSON',
           success: function(data){
@@ -57,6 +64,39 @@
                   alert("Profile Successfully Updated");
                   location.reload();
                   $('#edit_profile').modal('hide');
+              }else{
+                  $('.alert').css('display', 'block');
+                  $('.alert').html(data.notif);
+              }
+          },
+          error: function(){
+            alert('ERROR!');
+          }
+      });return false;
+    });
+
+    $('#save_change_pass').on('click', function(){
+      var curr_pass = $('#curr_pass').val();
+      var new_pass = $('#new_pass').val();
+      var conf_pass = $('#conf_pass').val();
+      var u_id = $('#u_id').val();
+      var curr = $('#curr').val();
+      $.ajax({
+          type: 'post',
+          url: "<?php echo site_url('customer/edit_password'); ?>",
+          data: {
+              curr_password: curr_pass,
+              new_password: new_pass,
+              cpassword: conf_pass,
+              user_id: u_id,
+              password: curr
+          },
+          dataType: 'JSON',
+          success: function(data){
+              if (data.status) {
+                  alert("Password Successfully Updated");
+                  location.reload();
+                  $('#change_pass').modal('hide');
               }else{
                   $('.alert').css('display', 'block');
                   $('.alert').html(data.notif);

@@ -36,8 +36,8 @@
     <!-- Main content -->
     <section class="content container-fluid">
       <div>
-        <a class="btn btn-sm bg-purple btn-flat active" data-toggle="tab" href="#incomplete" role="tab" style="margin: 0px 5px 10px 0px">Incomplete Orders</a>
-        <a class="btn btn-sm bg-purple btn-flat" data-toggle="tab" href="#complete" role="tab" style="margin: 0px 5px 10px 0px">Complete Orders</a>
+        <button type="button" class="btn btn-sm bg-purple btn-flat active" data-toggle="tab" data-target="#incomplete" role="tab" style="margin: 0px 5px 10px 0px">Incomplete Orders</button>
+        <button type="button" class="btn btn-sm bg-purple btn-flat" data-toggle="tab" data-target="#complete" role="tab" style="margin: 0px 5px 10px 0px">Complete Orders</button>
       </div>
       <div class="box">
         <div class="box-body table-responsive">

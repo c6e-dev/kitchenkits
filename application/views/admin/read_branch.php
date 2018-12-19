@@ -36,9 +36,9 @@
     <!-- Main content -->
     <section class="content container-fluid">
       <div>
-        <button href="#" class="btn btn-sm bg-purple btn-flat" style="margin: 0px 5px 10px 0px" data-toggle="modal" data-target="#addbranch" data-backdrop="static"><i class="fa fa-plus-circle"></i> </button>
-        <button class="btn btn-sm bg-purple btn-flat active" data-toggle="tab" href="#active" role="tab" style="margin: 0px 5px 10px 0px">Active Branches</button>
-        <button class="btn btn-sm bg-purple btn-flat" data-toggle="tab" href="#inactive" role="tab" style="margin: 0px 5px 10px 0px">Inactive Branches</button>
+        <button type="button" class="btn btn-sm bg-purple btn-flat" style="margin: 0px 5px 10px 0px" data-toggle="modal" data-target="#addbranch" data-backdrop="static"><i class="fa fa-plus-circle"></i> </button>
+        <button type="button" class="btn btn-sm bg-purple btn-flat active" data-toggle="tab" data-target="#active" role="tab" style="margin: 0px 5px 10px 0px">Active Branches</button>
+        <button type="button" class="btn btn-sm bg-purple btn-flat" data-toggle="tab" data-target="#inactive" role="tab" style="margin: 0px 5px 10px 0px">Inactive Branches</button>
       </div>
       <div class="box">
         <div class="box-body table-responsive">
@@ -73,7 +73,7 @@
                               <a href="<?php echo site_url('admin/view_branch'.'?id='.$br->br_id);?>" class="btn btn-xs btn-info"><i  class="fa fa-search"></i></a>
                               <!-- <a href="#" class="btn btn-xs btn-warning" data-target="" data-toggle="modal" data-backdrop="static"><i class="fa fa-edit"></i></a> -->
                               <?php echo'
-                              <a href="#" class="btn btn-xs btn-danger" data-target="#deacbran'.$br->br_id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-trash"></i></a>';?>
+                              <button type="button" class="btn btn-xs btn-danger" data-target="#deacbran'.$br->br_id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-trash"></i></button>';?>
                             </center></td>
                           </tr>
 
@@ -216,7 +216,7 @@
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="submit" id="btn_bradd_save" class="btn btn-sm btn-primary">Save</button>
+                  <button type="button" id="btn_bradd_save" class="btn btn-sm btn-primary">Save</button>
                   <button type="button" class="btn btn-sm" data-dismiss="modal">Close</button>
                 </div>
               </form>
