@@ -20,12 +20,22 @@
   
   <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
   <link rel="stylesheet" href="<?php echo base_url('assets/css/login_style.css')?>">
+  <style>
+    .bg-image {
+      background-image: url(<?php echo base_url('assets/img/Kitchen_BG.jpg');?>);
+      
+      
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+  </style>
 </head>
 
-<body style="background: url('assets/img/Kitchen_BG.jpg'); background-repeat: no-repeat; background-size: cover;">
+<body class="bg-image">
   
 <div class="container">
-   <section id="formHolder" style="margin-top: 50px">
+   <section id="formHolder" >
       <div class="row">
          <div class="col-sm-6 brand">
             <!-- <a href="<?php echo base_url('home'); ?>" class="logo">Home</a> -->
@@ -39,8 +49,10 @@
          </div>
          <div class="col-sm-6 form">
             <div class="signup form-piece">
-              <?php echo validation_errors(); ?>
               <form action="<?php echo site_url('user/register'.'?id=3'); ?>" method="post">
+                <div style="font-size: 12px; color: red; text-align: center;">
+                  <?php echo validation_errors(); ?>
+                </div>
                 <div class="form-group has-feedback">
                   <input type="text" name="username" id="username" class="" placeholder="Username">
                   <span class="glyphicon glyphicon-user form-control-feedback"></span>
@@ -93,9 +105,9 @@
 
 
    <footer>
-      <!-- <p style="color:white"> -->
+      <!-- <p style="color:white"> #e85842-->
       <p>
-        <a>Kitchen Kits &copy;2018</a>
+        <a style="color: white">Kitchen Kits &copy; 2018</a>
       </p>
    </footer>
 

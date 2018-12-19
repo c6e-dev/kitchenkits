@@ -20,12 +20,22 @@
 
   <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
   <link rel="stylesheet" href="<?php echo base_url('assets/css/login_style.css')?>">
+  <style>
+    .bg-image {
+      background-image: url(<?php echo base_url('assets/img/Kitchen_BG.jpg');?>);
+      
+      height: 100%; 
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+  </style>
 </head>
 
-<body style="background: url('assets/img/Kitchen_BG.jpg'); background-repeat: no-repeat; background-size: cover;">
+<body class="bg-image">
   
 <div class="container">
-   <section id="formHolder" style="margin-top: 50px">
+   <section id="formHolder">
       <div class="row">
          <div class="col-sm-6 brand"> <!-- Brand Box -->
             <!-- <a href="<?php echo base_url('home'); ?>" class="logo">Home</a> -->
@@ -44,7 +54,7 @@
                   $error_msg = $this->session->flashdata('error_msg');
                   if ($error_msg) {
                     ?>
-                      <div style="font-size: 12px; margin-bottom: 12px; color: gray">
+                      <div style="font-size: 12px; color: red; text-align: center;">
                         <?php echo $error_msg; ?>
                       </div>
                     <?php
@@ -75,7 +85,7 @@
    </section>
    <footer>
       <p>
-        <a>Kitchen Kits &copy;2018</a>
+        <a style="color: white">Kitchen Kits &copy; 2018</a>
       </p>
    </footer>
 </div>
