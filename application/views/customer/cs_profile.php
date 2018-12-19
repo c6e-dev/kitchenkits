@@ -9,7 +9,7 @@
   <!-- Main content -->
   <section class="content" style="margin-left: 15px">
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-4">
         <div class="box">
           <div class="box-body box-profile">
             <img class="profile-user-img img-responsive img-circle" src="<?php echo base_url('assets/dist/img/user2-160x160.jpg');?>" alt="User profile picture">
@@ -74,7 +74,7 @@
         </div>
       </div>
 
-      <div class="col-md-9">
+      <div class="col-md-8">
         <div class="col-md-12">
           <div class="box box-solid">
             <div class="box-header with-border">
