@@ -36,9 +36,9 @@
     <!-- Main content -->
     <section class="content container-fluid">
       <div>
-        <a href="#" class="btn btn-sm bg-purple btn-flat" style="margin: 0px 5px 10px 0px" data-toggle="modal" data-target="#addbranch" data-backdrop="static"><i class="fa fa-plus-circle"></i> </a>
-        <a class="btn btn-sm bg-purple btn-flat active" data-toggle="tab" href="#active" role="tab" style="margin: 0px 5px 10px 0px">Active Branches</a>
-        <a class="btn btn-sm bg-purple btn-flat" data-toggle="tab" href="#inactive" role="tab" style="margin: 0px 5px 10px 0px">Inactive Branches</a>
+        <button href="#" class="btn btn-sm bg-purple btn-flat" style="margin: 0px 5px 10px 0px" data-toggle="modal" data-target="#addbranch" data-backdrop="static"><i class="fa fa-plus-circle"></i> </button>
+        <button class="btn btn-sm bg-purple btn-flat active" data-toggle="tab" href="#active" role="tab" style="margin: 0px 5px 10px 0px">Active Branches</button>
+        <button class="btn btn-sm bg-purple btn-flat" data-toggle="tab" href="#inactive" role="tab" style="margin: 0px 5px 10px 0px">Inactive Branches</button>
       </div>
       <div class="box">
         <div class="box-body table-responsive">

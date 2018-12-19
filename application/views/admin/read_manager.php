@@ -36,9 +36,9 @@
     <!-- Main content -->
     <section class="content container-fluid">
       <div>
-        <a href="#" class="btn btn-sm bg-purple btn-flat" style="margin: 0px 5px 10px 0px" data-toggle="modal" data-target="#addmanager" data-backdrop="static"><i class="fa fa-plus-circle"></i> </a>
-        <a class="btn btn-sm bg-purple btn-flat active" data-toggle="tab" href="#active" role="tab" style="margin: 0px 5px 10px 0px">Active Managers</a>
-        <a class="btn btn-sm bg-purple btn-flat" data-toggle="tab" href="#inactive" role="tab" style="margin: 0px 5px 10px 0px">Inactive Managers</a>
+        <button href="#" class="btn btn-sm bg-purple btn-flat" style="margin: 0px 5px 10px 0px" data-toggle="modal" data-target="#addmanager" data-backdrop="static"><i class="fa fa-plus-circle"></i> </button>
+        <button class="btn btn-sm bg-purple btn-flat active" data-toggle="tab" href="#active" role="tab" style="margin: 0px 5px 10px 0px">Active Managers</button>
+        <button class="btn btn-sm bg-purple btn-flat" data-toggle="tab" href="#inactive" role="tab" style="margin: 0px 5px 10px 0px">Inactive Managers</button>
       </div>
       <div class="box">
         <div class="box-body table-responsive">

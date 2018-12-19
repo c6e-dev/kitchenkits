@@ -37,7 +37,7 @@
     <!-- Main content -->
     <section class="content container-fluid">
       <div class="nav" role="tablist">
-        <a href="#" class="btn btn-sm bg-purple btn-flat" style="margin: 0px 5px 10px 0px" data-toggle="modal" data-target="#add_recipe" ><i class="fa fa-plus-circle"></i> </a>
+        <button href="#" class="btn btn-sm bg-purple btn-flat" style="margin: 0px 5px 10px 0px" data-toggle="modal" data-target="#add_recipe" ><i class="fa fa-plus-circle"></i> </button>
         <button type="button" class="btn btn-sm bg-purple btn-flat"  data-toggle="tab" data-target="#active_recipe" style="margin: 0px 5px 10px 0px">Active Recipes</button>
         <button type="button" class="btn btn-sm bg-purple btn-flat" data-toggle="tab" data-target="#inactive_recipe" style="margin: 0px 5px 10px 0px">Inactive Recipes</button>
       </div>
