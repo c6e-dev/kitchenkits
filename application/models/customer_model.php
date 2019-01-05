@@ -90,7 +90,7 @@ class customer_model extends CI_Model{
 		");
 	}
 
-	//CART FUNCTIONS
+	//CART FUNCTION
 
 	public function view_cart($id){
 		$query = $this->db->query("
@@ -100,7 +100,6 @@ class customer_model extends CI_Model{
 			INNER JOIN recipe re ON oc.recipe_id = re.id
 			INNER JOIN add_ingredient ai ON ai.order_id = od.id  
 			INNER JOIN ingredients ig ON ai.ingredient_id = ig.id
-			INNER JOIN customer cs ON od.customer_id = cs.id
 			WHERE oc.order_id = '$id' 
 		");
 		if ($query->num_rows() > 0){ 
@@ -111,7 +110,24 @@ class customer_model extends CI_Model{
 		}
 	}
 
-	//Checker
+	//BROWSING FUNCTIONS 
+	public function browse_recipe($id){
+		$query = $this->db->query("
+			SELECT re.country_id AS re_cid, re_name AS re_name, re.cooking_time AS re_cooking, re.servings AS re_servings, re.image AS re_image, re.status AS re_status, cn.name AS re_country, rg.name AS re_region
+			FROM recipe re
+			INNER JOIN country cn ON re.country_id = cn.id
+			INNER JOIN region rg ON cn.region_id = rg.id
+			WHERE re.status = 'A' AND cn.id = '$id'
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	//CHECKER
 
 	public function user_check($id){
 		$query = $this->db->query("
