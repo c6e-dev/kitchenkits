@@ -55,15 +55,15 @@
                 </div>
                 <div class="form-group has-feedback">
                   <input type="text" name="username" id="username" class="" placeholder="Username">
-                  <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                  <span class="glyphicon glyphicon-user form-control-feedback" style="color: gray"></span>
                 </div>
                 <div class="form-group has-feedback">
                   <input type="password" name="password" id="password" class="" placeholder="Password">
-                  <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                  <span class="glyphicon glyphicon-lock form-control-feedback" style="color: gray"></span>
                 </div>
                 <div class="form-group has-feedback">
                   <input type="password" name="cpassword" id="cpassword" class="" placeholder="Confirm Password">
-                  <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+                  <span class="glyphicon glyphicon-log-in form-control-feedback" style="color: gray"></span>
                 </div>
                 <div class="row">
                   <div class="col-xs-6" style="padding-right: 5px">
@@ -79,11 +79,11 @@
                 </div>
                 <div class="form-group has-feedback">
                   <input type="email" name="emailaddr" id="emailaddr" class="" placeholder="Email">
-                  <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                  <span class="glyphicon glyphicon-envelope form-control-feedback" style="color: gray"></span>
                 </div>
                 <div class="form-group has-feedback">
                   <input type="text" name="haddress" id="haddress" class="" placeholder="Address">
-                  <span class="glyphicon glyphicon-home form-control-feedback"></span>
+                  <span class="glyphicon glyphicon-home form-control-feedback" style="color: gray"></span>
                 </div>
                 <br>
                 <div class="row">

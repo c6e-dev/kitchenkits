@@ -106,9 +106,16 @@ class customer extends CI_Controller {
 	//CART FUNCTIONS
 
 	public function view_cart(){
-		$date['cart'] = $this->customer_model->view_cart();
+		$data['cart'] = $this->customer_model->view_cart();
 		$this->load->view('customer/layout/header');
 		$this->load->view('customer/view_cart', $data);
+		$this->load->view('customer/layout/footer');
+	}
+
+	public function browse_recipe($id){
+		$data['recipe'] = $this->customer_model->browse_recipe();
+		$this->load->view('customer/layout/header');
+		$this->load->view('customer/browse_recipe', $data);
 		$this->load->view('customer/layout/footer');
 	}
 
