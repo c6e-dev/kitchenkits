@@ -9,7 +9,7 @@
   <link rel="shortcut icon" href="<?php echo base_url('assets/img/KKIcon.png');?>">
 
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Raleway:300,600" rel="stylesheet">
-
+  <link rel="stylesheet" href="<?php echo base_url('assets/css/raleway.css');?>">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="stylesheet" href="<?php echo base_url('assets/bower_components/font-awesome/css/font-awesome.min.css');?>">
@@ -17,14 +17,15 @@
   <link rel="stylesheet" href="<?php echo base_url('assets/dist/css/AdminLTE.min.css');?>">
   <link rel="stylesheet" href="<?php echo base_url('assets/plugins/iCheck/square/blue.css');?>">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <link rel="stylesheet" href="<?php echo base_url('assets/css/sanspro.css');?>">
 
   <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
   <link rel="stylesheet" href="<?php echo base_url('assets/css/login_style.css')?>">
   <style>
     .bg-image {
       background-image: url(<?php echo base_url('assets/img/Kitchen_BG.jpg');?>);
-      
-      height: 100%; 
+
+      height: 100%;
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
@@ -33,14 +34,14 @@
 </head>
 
 <body class="bg-image">
-  
+
 <div class="container">
    <section id="formHolder">
       <div class="row">
          <div class="col-sm-6 brand"> <!-- Brand Box -->
             <!-- <a href="<?php echo base_url('home'); ?>" class="logo">Home</a> -->
             <div class="heading">
-               <h2>Kitchen Kits</h2>
+               <h2><a style="color:white; text-decoration:none;"href="<?php echo base_url(); ?>">Kitchen Kits</a></h2>
             </div>
             <!-- <div class="success-msg">
                <p>Congratulations! You Are Now Registered</p>
@@ -89,7 +90,7 @@
       </p>
    </footer>
 </div>
-  
+
   <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js'></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
   <script src="assets/js/index.js"></script> -->

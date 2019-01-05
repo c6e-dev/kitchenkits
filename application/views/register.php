@@ -17,14 +17,14 @@
   <link rel="stylesheet" href="<?php echo base_url('assets/dist/css/AdminLTE.min.css');?>">
   <link rel="stylesheet" href="<?php echo base_url('assets/plugins/iCheck/square/blue.css');?>">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-  
+
   <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
   <link rel="stylesheet" href="<?php echo base_url('assets/css/login_style.css')?>">
   <style>
     .bg-image {
       background-image: url(<?php echo base_url('assets/img/Kitchen_BG.jpg');?>);
-      
-      
+
+
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
@@ -33,14 +33,14 @@
 </head>
 
 <body class="bg-image">
-  
+
 <div class="container">
    <section id="formHolder" >
       <div class="row">
          <div class="col-sm-6 brand">
             <!-- <a href="<?php echo base_url('home'); ?>" class="logo">Home</a> -->
             <div class="heading">
-               <h2>Kitchen Kits</h2>
+               <h2><a style="color:white; text-decoration:none;"href="<?php echo base_url(); ?>">Kitchen Kits</a></h2>
             </div>
             <!-- <div class="success-msg">
                <p>Great! You Have Successfully Created An Account</p>
@@ -95,7 +95,7 @@
                     <button type="submit" class="btn btn-primary btn-block btn-flat">Sign Up</button>
                   </div>
                 </div>
-                
+
               </form>
             </div>
          </div>
@@ -116,9 +116,9 @@
 <script src="<?php echo base_url('assets/bower_components/jquery/dist/jquery.min.js');?>"></script>
 <script src="<?php echo base_url('assets/bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
 <script src="<?php echo base_url('assets/plugins/iCheck/icheck.min.js');?>"></script>
-   
-<script src="<?php echo base_url('assets/js/jquery-3.3.1.min.js');?>" ></script> 
-<!-- <script src="<?php echo base_url('assets/js/popper.js');?>" ></script>  
+
+<script src="<?php echo base_url('assets/js/jquery-3.3.1.min.js');?>" ></script>
+<!-- <script src="<?php echo base_url('assets/js/popper.js');?>" ></script>
 <script src="<?php echo base_url('assets/js/bootstrap.min.js');?>" ></script> -->
 <!-- INPUT MASK -->
 <!-- <script src="<?php echo base_url('assets/js/input-mask/jquery.inputmask.js"');?>"></script>
@@ -140,4 +140,3 @@
 </body>
 
 </html>
-
