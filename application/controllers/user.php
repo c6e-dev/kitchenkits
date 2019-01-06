@@ -7,8 +7,11 @@ class user extends CI_Controller {
 		$this->load->model('user_model');
 	}
 	public function index(){
-		$this->load->view('login');
-		//$this->load->view('home');
+		//$this->load->view('login');
+		$this->load->view('home');
+	}
+	public function get_started(){
+		$this->load->view('getstarted');
 	}
 	public function load_login(){
 		$this->load->view('login');
@@ -19,13 +22,13 @@ class user extends CI_Controller {
 		$pass = mysqli_real_escape_string($con, $_POST['password']);
 		$userdata = $this->user_model->login_check($user, $pass);
 		if(isset($userdata)){
-			$_SESSION = array( 
-				'id' => $userdata[0]->id, 
+			$_SESSION = array(
+				'id' => $userdata[0]->id,
 				'user' => $userdata[0]->username,
 				'pass' => $userdata[0]->password,
 				'utype' => $userdata[0]->user_type_id
 			);
-			$this->user_model->logged_in($_SESSION['id']);	
+			$this->user_model->logged_in($_SESSION['id']);
 			switch ($userdata[0]->user_type_id) {
 				case '1':
 					redirect('admin');
@@ -39,13 +42,13 @@ class user extends CI_Controller {
 			}
 		}
 		else{
-			$this->session->set_flashdata('error_msg','Invalid Username or Password, Try again!'); 
+			$this->session->set_flashdata('error_msg','Invalid Username or Password, Try again!');
 			redirect();
 		}
 		mysqli_close($con);
 	}
 	public function logout(){
-		$this->user_model->logged_out($_SESSION['id']);	
+		$this->user_model->logged_out($_SESSION['id']);
 		session_destroy();
 		redirect();
 	}
@@ -84,9 +87,9 @@ class user extends CI_Controller {
 			$this->user_model->add_customer($customerdata);
 			redirect();
 			// $customer_id = $this->db->insert_id(); //don't delete
-			// $_SESSION = array( 
-			// 	'id' => $customer_id, 
-			// 	'username' => str_replace("'","’",$_POST['username']), 
+			// $_SESSION = array(
+			// 	'id' => $customer_id,
+			// 	'username' => str_replace("'","’",$_POST['username']),
 			// );
 			// $this->user_model->logged_in($user_id);
 	    }

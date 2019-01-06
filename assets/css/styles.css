@@ -8,10 +8,71 @@
 html, body{
 	width: 100%;
 	height: 100%;
+  overflow-x: hidden;
 }
 
 /** Navigation **/
+.nav-item{
+  font-size: 20px;
+  padding: 20px 60px 0 60px;
+}
+.nav-link{
+  color: red;
+}
+/** Nav Effects**/
+nav ul li a,
+nav ul li a:after,
+nav ul li a:before {
+  transition: all .5s;
+}
+nav ul li a:hover {
+  color: salmon;
+	filter: brightness(100%);
+}
+/* Stroke */
+nav.stroke ul li a,
+nav.fill ul li a {
+  position: relative;
+}
 
+nav.stroke ul li a:after,
+nav.fill ul li a:after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 0%;
+  content: '.';
+  color: transparent;
+  background: red;
+  height: 1px;
+}
+nav.stroke ul li a:hover:after {
+  width: 100%;
+}
+
+nav.fill ul li a {
+  transition: all 2s;
+}
+
+nav.fill ul li a:after {
+  text-align: left;
+  content: '.';
+  margin: 0;
+  opacity: 0;
+}
+nav.fill ul li a:hover {
+  color: #fff;
+  z-index: 1;
+}
+nav.fill ul li a:hover:after {
+  z-index: -10;
+  animation: fill 1s forwards;
+  -webkit-animation: fill 1s forwards;
+  -moz-animation: fill 1s forwards;
+  opacity: 1;
+}
 /** Video Background **/
 .v-header{
   overflow: hidden;
@@ -25,17 +86,84 @@ video{
   height: 100vh;
   width: 100vw;
   object-fit: cover;
-  overflow: hidden;
-  position: absolute;
+  overflow: visible;
+  position: relative;
   bottom: 0;
   right: 0;
 }
 .v-header-content{
-	z-index: 2;
+  position: absolute;
+  top:60%;
+  margin: 0;
+  width: 100%;
+  left: 40%;
 }
-.v-header-content h2{
-	font-size: 40px;
+
+.v-header-content a{
+  /**
+  background-color: red;
+  color: white;
+  font-size: 30px;
+  text-transform: uppercase;
+  text-align: center;
+  padding:5px 15px;
+  transition: all 0.5s;
+  cursor: pointer;
+  **/
+  border-radius: 4px;
+  background-color:#ff0000;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 28px;
+  padding: 15px;
+  width: 230px;
+  //transition: all 0.5s;
+  //cursor: pointer;
+  margin: 5px;
 }
-.v-header-content button{
-	background-color: orange;
+
+.v-header-content a span{
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+.v-header-content a span:after{
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -40px;
+  transition: 0.5s;
+}
+
+.v-header-content a:hover span{
+  padding-right: 25px;
+}
+.v-header-content a:hover span:after{
+   opacity: 1;
+   right: 0;
+}
+
+/** Media Queries **/
+@media screen and (max-width: 900px){
+  #c-logo{
+    width: 700px;
+    height: 100px;
+  }
+  .nav-item{
+    font-size: 16px;
+    padding: 20px 30px 0 30px;
+  }
+}
+@media screen and (max-width: 700px){
+  #c-logo{
+    width: 600px;
+    height: 90px;
+  }
+  .nav-item{
+    font-size: 16px;
+    padding: 6px 30px 0 30px;
+  }
 }
