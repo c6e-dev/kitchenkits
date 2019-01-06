@@ -119,7 +119,7 @@ class admin_model extends CI_Model{
 
 	public function view_recipe($id){
 		$query = $this->db->query("
-			SELECT re.id re_id, re.name re_nm, re.price re_prc, re.instructions re_ins, re.cooking_time re_ct, re.servings re_se, re.status re_st, re.created_date re_cd, re.updated_date re_ud, rg.name rg_nm, rg.id rid, co.name co_nm, co.id cid, ing.name in_nm, ring.ingredient_amount in_am
+			SELECT re.id re_id, re.name re_nm, re.price re_prc, re.instructions re_ins, re.cooking_time re_ct, re.servings re_se, re.image re_im, re.status re_st, re.created_date re_cd, re.updated_date re_ud, rg.name rg_nm, rg.id rid, co.name co_nm, co.id cid, ing.name in_nm, ring.ingredient_amount in_am
 			FROM recipe_ingredients ring
 			INNER JOIN ingredients ing ON ring.ingredient_id = ing.id
 			RIGHT JOIN recipe re ON ring.recipe_id = re.id
@@ -290,7 +290,7 @@ class admin_model extends CI_Model{
 	public function delete_branch($br_id,$br_mi){
 		$this->db->query("
 			UPDATE branch br, branch_manager bm
-			SET br.status = 'I', bm.status = 'U'
+			SET br.status = 'I', bm.status = 'U', br.manager_id = 0
 			WHERE br.id ='$br_id' AND bm.id = '$br_mi'
 		");
 	}
@@ -299,7 +299,15 @@ class admin_model extends CI_Model{
 		$this->db->query("
 			UPDATE user u, branch_manager bm, branch br
 			SET u.status = 'I', bm.status = 'U', br.status = 'I', br.manager_id = 0
-			WHERE u.id = '$bm_uid' AND bm.user_id = '$bm_uid' AND br.manager_id = '$bm_id'
+			WHERE u.id = '$bm_uid' AND bm.id = '$bm_id' AND br.manager_id = '$bm_id'
+		");
+	}
+
+	public function delete_umanager($bm_uid){
+		$this->db->query("
+			UPDATE user u
+			SET u.status = 'I'
+			WHERE u.id = '$bm_uid'
 		");
 	}
 
@@ -477,6 +485,13 @@ class admin_model extends CI_Model{
 			SET br.manager_id = '$id', br.status = 'A', bm.status = 'A'
 			WHERE br.id = '$br_id' AND bm.id = '$id'
 		");
+	}
+
+	public function upload_recipe_image($re_id,$image,$upt_date){
+		$this->db->set('image', $image);
+		$this->db->set('updated_date', $upt_date);
+		$this->db->where('id', $re_id);
+		$this->db->update('recipe');
 	}
 
 	// DASHBOARD FUNCTIONS - Robert / 12-02-18 - THIS MODULE IS SUBJECT TO FURTHER IMPROVEMENTS
@@ -660,6 +675,35 @@ class admin_model extends CI_Model{
 		$query = $this->db->query("SELECT COUNT(id) AS li
 			FROM user
 			WHERE logged_in = '1'
+		");
+		return $query->result();
+	}
+
+	// Checker
+
+	public function recipe_check($id){
+		$query = $this->db->query("
+			SELECT re.name re_nm
+			FROM recipe re
+			WHERE re.id = '$id'
+		");
+		return $query->result();
+	}
+
+	public function branch_check($id){
+		$query = $this->db->query("
+			SELECT br.name br_nm
+			FROM branch br
+			WHERE br.id = '$id'
+		");
+		return $query->result();
+	}
+
+	public function manager_check($id){
+		$query = $this->db->query("
+			SELECT brm.name bm_nm
+			FROM branch_manager brm
+			WHERE brm.id = '$id'
 		");
 		return $query->result();
 	}

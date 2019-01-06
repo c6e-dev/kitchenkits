@@ -154,8 +154,12 @@ class admin extends CI_Controller {
 		redirect('admin/branch_view');
 	}
 
-	public function delete_manager($bm_id,$bm_uid){
-		$this->admin_model->delete_manager($bm_id,$bm_uid);
+	public function delete_manager($bm_id,$bm_uid,$bm_us){
+		if ($bm_us == 'A') {
+			$this->admin_model->delete_manager($bm_id,$bm_uid);
+		}else{
+			$this->admin_model->delete_umanager($bm_uid);
+		}
 		redirect('admin/manager_view');	
 	}
 
@@ -195,6 +199,8 @@ class admin extends CI_Controller {
 			'numeric' => 'Value of Price not valid!'
 		));
 		if ($this->form_validation->run() == TRUE) {
+			$dir = $_POST['name'];
+			mkdir('Recipe_Folder/'.$dir);
 			$data = $this->admin_model->create_recipe();
 			$response['status'] = TRUE;
 			$response[] = $data;
@@ -292,6 +298,17 @@ class admin extends CI_Controller {
 
 	public function update_recipe(){
 		$response = array();
+		$recipe_id = $_POST['recipe_id'];
+		$check = $this->admin_model->recipe_check($recipe_id);
+		if($this->input->post('name') == $check[0]->re_nm) {
+		   	$is_unique =  '';
+		} else {
+			$is_unique =  '|is_unique[recipe.name]';
+		}
+		$this->form_validation->set_rules('name', 'Recipe Name', 'required'.$is_unique,
+			array(
+				'is_unique' => '%s already exist!'
+			));
 		$this->form_validation->set_rules('servings', 'Servings', 'numeric',array(
 			'numeric' => 'Number of %s not valid!'
 		));
@@ -314,7 +331,17 @@ class admin extends CI_Controller {
 
 	public function edit_branch(){
 		$response = array();
-		$this->form_validation->set_rules('brname', 'Branch Name', 'required');
+		$branch_id = $_POST['branch_id'];
+		$check = $this->admin_model->branch_check($branch_id);
+		if($this->input->post('brname') == $check[0]->br_nm) {
+		   	$is_unique =  '';
+		} else {
+			$is_unique =  '|is_unique[branch.name]';
+		}
+		$this->form_validation->set_rules('brname', 'Branch Name', 'required'.$is_unique,
+			array(
+				'is_unique' => '%s Already Exists'
+			));
 		$this->form_validation->set_rules('braddress', 'Branch Address', 'required');
 		
 		if ($this->form_validation->run() == TRUE) {
@@ -346,8 +373,17 @@ class admin extends CI_Controller {
 
 	public function edit_manager(){
 		$response = array();
-		$this->form_validation->set_rules('mngr_nm', 'Branch Manager Name', 'required');
-		
+		$manager_id = $_POST['manager_id'];
+		$check = $this->admin_model->manager_check($manager_id);
+		if($this->input->post('mngr_nm') == $check[0]->bm_nm) {
+		   	$is_unique =  '';
+		} else {
+			$is_unique =  '|is_unique[branch_manager.name]';
+		}
+		$this->form_validation->set_rules('mngr_nm', 'Branch Manager Name', 'required'.$is_unique,
+			array(
+				'is_unique' => '%s Already Exists'
+			));
 		if ($this->form_validation->run() == TRUE) {
 			$upt_date = date('Y-m-d H:i:s');
 			$cubr_id = $_POST['cubr_id'];
@@ -375,4 +411,24 @@ class admin extends CI_Controller {
 		}
 		echo json_encode($response);
 	}	
+
+	public function upload_recipe_image(){
+		$recipe_name = $_POST['re_nm'];
+		$re_id = $_POST['re_id'];
+		$co_id = $_POST['country_id'];
+		$config = array(
+			'upload_path' => './Recipe_Folder/'.$recipe_name,
+		 	'allowed_types' => 'jpg|png|jpeg',
+		 	'max_size' => '3072',
+		 	'max_width' => '350',
+			'max_height' => '200'
+		);
+        $this->load->library('upload', $config);
+        $this->upload->do_upload('recipe_image');
+       	$uploaded_image = $this->upload->data();       	
+  		$image = $uploaded_image[file_name];
+  		$upt_date = date('Y-m-d H:i:s'); 
+		$this->admin_model->upload_recipe_image($re_id,$image,$upt_date);
+		redirect('admin/view_recipe/'.$re_id.'/'.$co_id); 
+	}
 }

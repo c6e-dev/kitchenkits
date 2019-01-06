@@ -58,7 +58,6 @@ class customer extends CI_Controller {
 				'valid_email' => 'The %s You Entered Is Invalid or Already Taken',
 				'is_unique' => 'The %s You Entered Is Invalid or Already Taken'
 		));
-
 		if ($this->form_validation->run() == TRUE) {
 			$_SESSION['user'] = $username;
 			$upt_date = date('Y-m-d H:i:s');
@@ -106,9 +105,9 @@ class customer extends CI_Controller {
 	//CART FUNCTIONS
 
 	public function view_cart(){
-		$data['cart'] = $this->customer_model->view_cart();
+		//$data['cart'] = $this->customer_model->view_cart($_GET['id']);
 		$this->load->view('customer/layout/header');
-		$this->load->view('customer/view_cart', $data);
+		$this->load->view('customer/cart_view');
 		$this->load->view('customer/layout/footer');
 	}
 

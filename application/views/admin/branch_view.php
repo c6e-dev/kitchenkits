@@ -147,7 +147,7 @@
                       <div class="modal-footer">
                         <input type="hidden" name="branch_id" id="branch_id" value="<?php echo $branch[0]->br_id?>">
                         <input type="hidden" name="mngr_id" id="mngr_id" value="<?php echo $branch[0]->mngr_id?>">
-                        <button type="submit" id="btn_brupt_save" class="btn btn-sm btn-primary">Save</button>
+                        <button type="button" id="btn_brupt_save" class="btn btn-sm btn-primary">Save</button>
                         <button type="button" class="btn btn-sm" data-dismiss="modal">Close</button>
                       </div>
                     </form>

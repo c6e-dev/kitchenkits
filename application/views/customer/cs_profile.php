@@ -79,7 +79,7 @@
                       </div>
                       <div class="product-info">
                         <a href="javascript:void(0)" class="product-title"><?php echo $ror->rname; ?>
-                          <span class="label label-warning pull-right">₱<?php echo $ror->total; ?></span></a>
+                          <span class="label label-info pull-right">₱ <?php echo $ror->total; ?></span></a>
                         <span class="product-description">
                           <?php echo date('M d, Y g:i a', strtotime($ror->cdate));?>
                         </span>
@@ -232,7 +232,7 @@
                               ?>
                                 <li>
                                   <i class="fa fa-shopping-cart bg-blue"></i>
-                                  <div class="timeline-item">
+                                  <div class="timeline-item" style="background-color: #f5f5f5">
                                     <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($cact->fb_cdate));?></span>
                                     <h3 class="timeline-header"><a href="#">You</a> ordered <?php echo $cact->fb_recipe; ?></h3>
                                   </div>
@@ -243,7 +243,7 @@
                               ?>
                                 <li>
                                   <i class="fa fa-star bg-yellow"></i>
-                                  <div class="timeline-item">
+                                  <div class="timeline-item " style="background-color: #f5f5f5">
                                     <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($cact->fb_cdate));?></span>
                                     <h3 class="timeline-header"><a href="#">You</a> rated <?php echo $cact->fb_rating; ?> stars on <?php echo $cact->fb_recipe; ?></h3>
                                   </div>
@@ -254,7 +254,7 @@
                               ?>
                                 <li>
                                   <i class="fa fa-comment bg-red"></i>
-                                  <div class="timeline-item">
+                                  <div class="timeline-item" style="background-color: #f5f5f5">
                                     <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($cact->fb_cdate));?></span>
                                     <h3 class="timeline-header"><a href="#">You</a> commented on <?php echo $cact->fb_recipe; ?></h3>
                                     <div class="timeline-body">
@@ -268,6 +268,9 @@
                         }
                       }
                     ?>
+                    <li>
+                      <i class="fa fa-clock-o bg-gray"></i>
+                    </li>
                   </ul>
                 </div>
               </div>

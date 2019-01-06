@@ -33,6 +33,12 @@
         <div class="navbar-custom-menu">
           <ul class="nav navbar-nav">
             <!-- User Account Menu -->
+            <li>
+              <a href="<?php echo site_url('customer/view_cart'); ?>">
+                <i class="fa fa-shopping-cart"></i>
+                <span class="label label-warning">9</span>
+              </a>
+            </li>
             <li class="dropdown user user-menu">
               <!-- Menu Toggle Button -->
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
