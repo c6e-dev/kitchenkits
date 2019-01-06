@@ -55,9 +55,9 @@
                 <dt>Address</dt>
                 <dd><?php echo $customer[0]->cs_address?></dd>
                 <dt>Creation Date</dt>
-                <dd><?php echo $customer[0]->cs_create?></dd>
+                <dd><?php echo date('M d, Y - g:i a', strtotime($customer[0]->cs_create));?></dd>
                 <dt>Last Update Date</dt>
-                <dd><?php echo $customer[0]->cs_update?></dd>
+                <dd><?php echo date('M d, Y - g:i a', strtotime($customer[0]->cs_update));?></dd>
               </dl>
             <!-- /.box-body -->
             </div>
@@ -150,44 +150,46 @@
                               </span>
                             </li>
                           <?php
-                          foreach ($c_activity as $pcact) {
-                            $new_date = date('M d, Y', strtotime($pcact->fb_cdate));
-                            if ($new_date == $prev_date) {
-                              if ($pcact->fb_type == 1) {
-                                ?>
-                                  <li>
-                                    <i class="fa fa-shopping-cart bg-blue"></i>
-                                    <div class="timeline-item">
-                                      <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($pcact->fb_cdate));?></span>
-                                      <h3 class="timeline-header"><a href="#"><?php echo $pcact->fb_fname; ?> <?php echo $pcact->fb_lname; ?></a> ordered <?php echo $pcact->fb_recipe; ?></h3>
-                                    </div>
-                                  </li>
-                                <?php  
-                              }
-                              if ($pcact->fb_type == 3) {
-                                ?>
-                                  <li>
-                                    <i class="fa fa-star bg-yellow"></i>
-                                    <div class="timeline-item">
-                                      <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($pcact->fb_cdate));?></span>
-                                      <h3 class="timeline-header"><a href="#"><?php echo $pcact->fb_fname; ?> <?php echo $pcact->fb_lname; ?></a> rated <?php echo $pcact->fb_rating; ?> stars on <?php echo $pcact->fb_recipe; ?></h3>
-                                    </div>
-                                  </li>
-                                <?php  
-                              }
-                              if ($pcact->fb_type == 4) {
-                                ?>
-                                  <li>
-                                    <i class="fa fa-comment bg-red"></i>
-                                    <div class="timeline-item">
-                                      <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($pcact->fb_cdate));?></span>
-                                      <h3 class="timeline-header"><a href="#"><?php echo $pcact->fb_fname; ?> <?php echo $pcact->fb_lname; ?></a> commented on <?php echo $pcact->fb_recipe; ?></h3>
-                                      <div class="timeline-body">
-                                        <?php echo $pcact->fb_comment; ?>
+                          if ($c_activity!=NULL) {
+                            foreach ($c_activity as $pcact) {
+                              $new_date = date('M d, Y', strtotime($pcact->fb_cdate));
+                              if ($new_date == $prev_date) {
+                                if ($pcact->fb_type == 1) {
+                                  ?>
+                                    <li>
+                                      <i class="fa fa-shopping-cart bg-blue"></i>
+                                      <div class="timeline-item">
+                                        <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($pcact->fb_cdate));?></span>
+                                        <h3 class="timeline-header"><a href="#"><?php echo $pcact->fb_fname; ?> <?php echo $pcact->fb_lname; ?></a> ordered <?php echo $pcact->fb_recipe; ?></h3>
                                       </div>
-                                    </div>
-                                  </li>
-                                <?php  
+                                    </li>
+                                  <?php  
+                                }
+                                if ($pcact->fb_type == 3) {
+                                  ?>
+                                    <li>
+                                      <i class="fa fa-star bg-yellow"></i>
+                                      <div class="timeline-item">
+                                        <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($pcact->fb_cdate));?></span>
+                                        <h3 class="timeline-header"><a href="#"><?php echo $pcact->fb_fname; ?> <?php echo $pcact->fb_lname; ?></a> rated <?php echo $pcact->fb_rating; ?> stars on <?php echo $pcact->fb_recipe; ?></h3>
+                                      </div>
+                                    </li>
+                                  <?php  
+                                }
+                                if ($pcact->fb_type == 4) {
+                                  ?>
+                                    <li>
+                                      <i class="fa fa-comment bg-red"></i>
+                                      <div class="timeline-item">
+                                        <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($pcact->fb_cdate));?></span>
+                                        <h3 class="timeline-header"><a href="#"><?php echo $pcact->fb_fname; ?> <?php echo $pcact->fb_lname; ?></a> commented on <?php echo $pcact->fb_recipe; ?></h3>
+                                        <div class="timeline-body">
+                                          <?php echo $pcact->fb_comment; ?>
+                                        </div>
+                                      </div>
+                                    </li>
+                                  <?php  
+                                }
                               }
                             }
                           }

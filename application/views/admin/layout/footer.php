@@ -33,6 +33,18 @@
      Both of these plugins are recommended to enhance the
      user experience. -->
 <script>
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        $('#image_upload_preview').attr('src', e.target.result).width(350).height(200);
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+  $("#recipe_image").change(function () {
+      readURL(this);
+  });
   $(function(){    
     $('table.display').DataTable({
       destroy: true,
@@ -55,6 +67,11 @@
 
     $("#history").on("show.bs.collapse", function(){
       $("#3gr").html('Hide History');
+    });
+
+    $("#recipe_image").on('click', function () {
+      $("#image_save").show();
+      $("#image_cancel").show();
     });
     
     // $('#chat-box').slimScroll({
