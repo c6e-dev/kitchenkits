@@ -96,7 +96,7 @@ video{
   top:60%;
   margin: 0;
   width: 100%;
-  left: 40%;
+  left: 41%;
 }
 
 .v-header-content a{
@@ -122,7 +122,7 @@ video{
   //cursor: pointer;
   margin: 5px;
 }
-
+/** Get Started Button Animation
 .v-header-content a span{
   cursor: pointer;
   display: inline-block;
@@ -145,7 +145,7 @@ video{
    opacity: 1;
    right: 0;
 }
-
+**/
 /** Media Queries **/
 @media screen and (max-width: 900px){
   #c-logo{
