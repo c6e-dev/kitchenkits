@@ -1,8 +1,8 @@
 :root {
 	--container-bg-color: #333;
-	--left-bg-color: #E85842;
+	--left-bg-color: rgba(210, 60, 60, 0.7);
 	--left-button-hover-color: rgba(161, 11, 11, 0.3);
-	--right-bg-color: #0070B8;
+	--right-bg-color: rgba(30, 140, 228, 0.7);
 	--right-button-hover-color: rgba(20, 60, 235, 0.3);
 	--hover-width: 75%;
 	--other-width: 25%;
@@ -27,14 +27,17 @@ h1{
 	transform: translateX(-50%);
 	white-space: nowrap;
 }
-
+#override{
+	text-decoration: none;
+	color:#fff;
+	padding: 20px 0 40px 0;
+}
 .button{
 	display: block;
 	position: absolute;
 	left: 50%;
 	top: 40%;
 	height: 2.5rem;
-	padding-top: 1.3rem;
 	width: 15rem;
 	text-align: center;
 	color: #fff;
@@ -56,7 +59,7 @@ h1{
 	border-color: var(--right-button-hover-color);
 }
 
-.container{
+.container-fluid{
 	position: relative;
 	width: 100%;
 	height: 100%;
@@ -118,6 +121,68 @@ transition: var(--speed) all ease-in-out;
 	z-index: 2;
 }
 
+/** Hidden Regions **/
+.hidden{
+	display: none;
+}
+.unhidden{
+	display: block;
+}
+#fill_height{
+	height: 100%;
+}
+.region{
+	display: flex;
+	flex-flow: row;
+	height: 100vh;
+	align-items: center;
+}
+.region img{
+	position: absolute;
+	top: 30%;
+	left: 20%;
+}
+.region #for-center{
+	position: absolute;
+	top: 30%;
+	left: 40%;
+}
+.region span{
+  position:absolute;
+  width:100%;
+  height:100%;
+  top:0;
+  left: 0;
+  z-index: 1;
+}
+.region span:hover{
+	background: rgba(0, 0, 0, 0.5);
+}
+#Africa{
+	background: #C49A6C;
+}
+#Carribean{
+	background: #603813;
+}
+#CA{
+	background: #F5EE31;
+}
+#Europe{
+	background: #A7A9AC;
+}
+#NA{
+	background: #fff;
+}
+#SA{
+	background: #000;
+}
+#Asia{
+	background: #ED1C24;
+}
+#Oceania{
+	background: #00AEEF;
+}
+/** Media Queries **/
 @media(max-width: 800px){
 	h1{
 		font-size: 2rem;
@@ -129,6 +194,6 @@ transition: var(--speed) all ease-in-out;
 
 @media(max-height: 700px){
 	.button {
-		top: 70%;
+		top: 38%;
 	}
 }
