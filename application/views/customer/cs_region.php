@@ -14,32 +14,38 @@
 	<div class="container-fluid">
 		<div class="split left">
 			<h1>Western Cuisines</h1>
-			<a href="javascript:unhide('trigger-a')" id="override" class="button">Learn More</a>
+			<a href="javascript:unhide('trigger-a')" id="override" class="west-east-panel"><span></span></a>
 				<div id= "trigger-a" class="hidden">
 					<div id="fill_height" class="row">
-							<div id="Africa" class="col-lg-2 region">
+							<div id="France" class="col-lg-2 region">
 								<a href="#"><span></span></a>
-								<img src="<?php echo base_url('/assets/img/regions/Africa.png'); ?>" alt="" width="100px" height="100px;">
+								<h1 class="odd-b">France</h1>
+								<img src="<?php echo base_url('/assets/img/countries/west/France.jpg'); ?>" alt="" width="100px" height="100px;">
 							</div>
-							<div id="Carribean" class="col-lg-2 region">
+							<div id="Greece" class="col-lg-2 region">
 								<a href="#"><span></span></a>
-								<img src="<?php echo base_url('/assets/img/regions/Carribean.png'); ?>" alt="" width="100px" height="100px;">
+								<h1>Greece</h1>
+								<img src="<?php echo base_url('/assets/img/countries/west/Greece.jpg'); ?>" alt="" width="100px" height="100px;">
 							</div>
-							<div id="CA" class="col-lg-2 region">
+							<div id="Italy" class="col-lg-2 region">
 								<a href="#"><span></span></a>
-								<img src="<?php echo base_url('/assets/img/regions/CA.png'); ?>" alt="" width="100px" height="100px;">
+								<h1 class="odd-b">Italy</h1>
+								<img src="<?php echo base_url('/assets/img/countries/west/Italy.jpg'); ?>" alt="" width="100px" height="100px;">
 							</div>
-							<div id="Europe" class="col-lg-2 region">
+							<div id="Mexico" class="col-lg-2 region">
 								<a href="#"><span></span></a>
-								<img src="<?php echo base_url('/assets/img/regions/Europe.png'); ?>" alt="" width="100px" height="100px;">
+								<h1>Mexico</h1>
+								<img src="<?php echo base_url('/assets/img/countries/west/Mexico.jpg'); ?>" alt="" width="100px" height="100px;">
 							</div>
-							<div id="NA" class="col-lg-2 region">
+							<div id="Spain" class="col-lg-2 region">
 								<a href="#"><span></span></a>
-								<img src="<?php echo base_url('/assets/img/regions/NA.png'); ?>" alt="" width="100px" height="100px;">
+								<h1 class="odd-b">Spain</h1>
+								<img src="<?php echo base_url('/assets/img/countries/west/Spain.jpg'); ?>" alt="" width="100px" height="100px;">
 							</div>
-							<div id="SA" class="col-lg-2 region">
+							<div id="States" class="col-lg-2 region">
 								<a href="#"><span></span></a>
-								<img src="<?php echo base_url('/assets/img/regions/SA.png'); ?>" alt="" width="100px" height="100px;">
+								<h1>USA</h1>
+								<img src="<?php echo base_url('/assets/img/countries/west/US.jpg'); ?>" alt="" width="100px" height="100px;">
 							</div>
 					</div>
 				</div>
@@ -48,16 +54,38 @@
 
 		<div class="split right">
 			<h1>Eastern Cuisines</h1>
-			<a href="javascript:unhide('trigger-b')" id="override" class="button">Learn More</a>
+			<a href="javascript:unhide('trigger-b')" id="override" class="west-east-panel"><span></span></a>
 				<div id="trigger-b" class="hidden">
 					<div id="fill_height" class="row">
-							<div id="Asia" class="col-lg-6 region">
+							<div id="China" class="col-lg-2 region">
 								<a href="#"><span></span></a>
-								<img id="for-center" src="<?php echo base_url('/assets/img/regions/Asia.png'); ?>" alt="" width="100px" height="100px;">
+								<h1 class="odd-b">China</h1>
+								<img id="for-center" src="<?php echo base_url('/assets/img/countries/east/China.jpg'); ?>" alt="" width="100px" height="100px;">
 							</div>
-							<div id="Oceania" class="col-lg-6 region">
+							<div id="India" class="col-lg-2 region">
 								<a href="#"><span></span></a>
-								<img id="for-center" src="<?php echo base_url('/assets/img/regions/Oceania.png'); ?>" alt="" width="100px" height="100px;">
+								<h1>India</h1>
+								<img id="for-center" src="<?php echo base_url('/assets/img/countries/east/India.jpg'); ?>" alt="" width="100px" height="100px;">
+							</div>
+							<div id="Japan" class="col-lg-2 region">
+								<a href="#"><span></span></a>
+								<h1 class="odd-b">Japan</h1>
+								<img id="for-center" src="<?php echo base_url('/assets/img/countries/east/Japan.jpg'); ?>" alt="" width="100px" height="100px;">
+							</div>
+							<div id="Phil" class="col-lg-2 region">
+								<a href="#"><span></span></a>
+								<h2>Philippines</h2>
+								<img id="for-center" src="<?php echo base_url('/assets/img/countries/east/Phil.jpg'); ?>" alt="" width="100px" height="100px;">
+							</div>
+							<div id="Korea" class="col-lg-2 region">
+								<a href="#"><span></span></a>
+								<h2 class="odd-b">South Korea</h2>
+								<img id="for-center" src="<?php echo base_url('/assets/img/countries/east/SK.jpg'); ?>" alt="" width="100px" height="100px;">
+							</div>
+							<div id="Thailand" class="col-lg-2 region">
+								<a href="#"><span></span></a>
+								<h2>Thailand</h2>
+								<img id="for-center" src="<?php echo base_url('/assets/img/countries/east/Thailand.jpg'); ?>" alt="" width="100px" height="100px;">
 							</div>
 					</div>
 				</div>
