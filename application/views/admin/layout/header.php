@@ -31,7 +31,7 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>RLC</b></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Kitchen Kits</b></span>
+      <span class="logo-lg"><b>Kitchen Kits: </b>Admin</span>
     </a>
 
     <!-- Header Navbar -->

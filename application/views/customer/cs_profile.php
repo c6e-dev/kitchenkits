@@ -47,7 +47,7 @@
   <!-- Main content -->
   <section class="content">
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-3">
         <div class="box box-danger">
           <div class="box-body box-profile">
             <img class="profile-user-img img-responsive img-circle" src="<?php echo base_url('assets/dist/img/user2-160x160.jpg');?>" alt="User profile picture">
@@ -141,7 +141,7 @@
         </div>
       </div>
 
-      <div class="col-md-8">
+      <div class="col-md-9">
         <div class="box box-danger">
           <div class="box-header with-border">
             <i class="fa fa-history"></i>

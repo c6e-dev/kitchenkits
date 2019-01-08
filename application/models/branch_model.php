@@ -27,11 +27,14 @@ class branch_model extends CI_Model{
 
 	public function supply_view($id){
 		$query = $this->db->query("
-			SELECT ig.name as ig_name, ig.stock as ig_stock, un.id as ig_unit
-			FROM ingredients ig 
-			INNER JOIN branch br ON ig.branch_id = br.id
+			SELECT bi.supply as bi_supply, bi.updated_date as bi_date, ig.name as bi_name, un.name as bi_unit
+			FROM branch_ingredients bi 
+			INNER JOIN ingredients ig ON bi.ingredient_id = ig.id
+			INNER JOIN branch br ON bi.branch_id = br.id
 			INNER JOIN unit un ON ig.unit_id = un.id
-			WHERE br.id = '$id'
+			INNER JOIN branch_manager bm ON br.manager_id = bm.id
+			INNER JOIN user u ON bm.user_id = u.id
+			WHERE u.id = '$id'
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();
@@ -41,7 +44,7 @@ class branch_model extends CI_Model{
 		}
 	}
 
-	// public function add_stock(){
+	// public function add_supply(){
 
 	// }
 }

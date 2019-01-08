@@ -4,6 +4,10 @@
 	<title>Kitchen Kits</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
+
+	<link rel="apple-touch-icon" href="<?php echo base_url('assets/img/KKIcon.png');?>">
+  	<link rel="shortcut icon" href="<?php echo base_url('assets/img/KKIcon.png');?>">
+	
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>/assets/css/bootstrap.min.css">
 	<script type="text/javascript" src="<?php echo base_url();?>/assets/js/jquery.min.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>/assets/js/bootstrap.min.js"></script>

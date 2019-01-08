@@ -29,5 +29,14 @@
 <script src="<?php echo base_url('assets/dist/js/adminlte.min.js');?>"></script>
 <script src="<?php echo base_url('assets/dist/js/demo.js');?>"></script>
 
+<script>
+$(function(){    
+	$('table.display').DataTable({
+	  destroy: true,
+	  "order": [[ 0, 'desc' ]]
+	})
+})
+</script>
+
 </body>
 </html>

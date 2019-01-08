@@ -17,12 +17,12 @@ class branch extends CI_Controller {
 
 	public function supply_view(){
 		$this->load->view('branch/layout/header');
-		$data['stock'] = $this->branch_model->supply_view($_SESSION['id']);
+		$data['supply'] = $this->branch_model->supply_view($_SESSION['id']);
 		$this->load->view('branch/supply_view',$data);
 		$this->load->view('branch/layout/footer');
 	}
 
-	// public function add_stock(){
+	// public function add_supply(){
 
 	// }
-} 
+}  
