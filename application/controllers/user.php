@@ -13,6 +13,9 @@ class user extends CI_Controller {
 		$this->load->view('customer/cs_region');
     
 	}
+	public function load_csrecipe(){
+		$this->load->view('customer/cs_recipe');
+	}
 	public function load_login(){
 		$this->load->view('login');
 	}

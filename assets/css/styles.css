@@ -122,6 +122,9 @@ video{
   //cursor: pointer;
   margin: 5px;
 }
+.v-header-content a:hover{
+	background: #C03902;
+}
 /** Get Started Button Animation
 .v-header-content a span{
   cursor: pointer;

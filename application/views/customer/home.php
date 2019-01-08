@@ -28,7 +28,7 @@
 					<a class="nav-link" href="<?php echo base_url();?>">HOME<span class="sr-only">(current)</span></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#menu">MENU</a>
+					<a class="nav-link" href="<?php echo site_url('user/load_csregion'); ?>">MENU</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#order">ORDER</a>
