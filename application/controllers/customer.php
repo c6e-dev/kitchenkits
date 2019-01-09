@@ -105,10 +105,42 @@ class customer extends CI_Controller {
 	//CART FUNCTIONS
 
 	public function view_cart(){
-		//$data['cart'] = $this->customer_model->view_cart($_GET['id']);
+		$data['cart'] = $this->customer_model->view_cart($_SESSION['id']);
+		$data['stotal'] = $this->customer_model->item_subtotal($_SESSION['id']);
+		$data['stotalprice'] = $this->customer_model->item_subtotal_price($_SESSION['id']);
 		$this->load->view('customer/layout/header');
-		$this->load->view('customer/cart_view');
+		$this->load->view('customer/cart_view', $data);
 		$this->load->view('customer/layout/footer');
+	}
+
+	public function edit_item_count(){
+		$response = array();
+		$this->form_validation->set_rules('itemcount', 'Item Count', 'required|numeric');
+		if ($this->form_validation->run() == TRUE) {
+			$this->customer_model->edit_item_count();
+			$response['status'] = TRUE;
+		}
+		else {
+			$response['status'] = FALSE;
+		}
+		echo json_encode($response);
+	}
+
+	public function item_count_decrease(){
+		$itemcount = ($_POST['itemcount'] - 1);
+		$data = $this->customer_model->item_count_decrease($itemcount);
+		echo json_encode($data);
+	}
+
+	public function item_count_increase(){
+		$itemcount = ($_POST['itemcount'] + 1);
+		$data = $this->customer_model->item_count_decrease($itemcount);
+		echo json_encode($data);
+	}
+
+	public function delete_cart_item($oc_id,$od_id){
+		$this->customer_model->delete_cart_item($oc_id,$od_id);
+		redirect('customer/view_cart');
 	}
 
 	public function browse_recipe($id){

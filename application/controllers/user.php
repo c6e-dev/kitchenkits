@@ -11,7 +11,6 @@ class user extends CI_Controller {
 	}
 	public function load_csregion(){
 		$this->load->view('customer/cs_region');
-    
 	}
 	public function load_csrecipe(){
 		$this->load->view('customer/cs_recipe');

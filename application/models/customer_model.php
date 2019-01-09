@@ -91,24 +91,82 @@ class customer_model extends CI_Model{
 
 	//CART FUNCTION
 
-	// public function view_cart($id){
-	// 	$query = $this->db->query("
-	// 		SELECT re.name AS re_name, re.price AS re_price, ai.ingredient_amount AS re_amount, ig.name = re_additional
-	// 		FROM delivery od
-	// 		INNER JOIN order_content oc ON oc.order_id = od.id
-	// 		INNER JOIN recipe re ON oc.recipe_id = re.id
-	// 		-- INNER JOIN add_ingredient ai ON ai.order_id = od.id  
-	// 		INNER JOIN ingredients ig ON ai.ingredient_id = ig.id
-	// 		INNER JOIN customer cs ON od.customer_id = cs.id
-	// 		WHERE oc.order_id = '$id' 
-	// 	");
-	// 	if ($query->num_rows() > 0){ 
-	// 		return $query->result(); 
-	// 	}
-	// 	else{
-	// 		return NULL;
-	// 	}
-	// }
+	public function view_cart($id){
+		$query = $this->db->query("
+			SELECT re.name re_name, re.price re_price, oc.quantity qntty, oc.id oc_id, od.id od_id
+			FROM order_content oc
+			INNER JOIN delivery od ON oc.order_id = od.id
+			INNER JOIN recipe re ON oc.recipe_id = re.id
+			INNER JOIN customer cs ON od.customer_id = cs.id
+			WHERE cs.user_id = '$id' AND od.activity_id = 0
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function edit_item_count(){
+		$newcount = $this->input->post('itemcount');
+		$oc_id = $this->input->post('oc_id');
+		$this->db->query("
+			UPDATE order_content oc
+			SET oc.quantity = '$newcount' 
+			WHERE oc.id = '$oc_id'
+		");
+	}
+
+	public function item_count_decrease($newcount){
+		$oc_id = $this->input->post('oc_id');
+		$this->db->query("
+			UPDATE order_content oc
+			SET oc.quantity = '$newcount'
+			WHERE oc.id = '$oc_id'
+		");
+	}
+
+	public function item_count_increase($newcount){
+		$oc_id = $this->input->post('oc_id');
+		$this->db->query("
+			UPDATE order_content oc
+			SET oc.quantity = '$newcount' 
+			WHERE oc.id = '$oc_id'
+		");
+	}
+
+	public function delete_cart_item($oc_id,$od_id){
+		$this->db->query("
+			DELETE order_content, delivery
+			FROM order_content
+			INNER JOIN delivery ON order_content.order_id = delivery.id
+			WHERE order_content.id = '$oc_id' AND delivery.id = '$od_id'
+		");
+	}
+
+	public function item_subtotal($id){
+		$query = $this->db->query("
+			SELECT SUM(oc.quantity) AS stotalcount
+			FROM order_content oc
+			INNER JOIN delivery od ON oc.order_id = od.id
+			INNER JOIN customer cs ON od.customer_id = cs.id
+			WHERE cs.user_id = '$id' AND od.activity_id = 0
+		");
+		return $query->result();
+	}
+
+	public function item_subtotal_price($id){
+		$query = $this->db->query("
+			SELECT SUM(oc.quantity*re.price) AS stotalprice
+			FROM order_content oc
+			INNER JOIN delivery od ON oc.order_id = od.id
+			INNER JOIN recipe re ON oc.recipe_id = re.id
+			INNER JOIN customer cs ON od.customer_id = cs.id
+			WHERE cs.user_id = '$id' AND od.activity_id = 0
+		");
+		return $query->result();
+	}
 
 	//BROWSING FUNCTIONS 
 	
