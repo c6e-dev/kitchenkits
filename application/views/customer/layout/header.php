@@ -35,8 +35,19 @@
             <!-- User Account Menu -->
             <li>
               <a href="<?php echo site_url('customer/view_cart'); ?>">
-                <i class="fa fa-shopping-cart"></i>
-                <span class="label label-warning">9</span>
+                <?php 
+                  if ($cart!=NULL) {
+                    ?>
+                      <i class="fa fa-shopping-cart"></i>
+                      <span class="label label-warning"><?php echo $count[0]->od_id_count;?></span>
+                    <?php
+                  }else{
+                    ?>
+                      <i class="fa fa-shopping-cart"></i>
+                    <?php
+                  }
+                ?>
+                
               </a>
             </li>
             <li class="dropdown user user-menu">

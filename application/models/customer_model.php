@@ -118,6 +118,20 @@ class customer_model extends CI_Model{
 		");
 	}
 
+	public function item_count($od_id){
+		$query = $this->db->query("
+			SELECT COUNT(order_id) AS od_id_count
+			FROM order_content
+			WHERE order_id = '$od_id'
+			");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}
+		else{
+			return 0;
+		}
+	}
+
 	public function item_count_decrease($newcount){
 		$oc_id = $this->input->post('oc_id');
 		$this->db->query("
@@ -142,6 +156,13 @@ class customer_model extends CI_Model{
 			FROM order_content
 			INNER JOIN delivery ON order_content.order_id = delivery.id
 			WHERE order_content.id = '$oc_id' AND delivery.id = '$od_id'
+		");
+	}
+
+	public function delete_order($oc_id){
+		$this->db->query("
+			DELETE FROM order_content			
+			WHERE order_content.id = '$oc_id'
 		");
 	}
 

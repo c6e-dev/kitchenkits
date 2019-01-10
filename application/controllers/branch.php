@@ -25,4 +25,4 @@ class branch extends CI_Controller {
 	// public function add_supply(){
 
 	// }
-}  
+} 

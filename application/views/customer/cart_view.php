@@ -54,7 +54,7 @@
                                 <strong><center>Recipe will be removed from cart</center></strong>
                               </div>';?>
                               <div class="modal-footer">
-                                <a href="<?php echo site_url('customer/delete_cart_item/'.$item->oc_id.'/'.$item->od_id);?>" class="btn btn-sm btn-primary">Cofirm</a>
+                                <a href="<?php echo site_url('customer/delete_cart_item/'.$item->oc_id.'/'.$item->od_id.'/'.$count[0]->od_id_count);?>" class="btn btn-sm btn-primary">Cofirm</a>
                                 <button type="button" class="btn btn-sm" data-dismiss="modal">Cancel</button>
                               </div>
                             </div>

@@ -13,12 +13,24 @@ class customer extends CI_Controller {
 	//VIEW FUNCTIONS 
 
 	public function index(){
-		$this->load->view('customer/layout/header');
-		$data['v_profile'] = $this->customer_model->view_profile($_SESSION['id']);
-		$data['v_history'] = $this->customer_model->view_history($_SESSION['id']);
-		$data['v_recent_order'] = $this->customer_model->view_recent_order($data['v_profile'][0]->cs_id);
-		$this->load->view('customer/cs_profile', $data);
-		$this->load->view('customer/layout/footer');
+		$data['cart'] = $this->customer_model->view_cart($_SESSION['id']);
+		if ($data['cart']!=NULL) {
+			$data['count'] = $this->customer_model->item_count($data['cart'][0]->od_id);
+			$this->load->view('customer/layout/header',$data);
+			$data['v_profile'] = $this->customer_model->view_profile($_SESSION['id']);
+			$data['v_history'] = $this->customer_model->view_history($_SESSION['id']);
+			$data['v_recent_order'] = $this->customer_model->view_recent_order($data['v_profile'][0]->cs_id);
+			$this->load->view('customer/cs_profile', $data);
+			$this->load->view('customer/layout/footer');
+		}else{
+			$this->load->view('customer/layout/header',$data);
+			$data['v_profile'] = $this->customer_model->view_profile($_SESSION['id']);
+			$data['v_history'] = $this->customer_model->view_history($_SESSION['id']);
+			$data['v_recent_order'] = $this->customer_model->view_recent_order($data['v_profile'][0]->cs_id);
+			$this->load->view('customer/cs_profile', $data);
+			$this->load->view('customer/layout/footer');
+		}
+		
 	}
 
 	// public function view_profile(){
@@ -106,11 +118,20 @@ class customer extends CI_Controller {
 
 	public function view_cart(){
 		$data['cart'] = $this->customer_model->view_cart($_SESSION['id']);
-		$data['stotal'] = $this->customer_model->item_subtotal($_SESSION['id']);
-		$data['stotalprice'] = $this->customer_model->item_subtotal_price($_SESSION['id']);
-		$this->load->view('customer/layout/header');
-		$this->load->view('customer/cart_view', $data);
-		$this->load->view('customer/layout/footer');
+		if ($data['cart']!=NULL) {
+			$data['count'] = $this->customer_model->item_count($data['cart'][0]->od_id);		
+			$data['stotal'] = $this->customer_model->item_subtotal($_SESSION['id']);
+			$data['stotalprice'] = $this->customer_model->item_subtotal_price($_SESSION['id']);
+			$this->load->view('customer/layout/header',$data);
+			$this->load->view('customer/cart_view', $data);
+			$this->load->view('customer/layout/footer');
+		}else{
+			$data['stotal'] = $this->customer_model->item_subtotal($_SESSION['id']);
+			$data['stotalprice'] = $this->customer_model->item_subtotal_price($_SESSION['id']);
+			$this->load->view('customer/layout/header',$data);
+			$this->load->view('customer/cart_view', $data);
+			$this->load->view('customer/layout/footer');
+		}
 	}
 
 	public function edit_item_count(){
@@ -138,8 +159,12 @@ class customer extends CI_Controller {
 		echo json_encode($data);
 	}
 
-	public function delete_cart_item($oc_id,$od_id){
-		$this->customer_model->delete_cart_item($oc_id,$od_id);
+	public function delete_cart_item($oc_id,$od_id,$od_count){
+		if ($od_count == 1) {
+			$this->customer_model->delete_cart_item($oc_id,$od_id);
+		}else{
+			$this->customer_model->delete_order($oc_id);
+		}
 		redirect('customer/view_cart');
 	}
 

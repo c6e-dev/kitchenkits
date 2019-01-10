@@ -7,6 +7,7 @@ class user extends CI_Controller {
 		$this->load->model('user_model');
 	}
 	public function index(){
+		//$this->load->view('login');
 		$this->load->view('customer/home');
 	}
 	public function load_csregion(){
