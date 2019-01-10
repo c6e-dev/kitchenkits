@@ -64,33 +64,39 @@
             <a data-target="#update_profile" data-toggle="modal" class="btn btn-danger btn-block" data-backdrop="static"><b>Update Profile</b></a>
           </div>
         </div>
-        <div class="box box-danger">
-          <div class="box-header with-border">
-            <h3 class="box-title">Recent Order</h3>
-          </div>
-          <div class="box-body">
-            <ul class="products-list product-list-in-box">
-              <?php 
-                foreach ($v_recent_order as $ror) {
-                  ?>
-                    <li class="item">
-                      <div class="product-img">
-                        <img src="<?php echo base_url('assets/dist/img/default-50x50.gif');?>" alt="Product Image">
-                      </div>
-                      <div class="product-info">
-                        <a href="javascript:void(0)" class="product-title"><?php echo $ror->rname; ?>
-                          <span class="label label-info pull-right">₱ <?php echo $ror->total; ?></span></a>
-                        <span class="product-description">
-                          <?php echo date('M d, Y g:i a', strtotime($ror->cdate));?>
-                        </span>
-                      </div>
-                    </li>
+        <?php 
+          if ($v_recent_order!=NULL) {
+            ?>
+              <div class="box box-danger">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Recent Order</h3>
+                </div>
+                <div class="box-body">
+                  <ul class="products-list product-list-in-box">
                   <?php
-                }
-              ?>
-            </ul>
-          </div>
-        </div>
+                    foreach ($v_recent_order as $ror) {
+                      ?>
+                        <li class="item">
+                          <div class="product-img">
+                            <img src="<?php echo base_url('assets/dist/img/default-50x50.gif');?>" alt="Product Image">
+                          </div>
+                          <div class="product-info">
+                            <a href="javascript:void(0)" class="product-title"><?php echo $ror->rname; ?>
+                              <span class="label label-info pull-right">₱ <?php echo $ror->total; ?></span></a>
+                            <span class="product-description">
+                              <?php echo date('M d, Y g:i a', strtotime($ror->cdate));?>
+                            </span>
+                          </div>
+                        </li>
+                      <?php
+                    }
+                  ?>
+                  </ul>
+                </div>
+              </div>
+            <?php 
+          }
+        ?>
       </div>
 
       <div class="modal fade" id="update_profile">
