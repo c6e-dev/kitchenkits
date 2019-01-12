@@ -13,7 +13,7 @@ html, body{
 
 /** Navigation **/
 .nav-item{
-  font-size: 20px;
+  font-size: 1.05rem;
   padding: 20px 60px 0 60px;
 }
 .nav-link{
@@ -96,28 +96,18 @@ video{
   top:60%;
   margin: 0;
   width: 100%;
-  left: 41%;
+  left: 39.8%;
 }
-
 .v-header-content a{
-  /**
-  background-color: red;
-  color: white;
-  font-size: 30px;
-  text-transform: uppercase;
-  text-align: center;
-  padding:5px 15px;
-  transition: all 0.5s;
-  cursor: pointer;
-  **/
   border-radius: 4px;
   background-color:#E85842;
   border: none;
   color: #FFFFFF;
+	letter-spacing: 0.3rem;
   text-align: center;
-  font-size: 28px;
-  padding: 15px;
-  width: 230px;
+  font-size: 1.3rem;
+	font-family: 'Molle';
+  padding: 1.2rem;
   //transition: all 0.5s;
   //cursor: pointer;
   margin: 5px;
@@ -125,30 +115,6 @@ video{
 .v-header-content a:hover{
 	background: #C03902;
 }
-/** Get Started Button Animation
-.v-header-content a span{
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
-}
-.v-header-content a span:after{
-  content: '\00bb';
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -40px;
-  transition: 0.5s;
-}
-
-.v-header-content a:hover span{
-  padding-right: 25px;
-}
-.v-header-content a:hover span:after{
-   opacity: 1;
-   right: 0;
-}
-**/
 /** Media Queries **/
 @media screen and (max-width: 900px){
   #c-logo{

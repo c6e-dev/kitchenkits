@@ -47,11 +47,11 @@
     </nav>
 
     <div class="container padding">
-      <div class="row">
+      <div class="row no-gutters">
       <div class="col-lg-4">
         <h1>Cuisine/Country</h1>
       </div>
-      <div class="col-lg-4 dropdown ml-auto">
+      <div class="col-lg-4 dropdown ml-auto text-right">
         <button class="btn btn-dark dropdown-toggle dd-style" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Switch Cuisines
         </button>
@@ -79,7 +79,7 @@
       <div class="container-fluid padding">
         <div class="row">
           <div class="col-md-3">
-        			<div class="card border-dark" style="max-width:18rem;">
+        			<div class="card border-dark" style="max-width:17rem;">
         				<img class="card-img-top" src="img/team1.png"  height="180px">
         				<div class="card-body">
         					<h3 class="card-title">Recipe-Name</h3>
@@ -102,7 +102,53 @@
         			</div>
         	</div><!-- End of A Card -->
           <div class="col-md-3">
-        			<div class="card border-dark" style="max-width:18rem;">
+        			<div class="card border-dark" style="max-width:17rem;">
+        				<img class="card-img-top" src="img/team1.png"  height="180px">
+        				<div class="card-body">
+        					<h3 class="card-title">Recipe-Name</h3>
+                  <h6 class="card-subtitle">By UserName</h6>
+        				</div>
+                <div class="card-footer">
+                  <div class="row">
+                    <div class="col-6">
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                    </div>
+                    <div class="col-6" style="text-align:right;">
+                      <span class="fa fa-clock-o">3 h</span>
+                    </div>
+                  </div>
+                </div>
+        			</div>
+        	</div><!-- End of A Card -->
+          <div class="col-md-3">
+        			<div class="card border-dark" style="max-width:17rem;">
+        				<img class="card-img-top" src="img/team1.png"  height="180px">
+        				<div class="card-body">
+        					<h3 class="card-title">Recipe-Name</h3>
+                  <h6 class="card-subtitle">By UserName</h6>
+        				</div>
+                <div class="card-footer">
+                  <div class="row">
+                    <div class="col-6">
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                    </div>
+                    <div class="col-6" style="text-align:right;">
+                      <span class="fa fa-clock-o">3 h</span>
+                    </div>
+                  </div>
+                </div>
+        			</div>
+        	</div><!-- End of A Card -->
+          <div class="col-md-3">
+        			<div class="card border-dark" style="max-width:17rem;">
         				<img class="card-img-top" src="img/team1.png"  height="180px">
         				<div class="card-body">
         					<h3 class="card-title">Recipe-Name</h3>
@@ -124,56 +170,10 @@
                 </div>
         			</div>
         	</div><!-- End of A Card -->
-          <div class="col-md-3">
-        			<div class="card border-dark" style="max-width:18rem;">
-        				<img class="card-img-top" src="img/team1.png"  height="180px">
-        				<div class="card-body">
-        					<h3 class="card-title">Recipe-Name</h3>
-                  <h6 class="card-subtitle">By UserName</h6>
-        				</div>
-                <div class="card-footer">
-                  <div class="row">
-                    <div class="col-6">
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                    </div>
-                    <div class="col-6" style="text-align:right;">
-                      <span class="fa fa-clock-o">20 m</span>
-                    </div>
-                  </div>
-                </div>
-        			</div>
-        	</div><!-- End of A Card -->
-          <div class="col-md-3">
-        			<div class="card border-dark" style="max-width:18rem;">
-        				<img class="card-img-top" src="img/team1.png"  height="180px">
-        				<div class="card-body">
-        					<h3 class="card-title">Recipe-Name</h3>
-                  <h6 class="card-subtitle">By UserName</h6>
-        				</div>
-                <div class="card-footer">
-                  <div class="row">
-                    <div class="col-6">
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                    </div>
-                    <div class="col-6" style="text-align:right;">
-                      <span class="fa fa-clock-o">1.1 h</span>
-                    </div>
-                  </div>
-                </div>
-        			</div>
-        	</div><!-- End of A Card -->
         </div>
       </div>
     </div><!-- End of Container-->
-    <footer class="container-fluid">
+    <footer class="container-fluid navbar-fixed-bottom">
       <div class="container">
         <h6>Copyright &copy; 2019 RLC Company. All Rights Reserved</h6>
       </div>

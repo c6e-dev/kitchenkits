@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Get Started</title>
+	<title>Region Selection</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -14,78 +14,90 @@
 	<div class="container-fluid">
 		<div class="split left">
 			<h1>Western Cuisines</h1>
+			<span><img id="west-logo" src="<?php echo base_url('/assets/img/food/west.png'); ?>"></img></span>
 			<a href="javascript:unhide('trigger-a')" id="override" class="west-east-panel"><span></span></a>
 				<div id= "trigger-a" class="hidden">
+
 					<div id="fill_height" class="row">
-							<div id="France" class="col-lg-2 region">
+							<div id="France" class="col-lg-6 region">
 								<a href="<?php echo site_url('user/load_csrecipe');?>"><span></span></a>
 								<h2 class="odd-b">France</h2>
-								<img src="<?php echo base_url('/assets/img/countries/west/France.jpg'); ?>" alt="" width="100px" height="100px;">
+								<img src="<?php echo base_url('/assets/img/food/west/france.jpg'); ?>">
 							</div>
-							<div id="Greece" class="col-lg-2 region">
+							<div id="Greece" class="col-lg-6 region">
 								<a href="<?php echo site_url('user/load_csrecipe');?>"><span></span></a>
 								<h2>Greece</h2>
-								<img src="<?php echo base_url('/assets/img/countries/west/Greece.jpg'); ?>" alt="" width="100px" height="100px;">
-							</div>
-							<div id="Italy" class="col-lg-2 region">
-								<a href="<?php echo site_url('user/load_csrecipe');?>"><span></span></a>
-								<h2 class="odd-b">Italy</h2>
-								<img src="<?php echo base_url('/assets/img/countries/west/Italy.jpg'); ?>" alt="" width="100px" height="100px;">
-							</div>
-							<div id="Mexico" class="col-lg-2 region">
-								<a href="<?php echo site_url('user/load_csrecipe');?>"><span></span></a>
-								<h2>Mexico</h2>
-								<img src="<?php echo base_url('/assets/img/countries/west/Mexico.jpg'); ?>" alt="" width="100px" height="100px;">
-							</div>
-							<div id="Spain" class="col-lg-2 region">
-								<a href="<?php echo site_url('user/load_csrecipe');?>"><span></span></a>
-								<h2 class="odd-b">Spain</h2>
-								<img src="<?php echo base_url('/assets/img/countries/west/Spain.jpg'); ?>" alt="" width="100px" height="100px;">
-							</div>
-							<div id="States" class="col-lg-2 region">
-								<a href="<?php echo site_url('user/load_csrecipe');?>"><span></span></a>
-								<h2>USA</h2>
-								<img src="<?php echo base_url('/assets/img/countries/west/US.jpg'); ?>" alt="" width="100px" height="100px;">
+								<img src="<?php echo base_url('/assets/img/food/west/greece.jpg'); ?>">
 							</div>
 					</div>
-				</div>
-		</div>
+					<div id="fill_height" class="row">
+							<div id="Italy" class="col-lg-6 region">
+								<a href="<?php echo site_url('user/load_csrecipe');?>"><span></span></a>
+								<h2>Italy</h2>
+								<img src="<?php echo base_url('/assets/img/food/west/italy.jpg'); ?>">
+							</div>
+							<div id="Mexico" class="col-lg-6 region">
+								<a href="<?php echo site_url('user/load_csrecipe');?>"><span></span></a>
+								<h2 class="odd-b">Mexico</h2>
+								<img src="<?php echo base_url('/assets/img/food/west/mexico.jpg'); ?>">
+							</div>
+					</div>
+					<div id="fill_height" class="row">
+							<div id="Spain" class="col-lg-6 region">
+								<a href="<?php echo site_url('user/load_csrecipe');?>"><span></span></a>
+								<h2 class="odd-b">Spain</h2>
+								<img src="<?php echo base_url('/assets/img/food/west/spain.jpg'); ?>">
+							</div>
+							<div id="States" class="col-lg-6 region">
+								<a href="<?php echo site_url('user/load_csrecipe');?>"><span></span></a>
+								<h2>USA</h2>
+								<img src="<?php echo base_url('/assets/img/food/west/US.jpg'); ?>">
+							</div>
+					</div> <!-- End of Fill-height-->
+
+				</div><!-- End of Trigger-A-->
+		</div><!-- End of split left -->
 
 
 		<div class="split right">
 			<h1>Eastern Cuisines</h1>
+			<span><img id="east-logo" src="<?php echo base_url('/assets/img/food/east.png'); ?>"></img></span>
 			<a href="javascript:unhide('trigger-b')" id="override" class="west-east-panel"><span></span></a>
 				<div id="trigger-b" class="hidden">
 					<div id="fill_height" class="row">
-							<div id="China" class="col-lg-2 region">
+							<div id="China" class="col-lg-6 region">
 								<a href="<?php echo site_url('user/load_csrecipe');?>"><span></span></a>
 								<h2 class="odd-b">China</h2>
-								<img id="for-center" src="<?php echo base_url('/assets/img/countries/east/China.jpg'); ?>" alt="" width="100px" height="100px;">
+								<img src="<?php echo base_url('/assets/img/food/east/china.jpg'); ?>">
 							</div>
-							<div id="India" class="col-lg-2 region">
+							<div id="India" class="col-lg-6 region">
 								<a href="<?php echo site_url('user/load_csrecipe');?>"><span></span></a>
 								<h2>India</h2>
-								<img id="for-center" src="<?php echo base_url('/assets/img/countries/east/India.jpg'); ?>" alt="" width="100px" height="100px;">
+								<img src="<?php echo base_url('/assets/img/food/east/india.jpg'); ?>">
 							</div>
-							<div id="Japan" class="col-lg-2 region">
+				</div>
+				<div id="fill_height" class="row">
+							<div id="Japan" class="col-lg-6 region">
 								<a href="<?php echo site_url('user/load_csrecipe');?>"><span></span></a>
-								<h2 class="odd-b">Japan</h2>
-								<img id="for-center" src="<?php echo base_url('/assets/img/countries/east/Japan.jpg'); ?>" alt="" width="100px" height="100px;">
+								<h2>Japan</h2>
+								<img src="<?php echo base_url('/assets/img/food/east/japan.jpg'); ?>">
 							</div>
-							<div id="Phil" class="col-lg-2 region">
+							<div id="Phil" class="col-lg-6 region">
 								<a href="<?php echo site_url('user/load_csrecipe');?>"><span></span></a>
-								<h2>Philippines</h2>
-								<img id="for-center" src="<?php echo base_url('/assets/img/countries/east/Phil.jpg'); ?>" alt="" width="100px" height="100px;">
+								<h2 class="odd-b">Philippines</h2>
+								<img src="<?php echo base_url('/assets/img/food/east/phil.jpg'); ?>">
 							</div>
-							<div id="Korea" class="col-lg-2 region">
+				</div>
+				<div id="fill_height" class="row">
+							<div id="Korea" class="col-lg-6 region">
 								<a href="<?php echo site_url('user/load_csrecipe');?>"><span></span></a>
 								<h2 class="odd-b">South Korea</h2>
-								<img id="for-center" src="<?php echo base_url('/assets/img/countries/east/SK.jpg'); ?>" alt="" width="100px" height="100px;">
+								<img src="<?php echo base_url('/assets/img/food/east/korea.jpg'); ?>">
 							</div>
-							<div id="Thailand" class="col-lg-2 region">
+							<div id="Thailand" class="col-lg-6 region">
 								<a href="<?php echo site_url('user/load_csrecipe');?>"><span></span></a>
 								<h2>Thailand</h2>
-								<img id="for-center" src="<?php echo base_url('/assets/img/countries/east/Thailand.jpg'); ?>" alt="" width="100px" height="100px;">
+								<img src="<?php echo base_url('/assets/img/food/east/thai.jpg'); ?>">
 							</div>
 					</div>
 				</div>
