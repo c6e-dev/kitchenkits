@@ -33,6 +33,23 @@
         <div class="navbar-custom-menu">
           <ul class="nav navbar-nav">
             <!-- User Account Menu -->
+            <li>
+              <a href="<?php echo site_url('customer/view_cart'); ?>">
+                <?php 
+                  if ($cart!=NULL) {
+                    ?>
+                      <i class="fa fa-shopping-cart"></i>
+                      <span class="label label-warning"><?php echo $count[0]->od_id_count;?></span>
+                    <?php
+                  }else{
+                    ?>
+                      <i class="fa fa-shopping-cart"></i>
+                    <?php
+                  }
+                ?>
+                
+              </a>
+            </li>
             <li class="dropdown user user-menu">
               <!-- Menu Toggle Button -->
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -45,10 +62,7 @@
                 <!-- The user image in the menu -->
                 <li class="user-header">
                   <img src="<?php echo base_url('assets/dist/img/user2-160x160.jpg');?>" class="img-circle" alt="User Image">
-
-                  <p>
-                  <?php echo $_SESSION['user'];?>
-                </p>
+                  <p><?php echo $_SESSION['user'];?></p>
                 </li>
                 <!-- Menu Footer-->
                 <li class="user-footer">

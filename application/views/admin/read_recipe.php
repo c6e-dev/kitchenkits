@@ -198,7 +198,7 @@
                     </div>
                     <div class="row form-group" style="margin-bottom: 25px">
                       <div class="col-md-4">
-                        <label>Cooking Time <small style="font-weight: normal;">(minutes)</small></label>
+                        <label>Cooking Time <small style="font-weight: normal;">(Minutes)</small></label>
                         <input type="text" name="ctime" id="ctime" class="form-control input-sm">
                       </div>
                       <div class="col-md-4">

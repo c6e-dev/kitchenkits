@@ -72,12 +72,12 @@
                             <td><center>
                               <a href="<?php echo site_url('admin/view_customer'.'?id='.$cs->cs_id);?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
                               <?php echo'
-                              <button type="button" class="btn btn-xs btn-danger" data-target="#deaccust'.$cs->cs_id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-trash"></i></button>';?>
+                              <button type="button" class="btn btn-xs btn-danger" data-target="#deaccust'.$cs->cs_uid.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-trash"></i></button>';?>
                             </center></td>
                           </tr>
                           <div class="container">
                           <?php echo'
-                            <div class="modal fade" id="deaccust'.$cs->cs_id.'">  
+                            <div class="modal fade" id="deaccust'.$cs->cs_uid.'">  
                               <div class="modal-dialog">
                                 <div class="modal-content">
                                   <div class="modal-header">
@@ -87,7 +87,7 @@
                                     <strong><center>Confirm Customer Account Deactivation</center></strong>
                                   </div>';?>
                                   <div class="modal-footer">
-                                    <a href="<?php echo site_url('admin/delete_customer'.'?id='.$cs->cs_id);?>" class="btn btn-sm btn-primary">Confirm</a>
+                                    <a href="<?php echo site_url('admin/delete_customer'.'?id='.$cs->cs_uid);?>" class="btn btn-sm btn-primary">Confirm</a>
                                     <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Cancel</button>
                                   </div>
                                 </div>
@@ -131,12 +131,12 @@
                             <td><center>
                               <a href="<?php echo site_url('admin/view_customer'.'?id='.$cs->cs_id);?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
                               <?php echo'
-                              <button type="button" class="btn btn-xs btn-success" data-target="#accust'.$cs->cs_id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-power-off"></i></button>';?>
+                              <button type="button" class="btn btn-xs btn-success" data-target="#accust'.$cs->cs_uid.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-power-off"></i></button>';?>
                             </center></td>
                           </tr>
                           <div class="container">
                           <?php echo'
-                            <div class="modal fade" id="accust'.$cs->cs_id.'">
+                            <div class="modal fade" id="accust'.$cs->cs_uid.'">
                               <div class="modal-dialog">
                                 <div class="modal-content">
                                   <div class="modal-header">
@@ -146,7 +146,7 @@
                                     <strong><center>Confirm Customer Account Activation</center></strong>
                                   </div>';?>
                                   <div class="modal-footer">
-                                    <a href="<?php echo site_url('admin/activate_customer'.'?id='.$cs->cs_id);?>" class="btn btn-sm btn-primary">Confirm</a>
+                                    <a href="<?php echo site_url('admin/activate_customer'.'?id='.$cs->cs_uid);?>" class="btn btn-sm btn-primary">Confirm</a>
                                     <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Cancel</button>
                                   </div>
                                 </div>

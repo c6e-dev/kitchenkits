@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>KK | Administrator</title>
+  <title>KK | Branch Manager</title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
   <link rel="apple-touch-icon" href="<?php echo base_url('assets/img/KKIcon.png');?>">
@@ -20,18 +20,18 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 
-<body class="hold-transition skin-purple-light sidebar-mini">
+<body class="hold-transition skin-blue-light sidebar-mini">
 <div class="wrapper">
 
   <!-- Main Header -->
   <header class="main-header">
 
     <!-- Logo -->
-    <a href="<?php echo site_url('admin');?>" class="logo">
+    <a href="<?php echo site_url('branch');?>" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>RLC</b></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Kitchen Kits: </b>Admin</span>
+      <span class="logo-lg"><b>Kitchen Kits: </b>Branch</span>
     </a>
 
     <!-- Header Navbar -->

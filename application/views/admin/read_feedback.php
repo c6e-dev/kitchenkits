@@ -101,33 +101,35 @@
                       </span>
                     </li>
                   <?php
-                  foreach ($feedback as $pfb) {
-                    $new_date = date('M d, Y', strtotime($pfb->fb_cdate));
-                    if ($new_date == $prev_date) {
-                      if ($pfb->fb_type == 3) {
-                        ?>
-                          <li>
-                            <i class="fa fa-star bg-yellow"></i>
-                            <div class="timeline-item">
-                              <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($pfb->fb_cdate));?></span>
-                              <h3 class="timeline-header"><a href="#"><?php echo $pfb->fb_fname; ?> <?php echo $pfb->fb_lname; ?></a> rated <?php echo $pfb->fb_rating; ?> stars on <?php echo $pfb->fb_recipe; ?></h3>
-                            </div>
-                          </li>
-                        <?php  
-                      }
-                      if ($pfb->fb_type == 4) {
-                        ?>
-                          <li>
-                            <i class="fa fa-comment bg-red"></i>
-                            <div class="timeline-item">
-                              <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($pfb->fb_cdate));?></span>
-                              <h3 class="timeline-header"><a href="#"><?php echo $pfb->fb_fname; ?> <?php echo $pfb->fb_lname; ?></a> commented on <?php echo $pfb->fb_recipe; ?></h3>
-                              <div class="timeline-body">
-                                <?php echo $pfb->fb_comment; ?>
+                  if ($feedback!=NULL) {
+                    foreach ($feedback as $pfb) {
+                      $new_date = date('M d, Y', strtotime($pfb->fb_cdate));
+                      if ($new_date == $prev_date) {
+                        if ($pfb->fb_type == 3) {
+                          ?>
+                            <li>
+                              <i class="fa fa-star bg-yellow"></i>
+                              <div class="timeline-item">
+                                <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($pfb->fb_cdate));?></span>
+                                <h3 class="timeline-header"><a href="#"><?php echo $pfb->fb_fname; ?> <?php echo $pfb->fb_lname; ?></a> rated <?php echo $pfb->fb_rating; ?> stars on <?php echo $pfb->fb_recipe; ?></h3>
                               </div>
-                            </div>
-                          </li>
-                        <?php  
+                            </li>
+                          <?php  
+                        }
+                        if ($pfb->fb_type == 4) {
+                          ?>
+                            <li>
+                              <i class="fa fa-comment bg-red"></i>
+                              <div class="timeline-item">
+                                <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($pfb->fb_cdate));?></span>
+                                <h3 class="timeline-header"><a href="#"><?php echo $pfb->fb_fname; ?> <?php echo $pfb->fb_lname; ?></a> commented on <?php echo $pfb->fb_recipe; ?></h3>
+                                <div class="timeline-body">
+                                  <?php echo $pfb->fb_comment; ?>
+                                </div>
+                              </div>
+                            </li>
+                          <?php  
+                        }
                       }
                     }
                   }

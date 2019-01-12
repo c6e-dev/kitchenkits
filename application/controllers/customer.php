@@ -13,12 +13,24 @@ class customer extends CI_Controller {
 	//VIEW FUNCTIONS 
 
 	public function index(){
-		$this->load->view('customer/layout/header');
-		$data['v_profile'] = $this->customer_model->view_profile($_SESSION['id']);
-		$data['v_history'] = $this->customer_model->view_history($_SESSION['id']);
-		$data['v_recent_order'] = $this->customer_model->view_recent_order($data['v_profile'][0]->cs_id);
-		$this->load->view('customer/cs_profile', $data);
-		$this->load->view('customer/layout/footer');
+		$data['cart'] = $this->customer_model->view_cart($_SESSION['id']);
+		if ($data['cart']!=NULL) {
+			$data['count'] = $this->customer_model->item_count($data['cart'][0]->od_id);
+			$this->load->view('customer/layout/header',$data);
+			$data['v_profile'] = $this->customer_model->view_profile($_SESSION['id']);
+			$data['v_history'] = $this->customer_model->view_history($_SESSION['id']);
+			$data['v_recent_order'] = $this->customer_model->view_recent_order($data['v_profile'][0]->cs_id);
+			$this->load->view('customer/cs_profile', $data);
+			$this->load->view('customer/layout/footer');
+		}else{
+			$this->load->view('customer/layout/header',$data);
+			$data['v_profile'] = $this->customer_model->view_profile($_SESSION['id']);
+			$data['v_history'] = $this->customer_model->view_history($_SESSION['id']);
+			$data['v_recent_order'] = $this->customer_model->view_recent_order($data['v_profile'][0]->cs_id);
+			$this->load->view('customer/cs_profile', $data);
+			$this->load->view('customer/layout/footer');
+		}
+		
 	}
 
 	// public function view_profile(){
@@ -58,7 +70,6 @@ class customer extends CI_Controller {
 				'valid_email' => 'The %s You Entered Is Invalid or Already Taken',
 				'is_unique' => 'The %s You Entered Is Invalid or Already Taken'
 		));
-
 		if ($this->form_validation->run() == TRUE) {
 			$_SESSION['user'] = $username;
 			$upt_date = date('Y-m-d H:i:s');
@@ -106,10 +117,55 @@ class customer extends CI_Controller {
 	//CART FUNCTIONS
 
 	public function view_cart(){
-		$data['cart'] = $this->customer_model->view_cart();
-		$this->load->view('customer/layout/header');
-		$this->load->view('customer/view_cart', $data);
-		$this->load->view('customer/layout/footer');
+		$data['cart'] = $this->customer_model->view_cart($_SESSION['id']);
+		if ($data['cart']!=NULL) {
+			$data['count'] = $this->customer_model->item_count($data['cart'][0]->od_id);		
+			$data['stotal'] = $this->customer_model->item_subtotal($_SESSION['id']);
+			$data['stotalprice'] = $this->customer_model->item_subtotal_price($_SESSION['id']);
+			$this->load->view('customer/layout/header',$data);
+			$this->load->view('customer/cart_view', $data);
+			$this->load->view('customer/layout/footer');
+		}else{
+			$data['stotal'] = $this->customer_model->item_subtotal($_SESSION['id']);
+			$data['stotalprice'] = $this->customer_model->item_subtotal_price($_SESSION['id']);
+			$this->load->view('customer/layout/header',$data);
+			$this->load->view('customer/cart_view', $data);
+			$this->load->view('customer/layout/footer');
+		}
+	}
+
+	public function edit_item_count(){
+		$response = array();
+		$this->form_validation->set_rules('itemcount', 'Item Count', 'required|numeric');
+		if ($this->form_validation->run() == TRUE) {
+			$this->customer_model->edit_item_count();
+			$response['status'] = TRUE;
+		}
+		else {
+			$response['status'] = FALSE;
+		}
+		echo json_encode($response);
+	}
+
+	public function item_count_decrease(){
+		$itemcount = ($_POST['itemcount'] - 1);
+		$data = $this->customer_model->item_count_decrease($itemcount);
+		echo json_encode($data);
+	}
+
+	public function item_count_increase(){
+		$itemcount = ($_POST['itemcount'] + 1);
+		$data = $this->customer_model->item_count_decrease($itemcount);
+		echo json_encode($data);
+	}
+
+	public function delete_cart_item($oc_id,$od_id,$od_count){
+		if ($od_count == 1) {
+			$this->customer_model->delete_cart_item($oc_id,$od_id);
+		}else{
+			$this->customer_model->delete_order($oc_id);
+		}
+		redirect('customer/view_cart');
 	}
 
 	public function browse_recipe($id){

@@ -52,7 +52,7 @@
                 <dt>Branch Name</dt>
                 <dd><?php echo $order[0]->od_branch?></dd>
                 <dt>Creation Date</dt>
-                <dd><?php echo $order[0]->od_create?></dd>
+                <dd><?php echo date('M d, Y - g:i a', strtotime($order[0]->od_create));?></dd>
               </dl>
             <!-- /.box-body -->
             </div>

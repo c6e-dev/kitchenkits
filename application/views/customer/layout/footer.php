@@ -1,4 +1,4 @@
-<footer class="main-footer">
+  <footer class="main-footer">
     <div class="pull-right hidden-xs">
       Kitchen Kits
     </div>
@@ -101,6 +101,76 @@
                   $('.alert').css('display', 'block');
                   $('.alert').html(data.notif);
               }
+          },
+          error: function(){
+            alert('ERROR!');
+          }
+      });return false;
+    });
+
+    $(".itemcount").keyup( function(e) {
+      var content_id = $(this).attr('data-id');
+      var item = $('#itemcount'+content_id).val();
+      $.ajax({
+          type: 'post',
+          url: "<?php echo site_url('customer/edit_item_count'); ?>",
+          data: {
+            itemcount: item,
+            oc_id: content_id
+          },
+          dataType: 'JSON',
+          success: function(data){
+            if (data.status) {
+              location.reload();
+            }else{
+              alert('Please enter a valid quantity!');
+              location.reload();
+            }
+          },
+          error: function(){
+            alert('ERROR!');
+          }
+      });return false;
+    });
+
+    $('.itemdec').on('click', function(e){
+      var content_id = $(this).attr('data-id');
+      var item = $('#itemcount'+content_id).val();
+      $.ajax({
+          type: 'post',
+          url: "<?php echo site_url('customer/item_count_decrease'); ?>",
+          data: {
+            itemcount: item,
+            oc_id: content_id
+          },
+          dataType: 'JSON',
+          success: function(data){
+            location.reload();
+          },
+          error: function(){
+            alert('ERROR!');
+          }
+      });return false;
+    });
+
+    // var item = [];
+    // $('.itemcount').each(function(){
+    //     item.push($(this).val());
+    // });
+
+    $('.iteminc').on('click', function(e){
+      var content_id = $(this).attr('data-id');
+      var item = $('#itemcount'+content_id).val();
+      $.ajax({
+          type: 'post',
+          url: "<?php echo site_url('customer/item_count_increase'); ?>",
+          data: {
+            itemcount: item,
+            oc_id: content_id
+          },
+          dataType: 'JSON',
+          success: function(data){
+            location.reload();
           },
           error: function(){
             alert('ERROR!');
