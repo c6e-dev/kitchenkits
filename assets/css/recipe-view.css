@@ -6,6 +6,9 @@
 .padding{
   padding: 1.2rem 0;
 }
+.alternate{
+  background: #F8F9FA;
+}
 /** Navigation **/
 .nav-des{
   font-size: 1rem;
@@ -23,6 +26,10 @@
   background: rgba(230, 70, 0, 0.78);
 }
 /** Content **/
+.back-arrow, .back-arrow:hover{
+  text-decoration: none;
+  color: black;
+}
 .desc-styles p{
   text-align: justify;
 }
@@ -31,8 +38,52 @@
 	display: block;
 	padding: .75rem 1.25rem;
 	margin-bottom: -1px;
-	background-color: #fff;
+	background-color: #F8F9FA;
 	border: 0px;
+}
+/** Ratings **/
+.border{
+  border: 1px solid black;
+}
+.rating {
+    overflow: hidden;
+    display: inline-block;
+}
+.rating-input {
+    float: right;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    margin: 0 0 0 -16px;
+    opacity: 0;
+}
+.rating:hover .rating-star:hover,
+.rating:hover .rating-star:hover ~ .rating-star,
+.rating-input:checked ~ .rating-star {
+    background-position: 0 0;
+}
+
+.rating-star,
+.rating:hover .rating-star {
+    position: relative;
+    float: right;
+    display: block;
+    width: 16px;
+    height:16px;
+    background: url('../img/star.png') 0 -16px;
+}
+.post-btn{
+  display: block;
+  width: 100%;
+  margin-bottom:1rem;
+}
+#pads{
+  margin-top: 1rem;
+}
+.shade{
+  background-color:#ccc;
+  padding: 1rem;
+  margin: 1rem 0;
 }
 /** Footer **/
 footer{

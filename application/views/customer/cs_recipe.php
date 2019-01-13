@@ -4,6 +4,8 @@
     <title>KK | Recipe Browsing</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
+    <link rel="apple-touch-icon" href="<?php echo base_url('assets/img/KKIcon.png');?>">
+    <link rel="shortcut icon" href="<?php echo base_url('assets/img/KKIcon.png');?>">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>/assets/css/bootstrap.min.css">
     <script type="text/javascript" src="<?php echo base_url();?>/assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url();?>/assets/js/popper.min.js"></script>
@@ -80,7 +82,7 @@
         <div class="row">
           <div class="col-md-3">
         			<div class="card border-dark" style="max-width:17rem;">
-        				<img class="card-img-top" src="img/team1.png"  height="180px">
+                <a href="<?php echo site_url('user/load_recipe'); ?>"><img class="card-img-top" src="img/team1.png"  height="180px"></a>
         				<div class="card-body">
         					<h3 class="card-title">Recipe-Name</h3>
                   <h6 class="card-subtitle">By UserName</h6>
@@ -103,7 +105,7 @@
           </div><!-- End of A Card -->
           <div class="col-md-3">
         			<div class="card border-dark" style="max-width:17rem;">
-        				<img class="card-img-top" src="img/team1.png"  height="180px">
+        				<a href="<?php echo site_url('user/load_recipe'); ?>"><img class="card-img-top" src="img/team1.png"  height="180px"></a>
         				<div class="card-body">
         					<h3 class="card-title">Recipe-Name</h3>
                   <h6 class="card-subtitle">By UserName</h6>
@@ -126,7 +128,7 @@
           </div><!-- End of A Card -->
           <div class="col-md-3">
         			<div class="card border-dark" style="max-width:17rem;">
-        				<img class="card-img-top" src="img/team1.png"  height="180px">
+                <a href="<?php echo site_url('user/load_recipe'); ?>"><img class="card-img-top" src="img/team1.png"  height="180px"></a>
         				<div class="card-body">
         					<h3 class="card-title">Recipe-Name</h3>
                   <h6 class="card-subtitle">By UserName</h6>
@@ -149,8 +151,8 @@
           </div><!-- End of A Card -->
           <div class="col-md-3">
         			<div class="card border-dark" style="max-width:17rem;">
-        				<img class="card-img-top" src="img/team1.png"  height="180px">
-        				<div class="card-body">
+                <a href="<?php echo site_url('user/load_recipe'); ?>"><img class="card-img-top" src="img/team1.png"  height="180px"></a>
+                <div class="card-body">
         					<h3 class="card-title">Recipe-Name</h3>
                   <h6 class="card-subtitle">By UserName</h6>
                 </div>

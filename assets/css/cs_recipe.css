@@ -31,7 +31,7 @@
     max-height: 175px;
     overflow-x: hidden;
 }
-.btn-dark ,.btn-dark.focus, .btn-dark:hover {
+.btn-dark ,.btn-dark:focus, .btn-dark:hover {
 	box-shadow: 0 0 0 0;
   border-color: #F15A24;
   border-radius: 0.3rem;
