@@ -10,10 +10,18 @@ class branch extends CI_Controller {
 
 	public function index(){
 		$this->load->view('branch/layout/header');
-		$data = array(
-			'order' => $this->branch_model->order_view($_SESSION['id']),
-			'count' => $this->branch_model->order_count()
-		);
+		$data['order'] = $this->branch_model->processed_order_view($_SESSION['id']);
+		$data['inc_order'] = $this->branch_model->incomplete_order_view($_SESSION['id']);
+		$var = count($data['order']);
+		$ivar = count($data['inc_order']);
+		for ($i=0; $i < $var ; $i++) {
+			$order_count[$i] = $this->branch_model->order_count($data['order'][$i]->od_id);
+		}
+		for ($j=0; $j < $ivar ; $j++) {
+			$inc_order_count[$j] = $this->branch_model->order_count($data['inc_order'][$j]->od_id);
+		}
+		$data['count'] = $order_count;
+		$data['icount'] = $inc_order_count;
 		$this->load->view('branch/order_view',$data);
 		$this->load->view('branch/layout/footer');
 	}
@@ -34,5 +42,5 @@ class branch extends CI_Controller {
 
 	// public function add_supply(){
 
-	// }
+	// } 
 } 

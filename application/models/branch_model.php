@@ -4,19 +4,35 @@ class branch_model extends CI_Model{
 		parent:: __construct();
 	}
 
-	public function order_view($id){
+	public function processed_order_view($id){
 		$query = $this->db->query("
-			SELECT od.id AS od_id, od.status AS od_status, cu.first_name AS od_fname, cu.last_name AS od_lname, br.name AS od_branch, ua.created_date AS od_create, re.name AS od_recipe, oc.quantity AS od_quantity
+			SELECT od.id AS od_id, od.status AS od_status, cu.first_name AS od_fname, cu.last_name AS od_lname, br.name AS od_branch, ua.created_date AS od_create
 			FROM delivery od
 			INNER JOIN customer cu ON od.customer_id = cu.id
 			INNER JOIN branch br ON od.branch_id = br.id
 			INNER JOIN branch_manager bm ON br.manager_id = bm.id
 			INNER JOIN user_activity ua ON od.activity_id = ua.id
-			INNER JOIN recipe re ON ua.recipe_id = re.id
-			INNER JOIN order_content oc ON oc.order_id = od.id
-			INNER JOIN user u ON bm.user_id = u.id 
-			WHERE u.id = '$id'
-			ORDER BY ua.created_date ASC		
+			WHERE bm.user_id = '$id' AND od.status = 'P'
+			ORDER BY ua.created_date ASC
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function incomplete_order_view($id){
+		$query = $this->db->query("
+			SELECT od.id AS od_id, od.status AS od_status, cu.first_name AS od_fname, cu.last_name AS od_lname, br.name AS od_branch, ua.created_date AS od_create
+			FROM delivery od
+			INNER JOIN customer cu ON od.customer_id = cu.id
+			INNER JOIN branch br ON od.branch_id = br.id
+			INNER JOIN branch_manager bm ON br.manager_id = bm.id
+			INNER JOIN user_activity ua ON od.activity_id = ua.id
+			WHERE bm.user_id = '$id' AND od.status = 'I'
+			ORDER BY ua.created_date ASC
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();
@@ -39,7 +55,7 @@ class branch_model extends CI_Model{
 	public function detail_view($id){
 		$query = $this->db->query("
 			SELECT od.id AS od_id, od.code AS od_code, od.status AS od_status, oc.quantity AS od_quantity, re.name AS od_recipe, ri.ingredient_amount AS od_ig_amount, ig.name AS od_ingredient, un.name AS od_unit
-			FROM delivery od 
+			FROM delivery od
 			INNER JOIN order_content oc ON oc.order_id = od.id
 			INNER JOIN recipe re ON oc.recipe_id = re.id
 			INNER JOIN recipe_ingredients ri ON ri.recipe_id = re.id

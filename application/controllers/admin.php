@@ -87,6 +87,7 @@ class admin extends CI_Controller {
 	public function view_recipe($rcp_id,$co_id){
 		$data['recipe'] = $this->admin_model->view_recipe($rcp_id);
 		$data['country'] = $this->admin_model->country2($co_id);
+		$data['ingredients'] = $this->admin_model->read_ingredients();
 		$this->load->view('admin/layout/header');
 		$this->load->view('admin/recipe_view',$data);
 		$this->load->view('admin/layout/footer');

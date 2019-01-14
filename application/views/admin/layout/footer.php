@@ -23,7 +23,7 @@
 <script src="<?php echo base_url('assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js');?>"></script>
 <!-- FastClick -->
 <script src="<?php echo base_url('assets/plugins/iCheck/icheck.min.js');?>"></script>
-<!-- <script src="<?php echo base_url('assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js');?>"></script> -->
+<script src="<?php echo base_url('assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js');?>"></script>
 <script src="<?php echo base_url('assets/bower_components/fastclick/lib/fastclick.js');?>"></script>
 <!-- AdminLTE App -->
 <script src="<?php echo base_url('assets/dist/js/adminlte.min.js');?>"></script>
@@ -72,11 +72,18 @@
     $("#recipe_image").on('click', function () {
       $("#image_save").show();
       $("#image_cancel").show();
+    });    
+
+    $('#ingredients').on('change',function(){
+      var ingredient_id = $(this).val(); 
+      var optionText = $("#ingredients option:selected").text();
+      $("#ingredients option:selected").hide();
+      $("#selectedIngredients").append($("<li><span class='text'>"+optionText+"</span><small class='pull-right'><span>Quantity = </span><input data-in_id='"+ingredient_id+"' type='text' style='width:40px;' placeholder='Unit' name='test'></small><div class='tools pull-left'><i class='fa fa-times'></i></div></li>"));
     });
     
-    // $('#chat-box').slimScroll({
-    //   height: '500px'
-    // }); 
+    $('#ingr-scroll').slimScroll({
+      height: '220px'
+    });
 
     $('#btn_rcp_save').on('click', function(){
       var rcpname = $('#rcpnm').val();

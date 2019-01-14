@@ -134,6 +134,18 @@ class admin_model extends CI_Model{
 		}
 	}
 
+	public function read_ingredients(){
+		$query = $this->db->query("
+			SELECT ing.id in_id, ing.unit_id in_unit_id, ing.name in_nm
+			FROM ingredients ing
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}else{
+			return NULL;
+		}
+	}
+
 	//CUSTOMER FUNCTIONS 
 
 	public function view_customer($id){ 
