@@ -15,6 +15,13 @@ class branch extends CI_Controller {
 		$this->load->view('branch/layout/footer');
 	}
 
+	public function detail_view(){
+		$this->load->view('branch/layout/header');
+		$data['detail'] = $this->branch_model->detail_view($_GET['id']);
+		$this->load->view('branch/detail_view',$data);
+		$this->load->view('branch/layout/footer');
+	}
+
 	public function supply_view(){
 		$this->load->view('branch/layout/header');
 		$data['supply'] = $this->branch_model->supply_view($_SESSION['id']);
