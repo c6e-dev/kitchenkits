@@ -40,10 +40,10 @@
                 if ($od->od_status == 'P') {
                   ?>
                   <div class="grid-item">
-                    <div class="col-md-12">
+                    <div class="col-md-24">
                       <a class="a-item" href="<?php echo site_url('branch/detail_view'.'?id='.$od->od_id);?>">
                         <div class="info-box">
-                          <span class="info-box-icon bg-green"></span>
+                          <span class="info-box-icon bg-green"><?php echo " ".$count->qty?></span>
                           <div class="info-box-content">
                             <span class="info-box-text"><?php echo str_replace("’", "'", $od->od_fname." ".$od->od_lname)?></span>
                             <span class="info-box-number"><?php echo date('M d, Y - g:i a', strtotime($od->od_create));?></span>
@@ -67,10 +67,10 @@
                 if ($od->od_status == 'I') {
                   ?>
                   <div class="grid-item">
-                    <div class="col-md-12">
+                    <div class="col-md-24">
                       <a class="a-item" href="<?php echo site_url('branch/detail_view'.'?id='.$od->od_id);?>">
                         <div class="info-box">
-                          <span class="info-box-icon bg-red"></span>
+                          <span class="info-box-icon bg-red"><?php echo " ".$count->qty?></span>
                           <div class="info-box-content">
                             <span class="info-box-text"><?php echo str_replace("’", "'", $od->od_fname." ".$od->od_lname)?></span>
                             <span class="info-box-number"><?php echo date('M d, Y - g:i a', strtotime($od->od_create));?></span>

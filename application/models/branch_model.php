@@ -16,7 +16,7 @@ class branch_model extends CI_Model{
 			INNER JOIN order_content oc ON oc.order_id = od.id
 			INNER JOIN user u ON bm.user_id = u.id 
 			WHERE u.id = '$id'
-			ORDER BY ua.created_date DESC		
+			ORDER BY ua.created_date ASC		
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();
@@ -25,6 +25,16 @@ class branch_model extends CI_Model{
 			return NULL;
 		}
 	}
+
+	public function order_count($id){
+		$query = $this->db->query("
+			SELECT SUM(oc.quantity) AS qty
+			FROM order_content oc
+			INNER JOIN delivery od ON oc.order_id = od.id
+			WHERE od.id = '$id'
+		");
+		return $query->result();
+	}	
 
 	public function detail_view($id){
 		$query = $this->db->query("

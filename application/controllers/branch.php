@@ -10,7 +10,10 @@ class branch extends CI_Controller {
 
 	public function index(){
 		$this->load->view('branch/layout/header');
-		$data['order'] = $this->branch_model->order_view($_SESSION['id']);
+		$data = array(
+			'order' => $this->branch_model->order_view($_SESSION['id']),
+			'count' => $this->branch_model->order_count()
+		);
 		$this->load->view('branch/order_view',$data);
 		$this->load->view('branch/layout/footer');
 	}
