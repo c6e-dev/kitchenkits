@@ -232,14 +232,10 @@
               <h3 class="box-title">Instructions</h3>
             </div>
             <div class="box-body">
-              <div class="box">
-                <div class="box-body">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <textarea class="form-control" rows="15"><?php echo $recipe[0]->re_ins;?></textarea>  
-                    </div>                            
-                  </div>
-                </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <textarea class="form-control" rows="15"><?php echo $recipe[0]->re_ins;?></textarea>  
+                </div>                            
               </div>
             </div>
           </div>
@@ -252,7 +248,6 @@
               <h3 class="box-title">Ingredients</h3>
             </div>
             <div class="box-body">
-              <div class="box">
                 <div class="box-body table-responsive no-padding">
                   <table class="table table-condensed">
                     <tr>
