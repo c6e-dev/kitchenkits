@@ -44,22 +44,21 @@
               $var = 0;
               foreach ($detail as $de) {
                 ?>
-                <div class="grid-item">
-                  <div class="col-md-24">
-                    <div class="box box-solid">
-                      <div class="box-header with-border">
-                        <h3 class="box-title"><?php echo $de->od_quantity." x ".$de->od_recipe?></h3>
-                      </div>
-                      <div class="box-body">
-                        <div class="box-body table-responsive no-padding">
-                          <table class="table table-condensed">
-                            <tr>
-                              <th >Name</th>
-                              <th style="text-align: right;">Amount</th>
-                            </tr>
-                            <?php
-                              if ($ingredient!=NULL) {
-                                foreach ($ingredient as $ing) {
+                  <div class="grid-item">
+                    <div class="col-md-24">
+                      <div class="box box-solid">
+                        <div class="box-header with-border">
+                          <h3 class="box-title"><?php echo $de->od_quantity." x ".$de->od_recipe?></h3>
+                        </div>
+                        <div class="box-body">
+                          <div class="box-body table-responsive no-padding">
+                            <table class="table table-condensed">
+                              <tr>
+                                <th >Name</th>
+                                <th style="text-align: right;">Amount</th>
+                              </tr>
+                              <?php
+                                foreach ($ingredient[$var] as $ing) {
                                   ?>
                                     <tr>
                                       <td><?php echo $ing->ri_ingredient;?></td>
@@ -67,16 +66,15 @@
                                     </tr>
                                   <?php
                                 }
-                              }
-                            ?>
-                          </table>
+                              ?>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
                 <?php
-              $var += 1;
+                $var += 1;
               }
             }
             ?>

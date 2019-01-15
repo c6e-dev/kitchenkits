@@ -44,7 +44,7 @@ class user extends CI_Controller {
 					redirect('branch');
 					break;
 				case '3':
-					redirect('customer');
+					redirect();
 					break;
 			}
 		}
