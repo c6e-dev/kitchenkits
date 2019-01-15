@@ -21,7 +21,7 @@
 <body class="hold-transition skin-blue-light sidebar-mini">
   <div class="wrapper">
     <header class="main-header">
-      <a href="<?php echo site_url('branch');?>" class="logo">
+      <a href="<?php echo site_url('user');?>" class="logo">
         <span class="logo-mini"><b>RLC</b></span>    
         <span class="logo-lg"><b>Kitchen Kits: </b>Branch</span>
       </a>

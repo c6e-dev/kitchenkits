@@ -9,31 +9,36 @@ class admin extends CI_Controller {
 	}
 	public function index(){
 		if (isset($_SESSION['logged_in'])) {
-			$this->load->view('admin/layout/header');
-			$data = array(
-				'branch' => $this->admin_model->branch_count(),
-				'branch_a' => $this->admin_model->branch_count_a(),
-				'branch_i' => $this->admin_model->branch_count_i(),
-				'manager' => $this->admin_model->manager_count(),
-				'manager_a' => $this->admin_model->manager_count_a(),
-				'manager_u' => $this->admin_model->manager_count_u(),
-				'customer' => $this->admin_model->customer_count(),
-				'customer_a' => $this->admin_model->customer_count_a(),
-				'customer_i' => $this->admin_model->customer_count_i(),
-				'logged_in' => $this->admin_model->logged_in_count(),
-				'recipe' => $this->admin_model->recipe_count(),
-				'recipe_a' => $this->admin_model->recipe_count_a(),
-				'recipe_i' => $this->admin_model->recipe_count_i(),	
-				'order' => $this->admin_model->order_count(),
-				'order_c' => $this->admin_model->order_count_c(),
-				'order_i' => $this->admin_model->order_count_i(),
-				'comment' => $this->admin_model->comment_count(),
-				'rating' => $this->admin_model->rating_count(),
-				'logged_in' => $this->admin_model->loggedin_count(),
-				'act_feed' => $this->admin_model->read_activity_feed()
-			);
-			$this->load->view('admin/home',$data);
-			$this->load->view('admin/layout/footer');
+			if ($_SESSION['utype'] == 1) {
+				$this->load->view('admin/layout/header');
+				$data = array(
+					'branch' => $this->admin_model->branch_count(),
+					'branch_a' => $this->admin_model->branch_count_a(),
+					'branch_i' => $this->admin_model->branch_count_i(),
+					'manager' => $this->admin_model->manager_count(),
+					'manager_a' => $this->admin_model->manager_count_a(),
+					'manager_u' => $this->admin_model->manager_count_u(),
+					'customer' => $this->admin_model->customer_count(),
+					'customer_a' => $this->admin_model->customer_count_a(),
+					'customer_i' => $this->admin_model->customer_count_i(),
+					'logged_in' => $this->admin_model->logged_in_count(),
+					'recipe' => $this->admin_model->recipe_count(),
+					'recipe_a' => $this->admin_model->recipe_count_a(),
+					'recipe_i' => $this->admin_model->recipe_count_i(),	
+					'order' => $this->admin_model->order_count(),
+					'order_c' => $this->admin_model->order_count_c(),
+					'order_i' => $this->admin_model->order_count_i(),
+					'comment' => $this->admin_model->comment_count(),
+					'rating' => $this->admin_model->rating_count(),
+					'logged_in' => $this->admin_model->loggedin_count(),
+					'act_feed' => $this->admin_model->read_activity_feed()
+				);
+				$this->load->view('admin/home',$data);
+				$this->load->view('admin/layout/footer');
+			}
+			else{
+				show_404();
+			}
 		}
 		else{
 			redirect('user/load_login');

@@ -34,14 +34,34 @@
 				</li>
 				<?php
 					if (isset($_SESSION['logged_in'])) {
-						?>
-							<li class="nav-item">
-								<a class="nav-link" href="<?php echo site_url('customer');?>">PROFILE</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="<?php echo site_url('user/logout');?>">LOG OUT</a>
-							</li>
-						<?php
+						if ($_SESSION['utype'] == 1) {
+							?>
+								<li class="nav-item">
+									<a class="nav-link" href="<?php echo site_url('admin');?>">DASHBOARD</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="<?php echo site_url('user/logout');?>">LOG OUT</a>
+								</li>
+							<?php
+						}elseif ($_SESSION['utype'] == 2) {
+							?>
+								<li class="nav-item">
+									<a class="nav-link" href="<?php echo site_url('branch');?>">DASHBOARD</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="<?php echo site_url('user/logout');?>">LOG OUT</a>
+								</li>
+							<?php
+						}else{
+							?>
+								<li class="nav-item">
+									<a class="nav-link" href="<?php echo site_url('customer');?>">PROFILE</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="<?php echo site_url('user/logout');?>">LOG OUT</a>
+								</li>
+							<?php
+						}
 					}
 					else{
 						?>

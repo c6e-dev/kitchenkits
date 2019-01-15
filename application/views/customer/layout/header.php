@@ -23,7 +23,7 @@
     <header class="main-header">
       <nav class="navbar navbar-static-top">
         <div class="navbar-header">
-          <a href="<?php echo site_url('customer')?>" class="navbar-brand"><b>Kitchen Kits</b></a>
+          <a href="<?php echo site_url('user')?>" class="navbar-brand"><b>Kitchen Kits</b></a>
         </div>
         <div class="navbar-custom-menu">
           <ul class="nav navbar-nav">
