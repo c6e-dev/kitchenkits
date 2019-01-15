@@ -80,7 +80,6 @@
         var new_pass = $('#new_pass').val();
         var conf_pass = $('#conf_pass').val();
         var u_id = $('#u_id').val();
-        var curr = $('#curr').val();
         $.ajax({
             type: 'post',
             url: "<?php echo site_url('customer/edit_password'); ?>",
@@ -89,7 +88,6 @@
                 new_password: new_pass,
                 cpassword: conf_pass,
                 user_id: u_id,
-                password: curr
             },
             dataType: 'JSON',
             success: function(data){

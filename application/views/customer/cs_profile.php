@@ -28,7 +28,6 @@
         </div>
         <div class="modal-footer">
           <input type="hidden" name="u_id" id="u_id" value="<?php echo $v_profile[0]->cs_uid?>">
-          <input type="hidden" name="curr" id="curr" value="<?php echo $_SESSION['pass']?>">
           <button type="button" id="save_change_pass" class="btn btn-danger">Save</button>
           <button type="button" class="btn btn-sm" data-dismiss="modal">Close</button>
         </div>

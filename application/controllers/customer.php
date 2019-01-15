@@ -93,14 +93,20 @@ class customer extends CI_Controller {
 		echo json_encode($response);
 	}
 
+	public function password_check(){
+		$curr_pass = sha1($_POST['curr_password']);
+		if ($curr_pass == $_SESSION['pass']) {
+			return TRUE;
+		}
+		else{
+			$this->form_validation->set_message('password_check', 'The {field} you supplied does not match your existing password');
+			return FALSE;
+		}
+	}
+
 	public function edit_password(){
 		$response = array();
-		$password = $_POST['new_password'];
-		$this->form_validation->set_rules('password', 'Password', 'required');
-		$this->form_validation->set_rules('curr_password', 'Current Password', 'required|matches[password]',
-			array(
-				'matches' => 'The %s you supplied does not match your existing password.'
-		));
+		$this->form_validation->set_rules('curr_password', 'Current Password', 'callback_password_check');
 		$this->form_validation->set_rules('new_password', 'New Password', 'required',
 			array(
 				'required' => 'You must provide a %s'
@@ -110,7 +116,7 @@ class customer extends CI_Controller {
 		 		'matches' => 'Passwords do not match'
 			));
 		if ($this->form_validation->run() == TRUE) {
-			$_SESSION['pass'] = $password;
+			$_SESSION['pass'] = sha1($_POST['new_password']);
 			$upt_date = date('Y-m-d H:i:s');
 			$data = $this->customer_model->edit_password($upt_date);
 			$response['status'] = TRUE;
