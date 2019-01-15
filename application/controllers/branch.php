@@ -38,6 +38,7 @@ class branch extends CI_Controller {
 	public function detail_view(){
 		$this->load->view('branch/layout/header');
 		$data['detail'] = $this->branch_model->detail_view($_GET['id']);
+		$data['ingredient'] = $this->branch_model->detail_ing($_GET['id']);
 		$this->load->view('branch/detail_view',$data);
 		$this->load->view('branch/layout/footer');
 	}
