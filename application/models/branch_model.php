@@ -54,13 +54,29 @@ class branch_model extends CI_Model{
 
 	public function detail_view($id){
 		$query = $this->db->query("
-			SELECT od.id AS od_id, od.code AS od_code, od.status AS od_status, oc.quantity AS od_quantity, re.name AS od_recipe, ri.ingredient_amount AS od_ig_amount, ig.name AS od_ingredient, un.name AS od_unit
+			SELECT od.id AS od_id, od.code AS od_code, od.status AS od_status, oc.quantity AS od_quantity, re.name AS od_recipe
 			FROM delivery od
 			INNER JOIN order_content oc ON oc.order_id = od.id
 			INNER JOIN recipe re ON oc.recipe_id = re.id
-			INNER JOIN recipe_ingredients ri ON ri.recipe_id = re.id
+			WHERE od.id = '$id'
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function detail_ing($id){
+		$query = $this->db->query("
+			SELECT ri.ingredient_amount AS ri_amount, ig.name AS ri_ingredient, un.name AS ri_unit
+			FROM recipe_ingredients ri
 			INNER JOIN ingredients ig ON ri.ingredient_id = ig.id
 			INNER JOIN unit un ON ig.unit_id = un.id
+			INNER JOIN recipe re ON ri.ingredient_id = re.id
+			INNER JOIN order_content oc ON oc.recipe_id = re.id
+			INNER JOIN delivery od ON oc.order_id = od.id
 			WHERE od.id = '$id'
 		");
 		if ($query->num_rows() > 0){
