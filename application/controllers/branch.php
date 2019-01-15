@@ -9,21 +9,30 @@ class branch extends CI_Controller {
 	}
 
 	public function index(){
-		$this->load->view('branch/layout/header');
-		$data['order'] = $this->branch_model->processed_order_view($_SESSION['id']);
-		$data['inc_order'] = $this->branch_model->incomplete_order_view($_SESSION['id']);
-		$var = count($data['order']);
-		$ivar = count($data['inc_order']);
-		for ($i=0; $i < $var ; $i++) {
-			$order_count[$i] = $this->branch_model->order_count($data['order'][$i]->od_id);
+		if (isset($_SESSION['logged_in'])) {
+			$this->load->view('branch/layout/header');
+			$data['order'] = $this->branch_model->processed_order_view($_SESSION['id']);
+			if ($data['order']!=NULL) {
+				$var = count($data['order']);
+				for ($i=0; $i < $var ; $i++) {
+					$order_count[$i] = $this->branch_model->order_count($data['order'][$i]->od_id);
+					$data['count'] = $order_count;
+				}
+			}
+			$data['inc_order'] = $this->branch_model->incomplete_order_view($_SESSION['id']);
+			if ($data['inc_order']!=NULL) {
+				$ivar = count($data['inc_order']);
+				for ($j=0; $j < $ivar ; $j++) {
+					$inc_order_count[$j] = $this->branch_model->order_count($data['inc_order'][$j]->od_id);
+				}
+				$data['icount'] = $inc_order_count;
+			}
+			$this->load->view('branch/order_view',$data);
+			$this->load->view('branch/layout/footer');
 		}
-		for ($j=0; $j < $ivar ; $j++) {
-			$inc_order_count[$j] = $this->branch_model->order_count($data['inc_order'][$j]->od_id);
+		else{
+			redirect('user/load_login');
 		}
-		$data['count'] = $order_count;
-		$data['icount'] = $inc_order_count;
-		$this->load->view('branch/order_view',$data);
-		$this->load->view('branch/layout/footer');
 	}
 
 	public function detail_view(){

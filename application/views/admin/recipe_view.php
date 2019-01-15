@@ -248,26 +248,25 @@
               <h3 class="box-title">Ingredients</h3>
             </div>
             <div class="box-body">
-                <div class="box-body table-responsive no-padding">
-                  <table class="table table-condensed">
-                    <tr>
-                      <th >Name</th>
-                      <th style="width: 80px">Amount</th>
-                    </tr>
-                    <?php
-                      if ($recipe!=NULL) {
-                        foreach ($recipe as $rcp) {
-                          ?>
-                            <tr>
-                              <td><?php echo $rcp->in_nm; ?></td>
-                              <td><?php echo $rcp->in_am; ?></td>
-                            </tr>
-                          <?php
-                        }
+              <div class="box-body table-responsive no-padding">
+                <table class="table table-condensed">
+                  <tr>
+                    <th >Name</th>
+                    <th style="width: 80px">Amount</th>
+                  </tr>
+                  <?php
+                    if ($recipe!=NULL) {
+                      foreach ($recipe as $rcp) {
+                        ?>
+                          <tr>
+                            <td><?php echo $rcp->in_nm; ?></td>
+                            <td><?php echo $rcp->in_am; ?></td>
+                          </tr>
+                        <?php
                       }
-                    ?>
-                  </table>
-                </div>
+                    }
+                  ?>
+                </table>
               </div>
             </div>
           </div>

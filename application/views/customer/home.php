@@ -32,12 +32,28 @@
 				<li class="nav-item">
 					<a class="nav-link" href="#order">ORDER</a>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="<?php echo site_url('user/load_login');?>">SIGN IN</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="<?php echo site_url('user/register_view');?>">SIGN UP</a>
-				</li>
+				<?php
+					if (isset($_SESSION['logged_in'])) {
+						?>
+							<li class="nav-item">
+								<a class="nav-link" href="<?php echo site_url('customer');?>">PROFILE</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="<?php echo site_url('user/logout');?>">LOG OUT</a>
+							</li>
+						<?php
+					}
+					else{
+						?>
+							<li class="nav-item">
+								<a class="nav-link" href="<?php echo site_url('user/load_login');?>">SIGN IN</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="<?php echo site_url('user/register_view');?>">SIGN UP</a>
+							</li>
+						<?php
+					}
+				?>
 			</ul>
 		</div>
 	</nav>

@@ -13,24 +13,28 @@ class customer extends CI_Controller {
 	//VIEW FUNCTIONS 
 
 	public function index(){
-		$data['cart'] = $this->customer_model->view_cart($_SESSION['id']);
-		if ($data['cart']!=NULL) {
-			$data['count'] = $this->customer_model->item_count($data['cart'][0]->od_id);
-			$this->load->view('customer/layout/header',$data);
-			$data['v_profile'] = $this->customer_model->view_profile($_SESSION['id']);
-			$data['v_history'] = $this->customer_model->view_history($_SESSION['id']);
-			$data['v_recent_order'] = $this->customer_model->view_recent_order($data['v_profile'][0]->cs_id);
-			$this->load->view('customer/cs_profile', $data);
-			$this->load->view('customer/layout/footer');
-		}else{
-			$this->load->view('customer/layout/header',$data);
-			$data['v_profile'] = $this->customer_model->view_profile($_SESSION['id']);
-			$data['v_history'] = $this->customer_model->view_history($_SESSION['id']);
-			$data['v_recent_order'] = $this->customer_model->view_recent_order($data['v_profile'][0]->cs_id);
-			$this->load->view('customer/cs_profile', $data);
-			$this->load->view('customer/layout/footer');
+		if (isset($_SESSION['logged_in'])) {
+			$data['cart'] = $this->customer_model->view_cart($_SESSION['id']);
+			if ($data['cart']!=NULL) {
+				$data['count'] = $this->customer_model->item_count($data['cart'][0]->od_id);
+				$this->load->view('customer/layout/header',$data);
+				$data['v_profile'] = $this->customer_model->view_profile($_SESSION['id']);
+				$data['v_history'] = $this->customer_model->view_history($_SESSION['id']);
+				$data['v_recent_order'] = $this->customer_model->view_recent_order($data['v_profile'][0]->cs_id);
+				$this->load->view('customer/cs_profile', $data);
+				$this->load->view('customer/layout/footer');
+			}else{
+				$this->load->view('customer/layout/header',$data);
+				$data['v_profile'] = $this->customer_model->view_profile($_SESSION['id']);
+				$data['v_history'] = $this->customer_model->view_history($_SESSION['id']);
+				$data['v_recent_order'] = $this->customer_model->view_recent_order($data['v_profile'][0]->cs_id);
+				$this->load->view('customer/cs_profile', $data);
+				$this->load->view('customer/layout/footer');
+			}
 		}
-		
+		else{
+			redirect('user/load_login');
+		}
 	}
 
 	// public function view_profile(){

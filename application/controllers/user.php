@@ -32,7 +32,8 @@ class user extends CI_Controller {
 				'id' => $userdata[0]->id,
 				'user' => $userdata[0]->username,
 				'pass' => $userdata[0]->password,
-				'utype' => $userdata[0]->user_type_id
+				'utype' => $userdata[0]->user_type_id,
+				'logged_in' => TRUE
 			);
 			$this->user_model->logged_in($_SESSION['id']);
 			switch ($userdata[0]->user_type_id) {
@@ -56,7 +57,7 @@ class user extends CI_Controller {
 	public function logout(){
 		$this->user_model->logged_out($_SESSION['id']);
 		session_destroy();
-		redirect();
+		redirect('user/load_login');
 	}
 	public function register_view(){
 		$this->load->view('register');
