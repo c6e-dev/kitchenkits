@@ -1,11 +1,35 @@
+<style>
+  .grid-container {
+    display: grid;
+    grid-template-columns: auto;
+  }
+  .grid-item {
+    /*text-align: center;*/
+  }
+  .a-item {
+    color: black;
+  }
+  .a-item:hover {
+    color: black;
+  }
+  .a-item:active {
+    color: black;
+  }
+</style>
+
 <div class="content-wrapper">
   <?php 
     if ($cart!=NULL) {
       ?>
+        <section class="content-header">
+          <h1>
+            Your Cart
+          </h1>
+        </section>
         <section class="content">
           <div class="row">
             <div class="col-md-8" >
-              <div class="box box-solid">
+              <div class="box box-danger">
                 <div class="box-body">
                   <ul class="products-list product-list-in-box" >
                     <?php
@@ -18,7 +42,7 @@
                                   <img src="<?php echo base_url('assets/dist/img/default-50x50.gif');?>" alt="Product Image">
                                 </div>
                                 <div class="product-info">
-                                  <a href="javascript:void(0)" class="product-title"><?php echo $item->re_name; ?><span class="info-box-number pull-right">₱<?php echo $item->re_price; ?></span></a>
+                                  <a href="javascript:void(0)" class="product-title a-item"><?php echo $item->re_name; ?><span class="info-box-number pull-right">₱<?php echo $item->re_price; ?></span></a>
                                   <?php echo '<span class="product-description"><button type="button" class="btn btn-xs btn-flat" data-target="#cartitem'.$item->oc_id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-trash-o"></i></button></span>';?>
                                 </div>
                               </div>
@@ -56,7 +80,7 @@
                                     <strong><center>Recipe will be removed from cart</center></strong>
                                   </div>';?>
                                   <div class="modal-footer">
-                                    <a href="<?php echo site_url('customer/delete_cart_item/'.$item->oc_id.'/'.$item->od_id.'/'.$count[0]->od_id_count);?>" class="btn btn-sm btn-primary">Cofirm</a>
+                                    <a href="<?php echo site_url('customer/delete_cart_item/'.$item->oc_id.'/'.$item->od_id.'/'.$count[0]->od_id_count);?>" class="btn btn-sm btn-primary">Confirm</a>
                                     <button type="button" class="btn btn-sm" data-dismiss="modal">Cancel</button>
                                   </div>
                                 </div>
@@ -71,7 +95,7 @@
               </div>
             </div>
             <div class="col-md-4">
-              <div class="box box-solid">
+              <div class="box box-danger">
                   <div class="box-header">
                     <h3 class="box-title">Order Summary</h3>
                   </div>
@@ -79,12 +103,12 @@
                     <div class="table-responsive">
                       <table class="table">
                         <tr>
-                          <th class="text-muted">Subtotal (<?php echo $stotal[0]->stotalcount;?> items)</th>
+                          <th class="text">Subtotal (<?php echo $stotal[0]->stotalcount;?> Items)</th>
                           <td><span class="info-box-number pull-right">₱<?php echo $stotalprice[0]->stotalprice;?></span></td>
                         </tr>
                         <tr>
                           <th>Total</th>
-                          <td><span class="info-box-number pull-right text-light-blue">₱<?php echo $stotalprice[0]->stotalprice;?>.00</span></td>
+                          <td><span class="info-box-number pull-right text-green">₱<?php echo $stotalprice[0]->stotalprice;?>.00</span></td>
                         </tr>
                       </table>
                     </div>
@@ -100,7 +124,7 @@
         <section class="content">
           <div class="container">
             <div style="position: absolute;top: 35%;left: 50%;transform: translate(-50%,-50%);text-align: center">
-              <h5><b>There are no items in this cart</b></h5>    
+              <h5><b>There Are No Items In This Cart</b></h5>    
             </div>
           </div>
         </section>
