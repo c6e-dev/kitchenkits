@@ -107,4 +107,15 @@ class branch_model extends CI_Model{
 	// public function add_supply(){
 
 	// }
+
+	public function edit_password($upt_date){
+		$password = sha1($this->input->post('new_password'));
+		$user_id = $this->input->post('user_id');
+		$this->db->query("
+			UPDATE user u
+			SET u.password = '$password', u.updated_date = '$upt_date' 
+			WHERE u.id = '$user_id'
+		");
+	}
+
 }

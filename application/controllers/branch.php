@@ -64,4 +64,40 @@ class branch extends CI_Controller {
 	// public function add_supply(){
 
 	// } 
+
+	public function password_check(){
+		$curr_pass = sha1($_POST['curr_password']);
+		if ($curr_pass == $_SESSION['pass']) {
+			return TRUE;
+		}
+		else{
+			$this->form_validation->set_message('password_check', 'The {field} You Supplied Does Not Match Your Existing Password');
+			return FALSE;
+		}
+	}
+
+	public function edit_password(){
+		$response = array();
+		$this->form_validation->set_rules('curr_password', 'Current Password', 'callback_password_check');
+		$this->form_validation->set_rules('new_password', 'New Password', 'required',
+			array(
+				'required' => 'You Must Provide A %s'
+		));
+		$this->form_validation->set_rules('cpassword', 'Confirm Password', 'matches[new_password]',
+			array(
+		 		'matches' => 'Passwords Do Not Match'
+			));
+		if ($this->form_validation->run() == TRUE) {
+			$_SESSION['pass'] = sha1($_POST['new_password']);
+			$upt_date = date('Y-m-d H:i:s');
+			$data = $this->branch_model->edit_password($upt_date);
+			$response['status'] = TRUE;
+			$response[] = $data;
+		}
+		else {
+			$response['status'] = FALSE;
+	    	$response['notif']	= validation_errors();
+		}
+		echo json_encode($response);
+	}
 } 

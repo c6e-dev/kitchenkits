@@ -99,7 +99,7 @@ class customer extends CI_Controller {
 			return TRUE;
 		}
 		else{
-			$this->form_validation->set_message('password_check', 'The {field} you supplied does not match your existing password');
+			$this->form_validation->set_message('password_check', 'The {field} You Supplied Does Not Match Your Existing Password');
 			return FALSE;
 		}
 	}
@@ -109,11 +109,11 @@ class customer extends CI_Controller {
 		$this->form_validation->set_rules('curr_password', 'Current Password', 'callback_password_check');
 		$this->form_validation->set_rules('new_password', 'New Password', 'required',
 			array(
-				'required' => 'You must provide a %s'
+				'required' => 'You Must Provide A %s'
 		));
 		$this->form_validation->set_rules('cpassword', 'Confirm Password', 'matches[new_password]',
 			array(
-		 		'matches' => 'Passwords do not match'
+		 		'matches' => 'Passwords Do Not Match'
 			));
 		if ($this->form_validation->run() == TRUE) {
 			$_SESSION['pass'] = sha1($_POST['new_password']);
