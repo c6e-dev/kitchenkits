@@ -79,8 +79,8 @@
       </div><!-- End of Dropdown-->
       </div><!-- End of Row-->
       <div class="container-fluid padding">
-        <div class="row">
-          <div class="col-md-3">
+        <div class="card-content">
+          <div>
         			<div class="card border-dark" style="max-width:17rem;">
                 <a href="<?php echo site_url('user/load_recipe'); ?>"><img class="card-img-top" src="img/team1.png"  height="180px"></a>
         				<div class="card-body">
@@ -103,77 +103,8 @@
                 </div>
               </div>
           </div><!-- End of A Card -->
-          <div class="col-md-3">
-        			<div class="card border-dark" style="max-width:17rem;">
-        				<a href="<?php echo site_url('user/load_recipe'); ?>"><img class="card-img-top" src="img/team1.png"  height="180px"></a>
-        				<div class="card-body">
-        					<h3 class="card-title">Recipe-Name</h3>
-                  <h6 class="card-subtitle">By UserName</h6>
-                </div>
-                <div class="card-footer">
-                  <div class="row">
-                    <div class="col-6">
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                    </div>
-                    <div class="col-6" style="text-align:right;">
-                      <span class="fa fa-clock-o">3 h</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-          </div><!-- End of A Card -->
-          <div class="col-md-3">
-        			<div class="card border-dark" style="max-width:17rem;">
-                <a href="<?php echo site_url('user/load_recipe'); ?>"><img class="card-img-top" src="img/team1.png"  height="180px"></a>
-        				<div class="card-body">
-        					<h3 class="card-title">Recipe-Name</h3>
-                  <h6 class="card-subtitle">By UserName</h6>
-                </div>
-                <div class="card-footer">
-                  <div class="row">
-                    <div class="col-6">
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                    </div>
-                    <div class="col-6" style="text-align:right;">
-                      <span class="fa fa-clock-o">3 h</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-          </div><!-- End of A Card -->
-          <div class="col-md-3">
-        			<div class="card border-dark" style="max-width:17rem;">
-                <a href="<?php echo site_url('user/load_recipe'); ?>"><img class="card-img-top" src="img/team1.png"  height="180px"></a>
-                <div class="card-body">
-        					<h3 class="card-title">Recipe-Name</h3>
-                  <h6 class="card-subtitle">By UserName</h6>
-                </div>
-                <div class="card-footer">
-                  <div class="row">
-                    <div class="col-6">
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                    </div>
-                    <div class="col-6" style="text-align:right;">
-                      <span class="fa fa-clock-o">35 m</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-          </div><!-- End of A Card -->
-        </div>
-      </div>
+        </div><!-- End of Card Wrapper -->
+      </div><!-- End of container-fluid -->
     </div><!-- End of Container-->
     <footer class="container-fluid navbar-fixed-bottom">
       <div class="container">

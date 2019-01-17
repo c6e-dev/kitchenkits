@@ -73,6 +73,10 @@ nav.fill ul li a:hover:after {
   -moz-animation: fill 1s forwards;
   opacity: 1;
 }
+.navbar-toggler:not(:disabled):not(.disabled) {
+	cursor: pointer;
+	background: gray;
+}
 /** Video Background **/
 .v-header{
   overflow: hidden;
@@ -96,7 +100,7 @@ video{
   top:60%;
   margin: 0;
   width: 100%;
-  left: 39.8%;
+  left: 40.4%;
 }
 .v-header-content a{
   border-radius: 4px;
@@ -106,7 +110,7 @@ video{
 	letter-spacing: 0.3rem;
   text-align: center;
   font-size: 1.3rem;
-	font-family: 'Molle';
+	font-family: 'Roboto Slab', serif;
   padding: 1.2rem;
   //transition: all 0.5s;
   //cursor: pointer;
@@ -116,7 +120,7 @@ video{
 	background: #C03902;
 }
 /** Media Queries **/
-@media screen and (max-width: 900px){
+@media screen and (max-width: 960px){
   #c-logo{
     width: 700px;
     height: 100px;
@@ -125,6 +129,13 @@ video{
     font-size: 16px;
     padding: 20px 30px 0 30px;
   }
+	.v-header-content{
+		left: 40%;
+	}
+	.v-header-content a{
+		padding: 1rem;
+		font-size: 0.8rem;
+	}
 }
 @media screen and (max-width: 700px){
   #c-logo{
@@ -135,4 +146,7 @@ video{
     font-size: 16px;
     padding: 6px 30px 0 30px;
   }
+	.v-header-content{
+		left: 35%;
+	}
 }

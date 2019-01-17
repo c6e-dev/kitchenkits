@@ -16,11 +16,13 @@
   <link rel="stylesheet" href="<?php echo base_url('assets/dist/css/AdminLTE.min.css');?>">
   <link rel="stylesheet" href="<?php echo base_url('assets/dist/css/skins/_all-skins.min.css');?>">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>/assets/css/customer_header.css">
 </head>
 
 <body class="hold-transition skin-red-light layout-top-nav">
   <div class="wrapper">
     <header class="main-header">
+      <!-- Old Header
       <nav class="navbar navbar-static-top">
         <div class="navbar-header">
           <a href="<?php echo site_url('user')?>" class="navbar-brand"><b>Kitchen Kits</b></a>
@@ -29,7 +31,7 @@
           <ul class="nav navbar-nav">
             <li>
               <a href="<?php echo site_url('customer/view_cart'); ?>">
-                <?php 
+                <?php
                   if ($cart!=NULL) {
                     ?>
                       <i class="fa fa-shopping-cart"></i>
@@ -41,7 +43,7 @@
                     <?php
                   }
                 ?>
-                
+
               </a>
             </li>
             <li class="dropdown user user-menu">
@@ -63,6 +65,38 @@
                   </div>
                 </li>
               </ul>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      -->
+      <!-- New Header -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="<?php echo base_url();?>">
+          <img src="<?php echo base_url('/assets/img/newNav.png'); ?>" alt="" width="140px" height="50px">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto nav-des">
+            <li class="nav-item active">
+              <a class="nav-link" href="<?php echo base_url();?>">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Menu</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Order</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav nav-des">
+            <li class="nav-item">
+              <a class="nav-link" href="<?php echo site_url('user/load_login');?>">Sign In</a>
+            </li>
+            <li id="sign-up" class="nav-item">
+              <a class="nav-link" href="<?php echo site_url('user/register_view');?>">Sign Up</a>
             </li>
           </ul>
         </div>
