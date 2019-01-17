@@ -10,7 +10,7 @@ class customer extends CI_Controller {
 
 	//CUSTOMER PROFILE FUNCTIONS
 
-	//VIEW FUNCTIONS 
+	//VIEW FUNCTIONS
 
 	public function index(){
 		$this->load->view('customer/home');
@@ -21,7 +21,11 @@ class customer extends CI_Controller {
 	}
 
 	public function view_recipe(){
-		$this->load->view('customer/recipe_view');
+		$data['recipe_info'] = $this->customer_model->view_recipe($_GET['id']);
+		$recipe_id = $data['recipe_info'][0]->re_id;
+		$data['recipe_ings'] = $this->customer_model->recipe_ingredients($recipe_id);
+		$data['recipe_revs'] = $this->customer_model->recipe_reviews($recipe_id);
+		$this->load->view('customer/recipe_view',$data);
 	}
 
 	public function browse_recipe(){

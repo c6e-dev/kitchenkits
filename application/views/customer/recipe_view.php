@@ -26,42 +26,55 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto nav-des">
-          <li class="nav-item active">
-            <a class="nav-link" href="<?php echo base_url();?>">Home <span class="sr-only">(current)</span></a>
+          <li class="nav-item">
+            <a class="nav-link" href="<?php echo site_url();?>">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Menu</a>
+            <a class="nav-link" href="<?php echo site_url('customer/browse_recipe'.'?id='.$recipe_info[0]->re_cid);?>">Menu</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Order</a>
           </li>
         </ul>
         <ul class="navbar-nav nav-des">
-          <li class="nav-item">
-            <a class="nav-link" href="<?php echo site_url('user/load_login');?>">Sign In</a>
-          </li>
-          <li id="sign-up" class="nav-item">
-            <a class="nav-link" href="<?php echo site_url('user/register_view');?>">Sign Up</a>
-          </li>
+          <?php
+            if (isset($_SESSION['logged_in'])) {
+              ?>
+                <li class="nav-item">
+                  <a class="nav-link" href="<?php echo site_url('customer/view_profile');?>"><?php echo $_SESSION['user']; ?></a>
+                </li>
+              <?php
+            }
+            else{
+              ?>
+                <li class="nav-item">
+                  <a class="nav-link" href="<?php echo site_url('user');?>">Sign In</a>
+                </li>
+                <li id="sign-up" class="nav-item">
+                  <a class="nav-link" href="<?php echo site_url('user/register_view');?>">Sign Up</a>
+                </li>
+              <?php
+            }
+          ?>
         </ul>
       </div>
     </nav>
 
     <div class="container padding">
       <div class="container-fluid">
-        <h5><a href="<?php echo site_url('customer/browse_recipe'); ?>" class="back-arrow"><span class="fa fa-arrow-left"></span> Back to Recipe Selection</a></h5>
+        <h5><a href="<?php echo site_url('customer/browse_recipe'.'?id='.$recipe_info[0]->re_cid);?>" class="back-arrow"><span class="fa fa-arrow-left"></span> Back to Recipe Selection</a></h5>
       </div>
       <div class="row">
         <div class="col-lg-5 food-img">
           <img src="<?php echo base_url('/assets/img/food/east/japan.jpg'); ?>" alt="" width="500px" height="520px">
         </div>
         <div class="col-lg-6  offset-lg-1 desc-styles">
-          <h2>Recipe-Name</h2>
+          <h2><?php echo $recipe_info[0]->re_name; ?></h2>
           <h5>By: User-Name</h5>
           <hr>
           <p>"Short Description about the recipe Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
           <hr>
-          <p><strong>SERVES</strong>&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;<strong>COOKS IN</strong>&nbsp;&nbsp;&nbsp;55 MINUTES&nbsp;&nbsp;&nbsp;<strong>DIFFICULTY</strong>&nbsp;&nbsp;&nbsp;EASY-PEASY</p>
+          <p><strong>SERVES</strong>&nbsp;&nbsp;&nbsp;<?php echo $recipe_info[0]->re_serves; ?>&nbsp;&nbsp;&nbsp;<strong>COOKS IN</strong>&nbsp;&nbsp;&nbsp;<?php echo $recipe_info[0]->re_cooktime; ?>&nbsp;&nbsp;&nbsp;<strong>DIFFICULTY</strong>&nbsp;&nbsp;&nbsp;EASY-PEASY</p>
           <hr>
         </div>
       </div>
@@ -72,22 +85,18 @@
             <div class="col-lg-3">
               <h4>Ingredients</h4>
               <ul class="list-group">
-                <li class="list-group-item">Qty + Ingredients-Name</li>
-                <li class="list-group-item">Qty + Ingredients-Name</li>
-                <li class="list-group-item">Qty + Ingredients-Name</li>
-                <li class="list-group-item">Qty + Ingredients-Name</li>
-                <li class="list-group-item">Qty + Ingredients-Name</li>
-                <li class="list-group-item">Qty + Ingredients-Name</li>
-                <li class="list-group-item">Qty + Ingredients-Name</li>
-                <li class="list-group-item">Qty + Ingredients-Name</li>
-                <li class="list-group-item">Qty + Ingredients-Name</li>
-                <li class="list-group-item">Qty + Ingredients-Name</li>
+                <?php 
+                  if ($recipe_ings!=NULL) {
+                    foreach ($recipe_ings as $rings) {
+                      echo '<li class="list-group-item">'.$rings->ig_amount.' + '.$rings->ig_name.'</li>';
+                    }
+                  }
+                ?>
               </ul>
             </div>
             <div class="col-lg-8 offset-lg-1">
               <h4>Directions</h4>
-              <p>1. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-              <p>2. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+              <p><?php echo $recipe_info[0]->re_instruc; ?></p>
             </div>
           </div>
         </div>
@@ -96,50 +105,26 @@
       <h4>Share your Feedback</h4>
       <div class="container">
         <div class="row">
-          <div class="col-lg-6">
+          <div class="col-md-6">
             <h5><strong>Reviews</strong></h5>
-            <div class="container-fluid shade">
-              <h6>review by: username</h6>
-              <p>10/22/2018</p>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <p>comments from the user, real reviews by the users are in here</p>
-            </div>
-            <div class="container-fluid shade">
-              <h6>review by: username</h6>
-              <p>10/22/2018</p>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <p>comments from the user, real reviews by the users are in here</p>
-            </div>
-            <div class="container-fluid shade">
-              <h6>review by: username</h6>
-              <p>10/22/2018</p>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <p>comments from the user, real reviews by the users are in here</p>
-            </div>
-            <div class="container-fluid shade">
-              <h6>review by: username</h6>
-              <p>10/22/2018</p>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <p>comments from the user, real reviews by the users are in here</p>
-            </div>
+            <?php
+              if ($recipe_revs!=NULL) {
+                foreach ($recipe_revs as $revs) {
+                  echo '<div class="container-fluid shade">
+                    <h6>review by: '.$revs->cu_fname.' '.$revs->cu_lname.'</h6>
+                    <p>'.$revs->cdate.'</p>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <p>'.$revs->co_me.'</p>
+                  </div>';
+                }
+              }
+            ?>
           </div>
-          <div class="col-lg-6">
+          <div class="col-md-6">
             <div class="container-fluid border">
               <h5><strong>Write a Review</strong></h5>
               <h6 id="pads">Ratings</h6>
@@ -161,16 +146,15 @@
                   <label for="rating-input-1-1" class="rating-star"></label>
               </span>
               <h6>Comment Down Below</h6>
-              <form class="" action="" method="post">
+              <form>
                 <div class="form-group">
                    <textarea class="form-control" id="comment" rows="3">Type here...</textarea>
                 </div>
-                <button type="submit" class="btn btn-dark post-btn" name="button">Publish</button>
+                <button type="button" class="btn btn-dark post-btn" id="submit_review">Publish</button>
               </form>
             </div>
           </div>
         </div>
-
       </div>
     </div>
 

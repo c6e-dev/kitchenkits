@@ -193,11 +193,58 @@ class customer_model extends CI_Model{
 	
 	public function browse_recipe($id){
 		$query = $this->db->query("
-			SELECT re.country_id AS re_cid, re.name AS re_name, re.cooking_time AS re_cooktime, re.servings AS re_serves, re.image AS re_img, re.status AS re_status, cn.name AS re_country, rg.name AS re_region
+			SELECT re.id re_id, re.country_id AS re_cid, re.name AS re_name, re.cooking_time AS re_cooktime, re.servings AS re_serves, re.image AS re_img, re.status AS re_status, cn.name AS re_country, rg.name AS re_region
 			FROM recipe re
 			INNER JOIN country cn ON re.country_id = cn.id
 			INNER JOIN region rg ON cn.region_id = rg.id
 			WHERE re.status = 'A' AND re.country_id = '$id'
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function view_recipe($id){
+		$query = $this->db->query("
+			SELECT re.id AS re_id, re.country_id AS re_cid, re.name AS re_name, re.cooking_time AS re_cooktime, re.servings AS re_serves, re.instructions AS re_instruc, re.image AS re_img
+			FROM recipe re
+			WHERE re.id = '$id'
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function recipe_ingredients($id){
+		$query = $this->db->query("
+			SELECT ri.ingredient_amount ig_amount, ig.name ig_name
+			FROM recipe_ingredients ri
+			INNER JOIN ingredients ig ON ri.ingredient_id = ig.id
+			INNER JOIN unit un ON ig.unit_id = un.id
+			WHERE ri.recipe_id = '$id'
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function recipe_reviews($id){
+		$query = $this->db->query("
+			SELECT co.message co_me, cu.first_name cu_fname, cu.last_name cu_lname, ua.created_date cdate
+			FROM user_activity ua
+			INNER JOIN comment co ON co.activity_id = ua.id
+			-- INNER JOIN rating ra ON ra.activity_id = ua.id
+			INNER JOIN customer cu ON ua.customer_id = cu.id
+			WHERE ua.recipe_id = '$id' AND ua.activity_type_id = 4
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();
