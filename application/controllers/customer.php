@@ -13,6 +13,23 @@ class customer extends CI_Controller {
 	//VIEW FUNCTIONS 
 
 	public function index(){
+		$this->load->view('customer/home');
+	}
+
+	public function view_region(){
+		$this->load->view('customer/region_view');
+	}
+
+	public function view_recipe(){
+		$this->load->view('customer/recipe_view');
+	}
+
+	public function browse_recipe(){
+		$data['recipe'] = $this->customer_model->browse_recipe($_GET['id']);
+		$this->load->view('customer/recipe_browse',$data);
+	}	
+
+	public function view_profile(){
 		if (isset($_SESSION['logged_in'])) {
 			if ($_SESSION['utype'] == 3) {
 				$data['cart'] = $this->customer_model->view_cart($_SESSION['id']);
@@ -22,14 +39,14 @@ class customer extends CI_Controller {
 					$data['v_profile'] = $this->customer_model->view_profile($_SESSION['id']);
 					$data['v_history'] = $this->customer_model->view_history($_SESSION['id']);
 					$data['v_recent_order'] = $this->customer_model->view_recent_order($data['v_profile'][0]->cs_id);
-					$this->load->view('customer/cs_profile', $data);
+					$this->load->view('customer/profile_view', $data);
 					$this->load->view('customer/layout/footer');
 				}else{
 					$this->load->view('customer/layout/header',$data);
 					$data['v_profile'] = $this->customer_model->view_profile($_SESSION['id']);
 					$data['v_history'] = $this->customer_model->view_history($_SESSION['id']);
 					$data['v_recent_order'] = $this->customer_model->view_recent_order($data['v_profile'][0]->cs_id);
-					$this->load->view('customer/cs_profile', $data);
+					$this->load->view('customer/profile_view', $data);
 					$this->load->view('customer/layout/footer');
 				}
 			}
@@ -38,16 +55,9 @@ class customer extends CI_Controller {
 			}
 		}
 		else{
-			redirect('user/load_login');
+			redirect('user');
 		}
 	}
-
-	// public function view_profile(){
-	// 	$data['v_profile'] = $this->customer_model->view_profile();
-	// 	$this->load->view('customer/layout/header');
-	// 	$this->load->view('customer/view_profile', $data);
-	// 	$this->load->view('customer/layout/footer');
-	// }
 
 	//EDIT FUNCTIONS
 
@@ -181,13 +191,6 @@ class customer extends CI_Controller {
 			$this->customer_model->delete_order($oc_id);
 		}
 		redirect('customer/view_cart');
-	}
-
-	public function browse_recipe($id){
-		$data['recipe'] = $this->customer_model->browse_recipe();
-		$this->load->view('customer/layout/header');
-		$this->load->view('customer/browse_recipe', $data);
-		$this->load->view('customer/layout/footer');
 	}
 
 }

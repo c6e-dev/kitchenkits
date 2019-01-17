@@ -49,7 +49,7 @@
 
     <div class="container padding">
       <div class="container-fluid">
-        <h5><a href="<?php echo site_url('user/load_csrecipe'); ?>" class="back-arrow"><span class="fa fa-arrow-left"></span> Back to Recipe Selection</a></h5>
+        <h5><a href="<?php echo site_url('customer/browse_recipe'); ?>" class="back-arrow"><span class="fa fa-arrow-left"></span> Back to Recipe Selection</a></h5>
       </div>
       <div class="row">
         <div class="col-lg-5 food-img">

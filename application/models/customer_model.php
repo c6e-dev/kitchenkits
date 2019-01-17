@@ -193,11 +193,11 @@ class customer_model extends CI_Model{
 	
 	public function browse_recipe($id){
 		$query = $this->db->query("
-			SELECT re.country_id AS re_cid, re_name AS re_name, re.cooking_time AS re_cooking, re.servings AS re_servings, re.image AS re_image, re.status AS re_status, cn.name AS re_country, rg.name AS re_region
+			SELECT re.country_id AS re_cid, re.name AS re_name, re.cooking_time AS re_cooktime, re.servings AS re_serves, re.image AS re_img, re.status AS re_status, cn.name AS re_country, rg.name AS re_region
 			FROM recipe re
 			INNER JOIN country cn ON re.country_id = cn.id
 			INNER JOIN region rg ON cn.region_id = rg.id
-			WHERE re.status = 'A' AND cn.id = '$id'
+			WHERE re.status = 'A' AND re.country_id = '$id'
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();

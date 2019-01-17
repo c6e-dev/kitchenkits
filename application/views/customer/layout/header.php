@@ -93,7 +93,7 @@
           </ul>
           <ul class="navbar-nav nav-des">
             <li class="nav-item">
-              <a class="nav-link" href="<?php echo site_url('user/load_login');?>">Sign In</a>
+              <a class="nav-link" href="<?php echo site_url('user');?>">Sign In</a>
             </li>
             <li id="sign-up" class="nav-item">
               <a class="nav-link" href="<?php echo site_url('user/register_view');?>">Sign Up</a>

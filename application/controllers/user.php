@@ -6,22 +6,11 @@ class user extends CI_Controller {
 		parent:: __construct();
 		$this->load->model('user_model');
 	}
+
 	public function index(){
-		//$this->load->view('login');
-		$this->load->view('customer/home');
+		$this->load->view('login');	
 	}
-	public function load_csregion(){
-		$this->load->view('customer/cs_region');
-	}
-	public function load_csrecipe(){
-		$this->load->view('customer/cs_recipe');
-	}
-	public function load_recipe(){
-		$this->load->view('customer/recipe_view');
-	}
-	public function load_login(){
-		$this->load->view('login');
-	}
+
 	public function login(){
 		$con = mysqli_connect("localhost","root","","kitchen_kits");
 		$user = mysqli_real_escape_string($con, $_POST['username']);
@@ -54,14 +43,17 @@ class user extends CI_Controller {
 		}
 		mysqli_close($con);
 	}
+
 	public function logout(){
 		$this->user_model->logged_out($_SESSION['id']);
 		session_destroy();
-		redirect('user/load_login');
+		redirect('user');
 	}
+
 	public function register_view(){
 		$this->load->view('register');
 	}
+
 	public function register(){
 		$this->form_validation->set_rules('username', 'Username', 'required|is_unique[user.username]',
 			array(

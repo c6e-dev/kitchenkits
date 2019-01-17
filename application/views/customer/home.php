@@ -24,10 +24,10 @@
 		<div class="collapse navbar-collapse justify-content-md-center w-100" id="navbarNav">
 			<ul class="navbar-nav">
 				<li class="nav-item active">
-					<a class="nav-link" href="<?php echo base_url();?>">HOME<span class="sr-only">(current)</span></a>
+					<a class="nav-link" href="<?php echo site_url();?>">HOME<span class="sr-only">(current)</span></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="<?php echo site_url('user/load_csregion'); ?>">MENU</a>
+					<a class="nav-link" href="<?php echo site_url('customer/view_region'); ?>">MENU</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#order">ORDER</a>
@@ -55,7 +55,7 @@
 						}else{
 							?>
 								<li class="nav-item">
-									<a class="nav-link" href="<?php echo site_url('customer');?>">PROFILE</a>
+									<a class="nav-link" href="<?php echo site_url('customer/view_profile');?>">PROFILE</a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link" href="<?php echo site_url('user/logout');?>">LOG OUT</a>
@@ -66,7 +66,7 @@
 					else{
 						?>
 							<li class="nav-item">
-								<a class="nav-link" href="<?php echo site_url('user/load_login');?>">SIGN IN</a>
+								<a class="nav-link" href="<?php echo site_url('user');?>">SIGN IN</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" href="<?php echo site_url('user/register_view');?>">SIGN UP</a>
@@ -85,7 +85,7 @@
 			</video>
 		</div>
 		<div class="v-header-content">
-			<a class="btn btn-default" href="<?php echo site_url('user/load_csregion'); ?>"><span>GET STARTED</span></a>
+			<a class="btn btn-default" href="<?php echo site_url('customer/view_region'); ?>"><span>GET STARTED</span></a>
 		</div>
 	</div>
 

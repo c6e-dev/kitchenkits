@@ -27,23 +27,36 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto nav-des">
-          <li class="nav-item active">
-            <a class="nav-link" href="<?php echo base_url();?>">Home <span class="sr-only">(current)</span></a>
+          <li class="nav-item">
+            <a class="nav-link" href="<?php echo site_url();?>">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Menu</a>
+            <a class="nav-link" href="<?php echo site_url('customer/browse_recipe'.'?id='.$recipe[0]->re_cid);?>">Menu</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Order</a>
           </li>
         </ul>
         <ul class="navbar-nav nav-des">
-          <li class="nav-item">
-            <a class="nav-link" href="<?php echo site_url('user/load_login');?>">Sign In</a>
-          </li>
-          <li id="sign-up" class="nav-item">
-            <a class="nav-link" href="<?php echo site_url('user/register_view');?>">Sign Up</a>
-          </li>
+          <?php
+            if (isset($_SESSION['logged_in'])) {
+              ?>
+                <li class="nav-item">
+                  <a class="nav-link" href="<?php echo site_url('customer/view_profile');?>"><?php echo $_SESSION['user']; ?></a>
+                </li>
+              <?php
+            }
+            else{
+              ?>
+                <li class="nav-item">
+                  <a class="nav-link" href="<?php echo site_url('user');?>">Sign In</a>
+                </li>
+                <li id="sign-up" class="nav-item">
+                  <a class="nav-link" href="<?php echo site_url('user/register_view');?>">Sign Up</a>
+                </li>
+              <?php
+            }
+          ?>
         </ul>
       </div>
     </nav>
@@ -80,29 +93,34 @@
       </div><!-- End of Row-->
       <div class="container-fluid padding">
         <div class="card-content">
-          <div>
-        			<div class="card border-dark" style="max-width:17rem;">
-                <a href="<?php echo site_url('user/load_recipe'); ?>"><img class="card-img-top" src="img/team1.png"  height="180px"></a>
-        				<div class="card-body">
-        					<h3 class="card-title">Recipe-Name</h3>
-                  <h6 class="card-subtitle">By UserName</h6>
-                </div>
-                <div class="card-footer">
-                  <div class="row">
-                    <div class="col-6">
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
-                      <span class="fa fa-star checked"></span>
+          <?php
+            if ($recipe!=NULL) {
+              foreach ($recipe as $rcp) {
+                ?>
+                  <div class="card border-dark" style="max-width:17rem;">
+                    <a href="<?php echo site_url('customer/view_recipe'); ?>"><img class="card-img-top" src="img/team1.png"  height="180px"></a>
+                    <div class="card-body">
+                      <h3 class="card-title"><?php echo $rcp->re_name; ?></h3>
                     </div>
-                    <div class="col-6" style="text-align:right;">
-                      <span class="fa fa-clock-o">3 h</span>
+                    <div class="card-footer">
+                      <div class="row">
+                        <div class="col-6">
+                          <span class="fa fa-star checked"></span>
+                          <span class="fa fa-star checked"></span>
+                          <span class="fa fa-star checked"></span>
+                          <span class="fa fa-star checked"></span>
+                          <span class="fa fa-star checked"></span>
+                        </div>
+                        <div class="col-6" style="text-align:right;">
+                          <span class="fa fa-clock-o"> <?php echo $rcp->re_cooktime; ?></span>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-          </div><!-- End of A Card -->
+                <?php
+              }
+            }
+          ?>
         </div><!-- End of Card Wrapper -->
       </div><!-- End of container-fluid -->
     </div><!-- End of Container-->
