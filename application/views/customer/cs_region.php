@@ -19,7 +19,6 @@
 			<span><img id="west-logo" src="<?php echo base_url('/assets/img/food/west.png'); ?>"></img></span>
 			<a href="javascript:unhide('trigger-a')" id="override" class="west-east-panel"><span></span></a>
 				<div id= "trigger-a" class="hidden">
-
 					<div id="fill_height" class="row">
 							<div id="France" class="col-lg-6 region">
 								<a href="<?php echo site_url('user/load_csrecipe');?>"><span></span></a>
