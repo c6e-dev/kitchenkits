@@ -30,6 +30,7 @@ class customer extends CI_Controller {
 
 	public function browse_recipe(){
 		$data['recipe'] = $this->customer_model->browse_recipe($_GET['id']);
+		$data['country'] = $this->customer_model->read_countries();
 		$this->load->view('customer/recipe_browse',$data);
 	}	
 

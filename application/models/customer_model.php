@@ -207,6 +207,15 @@ class customer_model extends CI_Model{
 		}
 	}
 
+	public function read_countries(){
+		$query = $this->db->query("
+			SELECT co.id co_id, co.region_id cor_id, co.name co_name
+			FROM country co
+			INNER JOIN region re ON co.region_id = re.id
+		");
+		return $query->result();
+	}
+
 	public function view_recipe($id){
 		$query = $this->db->query("
 			SELECT re.id AS re_id, re.country_id AS re_cid, re.name AS re_name, re.cooking_time AS re_cooktime, re.servings AS re_serves, re.instructions AS re_instruc, re.image AS re_img

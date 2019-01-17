@@ -71,23 +71,29 @@
           Switch Cuisines
         </button>
         <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton">
-          <a class="dropdown-item disabled" href="#">Eastern Cuisines</a>
+          <a class="dropdown-item disabled">Eastern Cuisines</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item only" href="#">China</a>
-          <a class="dropdown-item only" href="#">India</a>
-          <a class="dropdown-item only" href="#">Japan</a>
-          <a class="dropdown-item only" href="#">Philippines</a>
-          <a class="dropdown-item only" href="#">South Korea</a>
-          <a class="dropdown-item only" href="#">Thailand</a>
+          <?php
+            foreach ($country as $qui) {
+              if ($qui->cor_id == 1) {
+                ?>
+                  <a class="dropdown-item only" href="<?php echo site_url('customer/browse_recipe'.'?id='.$qui->co_id);?>"><?php echo $qui->co_name;?></a>
+                <?php
+              }
+            }
+          ?>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item disabled" href="#">Western Cuisines</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item only" href="#">France</a>
-          <a class="dropdown-item only" href="#">Greece</a>
-          <a class="dropdown-item only" href="#">Italy</a>
-          <a class="dropdown-item only" href="#">Mexico</a>
-          <a class="dropdown-item only" href="#">Spain</a>
-          <a class="dropdown-item only" href="#">USA</a>
+          <?php
+            foreach ($country as $qui) {
+              if ($qui->cor_id == 2) {
+                ?>
+                  <a class="dropdown-item only" href="<?php echo site_url('customer/browse_recipe'.'?id='.$qui->co_id);?>"><?php echo $qui->co_name;?></a>
+                <?php
+              }
+            }
+          ?>
         </div>
       </div><!-- End of Dropdown-->
       </div><!-- End of Row-->
