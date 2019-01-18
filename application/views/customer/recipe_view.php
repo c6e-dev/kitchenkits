@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <title>KK | Recipe Viewing</title>
+    <title>Kitchen Kits</title>
     <meta charset="utf-8">
   	<meta name="viewport" content="width=device-width">
     <link rel="apple-touch-icon" href="<?php echo base_url('assets/img/KKIcon.png');?>">
