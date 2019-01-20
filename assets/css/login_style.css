@@ -238,6 +238,27 @@ section#formHolder {
 .form form .CTA a.switch:hover {
   color: #e85842;
 }
+.s-media{
+  margin-top: 2rem;
+}
+.col-xs-12{
+  margin-bottom: 1rem;
+}
+.fb{
+  background: #32508e;
+  border:none;
+  padding: 0.78rem;
+}
+.gmail{
+  background: #dd4b39;
+  border:none;
+  padding: 0.78rem;
+}
+.gmail:hover{
+  background-color: rgba(221,75,57,0.9);
+}
+
+
 
 footer {
   text-align: center;
