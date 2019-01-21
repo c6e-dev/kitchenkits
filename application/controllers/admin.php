@@ -309,7 +309,20 @@ class admin extends CI_Controller {
 
 	public function update_recipe(){
 		$response = array();
+		$ings_id = array();
+		$ings_val = array();
+		$ings_id = $_POST['ingredients_id'];
+		$ings_val = $_POST['ingredients_val'];
 		$recipe_id = $_POST['recipe_id'];
+		$id_count = count($ings_id);
+		for ($i=0; $i < $id_count; $i++) { 
+			$data = array(
+				'recipe_id' => $recipe_id,
+				'ingredient_id' => $ings_id[$i],
+				'ingredient_amount' => $ings_val[$i]
+			);
+			$this->admin_model->add_recipe_ingredients($data);
+		}
 		$check = $this->admin_model->recipe_check($recipe_id);
 		if($this->input->post('name') == $check[0]->re_nm) {
 		   	$is_unique =  '';

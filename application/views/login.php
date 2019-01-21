@@ -72,7 +72,7 @@
                 <br>
                 <div class="row">
                   <div class="col-xs-4">
-                    <a href="<?php echo site_url('user/register_view'); ?>" class="btn btn-info btn-block btn-flat text-center">Sign Up</a>
+                    <a href="<?php echo site_url('register'); ?>" class="btn btn-info btn-block btn-flat text-center">Sign Up</a>
                   </div>
                   <div class="col-xs-4"></div>
                   <div class="col-xs-4">

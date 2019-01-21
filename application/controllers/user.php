@@ -27,7 +27,7 @@ class user extends CI_Controller {
 			$this->user_model->logged_in($_SESSION['id']);
 			switch ($userdata[0]->user_type_id) {
 				case '1':
-					redirect('admin');
+					redirect('dashboard');
 					break;
 				case '2':
 					redirect('branch');
@@ -39,7 +39,7 @@ class user extends CI_Controller {
 		}
 		else{
 			$this->session->set_flashdata('error_msg','Invalid Username or Password, Try again!');
-			redirect('user/load_login');
+			redirect('login');
 		}
 		mysqli_close($con);
 	}
@@ -47,7 +47,7 @@ class user extends CI_Controller {
 	public function logout(){
 		$this->user_model->logged_out($_SESSION['id']);
 		session_destroy();
-		redirect('user');
+		redirect('login');
 	}
 
 	public function register_view(){
