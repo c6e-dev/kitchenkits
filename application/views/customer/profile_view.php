@@ -26,7 +26,7 @@
             <a data-target="#update_profile" data-toggle="modal" class="btn btn-danger btn-block" data-backdrop="static"><b>Update Profile</b></a>
           </div>
         </div>
-        <?php 
+        <?php
           if ($v_recent_order!=NULL) {
             ?>
               <div class="box box-danger">
@@ -56,7 +56,7 @@
                   </ul>
                 </div>
               </div>
-            <?php 
+            <?php
           }
         ?>
       </div>
@@ -121,7 +121,7 @@
                 <ul class="timeline">
                   <li class="time-label">
                     <span class="bg-green">
-                      <?php 
+                      <?php
                         $current_date = date('M d, Y');
                         echo $current_date;
                       ?>
@@ -141,7 +141,7 @@
                                   <h3 class="timeline-header"><a href="#">You</a> ordered <?php echo $cact->fb_recipe; ?></h3>
                                 </div>
                               </li>
-                            <?php  
+                            <?php
                           }
                           if ($cact->fb_type == 3) {
                             ?>
@@ -152,7 +152,7 @@
                                   <h3 class="timeline-header"><a href="#">You</a> rated <?php echo $cact->fb_rating; ?> stars on <?php echo $cact->fb_recipe; ?></h3>
                                 </div>
                               </li>
-                            <?php  
+                            <?php
                           }
                           if ($cact->fb_type == 4) {
                             ?>
@@ -166,7 +166,7 @@
                                   </div>
                                 </div>
                               </li>
-                            <?php  
+                            <?php
                           }
                         }
                       }
@@ -181,13 +181,13 @@
                 <hr>
                 <div id="history" class="collapse" style="margin-bottom: 0px; padding-bottom: 0px; box-sizing: border-box;">
                   <ul class="timeline">
-                    <?php 
-                      for ($i=1; $i <= 7 ; $i++) { 
+                    <?php
+                      for ($i=1; $i <= 7 ; $i++) {
                         $prev_date = date('M d, Y', strtotime('-'.$i.' day',strtotime($current_date)));
                         ?>
                           <li class="time-label">
                             <span class="bg-gray" style="color: gray;">
-                              <?php 
+                              <?php
                                 echo $prev_date;
                               ?>
                             </span>
@@ -205,7 +205,7 @@
                                     <h3 class="timeline-header"><a href="#">You</a> ordered <?php echo $cact->fb_recipe; ?></h3>
                                   </div>
                                 </li>
-                              <?php  
+                              <?php
                             }
                             if ($cact->fb_type == 3) {
                               ?>
@@ -216,7 +216,7 @@
                                     <h3 class="timeline-header"><a href="#">You</a> rated <?php echo $cact->fb_rating; ?> stars on <?php echo $cact->fb_recipe; ?></h3>
                                   </div>
                                 </li>
-                              <?php  
+                              <?php
                             }
                             if ($cact->fb_type == 4) {
                               ?>
@@ -230,7 +230,7 @@
                                     </div>
                                   </div>
                                 </li>
-                              <?php  
+                              <?php
                             }
                           }
                         }
@@ -249,4 +249,3 @@
     </div>
   </section>
 </div>
-

@@ -7,6 +7,12 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <link rel="apple-touch-icon" href="<?php echo base_url('assets/img/KKIcon.png');?>">
   <link rel="shortcut icon" href="<?php echo base_url('assets/img/KKIcon.png');?>">
+  <!-- Added Styles for New Header -->
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>/assets/css/bootstrap.min.css">
+  <script type="text/javascript" src="<?php echo base_url();?>/assets/js/jquery.min.js"></script>
+  <script type="text/javascript" src="<?php echo base_url();?>/assets/js/popper.min.js"></script>
+  <script type="text/javascript" src="<?php echo base_url();?>/assets/js/bootstrap.min.js"></script>
+
   <link rel="stylesheet" href="<?php echo base_url('assets/bower_components/bootstrap/dist/css/bootstrap.min.css');?>">
   <link rel="stylesheet" href="<?php echo base_url('assets/bower_components/font-awesome/css/font-awesome.min.css');?>">
   <link rel="stylesheet" href="<?php echo base_url('assets/bower_components/Ionicons/css/ionicons.min.css');?>">
@@ -16,7 +22,8 @@
   <link rel="stylesheet" href="<?php echo base_url('assets/dist/css/AdminLTE.min.css');?>">
   <link rel="stylesheet" href="<?php echo base_url('assets/dist/css/skins/_all-skins.min.css');?>">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-  <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>/assets/css/customer_header.css">
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/customer_header.css');?>">
+
 </head>
 
 <body class="hold-transition skin-red-light layout-top-nav">
@@ -70,8 +77,8 @@
         </div>
       </nav>
       -->
-      <!-- New Header -->
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <!-- New Header-->
+      <nav class="navbar navbar-expand-lg navbar-light" id="navig">
         <a class="navbar-brand" href="<?php echo base_url();?>">
           <img src="<?php echo base_url('/assets/img/newNav.png'); ?>" alt="" width="140px" height="50px">
         </a>
@@ -81,24 +88,56 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto nav-des">
-            <li class="nav-item active">
-              <a class="nav-link" href="<?php echo base_url();?>">Home <span class="sr-only">(current)</span></a>
+            <li class="nav-item">
+              <a class="nav-link" id="white-color" href="<?php echo base_url();?>">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Menu</a>
+              <a class="nav-link" id="white-color" href="#">Menu</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Order</a>
+              <a class="nav-link" href="#" id="white-color">Order</a>
             </li>
           </ul>
-          <ul class="navbar-nav nav-des">
-            <li class="nav-item">
-              <a class="nav-link" href="<?php echo site_url('user');?>">Sign In</a>
+          <ul class="nav navbar-nav" id="left-float">
+            <li>
+              <a href="<?php echo site_url('customer/view_cart'); ?>">
+                <?php
+                  if ($cart!=NULL) {
+                    ?>
+                      <i class="fa fa-shopping-cart"></i>
+                      <span class="label label-warning"><?php echo $count[0]->od_id_count;?></span>
+                    <?php
+                  }else{
+                    ?>
+                      <i class="fa fa-shopping-cart"></i>
+                    <?php
+                  }
+                ?>
+
+              </a>
             </li>
-            <li id="sign-up" class="nav-item">
-              <a class="nav-link" href="<?php echo site_url('user/register_view');?>">Sign Up</a>
+            <li class="dropdown user user-menu">
+              <a class="dropdown-toggle" data-toggle="dropdown">
+                <img src="<?php echo base_url('assets/dist/img/user2-160x160.jpg');?>" class="user-image" alt="User Image">
+                <span class="hidden-xs"><?php echo $_SESSION['user'];?></span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-right">
+                <li class="user-header">
+                  <img src="<?php echo base_url('assets/dist/img/user2-160x160.jpg');?>" class="img-circle" alt="User Image">
+                  <p><?php echo $_SESSION['user'];?></p>
+                </li>
+                <li class="user-footer">
+                  <div class="pull-left">
+                    <a class="btn btn-default btn-flat" data-target="#change_pass" data-toggle="modal">Change Password</a>
+                  </div>
+                  <div class="pull-right">
+                    <a href="<?php echo site_url('user/logout');?>" class="btn btn-default btn-flat">Sign out</a>
+                  </div>
+                </li>
+              </ul>
             </li>
           </ul>
         </div>
       </nav>
+
     </header>
