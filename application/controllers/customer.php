@@ -32,7 +32,7 @@ class customer extends CI_Controller {
 		$data['recipe'] = $this->customer_model->browse_recipe($_GET['id']);
 		$data['country'] = $this->customer_model->read_countries();
 		$this->load->view('customer/recipe_browse',$data);
-	}	
+	}
 
 	public function view_profile(){
 		if (isset($_SESSION['logged_in'])) {
@@ -149,7 +149,7 @@ class customer extends CI_Controller {
 	public function view_cart(){
 		$data['cart'] = $this->customer_model->view_cart($_SESSION['id']);
 		if ($data['cart']!=NULL) {
-			$data['count'] = $this->customer_model->item_count($data['cart'][0]->od_id);		
+			$data['count'] = $this->customer_model->item_count($data['cart'][0]->od_id);
 			$data['stotal'] = $this->customer_model->item_subtotal($_SESSION['id']);
 			$data['stotalprice'] = $this->customer_model->item_subtotal_price($_SESSION['id']);
 			$this->load->view('customer/layout/header',$data);
