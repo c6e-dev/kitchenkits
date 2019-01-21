@@ -17,7 +17,7 @@
 		<div class="split left">
 			<h1>Western Cuisines</h1>
 			<span><img id="west-logo" src="<?php echo base_url('/assets/img/food/west.png'); ?>"></img></span>
-			<a href="javascript:unhide('trigger-a')" id="override" class="west-east-panel"><span></span></a>
+			<a href="javascript:unhide('trigger-a')"  onclick="return tago('trigger-b');" id="override" class="west-east-panel"><span></span></a>
 			<div id= "trigger-a" class="hidden">
 				<div id="fill_height" class="row">
 					<div id="France" class="col-lg-6 region">
@@ -61,7 +61,7 @@
 		<div class="split right">
 			<h1>Eastern Cuisines</h1>
 			<span><img id="east-logo" src="<?php echo base_url('/assets/img/food/east.png'); ?>"></img></span>
-			<a href="javascript:unhide('trigger-b')" id="override" class="west-east-panel"><span></span></a>
+			<a href="javascript:unhide('trigger-b')" onclick="return tago('trigger-a');" id="override" class="west-east-panel"><span></span></a>
 			<div id="trigger-b" class="hidden">
 				<div id="fill_height" class="row">
 					<div id="China" class="col-lg-6 region">
