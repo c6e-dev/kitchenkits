@@ -66,10 +66,10 @@
 					else{
 						?>
 							<li class="nav-item">
-								<a class="nav-link" href="<?php echo site_url('user');?>">SIGN IN</a>
+								<a class="nav-link" href="<?php echo site_url('login');?>">SIGN IN</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="<?php echo site_url('user/register_view');?>">SIGN UP</a>
+								<a class="nav-link" href="<?php echo site_url('register');?>">SIGN UP</a>
 							</li>
 						<?php
 					}

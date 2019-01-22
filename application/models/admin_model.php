@@ -134,6 +134,10 @@ class admin_model extends CI_Model{
 		}
 	}
 
+	public function add_recipe_ingredients($data){
+		$this->db->insert('recipe_ingredients', $data);
+	}
+
 	public function read_ingredients(){
 		$query = $this->db->query("
 			SELECT ing.id in_id, ing.unit_id in_unit_id, ing.name in_nm

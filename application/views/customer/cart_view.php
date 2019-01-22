@@ -28,7 +28,7 @@
         </section>
         <section class="content">
           <div class="row">
-            <div class="col-md-8" >
+            <div class="col-md-8">
               <div class="box box-danger">
                 <div class="box-body">
                   <ul class="products-list product-list-in-box" >
@@ -36,7 +36,7 @@
                       foreach ($cart as $item) {
                         ?>
                           <li class="item">
-                            <div class="row" style="margin-left: 30px">
+                            <div class="row">
                               <div class="col-md-8">
                                 <div class="product-img">
                                   <img src="<?php echo base_url('assets/dist/img/default-50x50.gif');?>" alt="Product Image">
@@ -48,7 +48,7 @@
                               </div>
                               <div class="col-md-4">
                                 <form class="form-horizontal">
-                                  <div class="input-group" style="margin-left: 80px">
+                                  <div class="input-group" style="margin-left: 140px">
                                     <?php
                                       if ($item->qntty!=1) {
                                         ?>
@@ -64,7 +64,7 @@
                                     <button class="btn btn-md btn-flat iteminc" data-id="<?php echo $item->oc_id; ?>"><i class="fa fa-plus"></i></button>    
                                   </div>
                                 </form>
-                                <span class="product-description" style="margin-left: 80px">Quantity</span>
+                                <span class="product-description" style="margin-left: 140px">Quantity</span>
                               </div>
                             </div>
                           </li>
@@ -103,8 +103,26 @@
                     <div class="table-responsive">
                       <table class="table">
                         <tr>
+                          <td>Item</td>
+                          <td class="pull-right">Total</td>
+                        </tr>
+                        <?php 
+                          foreach ($cart as $item) {
+                            ?>
+                              <tr>
+                                <td><?php echo $item->qntty; ?> <?php echo $item->re_name; ?> @ ₱<?php echo $item->re_price; ?></td>
+                                <td class="pull-right">₱<?php echo $item->re_price*$item->qntty; ?></span></td>
+                              </tr>
+                            <?php
+                          }
+                        ?>
+                        <tr>
                           <th class="text">Subtotal (<?php echo $stotal[0]->stotalcount;?> Items)</th>
                           <td><span class="info-box-number pull-right">₱<?php echo $stotalprice[0]->stotalprice;?></span></td>
+                        </tr>
+                        <tr>
+                          <th class="text">VAT</th>
+                          <td><span class="info-box-number pull-right">₱499.00</span></td>
                         </tr>
                         <tr>
                           <th>Total</th>

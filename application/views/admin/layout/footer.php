@@ -106,8 +106,8 @@
       $('#ingredients').on('change',function(){
         var ingredient_id = $(this).val(); 
         var optionText = $("#ingredients option:selected").text();
-        $("#ingredients option:selected").hide();
-        $("#selectedIngredients").append($("<li><span class='text'>"+optionText+"</span><small class='pull-right'><span>Quantity = </span><input data-in_id='"+ingredient_id+"' type='text' style='width:40px;' placeholder='Unit' name='test'></small><div class='tools pull-left'><i class='fa fa-times'></i></div></li>"));
+        $("#ingredients option:selected").addClass('hidden');
+        $("#selectedIngredients").append($("<li><span class='text'>"+optionText+"</span><small class='pull-right'><span>Quantity = </span><input id='"+ingredient_id+"' type='text' style='width:40px;' placeholder='Unit'></small><div class='tools pull-left'><i class='fa fa-times'></i></div></li>"));
       });
       
       $('#ingr-scroll').slimScroll({
@@ -158,6 +158,13 @@
         var country = $("[name='upt_country']").val();
         var instruc = $('#instruc').val();
         var id = $('#recipe_id').val();
+
+        var ing_id = new Array();
+        var ing_val = new Array();
+        $('#selectedIngredients li input').each( function(){
+          ing_id.push(this.id);
+          ing_val.push($('#'+this.id).val());
+        });
         $.ajax({
             type: 'post',
             url: "<?php echo site_url('admin/update_recipe'); ?>",
@@ -169,7 +176,9 @@
                 region: region,
                 country: country,
                 instruc: instruc,
-                recipe_id: id
+                recipe_id: id,
+                ingredients_id: ing_id,
+                ingredients_val: ing_val
             },
             dataType: 'JSON',
             success: function(data){
@@ -183,7 +192,7 @@
                 }
             },
             error: function(){
-                alert('ERROR!');
+              alert('ERROR!');
             }
         });return false;
       });
