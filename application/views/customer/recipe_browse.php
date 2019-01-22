@@ -17,7 +17,7 @@
 
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light">
       <a class="navbar-brand" href="<?php echo base_url();?>">
         <img src="<?php echo base_url('/assets/img/newNav.png'); ?>" alt="" width="140px" height="50px">
       </a>
@@ -28,13 +28,13 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto nav-des">
           <li class="nav-item">
-            <a class="nav-link" href="<?php echo site_url();?>">Home <span class="sr-only">(current)</span></a>
+            <a id="white-color" class="nav-link" href="<?php echo site_url();?>">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<?php echo site_url('customer/browse_recipe'.'?id='.$recipe[0]->re_cid);?>">Menu</a>
+            <a id="white-color" class="nav-link" href="<?php echo site_url('customer/browse_recipe'.'?id='.$recipe[0]->re_cid);?>">Menu</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Order</a>
+            <a id="white-color" class="nav-link" href="#">Order</a>
           </li>
         </ul>
         <ul class="navbar-nav nav-des">
@@ -42,7 +42,7 @@
             if (isset($_SESSION['logged_in'])) {
               ?>
                 <li class="nav-item">
-                  <a class="nav-link" href="<?php echo site_url('customer/view_profile');?>"><?php echo $_SESSION['user']; ?></a>
+                  <a id="white-color" class="nav-link" href="<?php echo site_url('customer/view_profile');?>"><?php echo $_SESSION['user']; ?></a>
                 </li>
               <?php
             }

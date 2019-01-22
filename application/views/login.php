@@ -79,6 +79,7 @@
                     <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
                   </div>
                 </div>
+                <!-- FB And Gmail Button
                 <div class="row s-media">
                   <div class="col-xs-12">
                     <button type="submit" class="btn btn-primary btn-block btn-flat fb">Log in with Facebook</button>
@@ -87,6 +88,7 @@
                     <button type="submit" class="btn btn-primary btn-block btn-flat gmail">Log in with Google+</button>
                   </div>
                 </div>
+              -->
               </form>
             </div><!-- End Login Form -->
          </div>

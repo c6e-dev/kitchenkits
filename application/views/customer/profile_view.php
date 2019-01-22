@@ -23,7 +23,7 @@
             <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
             <p class="text-muted"><?php echo $v_profile[0]->cs_address?></p>
             <hr>
-            <a data-target="#update_profile" data-toggle="modal" class="btn btn-danger btn-block" data-backdrop="static"><b>Update Profile</b></a>
+            <a data-target="#update_profile" data-toggle="modal" class="btn btn-danger btn-block" data-backdrop="static"><b style="color:white;">Update Profile</b></a>
           </div>
         </div>
         <?php
@@ -65,9 +65,10 @@
         <div class="modal-dialog modal-md">
           <div class="modal-content">
             <div class="modal-header">
+              <h4 class="modal-title"><strong>Update Profile</strong></h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title"><strong>Update Profile</strong></h4>
+
             </div>
             <form>
               <div class="modal-body">

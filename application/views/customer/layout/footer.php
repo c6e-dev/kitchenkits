@@ -8,9 +8,9 @@
       <div class="modal-dialog modal-md">
         <div class="modal-content">
           <div class="modal-header">
+            <h4 class="modal-title"><strong>Change Password</strong></h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title"><strong>Change Password</strong></h4>
           </div>
           <form class="form-horizontal">
             <div class="modal-body">

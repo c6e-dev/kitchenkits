@@ -6,13 +6,26 @@
 .padding{
   padding: 2rem 0;
 }
+#white-color{
+  color: white;
+}
 /** Navigation **/
+.navbar-light{
+  background-color: #DD4B39;
+}
+.navbar{
+  padding: 0 0.85rem;
+  margin: 0;
+}
+.navbar a{
+  color: white;
+}
 .nav-des{
-  font-size: 1rem;
+  font-size: 0.9rem;
   text-transform: uppercase;
 }
 .nav-des li{
-  padding: 0 0.2rem;
+  padding: 0 0.6rem;
 }
 #sign-up a{
   border-radius:  0.2rem;
@@ -33,7 +46,7 @@
 }
 .btn-dark ,.btn-dark:focus, .btn-dark:hover {
 	box-shadow: 0 0 0 0;
-  border-color: #F15A24;
+  border-color: #DD4B39;
   border-radius: 0.3rem;
 }
 .btn-dark:not(:disabled):not(.disabled).active:focus, .btn-dark:not(:disabled):not(.disabled):active:focus, .show > .btn-dark.dropdown-toggle:focus {
@@ -44,7 +57,7 @@
 	background-color: #C03902;
 }
 .dd-style{
-  background: #F15A24;
+  background: #DD4B39;
   letter-spacing: 0.2rem;
   text-transform: uppercase;
   padding:1rem;
@@ -87,7 +100,7 @@
 }
 /** Footer **/
 footer{
-  background: #F15A24;
+  background: #DD4B39;
   text-align: center;
-  padding: 1rem;
+  padding: 0.3rem;
 }
