@@ -512,6 +512,25 @@ class admin_model extends CI_Model{
 
 	// DASHBOARD FUNCTIONS - Robert / 12-02-18 - THIS MODULE IS SUBJECT TO FURTHER IMPROVEMENTS
 
+	public function report(){
+		$curryear = date('Y');
+		$query = $this->db->query("
+			SELECT SUM(tr.total_cost) AS salescost, YEAR(ua.created_date) AS currentyear
+			FROM transaction tr
+			INNER JOIN delivery od ON tr.order_id = od.id
+			INNER JOIN user_activity ua ON od.activity_id = ua.id
+			WHERE YEAR(ua.created_date) = '$curryear'
+			GROUP BY substring(ua.created_date,1,7)
+			ORDER BY ua.created_date DESC
+		");
+		if($query->num_rows()>0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
 	public function read_activity_feed(){
 		$query = $this->db->query("
 			SELECT ua.activity_type_id fb_type, ua.created_date fb_cdate, co.message fb_comment, ra.rating fb_rating, cs.first_name fb_fname, cs.last_name fb_lname, re.name fb_recipe

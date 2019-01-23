@@ -148,6 +148,14 @@ class admin extends CI_Controller {
 		$this->load->view('admin/layout/footer');
 	}
 
+	public function sales_report(){
+		$result = $this->admin_model->report();
+		foreach ($result as $res) {
+			$data[] = $res;
+		}
+		echo json_encode($data);
+	}
+
 	// DELETE FUNCTIONS
 
 	public function delete_recipe(){

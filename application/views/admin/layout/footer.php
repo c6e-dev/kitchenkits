@@ -47,15 +47,18 @@
   <script src="<?php echo base_url('assets/bower_components/jquery/dist/jquery.min.js');?>"></script>
   <!-- Bootstrap 3.3.7 -->
   <script src="<?php echo base_url('assets/bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
+  <!-- ChartJS -->
+  <script src="<?php echo base_url('assets/bower_components/chart.js/Chart.js');?>"></script>
+  <!-- Select2 -->
   <script src="<?php echo base_url('assets/bower_components/select2/dist/js/select2.full.min.js');?>"></script>
   <!-- DataTables -->
   <script src="<?php echo base_url('assets/bower_components/datatables.net/js/jquery.dataTables.min.js');?>"></script>
   <script src="<?php echo base_url('assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js');?>"></script>
   <!-- SlimScroll -->
   <script src="<?php echo base_url('assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js');?>"></script>
-  <!-- FastClick -->
+  <!-- iCheck -->
   <script src="<?php echo base_url('assets/plugins/iCheck/icheck.min.js');?>"></script>
-  <script src="<?php echo base_url('assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js');?>"></script>
+  <!-- FastClick -->
   <script src="<?php echo base_url('assets/bower_components/fastclick/lib/fastclick.js');?>"></script>
   <!-- AdminLTE App -->
   <script src="<?php echo base_url('assets/dist/js/adminlte.min.js');?>"></script>
@@ -74,16 +77,16 @@
     $("#recipe_image").change(function () {
         readURL(this);
     });
-    $(function(){    
+    $(function(){
       $('table.display').DataTable({
         destroy: true,
         "order": [[ 0, 'desc' ]]
-      })
+      });
       $('input[type="radio"].minimal-blue').iCheck({
         checkboxClass: 'icheckbox_minimal-blue',
         radioClass   : 'iradio_minimal-blue'
-      })
-      $('.select2').select2()
+      });
+      $('.select2').select2();
 
       $('.modal').on('hidden.bs.modal', function(){
         $(this).find('form')[0].reset();
@@ -396,6 +399,51 @@
               alert('ERROR!');
             }
         });return false;
+      });
+
+      $.ajax({
+        type  : 'GET',
+        url: "<?php echo site_url('admin/sales_report'); ?>",
+        dataType : 'json',
+        success: function(data){
+          var monthlysales = new Array();
+          var current_year = "Monthly Sales Of "+data[0].currentyear;
+          for(var i in data){
+            monthlysales.push(data[i].salescost);
+          }
+          var ctx = document.getElementById("myChart");
+          var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+              datasets: [{
+                  label: current_year,
+                  data: monthlysales,
+                  backgroundColor: 'rgba(96,92,168, 0.7)',
+                  borderColor: 'rgba(96,92,168, 1)',
+                  borderWidth: 1
+              }]
+            },
+            options: {
+              scales: {
+                yAxes: [{
+                  ticks: {
+                    beginAtZero:true
+                  }
+                }],
+                xAxes: [{
+                  gridLines: {
+                    display:false
+                  }
+                }]
+              }
+            }
+          });
+        },
+        error: function(){
+          alert('ERROR');
+          console.log(data);
+        }
       });
     })
   </script>
