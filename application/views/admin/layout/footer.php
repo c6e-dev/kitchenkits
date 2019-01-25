@@ -82,6 +82,10 @@
         destroy: true,
         "order": [[ 0, 'desc' ]]
       });
+      $('#ingredients_tbl').DataTable({
+        destroy: true,
+        "order": [[ 2, 'desc' ]]
+      });
       $('input[type="radio"].minimal-blue').iCheck({
         checkboxClass: 'icheckbox_minimal-blue',
         radioClass   : 'iradio_minimal-blue'
@@ -91,6 +95,7 @@
       $('.modal').on('hidden.bs.modal', function(){
         $(this).find('form')[0].reset();
         $('.alert').css('display', 'none');
+        document.getElementById("unit").disabled=false;
       });
 
       $("#history").on("hide.bs.collapse", function(){
@@ -138,7 +143,7 @@
             dataType: 'JSON',
             success: function(data){
                 if (data.status) {
-                    alert("Recipe successfully added!");
+                    alert("Recipe Successfully Added!");
                     location.reload();
                     $('#add_recipe').modal('hide');
                 }else{
@@ -186,7 +191,7 @@
             dataType: 'JSON',
             success: function(data){
                 if (data.status) {
-                    alert("Recipe successfully updated!");
+                    alert("Recipe Successfully Updated!");
                     location.reload();
                     $('#update_recipe').modal('hide');
                 }else{
@@ -330,6 +335,35 @@
         });return false;
       });
 
+      $('#btn_ing_save').on('click', function(){
+        var name = $('#ingName').val();
+        var unit = $("[name='unit']").val();
+        var nunit = $('#newUnit').val();
+        $.ajax({
+            type: 'post',
+            url: "<?php echo site_url('admin/add_ingredient'); ?>",
+            data: {
+              name: name,
+              unit: unit,
+              new_unit: nunit
+            },
+            dataType: 'JSON',
+            success: function(data){
+              if (data.status) {
+                alert("Ingredient Successfully Added!");
+                location.reload();
+                $('#addingredient').modal('hide');
+              }else{
+                $('.alert').css('display', 'block');
+                $('.alert').html(data.notif);
+              }
+            },
+            error: function(){
+              alert('ERROR!');
+            }
+        });return false;
+      });
+
       $("#branch_col").hide();
       $("#branch_tri").hover(function(){
         $("#branch_col").slideDown(300);
@@ -440,7 +474,7 @@
             }
           });
         },
-        error: function(){
+        error: function(data){
           alert('ERROR');
           console.log(data);
         }

@@ -91,6 +91,14 @@ class admin extends CI_Controller {
 		$this->load->view('admin/read_feedback',$data);
 		$this->load->view('admin/layout/footer');
 	}
+
+	public function ingredient_view(){
+		$this->load->view('admin/layout/header');
+		$data['ingredient'] = $this->admin_model->read_ingredient();
+		$data['unit'] = $this->admin_model->read_unit();
+		$this->load->view('admin/read_ingredient',$data);
+		$this->load->view('admin/layout/footer');
+	}
 	
 	// VIEW FUNCTIONS
 
@@ -180,6 +188,11 @@ class admin extends CI_Controller {
 			$this->admin_model->delete_umanager($bm_uid);
 		}
 		redirect('admin/manager_view');	
+	}
+
+	public function delete_ingredient(){
+		$this->admin_model->delete_ingredient($_GET['id']);
+		redirect('admin/ingredient_view');	
 	}
 
 	// ACTIVATE FUNCTIONS - Robert / 12-02-18
@@ -305,6 +318,47 @@ class admin extends CI_Controller {
 			}
 			$response['status'] = TRUE;
 			$response[] = $data;
+		}
+		else {
+			$response['status'] = FALSE;
+	    	$response['notif']	= validation_errors();
+		}
+		echo json_encode($response);
+	}
+
+	public function add_ingredient(){
+		$response = array();
+		$this->form_validation->set_rules('name', 'Ingredient', 'required|is_unique[ingredients.name]',array(
+			'is_unique' => '%s already exist!'
+		));
+		$this->form_validation->set_rules('new_unit', 'Unit', 'alpha|is_unique[unit.name]',array(
+			'alpha' => 'Invalid %s!',
+			'is_unique' => '%s already exist!'
+		));
+		if ($this->form_validation->run() == TRUE) {
+			$new_unit = $_POST['new_unit'];
+			$name = $_POST['name'];
+			if ($new_unit != '') {
+				$new_unit = $_POST['new_unit'];
+				$unit = array(
+					'name' => $new_unit
+				);
+				$this->admin_model->add_unit($unit);
+				$unit_id = $this->db->insert_id();
+				$data = array(
+					'unit_id' => $unit_id,
+					'name' => $name
+				);
+			}
+			else{
+				$unit = $_POST['unit'];
+				$data = array(
+					'unit_id' => $unit,
+					'name' => $name
+				);
+			}
+			$this->admin_model->add_ingredient($data);
+			$response['status'] = TRUE;
 		}
 		else {
 			$response['status'] = FALSE;

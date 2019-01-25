@@ -113,6 +113,34 @@ class admin_model extends CI_Model{
 		}
 	}
 
+	public function read_ingredient(){
+		$query = $this->db->query("
+			SELECT ing.id ing_id, ing.name ing_nm, ing.unit_id ing_unit_id, un.name ing_un, ing.created_date ing_cd
+			FROM ingredients ing
+			INNER JOIN unit un ON ing.unit_id = un.id
+
+		");
+		if($query->num_rows()>0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function read_unit(){
+		$query = $this->db->query("
+			SELECT *
+			FROM unit
+		");
+		if($query->num_rows()>0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
 	// VIEW FUNCTIONS - Robert / 12-02-18
 
 	//RECIPE FUNCTIONS
@@ -327,6 +355,13 @@ class admin_model extends CI_Model{
 		");
 	}
 
+	public function delete_ingredient($id){
+		$this->db->query("
+			DELETE FROM ingredients			
+			WHERE ingredients.id = '$id'
+		");
+	}
+
 	// ACTIVATE FUNCTIONS - Robert / 12-02-18
 
 	public function activate_recipe($id){
@@ -382,8 +417,17 @@ class admin_model extends CI_Model{
 	public function add_user_manager($mngrdata){
 		$this->db->insert('user', $mngrdata);
 	}
+
 	public function add_manager($managerdata){
 		$this->db->insert('branch_manager', $managerdata);
+	}
+
+	public function add_unit($unit){
+		$this->db->insert('unit', $unit);
+	}
+	
+	public function add_ingredient($data){
+		$this->db->insert('ingredients', $data);
 	}
 
 	// EDIT FUNCTIONS

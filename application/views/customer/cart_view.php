@@ -116,18 +116,25 @@
                             <?php
                           }
                         ?>
-                        <tr>
-                          <th class="text">Subtotal (<?php echo $stotal[0]->stotalcount;?> Items)</th>
-                          <td><span class="info-box-number pull-right">₱<?php echo $stotalprice[0]->stotalprice;?></span></td>
-                        </tr>
-                        <tr>
-                          <th class="text">VAT</th>
-                          <td><span class="info-box-number pull-right">₱499.00</span></td>
-                        </tr>
-                        <tr>
-                          <th>Total</th>
-                          <td><span class="info-box-number pull-right text-green">₱<?php echo $stotalprice[0]->stotalprice;?>.00</span></td>
-                        </tr>
+                        <?php
+                          $subtotal = $stotalprice[0]->stotalprice;
+                          $vat = $subtotal*0.015;
+                          $total = $subtotal+$vat;
+                            echo '
+                            <tr>
+                              <th class="text">Subtotal ('.$stotal[0]->stotalcount.' Items)</th>
+                              <td><span class="info-box-number pull-right">₱'.$subtotal.'</span></td>
+                            </tr>
+                            <tr>
+                              <th class="text">VAT</th>
+                              <td><span class="info-box-number pull-right">₱'.$vat.'</span></td>
+                            </tr>
+                            <tr>
+                              <th>Total</th>
+                              <td><span class="info-box-number pull-right text-green">₱'.$total.'</span></td>
+                            </tr>
+                          ';
+                        ?>
                       </table>
                     </div>
                   </div>
