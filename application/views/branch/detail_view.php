@@ -35,7 +35,29 @@
     </section>
     <section class="content container-fluid">
       <div>
-        <button type="button" class="btn btn-sm bg-blue btn-flat" style="margin: 0px 5px 10px 0px" data-toggle="modal" data-target="" data-backdrop="static">Complete Order</button>
+        <?php echo'
+        <button type="button" class="btn btn-sm bg-blue btn-flat" style="margin: 0px 5px 10px 0px" data-toggle="modal" data-target="#completeod" data-backdrop="static">Complete Order</button>
+        '?>
+
+        <div class="container">
+          <?php echo'
+          <div class="modal fade" id="completeod'.$detail[0]->od_id.'">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5>Complete Order</h5>
+                </div>
+                <div class="modal-body">
+                  <strong><center>Confirm Order Completion</center></strong>
+                </div>';?>
+                <div class="modal-footer">
+                  <a href="<?php echo site_url('branch/order_complete'.'?id='.$detail[0]->od_id);?>" class="btn btn-sm btn-primary">Confirm</a>
+                  <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="row">
         <div class="col-md-12">
@@ -81,5 +103,6 @@
           </div>
         </div>
       </div>
+      
     </section>
   </div>

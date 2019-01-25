@@ -68,6 +68,14 @@ class branch_model extends CI_Model{
 		}
 	}
 
+	public function order_complete($id){
+		$this->db->query("
+			UPDATE delivery od 
+			SET od.status = 'P' 
+			WHERE od.id = '$id'
+		");
+	}
+
 	public function detail_ing($re_id){
 		$query = $this->db->query("
 			SELECT ri.ingredient_amount AS ri_amount, ig.name AS ri_ingredient, un.name AS ri_unit

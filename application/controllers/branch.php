@@ -54,6 +54,11 @@ class branch extends CI_Controller {
 		$this->load->view('branch/layout/footer');
 	}
 
+	public function order_complete(){
+		$this->branch_model->order_complete($_GET['id']);
+		redirect('branch/order_view');
+	}
+
 	public function supply_view(){
 		$this->load->view('branch/layout/header');
 		$data['supply'] = $this->branch_model->supply_view($_SESSION['id']);
