@@ -54,7 +54,7 @@ class branch_model extends CI_Model{
 
 	public function detail_view($id){
 		$query = $this->db->query("
-			SELECT od.id AS od_id, od.code AS od_code, od.status AS od_status, oc.quantity AS od_quantity, re.id od_recipe_id, re.name AS od_recipe
+			SELECT od.id AS od_id, od.code AS od_code, od.status AS od_status, oc.quantity AS od_quantity, re.id od_recipe_id, re.name AS od_recipe, re.instructions AS od_instructions
 			FROM order_content oc
 			INNER JOIN delivery od ON oc.order_id = od.id
 			INNER JOIN recipe re ON oc.recipe_id = re.id

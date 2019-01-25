@@ -103,7 +103,7 @@
             if ($recipe!=NULL) {
               foreach ($recipe as $rcp) {
                 ?>
-                  <div class="card border-dark" style="max-width:17rem;">
+                  <div class="card border" style="max-width:17rem;">
                     <a href="<?php echo site_url('customer/view_recipe'.'?id='.$rcp->re_id); ?>"><img class="card-img-top" src="img/team1.png"  height="180px"></a>
                     <div class="card-body">
                       <h3 class="card-title"><?php echo $rcp->re_name; ?></h3>
@@ -127,8 +127,8 @@
               }
             }
           ?>
-        </div><!-- End of Card Wrapper -->
-      </div><!-- End of container-fluid -->
+        </div>
+      </div>
     </div><!-- End of Container-->
     <footer class="container-fluid navbar-fixed-bottom">
       <div class="container">
