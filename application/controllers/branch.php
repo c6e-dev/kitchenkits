@@ -56,7 +56,7 @@ class branch extends CI_Controller {
 
 	public function order_complete(){
 		$this->branch_model->order_complete($_GET['id']);
-		redirect('branch/order_view');
+		redirect('branch');
 	}
 
 	public function supply_view(){

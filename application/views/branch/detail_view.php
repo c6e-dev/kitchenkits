@@ -36,7 +36,7 @@
     <section class="content container-fluid">
       <div>
         <?php echo'
-        <button type="button" class="btn btn-sm bg-blue btn-flat" style="margin: 0px 5px 10px 0px" data-toggle="modal" data-target="#completeod" data-backdrop="static">Complete Order</button>
+        <button type="button" class="btn btn-sm bg-blue btn-flat" style="margin: 0px 5px 10px 0px" data-toggle="modal" data-target="#completeod'.$detail[0]->od_id.'" data-backdrop="static">Complete Order</button>
         '?>
 
         <div class="container">
