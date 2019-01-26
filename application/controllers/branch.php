@@ -126,7 +126,7 @@ class branch extends CI_Controller {
 		if ($this->form_validation->run() == TRUE) {
 			$this->branch_model->reduce_supply();
 			$data = array(
-				'branch_id' => $_POST['branch_id'],
+				'branch_ingredients_id' => $_POST['bri_id'],
 				'amount_reduced' => str_replace("'","’",$_POST['amount']),
 				'reason' => str_replace("'","’",$_POST['reason']),
 				'status' => 0

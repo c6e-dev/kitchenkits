@@ -164,6 +164,21 @@ class admin extends CI_Controller {
 		echo json_encode($data);
 	}
 
+	public function branch_report(){
+		$this->load->view('admin/layout/header');
+		$data['report'] = $this->admin_model->branch_report();
+		$this->load->view('admin/read_report',$data);
+		$this->load->view('admin/layout/footer');
+	}
+
+	public function view_branch_report(){
+		$this->load->view('admin/layout/header');
+		$this->admin_model->report_viewed($_GET['id']);
+		$data['report_details'] = $this->admin_model->view_branch_report($_GET['id']);
+		$this->load->view('admin/report_view',$data);
+		$this->load->view('admin/layout/footer');
+	}
+
 	// DELETE FUNCTIONS
 
 	public function delete_recipe(){
@@ -516,6 +531,16 @@ class admin extends CI_Controller {
   		$upt_date = date('Y-m-d H:i:s'); 
 		$this->admin_model->upload_recipe_image($re_id,$image,$upt_date);
 		redirect('admin/view_recipe/'.$re_id.'/'.$co_id); 
+	}
+
+	public function supply_report(){
+		$data = $this->admin_model->supply_report();
+		if ($data==NULL) {
+			$response['notify'] = 'No Notification To View';
+			echo json_encode($response);
+		}else{
+			echo json_encode($data);
+		}		
 	}
 
 	public function password_check(){

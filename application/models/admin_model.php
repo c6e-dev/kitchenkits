@@ -313,6 +313,71 @@ class admin_model extends CI_Model{
 		return $query->result();
 	}
 
+	// REPORT FUNCTION
+
+	public function supply_report(){
+		$query = $this->db->query("
+			SELECT br_rep.id br_rep_id, br_rep.amount_reduced br_rep_ar, br_rep.reason br_rep_rsn, br_rep.created_date br_rep_cd, bm.name bm_name, ing.name ing_name, br.name br_name
+			FROM branch_reports br_rep
+			INNER JOIN branch_ingredients bi ON br_rep.branch_ingredients_id = bi.id
+			INNER JOIN ingredients ing ON bi.ingredient_id = ing.id
+			INNER JOIN branch br ON bi.branch_id = br.id
+			INNER JOIN branch_manager bm ON br.manager_id = bm.id
+			WHERE br_rep.status = 0
+			ORDER BY br_rep.created_date DESC
+			LIMIT 10
+		");
+		if($query->num_rows()>0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function branch_report(){
+		$query = $this->db->query("
+			SELECT br_rep.id br_rep_id, br_rep.amount_reduced br_rep_ar, br_rep.reason br_rep_rsn, br_rep.created_date br_rep_cd, bm.name bm_name, ing.name ing_name, br.name br_name, un.name un_name
+			FROM branch_reports br_rep
+			INNER JOIN branch_ingredients bi ON br_rep.branch_ingredients_id = bi.id
+			INNER JOIN ingredients ing ON bi.ingredient_id = ing.id
+			INNER JOIN unit un ON ing.unit_id = un.id
+			INNER JOIN branch br ON bi.branch_id = br.id
+			INNER JOIN branch_manager bm ON br.manager_id = bm.id
+		");
+		if($query->num_rows()>0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function report_viewed($id){
+		$this->db->set('status', 1);
+		$this->db->where('id', $id);
+		$this->db->update('branch_reports');
+	}
+
+	public function view_branch_report($id){
+		$query = $this->db->query("
+			SELECT br_rep.id br_rep_id, br_rep.amount_reduced br_rep_ar, br_rep.reason br_rep_rsn, br_rep.created_date br_rep_cd, bm.name bm_name, ing.name ing_name, br.name br_name, br.branch_address br_addr, un.name un_name
+			FROM branch_reports br_rep
+			INNER JOIN branch_ingredients bi ON br_rep.branch_ingredients_id = bi.id
+			INNER JOIN ingredients ing ON bi.ingredient_id = ing.id
+			INNER JOIN unit un ON ing.unit_id = un.id
+			INNER JOIN branch br ON bi.branch_id = br.id
+			INNER JOIN branch_manager bm ON br.manager_id = bm.id
+			WHERE br_rep.id = '$id'
+		");
+		if($query->num_rows()>0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
 	// DELETE FUNCTIONS
 
 	public function delete_recipe($id){
@@ -554,7 +619,7 @@ class admin_model extends CI_Model{
 		$this->db->update('recipe');
 	}
 
-	// DASHBOARD FUNCTIONS - Robert / 12-02-18 - THIS MODULE IS SUBJECT TO FURTHER IMPROVEMENTS
+	// DASHBOARD FUNCTIONS
 
 	public function report(){
 		$curryear = date('Y');

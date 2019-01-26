@@ -44,8 +44,10 @@
                         ?>
                       </center></td>
                     </tr>
-                    <?php echo '
-                    <div class="modal fade" id="resupply'.$su->bri_id.'">
+                    <?php 
+                      $abri_id = $su->bri_id;
+                      echo '
+                    <div class="modal fade" id="resupply'.$abri_id.'">
                       <div class="modal-dialog">
                         <div class="modal-content">
                           <div class="modal-header">
@@ -62,31 +64,32 @@
                                 <div class="row form-group">
                                   <div class="col-md-5">
                                     <label>Ingredient</label>
-                                    <input type="text" name="res_ingr" id="res_ingr" class="form-control input-sm" value="'.$su->bi_name.'" readonly>
+                                    <input type="text" class="form-control input-sm" value="'.$su->bi_name.'" readonly>
                                   </div>
                                   <div class="col-md-4">
                                     <label>Amount</label>
-                                    <input type="text" name="res_amount" id="res_amount" class="form-control input-sm">
+                                    <input type="text" id="res_amount'.$abri_id.'" class="form-control input-sm">
                                   </div>
                                   <div class="col-md-3">
                                     <label>Unit</label>
-                                    <input type="text" id="res_unit" class="form-control input-sm" value="'.$su->bi_unit.'" readonly>
+                                    <input type="text" class="form-control input-sm" value="'.$su->bi_unit.'" readonly>
                                   </div>
                                 </div>
                               </div>
                             </div>
                             <div class="modal-footer">
-                              <input type="hidden" id="crrnt_amnt" value="'.$su->bi_supply.'">
-                              <input type="hidden" id="bi_id" value="'.$su->bri_id.'">';?>
-                              <button type="button" id="submit_resupply" class="btn btn-sm btn-primary">Confirm</button>
+                              <input type="hidden" id="crrnt_amnt'.$abri_id.'" value="'.$su->bi_supply.'">
+                              <button type="button" data-id="'.$abri_id.'" class="btn btn-sm btn-primary submit_resupply">Confirm</button>';?>
                               <button type="button" class="btn btn-sm" data-dismiss="modal">Close</button>
                             </div>
                           </form>
                         </div>
                       </div>
                     </div>
-                    <?php echo '
-                    <div class="modal fade" id="reduce_supply'.$su->bri_id.'">
+                    <?php 
+                      $bri_id = $su->bri_id;
+                      echo '
+                    <div class="modal fade" id="reduce_supply'.$bri_id.'">
                       <div class="modal-dialog">
                         <div class="modal-content">
                           <div class="modal-header">
@@ -103,30 +106,29 @@
                                 <div class="row form-group">
                                   <div class="col-md-5">
                                     <label>Ingredient</label>
-                                    <input type="text" name="upt_ingr" id="upt_ingr" class="form-control input-sm" value="'.$su->bi_name.'" readonly>
+                                    <input type="text" class="form-control input-sm" value="'.$su->bi_name.'" readonly>
                                   </div>
                                   <div class="col-md-4">
                                     <label>Amount</label>
-                                    <input type="text" name="upt_amount" id="upt_amount" class="form-control input-sm">
+                                    <input type="text" id="upt_amount'.$bri_id.'" class="form-control input-sm">
                                   </div>
                                   <div class="col-md-3">
                                     <label>Unit</label>
-                                    <input type="text" id="upt_unit" class="form-control input-sm" value="'.$su->bi_unit.'" readonly>
+                                    <input type="text" class="form-control input-sm" value="'.$su->bi_unit.'" readonly>
                                   </div>
                                 </div>
                                 <div class="row form-group">
                                   <div class="col-md-12">
                                     <label>Reason</label>
-                                    <textarea style="resize: none" class="form-control" name="reason" id="reason" rows="3"></textarea>
+                                    <textarea style="resize: none" class="form-control" id="reason'.$bri_id.'" rows="3"></textarea>
                                   </div>
                                 </div>
                               </div>
                             </div>
                             <div class="modal-footer">
-                              <input type="hidden" id="crrnt_amnt" value="'.$su->bi_supply.'">
-                              <input type="hidden" id="bi_id" value="'.$su->bri_id.'">
-                              <input type="hidden" id="branch_id" value="'.$supply[0]->branch_id.'">';?>
-                              <button type="button" id="submit_redsupply" class="btn btn-sm btn-primary">Confirm</button>
+                              <input type="hidden" id="crrnt_amnt'.$bri_id.'" value="'.$su->bi_supply.'">
+                              <input type="hidden" id="branch_id'.$bri_id.'" value="'.$supply[0]->branch_id.'">
+                              <button type="button" data-id="'.$bri_id.'" class="btn btn-sm btn-primary submit_redsupply">Confirm</button>';?>
                               <button type="button" class="btn btn-sm" data-dismiss="modal">Close</button>
                             </div>
                           </form>

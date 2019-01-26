@@ -31,22 +31,19 @@
         </a>
         <div class="navbar-custom-menu">
           <ul class="nav navbar-nav">
-            <li class="dropdown notifications-menu">
+            <li class="dropdown messages-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-bell-o"></i>
-                <span class="label label-warning">10</span>
+                <span class="label label-warning" id="notif_count"></span>
               </a>
               <ul class="dropdown-menu">
+                <li class="header"></li>
                 <li>
                   <ul class="menu">
-                    <li>
-                      <a href="#">
-                        <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                      </a>
-                    </li>
+                    
                   </ul>
                 </li>
-                <li class="footer"><a href="#">View all</a></li>
+                <li class="footer"><a href="<?php echo site_url('admin/branch_report');?>">View all</a></li>
               </ul>
             </li>
             <li class="dropdown user user-menu">

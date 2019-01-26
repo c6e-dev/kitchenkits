@@ -111,10 +111,10 @@
         });return false;
       });
 
-      $('#submit_resupply').on('click', function(){
-        var amnt = $('#res_amount').val();
-        var crr_amnt = $('#crrnt_amnt').val();
-        var bi_id = $('#bi_id').val();
+      $('.submit_resupply').on('click', function(){
+        var bi_id = $(this).attr('data-id');
+        var amnt = $('#res_amount'+bi_id).val();
+        var crr_amnt = $('#crrnt_amnt'+bi_id).val();
         $.ajax({
             type: 'post',
             url: "<?php echo site_url('branch/update_supply'); ?>",
@@ -140,12 +140,12 @@
         });return false;
       });
 
-      $('#submit_redsupply').on('click', function(){
-        var amnt = $('#upt_amount').val();
-        var rson = $('#reason').val();
-        var crr_amnt = $('#crrnt_amnt').val();
-        var bi_id = $('#bi_id').val();
-        var br_id = $('#branch_id').val();
+      $('.submit_redsupply').on('click', function(){
+        var bi_id = $(this).attr('data-id');
+        var amnt = $('#upt_amount'+bi_id).val();
+        var rson = $('#reason'+bi_id).val();
+        var crr_amnt = $('#crrnt_amnt'+bi_id).val();
+        var br_id = $('#branch_id'+bi_id).val();
         $.ajax({
             type: 'post',
             url: "<?php echo site_url('branch/reduce_supply'); ?>",

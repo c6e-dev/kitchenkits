@@ -1,17 +1,5 @@
-  <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
-
-    <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
-
-      <!-- Sidebar user panel (optional) -->
-      
-
-      <!-- search form (Optional) -->
-      
-      <!-- /.search form -->
-
-      <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
         <!-- <li class="header">NAVIGATION</li> -->
         <li class="active"><a href="<?php echo site_url('admin');?>"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
