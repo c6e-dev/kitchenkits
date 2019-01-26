@@ -95,14 +95,13 @@ class branch_model extends CI_Model{
 
 	public function supply_view($id){
 		$query = $this->db->query("
-			SELECT bi.supply AS bi_supply, bi.updated_date AS bi_date, ig.name AS bi_name, un.name AS bi_unit
-			FROM branch_ingredients bi 
+			SELECT bi.id bri_id, bi.supply AS bi_supply, bi.updated_date AS bi_date, ig.name AS bi_name, ig.id AS bi_id, un.name AS bi_unit, br.id AS branch_id
+			FROM branch_ingredients bi
 			INNER JOIN ingredients ig ON bi.ingredient_id = ig.id
-			INNER JOIN branch br ON bi.branch_id = br.id
 			INNER JOIN unit un ON ig.unit_id = un.id
+			INNER JOIN branch br ON bi.branch_id = br.id
 			INNER JOIN branch_manager bm ON br.manager_id = bm.id
-			INNER JOIN user u ON bm.user_id = u.id
-			WHERE u.id = '$id'
+			WHERE bm.user_id = '$id'
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();
@@ -112,9 +111,52 @@ class branch_model extends CI_Model{
 		}
 	}
 
-	// public function add_supply(){
+	public function read_ingredient(){
+		$query = $this->db->query("
+			SELECT ing.id ing_id, ing.name ing_nm, ing.unit_id ing_unit_id, un.name ing_un
+			FROM ingredients ing
+			INNER JOIN unit un ON ing.unit_id = un.id	
+		");
+		if($query->num_rows()>0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
 
-	// }
+	public function add_supply($data){
+		$this->db->insert('branch_ingredients', $data);
+	}
+
+	public function update_supply($upt_date){
+		$amount = $this->input->post('amount');
+		$current_amount = $this->input->post('current_amount');
+		$id = $this->input->post('bri_id');
+		$new_amount = $amount+$current_amount;
+		
+		$this->db->set('supply', $new_amount);
+		$this->db->set('updated_date', $upt_date);
+		$this->db->where('id', $id);
+
+		$this->db->update('branch_ingredients');
+	}
+
+	public function reduce_supply(){
+		$amount = $this->input->post('amount');
+		$current_amount = $this->input->post('current_amount');
+		$id = $this->input->post('bri_id');
+		$new_amount = $current_amount-$amount;
+		
+		$this->db->set('supply', $new_amount);
+		$this->db->where('id', $id);
+
+		$this->db->update('branch_ingredients');
+	}
+
+	public function add_report($data){
+		$this->db->insert('branch_reports', $data);
+	}
 
 	public function edit_password($upt_date){
 		$password = sha1($this->input->post('new_password'));

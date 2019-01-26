@@ -65,8 +65,113 @@
     $(function(){    
     	$('table.display').DataTable({
     	  destroy: true,
-    	  "order": [[ 0, 'desc' ]]
+    	  "order": [[ 2, 'desc' ]]
     	});
+
+      $('.modal').on('hidden.bs.modal', function(){
+        $('#ingr').val('0');
+        $('.select2').select2();
+        $(this).find('form')[0].reset();
+        $('.alert').css('display', 'none');
+
+      });
+
+      $('.select2').select2();
+
+      $('#ingr').on('change',function(){
+        $('#unit').val(this[this.selectedIndex].id);
+      });
+
+      $('#submit_supply').on('click', function(){
+        var amnt = $('#amount').val();
+        var ingr = $("[name='ingr']").val();
+        var br_id = $('#branch_id').val();
+        $.ajax({
+            type: 'post',
+            url: "<?php echo site_url('branch/add_supply'); ?>",
+            data: {
+                amount: amnt,
+                ingredient: ingr,
+                branch_id: br_id
+            },
+            dataType: 'JSON',
+            success: function(data){
+                if (data.status) {
+                    alert("Supply Successfully Added!");
+                    location.reload();
+                    $('#add_supply').modal('hide');
+                }else{
+                    $('.alert').css('display', 'block');
+                    $('.alert').html(data.notif);
+                }
+            },
+            error: function(){
+              alert('ERROR!');
+            }
+        });return false;
+      });
+
+      $('#submit_resupply').on('click', function(){
+        var amnt = $('#res_amount').val();
+        var crr_amnt = $('#crrnt_amnt').val();
+        var bi_id = $('#bi_id').val();
+        $.ajax({
+            type: 'post',
+            url: "<?php echo site_url('branch/update_supply'); ?>",
+            data: {
+                amount: amnt,
+                current_amount: crr_amnt,
+                bri_id: bi_id
+            },
+            dataType: 'JSON',
+            success: function(data){
+                if (data.status) {
+                    alert("Supply Successfully Updated!");
+                    location.reload();
+                    $('#add_supply'+bi_id).modal('hide');
+                }else{
+                    $('.alert').css('display', 'block');
+                    $('.alert').html(data.notif);
+                }
+            },
+            error: function(){
+              alert('ERROR!');
+            }
+        });return false;
+      });
+
+      $('#submit_redsupply').on('click', function(){
+        var amnt = $('#upt_amount').val();
+        var rson = $('#reason').val();
+        var crr_amnt = $('#crrnt_amnt').val();
+        var bi_id = $('#bi_id').val();
+        var br_id = $('#branch_id').val();
+        $.ajax({
+            type: 'post',
+            url: "<?php echo site_url('branch/reduce_supply'); ?>",
+            data: {
+                amount: amnt,
+                reason: rson,
+                current_amount: crr_amnt,
+                bri_id: bi_id,
+                branch_id: br_id
+            },
+            dataType: 'JSON',
+            success: function(data){
+                if (data.status) {
+                    alert("Supply Successfully Updated!");
+                    location.reload();
+                    $('#reduce_supply'+bi_id).modal('hide');
+                }else{
+                    $('.alert').css('display', 'block');
+                    $('.alert').html(data.notif);
+                }
+            },
+            error: function(){
+                alert('ERROR!');
+            }
+        });return false;
+      });
 
       $('#save_change_pass').on('click', function(){
         var curr_pass = $('#curr_pass').val();

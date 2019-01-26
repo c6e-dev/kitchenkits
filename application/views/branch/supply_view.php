@@ -25,6 +25,7 @@
                 <th>Ingredient Name</th>
                 <th>Supply</th>
                 <th>Last Resupply Date</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -34,9 +35,104 @@
                   ?>
                     <tr>
                       <td><?php echo $su->bi_name; ?></td>
-                      <td><?php echo str_replace("’", "'", $su->bi_supply." ".$su->bi_unit)?></td>
+                      <td><?php echo $su->bi_supply." ".$su->bi_unit?></td>
                       <td><?php echo $su->bi_date; ?></td>
+                      <td><center>
+                        <?php echo '
+                          <button type="button" class="btn btn-xs btn-danger" data-target="#reduce_supply'.$su->bri_id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-minus"></i></button>
+                          <button type="button" class="btn btn-xs btn-success" data-target="#resupply'.$su->bri_id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-plus"></i></button>';
+                        ?>
+                      </center></td>
                     </tr>
+                    <?php echo '
+                    <div class="modal fade" id="resupply'.$su->bri_id.'">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title"><strong>Resupply</strong></h4>
+                          </div>
+                          <form class="form-horizontal">
+                            <div class="modal-body">
+                              <div class="box-body">
+                                <div class="form-group">
+                                  <div class="alert alert-danger" align="center" style="display: none;"></div>
+                                </div>
+                                <div class="row form-group">
+                                  <div class="col-md-5">
+                                    <label>Ingredient</label>
+                                    <input type="text" name="res_ingr" id="res_ingr" class="form-control input-sm" value="'.$su->bi_name.'" readonly>
+                                  </div>
+                                  <div class="col-md-4">
+                                    <label>Amount</label>
+                                    <input type="text" name="res_amount" id="res_amount" class="form-control input-sm">
+                                  </div>
+                                  <div class="col-md-3">
+                                    <label>Unit</label>
+                                    <input type="text" id="res_unit" class="form-control input-sm" value="'.$su->bi_unit.'" readonly>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <input type="hidden" id="crrnt_amnt" value="'.$su->bi_supply.'">
+                              <input type="hidden" id="bi_id" value="'.$su->bri_id.'">';?>
+                              <button type="button" id="submit_resupply" class="btn btn-sm btn-primary">Confirm</button>
+                              <button type="button" class="btn btn-sm" data-dismiss="modal">Close</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                    <?php echo '
+                    <div class="modal fade" id="reduce_supply'.$su->bri_id.'">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title"><strong>Reduce Supply</strong></h4>
+                          </div>
+                          <form class="form-horizontal">
+                            <div class="modal-body">
+                              <div class="box-body">
+                                <div class="form-group">
+                                  <div class="alert alert-danger" align="center" style="display: none;"></div>
+                                </div>
+                                <div class="row form-group">
+                                  <div class="col-md-5">
+                                    <label>Ingredient</label>
+                                    <input type="text" name="upt_ingr" id="upt_ingr" class="form-control input-sm" value="'.$su->bi_name.'" readonly>
+                                  </div>
+                                  <div class="col-md-4">
+                                    <label>Amount</label>
+                                    <input type="text" name="upt_amount" id="upt_amount" class="form-control input-sm">
+                                  </div>
+                                  <div class="col-md-3">
+                                    <label>Unit</label>
+                                    <input type="text" id="upt_unit" class="form-control input-sm" value="'.$su->bi_unit.'" readonly>
+                                  </div>
+                                </div>
+                                <div class="row form-group">
+                                  <div class="col-md-12">
+                                    <label>Reason</label>
+                                    <textarea style="resize: none" class="form-control" name="reason" id="reason" rows="3"></textarea>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <input type="hidden" id="crrnt_amnt" value="'.$su->bi_supply.'">
+                              <input type="hidden" id="bi_id" value="'.$su->bri_id.'">
+                              <input type="hidden" id="branch_id" value="'.$supply[0]->branch_id.'">';?>
+                              <button type="button" id="submit_redsupply" class="btn btn-sm btn-primary">Confirm</button>
+                              <button type="button" class="btn btn-sm" data-dismiss="modal">Close</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
                   <?php
                   }
                 }
@@ -59,15 +155,16 @@
                   <div class="form-group">
                     <div class="alert alert-danger" align="center" style="display: none;"></div>
                   </div>
-                  <div class="row form-group" style="margin-bottom: 25px">
-                    <div class="col-md-4">
-                      <label>Ingredient <small style="font-weight: normal;"></small></label>
+                  <div class="row form-group">
+                    <div class="col-md-5">
+                      <label>Ingredient</label>
                       <select name="ingr" id="ingr" class="form-control select2" style="width: 100%;">
+                        <option value="0" disabled selected>-- Select Ingredient --</option>
                         <?php
-                          foreach ($supply as $su) {
-                            ?>
-                              <option value="<?php echo $su->bi_name; ?>"><?php echo $su->bi_name; ?></option>
-                            <?php
+                          foreach ($ingredient as $ing) {
+                            echo '
+                              <option value="'.$ing->ing_id.'" id="'.$ing->ing_un.'">'.$ing->ing_nm.'</option>
+                            ';
                           }
                         ?>
                       </select>
@@ -76,23 +173,16 @@
                       <label>Amount</label>
                       <input type="text" name="amount" id="amount" class="form-control input-sm">
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                       <label>Unit</label>
-                      <select name="unit" id="unit" class="form-control select2" style="width: 100%;">
-                        <?php
-                          foreach ($supply as $su) {
-                            ?>
-                              <option value="<?php echo $su->bi_unit; ?>"><?php echo $su->bi_unit; ?></option>
-                            <?php
-                          }
-                        ?>
-                      </select>
+                      <input type="text" id="unit" class="form-control input-sm" readonly>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="button" id="add_supply" class="btn btn-sm btn-primary">Confirm</button>
+                <input type="hidden" id="branch_id" value="<?php echo $supply[0]->branch_id; ?>">
+                <button type="button" id="submit_supply" class="btn btn-sm btn-primary">Confirm</button>
                 <button type="button" class="btn btn-sm" data-dismiss="modal">Close</button>
               </div>
             </form>

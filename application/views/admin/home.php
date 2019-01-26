@@ -35,19 +35,6 @@
       <h1>Dashboard<small>Kitchen Kits</small></h1>
     </section>
     <section class="content container-fluid">
-      <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title">Sales Report</h3>
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-          </div>
-        </div>
-        <div class="box-body">
-          <div class="chart">
-            <canvas id="myChart" style="height: 350px;"></canvas>
-          </div>
-        </div>
-      </div>
       <div class="row">
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
@@ -306,6 +293,19 @@
           </div>
         </div>
         <!-- ./col -->
+      </div>
+      <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title">Sales Report</h3>
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="chart">
+            <canvas id="myChart" style="height: 350px;"></canvas>
+          </div>
+        </div>
       </div>
     </section>
     <section class="content-header">
