@@ -1,17 +1,5 @@
-  <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
-
-    <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
-
-      <!-- Sidebar user panel (optional) -->
-      
-
-      <!-- search form (Optional) -->
-      
-      <!-- /.search form -->
-
-      <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
         <!-- <li class="header">NAVIGATION</li> -->
         <li class="active"><a href="<?php echo site_url('admin');?>"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
@@ -21,6 +9,7 @@
         <li><a href="<?php echo site_url('admin/recipe_view');?>"><i class="fa fa-cutlery"></i> <span>Recipes</span></a></li>
         <li><a href="<?php echo site_url('admin/branch_view');?>"><i class="ion ion-ios-home"></i> <span>Branches</span></a></li>
         <li><a href="<?php echo site_url('admin/manager_view');?>"><i class="fa fa-user"></i> <span>Managers</span></a></li>
+        <li><a href="<?php echo site_url('admin/ingredient_view');?>"><i class="ion ion-ios-home"></i> <span>Ingredients</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
     </section>
@@ -292,6 +281,19 @@
           </div>
         </div>
         <!-- ./col -->
+      </div>
+      <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title">Sales Report</h3>
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="chart">
+            <canvas id="myChart" style="height: 350px;"></canvas>
+          </div>
+        </div>
       </div>
     </section>
     <section class="content-header">

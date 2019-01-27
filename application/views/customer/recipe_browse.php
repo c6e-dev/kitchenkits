@@ -131,8 +131,8 @@
               }
             }
           ?>
-        </div><!-- End of Card Wrapper -->
-      </div><!-- End of container-fluid -->
+        </div>
+      </div>
     </div><!-- End of Container-->
     <footer>
       <div class="container">

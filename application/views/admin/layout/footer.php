@@ -47,15 +47,18 @@
   <script src="<?php echo base_url('assets/bower_components/jquery/dist/jquery.min.js');?>"></script>
   <!-- Bootstrap 3.3.7 -->
   <script src="<?php echo base_url('assets/bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
+  <!-- ChartJS -->
+  <script src="<?php echo base_url('assets/bower_components/chart.js/Chart.js');?>"></script>
+  <!-- Select2 -->
   <script src="<?php echo base_url('assets/bower_components/select2/dist/js/select2.full.min.js');?>"></script>
   <!-- DataTables -->
   <script src="<?php echo base_url('assets/bower_components/datatables.net/js/jquery.dataTables.min.js');?>"></script>
   <script src="<?php echo base_url('assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js');?>"></script>
   <!-- SlimScroll -->
   <script src="<?php echo base_url('assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js');?>"></script>
-  <!-- FastClick -->
+  <!-- iCheck -->
   <script src="<?php echo base_url('assets/plugins/iCheck/icheck.min.js');?>"></script>
-  <script src="<?php echo base_url('assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js');?>"></script>
+  <!-- FastClick -->
   <script src="<?php echo base_url('assets/bower_components/fastclick/lib/fastclick.js');?>"></script>
   <!-- AdminLTE App -->
   <script src="<?php echo base_url('assets/dist/js/adminlte.min.js');?>"></script>
@@ -74,20 +77,25 @@
     $("#recipe_image").change(function () {
         readURL(this);
     });
-    $(function(){    
+    $(function(){
       $('table.display').DataTable({
         destroy: true,
         "order": [[ 0, 'desc' ]]
-      })
+      });
+      $('#ingredients_tbl').DataTable({
+        destroy: true,
+        "order": [[ 2, 'desc' ]]
+      });
       $('input[type="radio"].minimal-blue').iCheck({
         checkboxClass: 'icheckbox_minimal-blue',
         radioClass   : 'iradio_minimal-blue'
-      })
-      $('.select2').select2()
+      });
+      $('.select2').select2();
 
       $('.modal').on('hidden.bs.modal', function(){
         $(this).find('form')[0].reset();
         $('.alert').css('display', 'none');
+        document.getElementById("unit").disabled=false;
       });
 
       $("#history").on("hide.bs.collapse", function(){
@@ -135,7 +143,7 @@
             dataType: 'JSON',
             success: function(data){
                 if (data.status) {
-                    alert("Recipe successfully added!");
+                    alert("Recipe Successfully Added!");
                     location.reload();
                     $('#add_recipe').modal('hide');
                 }else{
@@ -183,7 +191,7 @@
             dataType: 'JSON',
             success: function(data){
                 if (data.status) {
-                    alert("Recipe successfully updated!");
+                    alert("Recipe Successfully Updated!");
                     location.reload();
                     $('#update_recipe').modal('hide');
                 }else{
@@ -327,6 +335,35 @@
         });return false;
       });
 
+      $('#btn_ing_save').on('click', function(){
+        var name = $('#ingName').val();
+        var unit = $("[name='unit']").val();
+        var nunit = $('#newUnit').val();
+        $.ajax({
+            type: 'post',
+            url: "<?php echo site_url('admin/add_ingredient'); ?>",
+            data: {
+              name: name,
+              unit: unit,
+              new_unit: nunit
+            },
+            dataType: 'JSON',
+            success: function(data){
+              if (data.status) {
+                alert("Ingredient Successfully Added!");
+                location.reload();
+                $('#addingredient').modal('hide');
+              }else{
+                $('.alert').css('display', 'block');
+                $('.alert').html(data.notif);
+              }
+            },
+            error: function(){
+              alert('ERROR!');
+            }
+        });return false;
+      });
+
       $("#branch_col").hide();
       $("#branch_tri").hover(function(){
         $("#branch_col").slideDown(300);
@@ -396,6 +433,76 @@
               alert('ERROR!');
             }
         });return false;
+      });
+
+      $.ajax({
+        type: 'GET',
+        url: "<?php echo site_url('admin/supply_report'); ?>",
+        dataType : 'json',
+        success: function(data){
+          var count = data.length;
+          var notif = '';
+          if (count==null) {
+            notif = data.notify;
+            $('.header').html(notif);
+          }
+          else{
+            $('#notif_count').html(count); 
+            for(var i=0; i<count; i++){                    
+              notif += '<li><a href="<?php echo site_url(); ?>admin/view_branch_report'+'?id='+data[i].br_rep_id+'"><div class="pull-left"><img src="<?php echo base_url('assets/dist/img/default-img.png');?>" class="img-circle" alt="User Image"></div><h4>'+data[i].bm_name+'<small><i class="fa fa-clock-o"></i> '+data[i].br_rep_cd+'</small></h4><p>Reduced the stock of '+data[i].ing_name+' in '+data[i].br_name+'</p></a>'+'</li>';
+            }
+            $('.menu').html(notif);
+          }
+        },
+        error: function(data){
+          alert('ERROR');
+          console.log(data);
+        }
+      });
+
+      $.ajax({
+        type: 'GET',
+        url: "<?php echo site_url('admin/sales_report'); ?>",
+        dataType : 'json',
+        success: function(data){
+          var monthlysales = new Array();
+          var current_year = "Monthly Sales Of "+data[0].currentyear;
+          for(var i in data){
+            monthlysales.push(data[i].salescost);
+          }
+          var ctx = document.getElementById("myChart");
+          var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+              datasets: [{
+                  label: current_year,
+                  data: monthlysales,
+                  backgroundColor: 'rgba(96,92,168, 0.7)',
+                  borderColor: 'rgba(96,92,168, 1)',
+                  borderWidth: 1
+              }]
+            },
+            options: {
+              scales: {
+                yAxes: [{
+                  ticks: {
+                    beginAtZero:true
+                  }
+                }],
+                xAxes: [{
+                  gridLines: {
+                    display:false
+                  }
+                }]
+              }
+            }
+          });
+        },
+        error: function(data){
+          alert('ERROR');
+          console.log(data);
+        }
       });
     })
   </script>

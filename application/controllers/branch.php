@@ -17,8 +17,8 @@ class branch extends CI_Controller {
 					$var = count($data['order']);
 					for ($i=0; $i < $var ; $i++) {
 						$order_count[$i] = $this->branch_model->order_count($data['order'][$i]->od_id);
-						$data['count'] = $order_count;
 					}
+					$data['count'] = $order_count;
 				}
 				$data['inc_order'] = $this->branch_model->incomplete_order_view($_SESSION['id']);
 				if ($data['inc_order']!=NULL) {
@@ -54,16 +54,92 @@ class branch extends CI_Controller {
 		$this->load->view('branch/layout/footer');
 	}
 
+	public function order_complete(){
+		$this->branch_model->order_complete($_GET['id']);
+		redirect('branch');
+	}
+
 	public function supply_view(){
 		$this->load->view('branch/layout/header');
 		$data['supply'] = $this->branch_model->supply_view($_SESSION['id']);
+		$var = count($data['supply']);
+		for ($i=0; $i < $var ; $i++) {
+			$br_ingr[$i] = $data['supply'][$i]->bi_id;
+		}
+		$all_ingr = $this->branch_model->read_ingredient();
+		$data['ingredient'] = array_diff_key($all_ingr, $br_ingr);
 		$this->load->view('branch/supply_view',$data);
 		$this->load->view('branch/layout/footer');
 	}
 
-	// public function add_supply(){
+	public function add_supply(){
+		$response = array();
+		$this->form_validation->set_rules('ingredient', 'Ingredient', 'required|is_natural_no_zero',array(
+			'is_natural_no_zero' => 'Please select an ingredient!',
+			'required' => 'Please select an ingredient!'
+		));
+		$this->form_validation->set_rules('amount', 'Ingredient Amount', 'required|numeric',array(
+			'numeric' => 'Please enter a valid amount!'
+		));
+		if ($this->form_validation->run() == TRUE) {
+			$data = array(
+				'ingredient_id' => $_POST['ingredient'],
+				'branch_id' => $_POST['branch_id'],
+				'supply' => str_replace("'","’",$_POST['amount'])
+			);
+			$this->branch_model->add_supply($data);
+			$response['status'] = TRUE;
+		}
+		else {
+			$response['status'] = FALSE;
+	    	$response['notif']	= validation_errors();
+		}
+		echo json_encode($response);
+	} 
 
-	// } 
+	public function update_supply(){
+		$response = array();
+		$this->form_validation->set_rules('amount', 'Ingredient Amount', 'required|numeric',array(
+			'numeric' => 'Please enter a valid amount!'
+		));
+		if ($this->form_validation->run() == TRUE) {
+			$upt_date = date('Y-m-d H:i:s');
+			$this->branch_model->update_supply($upt_date);
+			$response['status'] = TRUE;
+		}
+		else {
+			$response['status'] = FALSE;
+	    	$response['notif']	= validation_errors();
+		}
+		echo json_encode($response);
+	}
+
+	public function reduce_supply(){
+		$response = array();
+		$current_amount = $_POST['current_amount'];
+		$this->form_validation->set_rules('amount', 'Ingredient Amount', 'required|less_than_equal_to['.$current_amount.']',array(
+			'less_than_equal_to' => 'Please enter a valid amount!'
+		));
+		$this->form_validation->set_rules('reason', 'Reason', 'required',array(
+			'required' => 'You must provide a valid reason'
+		));
+		if ($this->form_validation->run() == TRUE) {
+			$this->branch_model->reduce_supply();
+			$data = array(
+				'branch_ingredients_id' => $_POST['bri_id'],
+				'amount_reduced' => str_replace("'","’",$_POST['amount']),
+				'reason' => str_replace("'","’",$_POST['reason']),
+				'status' => 0
+			);
+			$this->branch_model->add_report($data);
+			$response['status'] = TRUE;
+		}
+		else {
+			$response['status'] = FALSE;
+	    	$response['notif']	= validation_errors();
+		}
+		echo json_encode($response);
+	}
 
 	public function password_check(){
 		$curr_pass = sha1($_POST['curr_password']);

@@ -91,6 +91,14 @@ class admin extends CI_Controller {
 		$this->load->view('admin/read_feedback',$data);
 		$this->load->view('admin/layout/footer');
 	}
+
+	public function ingredient_view(){
+		$this->load->view('admin/layout/header');
+		$data['ingredient'] = $this->admin_model->read_ingredient();
+		$data['unit'] = $this->admin_model->read_unit();
+		$this->load->view('admin/read_ingredient',$data);
+		$this->load->view('admin/layout/footer');
+	}
 	
 	// VIEW FUNCTIONS
 
@@ -148,6 +156,29 @@ class admin extends CI_Controller {
 		$this->load->view('admin/layout/footer');
 	}
 
+	public function sales_report(){
+		$result = $this->admin_model->report();
+		foreach ($result as $res) {
+			$data[] = $res;
+		}
+		echo json_encode($data);
+	}
+
+	public function branch_report(){
+		$this->load->view('admin/layout/header');
+		$data['report'] = $this->admin_model->branch_report();
+		$this->load->view('admin/read_report',$data);
+		$this->load->view('admin/layout/footer');
+	}
+
+	public function view_branch_report(){
+		$this->load->view('admin/layout/header');
+		$this->admin_model->report_viewed($_GET['id']);
+		$data['report_details'] = $this->admin_model->view_branch_report($_GET['id']);
+		$this->load->view('admin/report_view',$data);
+		$this->load->view('admin/layout/footer');
+	}
+
 	// DELETE FUNCTIONS
 
 	public function delete_recipe(){
@@ -172,6 +203,11 @@ class admin extends CI_Controller {
 			$this->admin_model->delete_umanager($bm_uid);
 		}
 		redirect('admin/manager_view');	
+	}
+
+	public function delete_ingredient(){
+		$this->admin_model->delete_ingredient($_GET['id']);
+		redirect('admin/ingredient_view');	
 	}
 
 	// ACTIVATE FUNCTIONS - Robert / 12-02-18
@@ -297,6 +333,47 @@ class admin extends CI_Controller {
 			}
 			$response['status'] = TRUE;
 			$response[] = $data;
+		}
+		else {
+			$response['status'] = FALSE;
+	    	$response['notif']	= validation_errors();
+		}
+		echo json_encode($response);
+	}
+
+	public function add_ingredient(){
+		$response = array();
+		$this->form_validation->set_rules('name', 'Ingredient', 'required|is_unique[ingredients.name]',array(
+			'is_unique' => '%s already exist!'
+		));
+		$this->form_validation->set_rules('new_unit', 'Unit', 'alpha|is_unique[unit.name]',array(
+			'alpha' => 'Invalid %s!',
+			'is_unique' => '%s already exist!'
+		));
+		if ($this->form_validation->run() == TRUE) {
+			$new_unit = $_POST['new_unit'];
+			$name = $_POST['name'];
+			if ($new_unit != '') {
+				$new_unit = $_POST['new_unit'];
+				$unit = array(
+					'name' => $new_unit
+				);
+				$this->admin_model->add_unit($unit);
+				$unit_id = $this->db->insert_id();
+				$data = array(
+					'unit_id' => $unit_id,
+					'name' => $name
+				);
+			}
+			else{
+				$unit = $_POST['unit'];
+				$data = array(
+					'unit_id' => $unit,
+					'name' => $name
+				);
+			}
+			$this->admin_model->add_ingredient($data);
+			$response['status'] = TRUE;
 		}
 		else {
 			$response['status'] = FALSE;
@@ -454,6 +531,16 @@ class admin extends CI_Controller {
   		$upt_date = date('Y-m-d H:i:s'); 
 		$this->admin_model->upload_recipe_image($re_id,$image,$upt_date);
 		redirect('admin/view_recipe/'.$re_id.'/'.$co_id); 
+	}
+
+	public function supply_report(){
+		$data = $this->admin_model->supply_report();
+		if ($data==NULL) {
+			$response['notify'] = 'No Notification To View';
+			echo json_encode($response);
+		}else{
+			echo json_encode($data);
+		}		
 	}
 
 	public function password_check(){

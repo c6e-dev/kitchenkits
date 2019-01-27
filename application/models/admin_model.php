@@ -113,6 +113,34 @@ class admin_model extends CI_Model{
 		}
 	}
 
+	public function read_ingredient(){
+		$query = $this->db->query("
+			SELECT ing.id ing_id, ing.name ing_nm, ing.unit_id ing_unit_id, un.name ing_un, ing.created_date ing_cd
+			FROM ingredients ing
+			INNER JOIN unit un ON ing.unit_id = un.id
+
+		");
+		if($query->num_rows()>0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function read_unit(){
+		$query = $this->db->query("
+			SELECT *
+			FROM unit
+		");
+		if($query->num_rows()>0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
 	// VIEW FUNCTIONS - Robert / 12-02-18
 
 	//RECIPE FUNCTIONS
@@ -285,6 +313,71 @@ class admin_model extends CI_Model{
 		return $query->result();
 	}
 
+	// REPORT FUNCTION
+
+	public function supply_report(){
+		$query = $this->db->query("
+			SELECT br_rep.id br_rep_id, br_rep.amount_reduced br_rep_ar, br_rep.reason br_rep_rsn, br_rep.created_date br_rep_cd, bm.name bm_name, ing.name ing_name, br.name br_name
+			FROM branch_reports br_rep
+			INNER JOIN branch_ingredients bi ON br_rep.branch_ingredients_id = bi.id
+			INNER JOIN ingredients ing ON bi.ingredient_id = ing.id
+			INNER JOIN branch br ON bi.branch_id = br.id
+			INNER JOIN branch_manager bm ON br.manager_id = bm.id
+			WHERE br_rep.status = 0
+			ORDER BY br_rep.created_date DESC
+			LIMIT 10
+		");
+		if($query->num_rows()>0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function branch_report(){
+		$query = $this->db->query("
+			SELECT br_rep.id br_rep_id, br_rep.amount_reduced br_rep_ar, br_rep.reason br_rep_rsn, br_rep.created_date br_rep_cd, bm.name bm_name, ing.name ing_name, br.name br_name, un.name un_name
+			FROM branch_reports br_rep
+			INNER JOIN branch_ingredients bi ON br_rep.branch_ingredients_id = bi.id
+			INNER JOIN ingredients ing ON bi.ingredient_id = ing.id
+			INNER JOIN unit un ON ing.unit_id = un.id
+			INNER JOIN branch br ON bi.branch_id = br.id
+			INNER JOIN branch_manager bm ON br.manager_id = bm.id
+		");
+		if($query->num_rows()>0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function report_viewed($id){
+		$this->db->set('status', 1);
+		$this->db->where('id', $id);
+		$this->db->update('branch_reports');
+	}
+
+	public function view_branch_report($id){
+		$query = $this->db->query("
+			SELECT br_rep.id br_rep_id, br_rep.amount_reduced br_rep_ar, br_rep.reason br_rep_rsn, br_rep.created_date br_rep_cd, bm.name bm_name, ing.name ing_name, br.name br_name, br.branch_address br_addr, un.name un_name
+			FROM branch_reports br_rep
+			INNER JOIN branch_ingredients bi ON br_rep.branch_ingredients_id = bi.id
+			INNER JOIN ingredients ing ON bi.ingredient_id = ing.id
+			INNER JOIN unit un ON ing.unit_id = un.id
+			INNER JOIN branch br ON bi.branch_id = br.id
+			INNER JOIN branch_manager bm ON br.manager_id = bm.id
+			WHERE br_rep.id = '$id'
+		");
+		if($query->num_rows()>0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
 	// DELETE FUNCTIONS
 
 	public function delete_recipe($id){
@@ -324,6 +417,13 @@ class admin_model extends CI_Model{
 			UPDATE user u
 			SET u.status = 'I'
 			WHERE u.id = '$bm_uid'
+		");
+	}
+
+	public function delete_ingredient($id){
+		$this->db->query("
+			DELETE FROM ingredients			
+			WHERE ingredients.id = '$id'
 		");
 	}
 
@@ -382,8 +482,17 @@ class admin_model extends CI_Model{
 	public function add_user_manager($mngrdata){
 		$this->db->insert('user', $mngrdata);
 	}
+
 	public function add_manager($managerdata){
 		$this->db->insert('branch_manager', $managerdata);
+	}
+
+	public function add_unit($unit){
+		$this->db->insert('unit', $unit);
+	}
+	
+	public function add_ingredient($data){
+		$this->db->insert('ingredients', $data);
 	}
 
 	// EDIT FUNCTIONS
@@ -510,7 +619,26 @@ class admin_model extends CI_Model{
 		$this->db->update('recipe');
 	}
 
-	// DASHBOARD FUNCTIONS - Robert / 12-02-18 - THIS MODULE IS SUBJECT TO FURTHER IMPROVEMENTS
+	// DASHBOARD FUNCTIONS
+
+	public function report(){
+		$curryear = date('Y');
+		$query = $this->db->query("
+			SELECT SUM(tr.total_cost) AS salescost, YEAR(ua.created_date) AS currentyear
+			FROM transaction tr
+			INNER JOIN delivery od ON tr.order_id = od.id
+			INNER JOIN user_activity ua ON od.activity_id = ua.id
+			WHERE YEAR(ua.created_date) = '$curryear'
+			GROUP BY substring(ua.created_date,1,7)
+			ORDER BY ua.created_date DESC
+		");
+		if($query->num_rows()>0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
 
 	public function read_activity_feed(){
 		$query = $this->db->query("
