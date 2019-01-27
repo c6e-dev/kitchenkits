@@ -65,27 +65,15 @@
         <h5><a href="<?php echo site_url('customer/browse_recipe'.'?id='.$recipe_info[0]->re_cid);?>" class="back-arrow"><span class="fa fa-arrow-left"></span> Back to Recipe Selection</a></h5>
       </div>
       <div class="row">
-        <div class="col-lg-5 food-img">
-          <img src="<?php echo base_url('/assets/img/food/east/japan.jpg'); ?>" alt="" width="500px" height="520px">
-        </div>
-        <div class="col-lg-6  offset-lg-1 desc-styles">
+        <div class="col-lg-6">
           <h2><?php echo $recipe_info[0]->re_name; ?></h2>
-          <h5>By: User-Name</h5>
+          <p><strong>COOKS IN</strong>&nbsp;&nbsp;&nbsp;<?php echo $recipe_info[0]->re_cooktime; ?>&nbsp;&nbsp;&nbsp;<strong>RATINGS</strong>&nbsp;&nbsp;&nbsp;<strong>SERVINGS</strong>&nbsp;&nbsp;&nbsp;<?php echo $recipe_info[0]->re_serves; ?>&nbsp;&nbsp;&nbsp;</p>
           <hr>
-          <p>"Short Description about the recipe Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
-          <hr>
-          <p><strong>SERVES</strong>&nbsp;&nbsp;&nbsp;<?php echo $recipe_info[0]->re_serves; ?>&nbsp;&nbsp;&nbsp;<strong>COOKS IN</strong>&nbsp;&nbsp;&nbsp;<?php echo $recipe_info[0]->re_cooktime; ?>&nbsp;&nbsp;&nbsp;<strong>DIFFICULTY</strong>&nbsp;&nbsp;&nbsp;EASY-PEASY</p>
-          <hr>
-        </div>
-      </div>
-    </div>
-    <div class="container-fluid alternate">
-        <div class="container">
           <div class="row">
-            <div class="col-lg-3">
+            <div class="col-lg-12">
               <h4>Ingredients</h4>
               <ul class="list-group">
-                <?php 
+                <?php
                   if ($recipe_ings!=NULL) {
                     foreach ($recipe_ings as $rings) {
                       echo '<li class="list-group-item">'.$rings->ig_amount.' + '.$rings->ig_name.'</li>';
@@ -94,9 +82,22 @@
                 ?>
               </ul>
             </div>
-            <div class="col-lg-8 offset-lg-1">
+            <div class="col-lg-10 offset-lg-2">
+              <button type="button" class="btn btn-dark btn-cart" name="button">Add to Cart</button>
+            </div>
+        </div>
+        </div>
+        <div class="col-lg-4 offset-lg-2">
+          <img src="<?php echo base_url('/assets/img/food/east/japan.jpg'); ?>" alt="" height="320px" width="360px">
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid alternate">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
               <h4>Directions</h4>
-              <p><?php echo $recipe_info[0]->re_instruc; ?></p>
+              <p class="p-style"><?php echo $recipe_info[0]->re_instruc; ?></p>
             </div>
           </div>
         </div>
