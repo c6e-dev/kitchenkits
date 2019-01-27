@@ -2,7 +2,6 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 // USER
-$route['dashboard'] = 'admin';
 $route['register'] = 'user/register_view';
 $route['login'] = 'user';
 
@@ -11,7 +10,7 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 //ADMIN
-$route['admin_dashboard'] = 'admin/index';
+$route['admin_dashboard'] = 'admin';
 $route['admin_recipe_view'] = 'admin/recipe_view';
 $route['admin_customer_view'] = 'admin/customer_view';
 $route['admin_branch_view'] = 'admin/branch_view';
@@ -53,7 +52,7 @@ $route['admin_edit_password'] = 'admin/edit_password';
 $route['admin_upload_recipe_image'] = 'admin/upload_recipe_image';
 
 //BRANCH
-$route['branch_order_view'] = 'branch/index';
+$route['branch_order_view'] = 'branch';
 $route['branch_detail_view'] = 'branch/detail_view';
 $route['branch_supply_view'] = 'branch/supply_view';
 
@@ -67,7 +66,7 @@ $route['branch_update_supply'] = 'branch/update_supply';
 $route['branch_edit_password'] = 'branch/edit_password';
 
 //CUSTOMER
-$route['home'] = 'customer/index';
+$route['home'] = 'customer';
 $route['browse_recipe'] = 'customer/browse_recipe';
 $route['choose_region'] = 'customer/view_region';
 $route['view_recipe'] = 'customer/view_recipe';
