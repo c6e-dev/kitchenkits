@@ -9,13 +9,24 @@
 .alternate{
   background: #F8F9FA;
 }
+.p-style{
+  text-align:justify;
+  text-indent: 4rem;
+  font-size: 1.2rem;
+  font-weight: 200;
+  padding: 1rem;
+}
 /** Navigation **/
+.navbar{
+  padding: 0 0.85rem;
+  margin: 0;
+}
 .nav-des{
   font-size: 1rem;
   text-transform: uppercase;
 }
 .nav-des li{
-  padding: 0 0.2rem;
+  padding: 0 0.6rem;
 }
 #sign-up a{
   border-radius:  0.2rem;
@@ -30,9 +41,6 @@
   text-decoration: none;
   color: black;
 }
-.desc-styles p{
-  text-align: justify;
-}
 .list-group-item {
 	position: relative;
 	display: block;
@@ -40,6 +48,32 @@
 	margin-bottom: -1px;
 	background-color: #F8F9FA;
 	border: 0px;
+}
+.btn-cart{
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background: #F15A24;
+  width: 20rem;
+  font-size: 1.1rem;
+  align-items: center;
+  border-color: #F8F9FA;
+}
+.btn-cart ,.btn-cart:focus, .btn-cart:hover {
+	box-shadow: 0 0 0 0;
+  border-color: #F15A24;
+}
+.btn-cart:hover, .btn-cart:focus,.btn-cart:active {
+	color: #fff;
+	background-color: rgba(241,91,36,0.9);
+	border-color: #F8F9FA;
+}
+
+.btn-dark:not(:disabled):not(.disabled).active:focus, .btn-dark:not(:disabled):not(.disabled):active:focus, .show > .btn-dark.dropdown-toggle:focus {
+	box-shadow: 0 0 0 0;
+}
+.btn-dark:not(:disabled):not(.disabled).active, .btn-dark:not(:disabled):not(.disabled):active, .show > .btn-dark.dropdown-toggle {
+	color: #fff;
+	background-color: #F15A24;
 }
 /** Ratings **/
 .border{

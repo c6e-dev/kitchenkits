@@ -2,12 +2,17 @@
 *{
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 .padding{
-  padding: 2rem 0;
+  padding: 1.2rem 0;
 }
 #white-color{
   color: white;
+}
+.wrapping{
+  min-height: 100%;
+  position: relative;
 }
 /** Navigation **/
 .navbar-light{
@@ -21,7 +26,7 @@
   color: white;
 }
 .nav-des{
-  font-size: 0.9rem;
+  font-size: 1rem;
   text-transform: uppercase;
 }
 .nav-des li{
@@ -57,7 +62,7 @@
 	background-color: #C03902;
 }
 .dd-style{
-  background: #DD4B39;
+  background: #F15A24;
   letter-spacing: 0.2rem;
   text-transform: uppercase;
   padding:1rem;
@@ -90,17 +95,28 @@
 /** Card **/
 .card-content{
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   grid-template-rows: auto;
-  grid-column-gap: 0.2rem;
-  grid-row-gap: 0.5rem;
+  grid-column-gap: 1rem;
+  grid-row-gap: 1rem;
 }
 .checked {
   color: orange;
 }
+.card-footer p{
+  padding-top: 0.4rem;
+}
+.last-content{
+  padding-bottom: 7rem;
+}
 /** Footer **/
 footer{
-  background: #DD4B39;
+  position: absolute;
+  background: #F15A24;
   text-align: center;
-  padding: 0.3rem;
+  padding: 0.6rem;
+  width: 100%;
+  bottom: 0;
+  left: 0;
 }
+/** Media Queries **/
