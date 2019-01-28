@@ -105,7 +105,7 @@
               foreach ($recipe as $rcp) {
                 ?>
                   <div class="card border-dark">
-                    <a href="<?php echo site_url('customer/view_recipe'.'?id='.$rcp->re_id); ?>"><img class="card-img-top" src="<?php echo base_url('assets/img/food/east/japan.jpg'); ?>" height="320px"></a>
+                    <a href="<?php echo site_url('customer/view_recipe'.'?id='.$rcp->re_id); ?>"><img class="card-img-top" src="<?php echo base_url('assets/img/food/east/japan.jpg'); ?>" height="350px"></a>
                     <div class="card-body">
                       <h3 class="card-title"><?php echo $rcp->re_name; ?></h3>
                     </div>
