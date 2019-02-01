@@ -103,6 +103,9 @@
 .checked {
   color: orange;
 }
+.card-title{
+  text-align: center;
+}
 .card-footer p{
   padding-top: 0.4rem;
 }
@@ -120,3 +123,35 @@ footer{
   left: 0;
 }
 /** Media Queries **/
+@media screen and (max-width: 990px){
+  .card-content{
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dd-style{
+    padding:0.8rem;
+  }
+  .col-lg-4 h1{
+    text-align: center;
+    font-size: 2.5rem;
+  }
+}
+@media screen and (max-width: 780px){
+  .col-lg-4 h1{
+    font-size: 1.9rem;
+    text-align: center;
+  }
+  .card-content{
+    grid-template-columns: repeat(1, 1fr);
+    max-width: 400px;
+  }
+  .card-title{
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  .card-footer span{
+    font-size: 0.8rem;
+  }
+  .dd-style{
+    font-size: 0.8rem;
+  }
+}

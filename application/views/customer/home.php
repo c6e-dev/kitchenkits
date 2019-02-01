@@ -4,7 +4,7 @@
 	<title>Kitchen Kits</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet"> 
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
 	<link rel="apple-touch-icon" href="<?php echo base_url('assets/img/KKIcon.png');?>">
   	<link rel="shortcut icon" href="<?php echo base_url('assets/img/KKIcon.png');?>">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>/assets/css/bootstrap.min.css">
@@ -87,6 +87,9 @@
 		<div class="v-header-content">
 			<a class="btn btn-default" href="<?php echo site_url('customer/view_region'); ?>"><span>GET STARTED</span></a>
 		</div>
+	</div>
+	<div class="container">
+		<h1>Hi</h1>
 	</div>
 
 </body>
