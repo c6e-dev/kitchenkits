@@ -23,7 +23,7 @@
             <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
             <p class="text-muted"><?php echo $v_profile[0]->cs_address?></p>
             <hr>
-            <a data-target="#update_profile" data-toggle="modal" class="btn btn-danger btn-block" data-backdrop="static"><b style="color:white;">Update Profile</b></a>
+            <button data-target="#update_profile" data-toggle="modal" class="btn btn-danger btn-block" data-backdrop="static"><b style="color:white;">Update Profile</b></button>
           </div>
         </div>
         <?php

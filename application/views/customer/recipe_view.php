@@ -7,10 +7,8 @@
     <link rel="apple-touch-icon" href="<?php echo base_url('assets/img/KKIcon.png');?>">
     <link rel="shortcut icon" href="<?php echo base_url('assets/img/KKIcon.png');?>">
   	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>/assets/css/bootstrap.min.css">
-  	<script type="text/javascript" src="<?php echo base_url();?>/assets/js/jquery.min.js"></script>
-    <script type="text/javascript" src="<?php echo base_url();?>/assets/js/popper.min.js"></script>
-  	<script type="text/javascript" src="<?php echo base_url();?>/assets/js/bootstrap.min.js"></script>
     <!-- Add icon library -->
+    <link rel="stylesheet" href="<?php echo base_url('assets/dist/css/AdminLTE.min.css');?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>/assets/css/recipe-view.css">
@@ -83,12 +81,21 @@
               </ul>
             </div>
             <div class="col-lg-10 offset-lg-2">
-              <button type="button" class="btn btn-dark btn-cart" name="button">Add to Cart</button>
+              <span class="product-description">Quantity</span>
+              <div class="input-group">
+                <span class="input-group-btn">
+                  <button type="button" id="sub_qty" class="btn btn-md btn-flat" disabled><i class="fa fa-minus"></i></button>
+                </span>
+                <input type="text" id="val_cont" class="form-control" style="width: 40px;text-align: center;" readonly>
+                <button type="button" id="add_qty" class="btn btn-md btn-flat"><i class="fa fa-plus"></i></button>
+              </div>
+              <input type="hidden" id="recipe_id" value="<?php echo $recipe_info[0]->re_id; ?>">
+              <button type="button" id="addTo_cart" class="btn btn-dark btn-cart">Add to Cart</button>
             </div>
-        </div>
+          </div>
         </div>
         <div class="col-lg-4 offset-lg-2">
-          <img src="<?php echo base_url('/assets/img/food/east/japan.jpg'); ?>" alt="" height="320px" width="360px">
+          <img src="<?php echo base_url('Recipe_Folder/'.$recipe_info[0]->re_name.'/'.$recipe_info[0]->re_img); ?>" alt="" height="228px" width="400px">
         </div>
       </div>
     </div>
@@ -164,5 +171,49 @@
         <h6>Copyright &copy; 2019 RLC Company. All Rights Reserved</h6>
       </div>
     </footer>
+    <script type="text/javascript" src="<?php echo base_url();?>/assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>/assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>/assets/js/popper.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        document.getElementById("val_cont").value = 1;
+        $('#sub_qty').on('click', function(){
+          var val = $('#val_cont').val();
+          if (val==2) {
+            $('#sub_qty').prop("disabled", true);
+          }
+          var dif = val - 1;
+          document.getElementById("val_cont").value = dif;
+        });
+
+        $('#add_qty').on('click', function(){
+          $('#sub_qty').prop("disabled", false);
+          var val = $('#val_cont').val();
+          var sum = (val*1) + 1;
+          document.getElementById("val_cont").value = sum;
+        });
+
+        $('#addTo_cart').on('click', function(){
+          var qty = $('#val_cont').val();
+          var re_id = $('#recipe_id').val();
+          $.ajax({
+            type: 'post',
+            url: "<?php echo site_url('customer/add_to_cart'); ?>",
+            data: {
+              quantity: qty,
+              recipe_id: re_id
+            },
+            dataType: 'JSON',
+            success: function(data){
+              console.log(data);
+            },
+            error: function(data){
+              console.log(data);
+              alert('ERROR!');
+            }
+          });
+        });
+      });
+    </script>
 </body>
 </html>

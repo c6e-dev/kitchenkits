@@ -158,10 +158,12 @@ class admin extends CI_Controller {
 
 	public function sales_report(){
 		$result = $this->admin_model->report();
-		foreach ($result as $res) {
-			$data[] = $res;
-		}
-		echo json_encode($data);
+		if ($result!=NULL) {
+			foreach ($result as $res) {
+				$data[] = $res;
+			}
+			echo json_encode($data);
+		}	
 	}
 
 	public function branch_report(){
@@ -578,4 +580,89 @@ class admin extends CI_Controller {
 		}
 		echo json_encode($response);
 	}
+
+	public function confirm_order(){
+		$recipe_data = $this->admin_model->recipe_order($_GET['id']);
+		$count = count($recipe_data);
+		for ($i=0; $i < $count; $i++) { 
+			$ingredients[$i] = $this->admin_model->recipe_order_ingredients($recipe_data[$i]->recipe_id,$recipe_data[$i]->quantity);
+		}
+		$var = count($ingredients) ;
+		$totals = array();
+		for($i = 0; $i < $var; $i++){ 
+			foreach($ingredients[$i] as $key => $lol){ 
+				if(!array_key_exists($lol->ingredient_id, $totals)){ 
+					$totals[$lol->ingredient_id] = $lol->amount; 
+				} 
+				else{ 
+					$totals[$lol->ingredient_id] += $lol->amount; 
+				} 
+			} 
+		}
+		$customer_data = $this->admin_model->loggedin_customer($_SESSION['id']);
+		$branch_data = $this->admin_model->branch_info();
+		$count1 = count($branch_data);
+		for ($i=0; $i < $count1; $i++) { 
+			$distance[$i] = getDistance($customer_data[0]->addr, $branch_data[$i]->br_addr);
+			$branch_ids[$i] = $branch_data[$i]->id;
+		}
+		asort($distance);
+		foreach ($distance as $key => $dis) {
+			foreach($totals as $ing_id => $total){
+			    $result = $this->admin_model->check_compatible_branch($branch_ids[$key],$ing_id,$total);
+			    if (!$result)break;
+			}
+			if ($result) {
+				foreach($totals as $ing_id => $total){
+			    	$this->admin_model->reduce_supply($branch_ids[$key],$ing_id,$total);
+				}
+				$data = array(
+					'recipe_id' => 0,
+					'customer_id' => $customer_data[0]->id,
+					'activity_type_id' => 1
+				);
+				$this->admin_model->new_order_activity($data);
+				$activity_id = $this->db->insert_id();
+				$code = $this->admin_model->get_code(4);
+				$this->admin_model->update_counter($code[0]->ct_count+1,4);
+				$order_code = $code[0]->ct_code.(sprintf('%05d', $code[0]->ct_count+1));
+				$this->admin_model->confirm_order($_GET['id'],$branch_ids[$key],$activity_id,$order_code);
+				break;
+			}
+		}
+		redirect('customer/view_cart');
+	}
 }
+
+function getDistance($addressFrom, $addressTo){
+    $apiKey = 'AIzaSyDhfAMuCR-qXYfDCT0l-ieHJVSb3Qc7tV0';
+    
+    $formattedAddrFrom  = str_replace(' ', '+', $addressFrom);
+    $formattedAddrTo = str_replace(' ', '+', $addressTo);
+    
+    $geocodeFrom = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address='.$formattedAddrFrom.'&sensor=false&key='.$apiKey);
+    $outputFrom = json_decode($geocodeFrom);
+    if(!empty($outputFrom->error_message)){
+        return $outputFrom->error_message;
+    }
+    
+    $geocodeTo = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address='.$formattedAddrTo.'&sensor=false&key='.$apiKey);
+    $outputTo = json_decode($geocodeTo);
+    if(!empty($outputTo->error_message)){
+        return $outputTo->error_message;
+    }
+    
+    $latitudeFrom = $outputFrom->results[0]->geometry->location->lat;
+    $longitudeFrom = $outputFrom->results[0]->geometry->location->lng;
+    $latitudeTo = $outputTo->results[0]->geometry->location->lat;
+    $longitudeTo = $outputTo->results[0]->geometry->location->lng;
+    
+    $theta = $longitudeFrom - $longitudeTo;
+    $dist = sin(deg2rad($latitudeFrom)) * sin(deg2rad($latitudeTo)) +  cos(deg2rad($latitudeFrom)) * cos(deg2rad($latitudeTo)) * cos(deg2rad($theta));
+    $dist = acos($dist);
+    $dist = rad2deg($dist);
+    $miles = $dist * 60 * 1.1515;
+
+    return round($miles * 1609.344, 2);
+}
+

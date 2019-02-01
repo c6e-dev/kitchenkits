@@ -60,7 +60,7 @@
                                         <?php
                                       }
                                     ?>
-                                    <input type="text" id="itemcount<?php echo $item->oc_id; ?>" data-id="<?php echo $item->oc_id; ?>" value="<?php echo $item->qntty; ?>" class="form-control itemcount" style="width: 40px;">
+                                    <input type="text" id="itemcount<?php echo $item->oc_id; ?>" data-id="<?php echo $item->oc_id; ?>" value="<?php echo $item->qntty; ?>" class="form-control itemcount" style="width: 40px;text-align: center;">
                                     <button class="btn btn-md btn-flat iteminc" data-id="<?php echo $item->oc_id; ?>"><i class="fa fa-plus"></i></button>    
                                   </div>
                                 </form>
@@ -137,6 +137,7 @@
                         ?>
                       </table>
                     </div>
+                    <button data-target="#confirm_order" data-toggle="modal" class="btn btn-danger" data-backdrop="static"><b style="color:white;">Confirm Order</b></button>
                   </div>
                 </div>
             </div>
@@ -156,4 +157,22 @@
       <?php
     }
   ?>
+  <div class="modal fade" id="confirm_order">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"><strong><center>Order Confirmation</center></strong></h4>
+        </div>
+        <div class="modal-body">
+          <div class="box-body">
+            <center>You Can't Cancel Your Order Once You Checkout.</center>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a href="<?php echo site_url('admin/confirm_order'.'?id='.$cart[0]->od_id);?>" type="button" id="checkout" class="btn btn-sm btn-danger">Checkout</a>
+          <button type="button" class="btn btn-sm" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

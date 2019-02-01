@@ -164,6 +164,34 @@ class customer extends CI_Controller {
 		}
 	}
 
+	public function add_to_cart(){
+		$id = $_SESSION['id'];
+		$result = $this->customer_model->order_check($id);
+		if ($result==NULL) {
+			$cu_id = $this->customer_model->loggedin_customer($id);
+			$data = array(
+				'customer_id' => $cu_id[0]->id,
+				'activity_id' => 0
+			);
+			$this->customer_model->create_order($data);
+			$order_id = $this->db->insert_id();
+			$order_data = array(
+				'recipe_id' => $_POST['recipe_id'],
+				'order_id' => $order_id,
+				'quantity' => str_replace("'","’",$_POST['quantity'])
+			);
+		}
+		else{
+			$order_data = array(
+				'recipe_id' => $_POST['recipe_id'],
+				'order_id' => $result[0]->id,
+				'quantity' => str_replace("'","’",$_POST['quantity'])
+			);
+		}
+		$response = $this->customer_model->add_order($order_data);
+		echo json_encode($response);
+	}
+
 	public function edit_item_count(){
 		$response = array();
 		$this->form_validation->set_rules('itemcount', 'Item Count', 'required|numeric');
