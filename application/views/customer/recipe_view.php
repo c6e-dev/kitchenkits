@@ -28,7 +28,7 @@
             <a class="nav-link" href="<?php echo site_url();?>">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<?php echo site_url('customer/browse_recipe'.'?id='.$recipe_info[0]->re_cid);?>">Menu</a>
+            <a class="nav-link" href="<?php echo site_url('customer/view_region');?>">Recipes</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Order</a>
