@@ -75,11 +75,10 @@ nav.fill ul li a:hover:after {
 }
 .navbar-toggler:not(:disabled):not(.disabled) {
 	cursor: pointer;
-	background: gray;
 }
 /** Video Background **/
 .v-header{
-  overflow: hidden;
+  overflow:hidden;
   position: fixed;
   height: 100%;
   width: 100%;
@@ -100,7 +99,7 @@ video{
   top:60%;
   margin: 0;
   width: 100%;
-  left: 41%;
+	left: 41%;
 }
 .v-header-content a{
   border-radius: 4px;
@@ -112,8 +111,6 @@ video{
   font-size: 1.3rem;
 	font-family: 'Roboto Slab', serif;
   padding: 1.2rem;
-  //transition: all 0.5s;
-  //cursor: pointer;
   margin: 5px;
 }
 .v-header-content a:hover{
@@ -148,5 +145,10 @@ video{
   }
 	.v-header-content{
 		left: 35%;
+	}
+}
+@media screen and (max-width: 600px){
+  #c-logo{
+		display: none;
 	}
 }
