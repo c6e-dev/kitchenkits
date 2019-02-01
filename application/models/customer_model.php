@@ -263,6 +263,16 @@ class customer_model extends CI_Model{
 		}
 	}
 
+	//ORDER FUNCTION
+
+	public function create_order($data){
+		$this->db->insert('delivery', $data);
+	}
+
+	public function add_order($data){
+		$this->db->insert('order_content', $data);
+	}
+
 	//CHECKER
 
 	public function user_check($id){
@@ -271,6 +281,33 @@ class customer_model extends CI_Model{
 			FROM customer c
 			INNER JOIN user u ON c.user_id = u.id
 			WHERE c.user_id = '$id' AND u.id = '$id'
+		");
+		return $query->result();
+	}
+
+	public function order_check($id){
+		$query = $this->db->query("
+			SELECT de.id
+			FROM delivery de
+			INNER JOIN customer cu ON de.customer_id = cu.id
+			WHERE cu.user_id = '$id' AND de.activity_id = 0
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	//OTHER FUNCTION
+
+	public function loggedin_customer($id){
+		$query = $this->db->query("
+			SELECT cu.id
+			FROM customer cu
+			INNER JOIN user us ON cu.user_id = us.id
+			WHERE cu.user_id = '$id'
 		");
 		return $query->result();
 	}

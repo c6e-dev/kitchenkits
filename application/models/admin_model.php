@@ -919,6 +919,79 @@ class admin_model extends CI_Model{
 			WHERE u.id = '$user_id'
 		");
 	}
+
+	public function recipe_order($id){
+		$query = $this->db->query("
+			SELECT id, recipe_id, quantity
+			FROM order_content oc
+			WHERE order_id = '$id'
+		");
+		return $query->result();
+	}
+
+	public function recipe_order_ingredients($id,$qty){
+		$query = $this->db->query("
+			SELECT ingredient_id, ingredient_amount*$qty AS amount 
+			FROM recipe_ingredients ri
+			WHERE recipe_id = '$id'
+		");
+		return $query->result();
+	}
+
+	public function branch_info(){
+		$query = $this->db->query("
+			SELECT br.id, br.branch_address br_addr
+			FROM branch br
+			WHERE br.status = 'A'
+		");
+		return $query->result();
+	}
+
+	public function loggedin_customer($id){
+		$query = $this->db->query("
+			SELECT cu.id, cu.home_address addr
+			FROM customer cu
+			INNER JOIN user us ON cu.user_id = us.id
+			WHERE cu.user_id = '$id'
+		");
+		return $query->result();
+	}
+
+	public function check_compatible_branch($br_id,$ing_id,$amnt){
+		$query = $this->db->query("
+			SELECT *
+			FROM branch_ingredients bi
+			WHERE bi.ingredient_id = '$ing_id' AND bi.branch_id = '$br_id' AND bi.supply >= '$amnt'
+		");
+		if ($query->num_rows() > 0){
+			return TRUE;
+		}
+		else{
+			return FALSE;
+		}
+	}
+
+	public function reduce_supply($br_id,$ing_id,$amnt){
+		$this->db->query("
+			UPDATE branch_ingredients
+			SET supply = supply - $amnt
+			WHERE ingredient_id = '$ing_id' AND branch_id = '$br_id'
+		");
+	}
 	
+	public function new_order_activity($data){
+		$this->db->insert('user_activity', $data);
+	}
+
+	public function confirm_order($id,$br_id,$act_id,$code){
+		$this->db->set('branch_id', $br_id);
+		$this->db->set('activity_id', $act_id);
+		$this->db->set('code', $code);
+		$this->db->set('status', 'I');
+		$this->db->where('id', $id);
+
+		$result = $this->db->update('delivery');
+		return $result;
+	}
 }
 
