@@ -32,7 +32,7 @@
             <a class="nav-link" href="<?php echo site_url();?>">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<?php echo site_url('customer/browse_recipe'.'?id='.$recipe[0]->re_cid);?>">Menu</a>
+            <a class="nav-link" href="<?php echo site_url('customer/view_region');?>">Recipes</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Order</a>
@@ -105,7 +105,7 @@
               foreach ($recipe as $rcp) {
                 ?>
                   <div class="card border-dark">
-                    <a href="<?php echo site_url('customer/view_recipe'.'?id='.$rcp->re_id); ?>"><img class="card-img-top" src="<?php echo base_url('Recipe_Folder/'.$rcp->re_name.'/'.$rcp->re_img); ?>" height="280px"></a>
+                    <a href="<?php echo site_url('customer/view_recipe'.'?id='.$rcp->re_id); ?>"><img class="card-img-top" src="<?php echo base_url('Recipe_Folder/'.$rcp->re_name.'/'.$rcp->re_img); ?>" height="250px"></a>
                     <div class="card-body">
                       <h3 class="card-title"><?php echo $rcp->re_name; ?></h3>
                     </div>
