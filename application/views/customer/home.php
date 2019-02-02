@@ -27,7 +27,7 @@
 					<a class="nav-link" href="<?php echo site_url();?>">HOME<span class="sr-only">(current)</span></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="<?php echo site_url('customer/view_region'); ?>">MENU</a>
+					<a class="nav-link" href="<?php echo site_url('customer/view_region'); ?>">RECIPES</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#order">ORDER</a>

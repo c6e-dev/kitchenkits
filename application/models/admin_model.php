@@ -21,6 +21,30 @@ class admin_model extends CI_Model{
 		}
 	}
 
+	public function recipe(){
+		$query = $this->db->query("
+			SELECT id, status
+			FROM recipe
+			WHERE status = 'A' OR status = 'U'
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function recipe_ingredient($id){
+		$query = $this->db->query("
+			SELECT ri.ingredient_id ing_id, ri.ingredient_amount ing_amnt
+			FROM recipe_ingredients ri
+			INNER JOIN recipe re ON ri.recipe_id = re.id
+			WHERE ri.recipe_id = '$id'
+		");
+		return $query->result();
+	}
+
 	public function read_customer(){
 		$query = $this->db->query("
 			SELECT cs.id AS cs_id, cs.code AS cs_code, cs.first_name AS cs_fname, cs.last_name AS cs_lname, cs.email_address AS cs_email, cs.home_address AS cs_address, u.created_date AS cs_create, u.updated_date AS cs_update, u.id AS cs_uid, u.status AS cs_status
@@ -39,7 +63,6 @@ class admin_model extends CI_Model{
 		$query = $this->db->query("
 			SELECT br.id AS br_id, br.code AS br_code, br.manager_id br_mi, br.name AS br_name, br.branch_address AS br_address, br.status AS br_status, br.created_date AS br_create, br.updated_date AS br_update
 			FROM branch br 
-			-- INNER JOIN branch_manager bm ON br.manager_id = bm.id REMOVE IF MANAGER WON'T BE DISPLAYED ON THE DATA TABLE; 'bm.code' & 'bm.name' TOO
 		");
 		if($query->num_rows()>0){
 			return $query->result();
@@ -376,6 +399,16 @@ class admin_model extends CI_Model{
 		else{
 			return NULL;
 		}
+	}
+
+	// DISABLE FUNCTION
+
+	public function disable_recipe($id){
+		$this->db->query("
+			UPDATE recipe rcp
+			SET rcp.status = 'U' 
+			WHERE rcp.id = '$id'
+		");
 	}
 
 	// DELETE FUNCTIONS

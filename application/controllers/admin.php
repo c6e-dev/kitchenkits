@@ -48,6 +48,35 @@ class admin extends CI_Controller {
 	// DATA TABLE FUNCTIONS - Robert / 12-01-18
 
 	public function recipe_view(){
+		$arecipe = $this->admin_model->recipe();
+		$branches = $this->admin_model->read_branch();
+		if ($arecipe!=NULL && $branches!=NULL) {
+			$recipe_count = count($arecipe);
+			$branch_count = count($branches);
+			for ($i=0; $i < $recipe_count; $i++) { 
+				$ingredient = $this->admin_model->recipe_ingredient($arecipe[$i]->id);
+				for ($k=0; $k < $branch_count; $k++) {
+					$result = FALSE;
+					for ($j=0; $j < count($ingredient); $j++) { 
+						$result = $this->admin_model->check_compatible_branch($branches[$k]->br_id,$ingredient[$j]->ing_id,$ingredient[$j]->ing_amnt*10);
+						if (!$result) {
+							break;
+						}
+					}
+					if ($arecipe[$i]->status == 'U') {
+						if ($result) {
+							$this->admin_model->activate_recipe($arecipe[$i]->id);
+							break;
+						}
+					}
+				}
+				if ($arecipe[$i]->status == 'A') {
+					if (!$result) {
+						$this->admin_model->disable_recipe($arecipe[$i]->id);
+					}
+				}
+			}
+		}
 		$data['recipe'] = $this->admin_model->read_recipe();
 		$data['country'] = $this->admin_model->country();
 		$this->load->view('admin/layout/header');

@@ -29,6 +29,35 @@ class customer extends CI_Controller {
 	}
 
 	public function browse_recipe(){
+		$arecipe = $this->customer_model->recipe($_GET['id']);
+		$branches = $this->customer_model->read_branch();
+		if ($arecipe!=NULL && $branches!=NULL) {
+			$recipe_count = count($arecipe);
+			$branch_count = count($branches);
+			for ($i=0; $i < $recipe_count; $i++) { 
+				$ingredient = $this->customer_model->recipe_ingredient($arecipe[$i]->id);
+				for ($k=0; $k < $branch_count; $k++) {
+					$result = FALSE;
+					for ($j=0; $j < count($ingredient); $j++) { 
+						$result = $this->customer_model->check_compatible_branch($branches[$k]->br_id,$ingredient[$j]->ing_id,$ingredient[$j]->ing_amnt*10);
+						if (!$result) {
+							break;
+						}
+					}
+					if ($arecipe[$i]->status == 'U') {
+						if ($result) {
+							$this->customer_model->activate_recipe($arecipe[$i]->id);
+							break;
+						}
+					}
+				}
+				if ($arecipe[$i]->status == 'A') {
+					if (!$result) {
+						$this->customer_model->disable_recipe($arecipe[$i]->id);
+					}
+				}
+			}	
+		}
 		$data['recipe'] = $this->customer_model->browse_recipe($_GET['id']);
 		$data['country'] = $this->customer_model->read_countries();
 		$this->load->view('customer/recipe_browse',$data);

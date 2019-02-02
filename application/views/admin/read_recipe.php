@@ -40,6 +40,7 @@
       <div class="nav" role="tablist">
         <button type="button" class="btn btn-sm bg-purple btn-flat" data-toggle="modal" data-target="#add_recipe" data-backdrop="static" style="margin: 0px 5px 10px 0"><i class="fa fa-plus-circle"></i></button>
         <button type="button" class="btn btn-sm bg-purple btn-flat"  data-toggle="tab" data-target="#active_recipe" style="margin: 0px 5px 10px 0px">Active Recipes</button>
+        <button type="button" class="btn btn-sm bg-purple btn-flat"  data-toggle="tab" data-target="#unavailable_recipe" style="margin: 0px 5px 10px 0px">Unavailable Recipes</button>
         <button type="button" class="btn btn-sm bg-purple btn-flat" data-toggle="tab" data-target="#inactive_recipe" style="margin: 0px 5px 10px 0px">Inactive Recipes</button>
       </div>
       <div class="box">
@@ -86,6 +87,70 @@
                           <div class="container">
                             <?php echo'
                             <div class="modal fade" id="Irecipe'.$rcp->id.'">
+                              <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5>Delete Recipe</h5>
+                                  </div>
+                                  <div class="modal-body">
+                                    <strong><center>Are you sure you want to deactivate this Recipe?</center></strong>
+                                  </div>';?>
+                                  <div class="modal-footer">
+                                    <a href="<?php echo site_url('admin/delete_recipe'.'?id='.$rcp->id);?>" class="btn btn-sm btn-primary">Cofirm</a>
+                                    <button type="button" class="btn btn-sm" data-dismiss="modal">Cancel</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div> 
+                        <?php
+                      }
+                    }
+                  ?>
+                </tbody>
+              </table>
+            </div>
+            <div class="tab-pane fade" id="unavailable_recipe">
+              <table id="" class="display table table-bordered table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Region</th>
+                    <th>Country</th>
+                    <th>Cooking Time</th>
+                    <th>Servings</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php
+                    if ($recipe!=NULL) {
+                      foreach ($recipe as $rcp) {
+                        if ($rcp->st == 'U') {
+                          ?>
+                            <tr>
+                              <td><?php echo $rcp->id; ?></td>
+                              <td><?php echo $rcp->nm; ?></td>
+                              <td><?php echo $rcp->prc; ?></td>
+                              <td><?php echo $rcp->rnm; ?></td>
+                              <td><?php echo $rcp->cnm; ?></td>
+                              <td><?php echo $rcp->ct; ?></td>
+                              <td><?php echo $rcp->se; ?></td>
+                              <td><center>
+                                <a href="<?php echo site_url('admin/view_recipe/'.$rcp->id.'/'.$rcp->cid); ?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
+                                <?php echo '
+                                  <button type="button" class="btn btn-xs btn-danger" data-target="#Urecipe'.$rcp->id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-trash"></i></button>';
+                                ?>
+                              </center></td>
+                            </tr>
+                          <?php
+                        }
+                        ?>
+                          <div class="container">
+                            <?php echo'
+                            <div class="modal fade" id="Urecipe'.$rcp->id.'">
                               <div class="modal-dialog">
                                 <div class="modal-content">
                                   <div class="modal-header">

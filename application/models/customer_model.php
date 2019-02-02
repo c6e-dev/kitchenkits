@@ -263,6 +263,73 @@ class customer_model extends CI_Model{
 		}
 	}
 
+	public function recipe($id){
+		$query = $this->db->query("
+			SELECT id, status
+			FROM recipe
+			WHERE country_id = '$id' AND (status = 'A' OR status = 'U')
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function read_branch(){
+		$query = $this->db->query("
+			SELECT br.id AS br_id
+			FROM branch br 
+		");
+		if($query->num_rows()>0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function recipe_ingredient($id){
+		$query = $this->db->query("
+			SELECT ri.ingredient_id ing_id, ri.ingredient_amount ing_amnt
+			FROM recipe_ingredients ri
+			INNER JOIN recipe re ON ri.recipe_id = re.id
+			WHERE ri.recipe_id = '$id'
+		");
+		return $query->result();
+	}
+
+	public function check_compatible_branch($br_id,$ing_id,$amnt){
+		$query = $this->db->query("
+			SELECT *
+			FROM branch_ingredients bi
+			WHERE bi.ingredient_id = '$ing_id' AND bi.branch_id = '$br_id' AND bi.supply >= '$amnt'
+		");
+		if ($query->num_rows() > 0){
+			return TRUE;
+		}
+		else{
+			return FALSE;
+		}
+	}
+
+	public function activate_recipe($id){
+		$this->db->query("
+			UPDATE recipe re 
+			SET re.status = 'A'
+			WHERE re.id = '$id'
+		");
+	}
+
+	public function disable_recipe($id){
+		$this->db->query("
+			UPDATE recipe rcp
+			SET rcp.status = 'U' 
+			WHERE rcp.id = '$id'
+		");
+	}
+
 	//ORDER FUNCTION
 
 	public function create_order($data){
