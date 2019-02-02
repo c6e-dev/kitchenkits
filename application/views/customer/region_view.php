@@ -18,8 +18,9 @@
 			<h1>Western Cuisines</h1>
 			<span><img id="west-logo" src="<?php echo base_url('/assets/img/food/west.png'); ?>"></img></span>
 			<a href="javascript:unhide('trigger-a')"  onclick="return tago('trigger-b');" id="override" class="west-east-panel"><span></span></a>
+			<div class="placeholder">
 			<div id= "trigger-a" class="hidden">
-				<div id="fill_height" class="row">
+				<div class="row">
 					<div id="France" class="col-lg-6 region">
 						<a href="<?php echo site_url('customer/browse_recipe'.'?id=7');?>"><span></span></a>
 						<h2 class="odd-b">France</h2>
@@ -31,7 +32,7 @@
 						<img src="<?php echo base_url('/assets/img/food/west/greece.jpg'); ?>">
 					</div>
 				</div>
-				<div id="fill_height" class="row">
+				<div class="row">
 					<div id="Italy" class="col-lg-6 region">
 						<a href="<?php echo site_url('customer/browse_recipe'.'?id=9');?>"><span></span></a>
 						<h2>Italy</h2>
@@ -43,7 +44,7 @@
 						<img src="<?php echo base_url('/assets/img/food/west/mexico.jpg'); ?>">
 					</div>
 				</div>
-				<div id="fill_height" class="row">
+				<div class="row">
 					<div id="Spain" class="col-lg-6 region">
 						<a href="<?php echo site_url('customer/browse_recipe'.'?id=11');?>"><span></span></a>
 						<h2 class="odd-b">Spain</h2>
@@ -56,14 +57,16 @@
 					</div>
 				</div> <!-- End of Fill-height-->
 			</div><!-- End of Trigger-A-->
+			</div>
 		</div><!-- End of split left -->
 
 		<div class="split right">
 			<h1>Eastern Cuisines</h1>
 			<span><img id="east-logo" src="<?php echo base_url('/assets/img/food/east.png'); ?>"></img></span>
 			<a href="javascript:unhide('trigger-b')" onclick="return tago('trigger-a');" id="override" class="west-east-panel"><span></span></a>
+			<div class="placeholder2">
 			<div id="trigger-b" class="hidden">
-				<div id="fill_height" class="row">
+				<div class="row">
 					<div id="China" class="col-lg-6 region">
 						<a href="<?php echo site_url('customer/browse_recipe'.'?id=1');?>"><span></span></a>
 						<h2 class="odd-b">China</h2>
@@ -75,7 +78,7 @@
 						<img src="<?php echo base_url('/assets/img/food/east/india.jpg'); ?>">
 					</div>
 				</div>
-				<div id="fill_height" class="row">
+				<div class="row">
 					<div id="Japan" class="col-lg-6 region">
 						<a href="<?php echo site_url('customer/browse_recipe'.'?id=3');?>"><span></span></a>
 						<h2>Japan</h2>
@@ -87,7 +90,7 @@
 						<img src="<?php echo base_url('/assets/img/food/east/phil.jpg'); ?>">
 					</div>
 				</div>
-				<div id="fill_height" class="row">
+				<div class="row">
 					<div id="Korea" class="col-lg-6 region">
 						<a href="<?php echo site_url('customer/browse_recipe'.'?id=5');?>"><span></span></a>
 						<h2 class="odd-b">South Korea</h2>
@@ -99,6 +102,7 @@
 						<img src="<?php echo base_url('/assets/img/food/east/thai.jpg'); ?>">
 					</div>
 				</div>
+			</div>
 			</div>
 		</div>
 	</div>

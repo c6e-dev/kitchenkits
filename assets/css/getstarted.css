@@ -4,8 +4,8 @@
 	--left-button-hover-color: rgba(161, 11, 11, 0.3);
 	--right-bg-color: rgba(30, 140, 228, 0.7);
 	--right-button-hover-color: rgba(20, 60, 235, 0.3);
-	--hover-width: 85%;
-	--other-width: 15%;
+	--hover-width: 90%;
+	--other-width: 10%;
 	--speed: 1000ms;
 }
 
@@ -118,13 +118,15 @@ transition: var(--speed) all ease-in-out;
 }
 .hover-left #west-logo{
 	transition: 1.12s ease;
-	left: 30%;
+	left: 50%;
 }
 .hover-right #east-logo{
 	transition: 1.12s ease;
-	left: 30%;
+	left: 50%;
 }
-
+.hidden #trigger-a, .hidden #trigger-b{
+	display: none;
+}
 /** Hidden Regions **/
 .hidden{
 	display: none;
@@ -156,17 +158,31 @@ transition: var(--speed) all ease-in-out;
 	background: rgba(0, 0, 0, 0.5);
 }
 /** Media Queries **/
-@media(max-width: 800px){
+@media(max-width: 900px){
 	h1{
 		font-size: 2rem;
 	}
-	.button{
-		width: 12rem;
+	#west-logo, #east-logo{
+		width: 300px;
+		height:300px;
+	}
+	.region{
+		height: 16.67vh;
+	}
+	.region h2{
+		font-size: 2rem;
 	}
 }
 
-@media(max-height: 700px){
-	.button {
-		top: 38%;
+@media(max-width: 600px){
+	h1{
+		font-size: 1.2rem;
+	}
+	#west-logo, #east-logo{
+		width: 150px;
+		height:150px;
+	}
+	.region h2{
+		font-size: 1.2rem;
 	}
 }
