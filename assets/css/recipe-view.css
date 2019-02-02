@@ -16,6 +16,10 @@
   font-weight: 200;
   padding: 1rem;
 }
+.shade-gray{
+  background:#35424A;
+  color: white;
+}
 /** Navigation **/
 .navbar{
   padding: 0 0.85rem;
@@ -37,6 +41,9 @@
   background: rgba(230, 70, 0, 0.78);
 }
 /** Content **/
+.ingr{
+  text-align: center;
+}
 .back-arrow, .back-arrow:hover{
   text-decoration: none;
   color: black;
@@ -54,7 +61,7 @@
   padding: 0.5rem;
   background: #F15A24;
   width: 20rem;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   align-items: center;
   border-color: #F8F9FA;
 }
@@ -110,6 +117,7 @@
   display: block;
   width: 100%;
   margin-bottom:1rem;
+  font-size: 1.2rem;
 }
 #pads{
   margin-top: 1rem;

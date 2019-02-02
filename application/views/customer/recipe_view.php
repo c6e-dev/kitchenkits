@@ -70,7 +70,7 @@
           <div class="row">
             <div class="col-lg-12">
               <h4>Ingredients</h4>
-              <ul class="list-group">
+              <ul class="list-group ingr">
                 <?php
                   if ($recipe_ings!=NULL) {
                     foreach ($recipe_ings as $rings) {
@@ -80,8 +80,8 @@
                 ?>
               </ul>
             </div>
-            <div class="col-lg-10 offset-lg-2">
-              <span class="product-description">Quantity</span>
+            <h4 id="pads" class="product-description">Order Quantity</h4>
+            <div class="col-lg-12 ingr padding">
               <div class="input-group">
                 <span class="input-group-btn">
                   <button type="button" id="sub_qty" class="btn btn-md btn-flat" disabled><i class="fa fa-minus"></i></button>
@@ -94,7 +94,7 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-4 offset-lg-2">
+        <div class="col-lg-4 offset-lg-2 ingr padding">
           <img src="<?php echo base_url('Recipe_Folder/'.$recipe_info[0]->re_name.'/'.$recipe_info[0]->re_img); ?>" alt="" height="228px" width="400px">
         </div>
       </div>
@@ -109,6 +109,7 @@
           </div>
         </div>
     </div>
+    <div class="container-fluid">
     <div class="container padding">
       <h4>Share your Feedback</h4>
       <div class="container">
@@ -134,8 +135,8 @@
           </div>
           <div class="col-md-6">
             <div class="container-fluid border">
-              <h5><strong>Write a Review</strong></h5>
-              <h6 id="pads">Ratings</h6>
+              <h4><strong>Write a Review</strong></h4>
+              <h5 id="pads">Ratings</h5>
               <span class="rating">
                   <input type="radio" class="rating-input"
                          id="rating-input-1-5" name="rating-input-1">
@@ -153,7 +154,7 @@
                          id="rating-input-1-1" name="rating-input-1">
                   <label for="rating-input-1-1" class="rating-star"></label>
               </span>
-              <h6>Comment Down Below</h6>
+              <h5>Comment Down Below</h5>
               <form>
                 <div class="form-group">
                    <textarea class="form-control" id="comment" rows="3">Type here...</textarea>
@@ -164,6 +165,7 @@
           </div>
         </div>
       </div>
+    </div>
     </div>
 
     <footer class="container-fluid navbar-fixed-bottom">

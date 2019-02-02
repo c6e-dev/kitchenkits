@@ -4,8 +4,8 @@
 	--left-button-hover-color: rgba(161, 11, 11, 0.3);
 	--right-bg-color: rgba(30, 140, 228, 0.7);
 	--right-button-hover-color: rgba(20, 60, 235, 0.3);
-	--hover-width: 90%;
-	--other-width: 10%;
+	--hover-width: 85%;
+	--other-width: 15%;
 	--speed: 1000ms;
 }
 
@@ -50,7 +50,8 @@ h2{
 	height: 500px;
 	position: absolute;
 	top: 25%;
-	left: 14%;
+	left: 50%;
+	transform: translateX(-50%);
 	transition: 1s ease;
 }
 /** Whole West and East Panel CSS **/
@@ -123,6 +124,7 @@ transition: var(--speed) all ease-in-out;
 	transition: 1.12s ease;
 	left: 30%;
 }
+
 /** Hidden Regions **/
 .hidden{
 	display: none;
