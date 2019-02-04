@@ -281,8 +281,8 @@
                         <label class="control-label">Region</label> 
                       </div>
                       <div class="col-md-2">
-                        <label style="font-weight: normal;"><input type="radio" value="1" name="region" class="minimal-blue" checked> East</label><br>
-                        <label style="font-weight:normal;"><input type="radio" value="2" name="region" class="minimal-blue"> West</label>    
+                        <label style="font-weight:normal;"><input type="radio" value="1" name="region" class="minimal" checked> East</label><br>
+                        <label style="font-weight:normal;"><input type="radio" value="2" name="region" class="minimal"> West</label>    
                       </div>
                       <div class="col-md-2">
                         <label class="control-label">Country</label>

@@ -34,11 +34,11 @@ class customer extends CI_Controller {
 		if ($arecipe!=NULL && $branches!=NULL) {
 			$recipe_count = count($arecipe);
 			$branch_count = count($branches);
-			for ($i=0; $i < $recipe_count; $i++) {
+			for ($i=0; $i < $recipe_count; $i++) { 
 				$ingredient = $this->customer_model->recipe_ingredient($arecipe[$i]->id);
 				for ($k=0; $k < $branch_count; $k++) {
 					$result = FALSE;
-					for ($j=0; $j < count($ingredient); $j++) {
+					for ($j=0; $j < count($ingredient); $j++) { 
 						$result = $this->customer_model->check_compatible_branch($branches[$k]->br_id,$ingredient[$j]->ing_id,$ingredient[$j]->ing_amnt*10);
 						if (!$result) {
 							break;
@@ -56,9 +56,8 @@ class customer extends CI_Controller {
 						$this->customer_model->disable_recipe($arecipe[$i]->id);
 					}
 				}
-			}
+			}	
 		}
-
 		$data['recipe'] = $this->customer_model->browse_recipe($_GET['id']);
 		$data['country'] = $this->customer_model->read_countries();
 		$this->load->view('customer/recipe_browse',$data);
@@ -111,18 +110,16 @@ class customer extends CI_Controller {
 		} else {
 			$is_unique1 =  '|is_unique[customer.email_address]';
 		}
-		$this->form_validation->set_rules('cs_username', 'Username', 'required'.$is_unique,
-			array(
-				'is_unique' => 'The %s You Entered Is Already Taken'
+		$this->form_validation->set_rules('cs_username', 'Username', 'required'.$is_unique, array(
+			'is_unique' => 'The %s You Entered Is Already Taken'
 		));
 		$this->form_validation->set_rules('cs_fname', 'First Name', 'required');
 		$this->form_validation->set_rules('cs_lname', 'Last Name', 'required');
 		$this->form_validation->set_rules('cs_address', 'Address', 'required');
-		$this->form_validation->set_rules('cs_email', 'E-Mail', 'required|valid_email'.$is_unique1,
-			array(
-				'required' => 'You must provide an %s',
-				'valid_email' => 'The %s You Entered Is Invalid or Already Taken',
-				'is_unique' => 'The %s You Entered Is Invalid or Already Taken'
+		$this->form_validation->set_rules('cs_email', 'E-Mail', 'required|valid_email'.$is_unique1, array(
+			'required' => 'You must provide an %s',
+			'valid_email' => 'The %s You Entered Is Invalid or Already Taken',
+			'is_unique' => 'The %s You Entered Is Invalid or Already Taken'
 		));
 		if ($this->form_validation->run() == TRUE) {
 			$_SESSION['user'] = $username;
@@ -152,14 +149,12 @@ class customer extends CI_Controller {
 	public function edit_password(){
 		$response = array();
 		$this->form_validation->set_rules('curr_password', 'Current Password', 'callback_password_check');
-		$this->form_validation->set_rules('new_password', 'New Password', 'required',
-			array(
-				'required' => 'You Must Provide A %s'
+		$this->form_validation->set_rules('new_password', 'New Password', 'required', array(
+			'required' => 'You Must Provide A %s'
 		));
-		$this->form_validation->set_rules('cpassword', 'Confirm Password', 'matches[new_password]',
-			array(
-		 		'matches' => 'Passwords Do Not Match'
-			));
+		$this->form_validation->set_rules('cpassword', 'Confirm Password', 'matches[new_password]', array(
+	 		'matches' => 'Passwords Do Not Match'
+		));
 		if ($this->form_validation->run() == TRUE) {
 			$_SESSION['pass'] = sha1($_POST['new_password']);
 			$upt_date = date('Y-m-d H:i:s');
@@ -177,19 +172,22 @@ class customer extends CI_Controller {
 	//CART FUNCTIONS
 
 	public function view_cart(){
-		$data['cart'] = $this->customer_model->view_cart($_SESSION['id']);
+		$id = $_SESSION['id'];
+		$data['cart'] = $this->customer_model->view_cart($id);
 		if ($data['cart']!=NULL) {
-			$data['count'] = $this->customer_model->item_count($data['cart'][0]->od_id);
-			$data['stotal'] = $this->customer_model->item_subtotal($_SESSION['id']);
-			$data['stotalprice'] = $this->customer_model->item_subtotal_price($_SESSION['id']);
-			$this->load->view('customer/layout/header',$data);
-			$this->load->view('customer/cart_view', $data);
+			$order_id = $data['cart'][0]->od_id;
+			$data['count'] = $this->customer_model->item_count($order_id);
+			$data['additional'] = $this->customer_model->additional_ingredients($order_id);
+			$data['additional_ttl'] = $this->customer_model->additional_ingredients_subtotal($order_id);
+			$data['condiments'] = $this->customer_model->read_condiments();
+			$data['stotal'] = $this->customer_model->item_subtotal($id);
+			$data['stotalprice'] = $this->customer_model->item_subtotal_price($id);
+			$this->load->view('customer/layout/header', $data);
+			$this->load->view('customer/cart_view');
 			$this->load->view('customer/layout/footer');
 		}else{
-			$data['stotal'] = $this->customer_model->item_subtotal($_SESSION['id']);
-			$data['stotalprice'] = $this->customer_model->item_subtotal_price($_SESSION['id']);
-			$this->load->view('customer/layout/header',$data);
-			$this->load->view('customer/cart_view', $data);
+			$this->load->view('customer/layout/header', $data);
+			$this->load->view('customer/cart_view');
 			$this->load->view('customer/layout/footer');
 		}
 	}
@@ -254,6 +252,55 @@ class customer extends CI_Controller {
 			$this->customer_model->delete_order($oc_id);
 		}
 		redirect('customer/view_cart');
+	}
+
+	public function additional_item(){
+		$response = array();
+		$this->form_validation->set_rules('ingredient', 'Ingredient', 'required|is_natural_no_zero',array(
+			'is_natural_no_zero' => 'Please select an ingredient!',
+			'required' => 'Please select an ingredient!'
+		));
+		$this->form_validation->set_rules('amount', 'Ingredient Amount', 'required|numeric', array(
+	 		'numeric' => '%s Invalid!'
+		));
+		if ($this->form_validation->run() == TRUE) {
+			$od_id = $_POST['order_id'];
+			$ingr = $_POST['ingredient'];
+			$amnt = $_POST['amount'];
+			$data = array(
+				'order_id' => $od_id,
+				'ingredient_id' => $ingr,
+				'ingredient_amount' => $amnt,
+			);
+			$this->customer_model->additional_item($data);
+			$response['status'] = TRUE;
+		}
+		else {
+			$response['status'] = FALSE;
+	    	$response['notif']	= validation_errors();
+		}
+		echo json_encode($response);
+	}
+
+	public function delete_additional_item(){
+		$this->customer_model->delete_additional_item($_GET['id']);
+		redirect('customer/view_cart');
+	}
+
+	public function update_additional_item(){
+		$response = array();
+		$this->form_validation->set_rules('amount', 'Ingredient Amount', 'required|numeric', array(
+	 		'numeric' => '%s Invalid!'
+		));
+		if ($this->form_validation->run() == TRUE) {
+			$this->customer_model->update_additional_item();
+			$response['status'] = TRUE;
+		}
+		else {
+			$response['status'] = FALSE;
+	    	$response['notif']	= validation_errors();
+		}
+		echo json_encode($response);
 	}
 
 }

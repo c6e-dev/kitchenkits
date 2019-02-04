@@ -44,7 +44,7 @@
                           </div>
                           <div class="product-info">
                             <a href="javascript:void(0)" class="product-title"><?php echo $ror->rname; ?>
-                              <span class="label label-info pull-right">₱ <?php echo $ror->total; ?></span></a>
+                              <span class="label label-info pull-right">₱<?php echo $ror->total; ?></span></a>
                             <span class="product-description">
                               <?php echo date('M d, Y g:i a', strtotime($ror->cdate));?>
                             </span>

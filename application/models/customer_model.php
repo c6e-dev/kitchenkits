@@ -93,7 +93,7 @@ class customer_model extends CI_Model{
 
 	public function view_cart($id){
 		$query = $this->db->query("
-			SELECT re.name re_name, re.price re_price, oc.quantity qntty, oc.id oc_id, od.id od_id
+			SELECT re.id re_id, re.name re_name, re.price re_price, re.image re_img, oc.quantity qntty, oc.id oc_id, od.id od_id
 			FROM order_content oc
 			INNER JOIN delivery od ON oc.order_id = od.id
 			INNER JOIN recipe re ON oc.recipe_id = re.id
@@ -187,6 +187,63 @@ class customer_model extends CI_Model{
 			WHERE cs.user_id = '$id' AND od.activity_id = 0
 		");
 		return $query->result();
+	}
+
+	public function read_condiments(){
+		$query = $this->db->query("
+			SELECT ig.id ig_id, ig.name ig_name, un.name ig_unit
+			FROM ingredients ig
+			INNER JOIN unit un ON ig.unit_id = un.id
+			WHERE ig.condiment = 'Yes' AND ig.id NOT IN (SELECT ai.ingredient_id FROM add_ingredient ai)
+		");
+		return $query->result();
+	}
+
+	public function additional_ingredients($id){
+		$query = $this->db->query("
+			SELECT md5(ai.id) ai_id, ig.name ig_name, ig.price ig_prc, un.name ig_unit, ai.ingredient_id ig_id, ai.ingredient_amount ig_amnt
+			FROM add_ingredient ai
+			INNER JOIN ingredients ig ON ai.ingredient_id = ig.id
+			INNER JOIN unit un ON ig.unit_id = un.id
+			WHERE ai.order_id = '$id'
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function additional_ingredients_subtotal($id){
+		$query = $this->db->query("
+			SELECT SUM(ai.ingredient_amount*ig.price) AS additionaltotal
+			FROM add_ingredient ai
+			INNER JOIN ingredients ig ON ai.ingredient_id = ig.id
+			WHERE ai.order_id = '$id'
+		");
+		return $query->result();
+	}
+
+	public function additional_item($data){
+		$this->db->insert('add_ingredient', $data);
+	}
+
+	public function delete_additional_item($ai_id){
+		$this->db->query("
+			DELETE FROM add_ingredient			
+			WHERE md5(id) = '$ai_id'
+		");
+	}
+
+	public function update_additional_item(){
+		$amount = $this->input->post('amount');
+		$ai_id = $this->input->post('id');
+		$this->db->query("
+			UPDATE add_ingredient
+			SET ingredient_amount = '$amount'
+			WHERE md5(id) = '$ai_id'
+		");
 	}
 
 	//BROWSING FUNCTIONS 

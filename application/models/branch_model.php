@@ -25,7 +25,7 @@ class branch_model extends CI_Model{
 
 	public function incomplete_order_view($id){
 		$query = $this->db->query("
-			SELECT od.id AS od_id, od.status AS od_status, cu.first_name AS od_fname, cu.last_name AS od_lname, br.name AS od_branch, ua.created_date AS od_create
+			SELECT md5(od.id) AS od_id, od.status AS od_status, cu.first_name AS od_fname, cu.last_name AS od_lname, br.name AS od_branch, ua.created_date AS od_create
 			FROM delivery od
 			INNER JOIN customer cu ON od.customer_id = cu.id
 			INNER JOIN branch br ON od.branch_id = br.id
@@ -47,7 +47,7 @@ class branch_model extends CI_Model{
 			SELECT SUM(oc.quantity) AS qty
 			FROM order_content oc
 			INNER JOIN delivery od ON oc.order_id = od.id
-			WHERE od.id = '$id'
+			WHERE md5(od.id) = '$id'
 		");
 		return $query->result();
 	}	
@@ -58,7 +58,7 @@ class branch_model extends CI_Model{
 			FROM order_content oc
 			INNER JOIN delivery od ON oc.order_id = od.id
 			INNER JOIN recipe re ON oc.recipe_id = re.id
-			WHERE od.id = '$id'
+			WHERE md5(od.id) = '$id'
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();
@@ -166,6 +166,46 @@ class branch_model extends CI_Model{
 			SET u.password = '$password', u.updated_date = '$upt_date' 
 			WHERE u.id = '$user_id'
 		");
+	}
+
+	//REPORT FUNCTIONS
+
+	public function new_recipe_report(){
+		$query = $this->db->query("
+			SELECT br_rep.id br_rep_id, br_rep.amount_reduced br_rep_ar, br_rep.reason br_rep_rsn, br_rep.created_date br_rep_cd, bm.name bm_name, ing.name ing_name, br.name br_name
+			FROM branch_reports br_rep
+			INNER JOIN branch_ingredients bi ON br_rep.branch_ingredients_id = bi.id
+			INNER JOIN ingredients ing ON bi.ingredient_id = ing.id
+			INNER JOIN branch br ON bi.branch_id = br.id
+			INNER JOIN branch_manager bm ON br.manager_id = bm.id
+			WHERE br_rep.status = 0
+			ORDER BY br_rep.created_date DESC
+			LIMIT 10
+		");
+		if($query->num_rows()>0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function check_critical_level($id,$bi_id,$supply){
+		$query = $this->db->query("
+			SELECT ing.name ing_name
+			FROM branch_ingredients bi
+			INNER JOIN ingredients ing ON bi.ingredient_id = ing.id
+			INNER JOIN branch br ON bi.branch_id = br.id
+			INNER JOIN branch_manager bm ON br.manager_id = bm.id
+			WHERE bm.user_id = '$id' AND ing.id = '$bi_id' AND ing.set_minimum >= '$supply'
+			LIMIT 10
+		");
+		if($query->num_rows()>0){
+			return $query->result();
+		}
+		else{
+			return 0;
+		}
 	}
 
 }

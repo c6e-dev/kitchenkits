@@ -165,14 +165,14 @@
                         <?php 
                           if ($recipe[0]->rid == 1) {
                             ?>
-                              <label style="font-weight:normal;"><input type="radio" value="1" name="upt_region" class="minimal-blue" checked> East</label>
-                              <label style="font-weight:normal;"><input type="radio" value="2" name="upt_region" class="minimal-blue"> West</label>    
+                              <label style="font-weight:normal;"><input type="radio" value="1" name="upt_region" class="minimal" checked> East</label>
+                              <label style="font-weight:normal;"><input type="radio" value="2" name="upt_region" class="minimal"> West</label>    
                             <?php
                           }
                           if ($recipe[0]->rid == 2) {
                             ?>
-                              <label style="font-weight:normal;"><input type="radio" value="1" name="upt_region" class="minimal-blue"> East</label>
-                              <label style="font-weight:normal;"><input type="radio" value="2" name="upt_region" class="minimal-blue" checked> West</label>    
+                              <label style="font-weight:normal;"><input type="radio" value="1" name="upt_region" class="minimal"> East</label>
+                              <label style="font-weight:normal;"><input type="radio" value="2" name="upt_region" class="minimal" checked> West</label>    
                             <?php
                           }
                         ?>

@@ -31,6 +31,21 @@
         </a>
         <div class="navbar-custom-menu">
           <ul class="nav navbar-nav">
+            <li class="dropdown messages-menu">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-bell-o"></i>
+                <span class="label label-warning" id="notif_count"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li class="header"></li>
+                <li>
+                  <ul class="menu">
+                    
+                  </ul>
+                </li>
+                <li class="footer"><a href="<?php echo site_url('admin/branch_report');?>">View all</a></li>
+              </ul>
+            </li>
             <li class="dropdown user user-menu">
               <a class="dropdown-toggle" data-toggle="dropdown">
                 <img src="<?php echo base_url('assets/dist/img/user2-160x160.jpg');?>" class="user-image" alt="User Image">

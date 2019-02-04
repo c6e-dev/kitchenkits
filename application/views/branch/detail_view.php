@@ -3,7 +3,7 @@
     min-width: 0;
     display: grid;
     grid-template-columns: auto auto;
-    grid-column-gap: 10px;
+    grid-column-gap: 20px;
   }
   .grid-item {
     /*text-align: center;*/
@@ -58,51 +58,48 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="grid-container">
-            <?php
-            if ($detail!=NULL) {
-              $var = 0;
-              foreach ($detail as $de) {
-                ?>
-                <div class="col-md-24">
-                  <div class="box box-solid" style="">
-                    <div class="box-header with-border">
-                      <h4 class="box-title"><?php echo $de->od_quantity." x ".$de->od_recipe?></h4>
-                    </div>
-                    <div class="box-body">
+      </div>    
+      <div class="grid-container">
+        <?php
+        if ($detail!=NULL) {
+          $var = 0;
+          foreach ($detail as $de) {
+            ?>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="box box-solid" style="">
+                  <div class="box-header with-border">
+                    <h4 class="box-title"><?php echo $de->od_quantity." x ".$de->od_recipe?></h4>
+                  </div>
+                  <div class="box-body">
 
-                      <div class="box-body table-responsive no-padding">
-                        <table class="table table-condensed" style="width: 100%; table-layout: fixed;">
-                          <tr>
-                            <th >Name</th>
-                            <th style="text-align: right;">Amount</th>
-                          </tr>
-                          <?php
-                            foreach ($ingredient[$var] as $ing) {
-                              ?>
-                                <tr>
-                                  <td><?php echo $ing->ri_ingredient;?></td>
-                                  <td style="text-align: right;"><?php echo $ing->ri_amount." ".$ing->ri_unit;?></td>
-                                </tr>
-                              <?php
-                            }
-                          ?>
-                        </table>
-                      </div>
+                    <div class="box-body table-responsive no-padding">
+                      <table class="table table-condensed" style="width: 100%; table-layout: fixed;">
+                        <tr>
+                          <th >Name</th>
+                          <th style="text-align: right;">Amount</th>
+                        </tr>
+                        <?php
+                          foreach ($ingredient[$var] as $ing) {
+                            ?>
+                              <tr>
+                                <td><?php echo $ing->ri_ingredient;?></td>
+                                <td style="text-align: right;"><?php echo $ing->ri_amount." ".$ing->ri_unit;?></td>
+                              </tr>
+                            <?php
+                          }
+                        ?>
+                      </table>
                     </div>
                   </div>
                 </div>
-                <?php
-                $var += 1;
-              }
-            }
-            ?>
-          </div>
-        </div>
+              </div>
+            </div>
+            <?php
+            $var += 1;
+          }
+        }
+        ?>
       </div>
-      
     </section>
   </div>

@@ -62,12 +62,14 @@ class branch extends CI_Controller {
 	public function supply_view(){
 		$this->load->view('branch/layout/header');
 		$data['supply'] = $this->branch_model->supply_view($_SESSION['id']);
-		$var = count($data['supply']);
-		for ($i=0; $i < $var ; $i++) {
-			$br_ingr[$i] = $data['supply'][$i]->bi_id;
+		if ($data['supply']!=NULL) {
+			$var = count($data['supply']);
+			for ($i=0; $i < $var ; $i++) {
+				$br_ingr[$i] = $data['supply'][$i]->bi_id;
+			}
+			$all_ingr = $this->branch_model->read_ingredient();
+			$data['ingredient'] = array_diff_key($all_ingr, $br_ingr);
 		}
-		$all_ingr = $this->branch_model->read_ingredient();
-		$data['ingredient'] = array_diff_key($all_ingr, $br_ingr);
 		$this->load->view('branch/supply_view',$data);
 		$this->load->view('branch/layout/footer');
 	}
@@ -176,4 +178,21 @@ class branch extends CI_Controller {
 		}
 		echo json_encode($response);
 	}
+
+	public function notify_branch(){
+		$id = $_SESSION['id'];
+		$supply = $this->branch_model->supply_view($id);
+		if ($supply!=NULL) {
+			$count = count($supply);
+			for ($i=0; $i < $count; $i++) { 
+				$response[$i] = $this->branch_model->check_critical_level($id,$supply[$i]->bi_id,$supply[$i]->bi_supply);
+			}
+			echo json_encode($response);
+		}
+		else{
+			$response['notify'] = 'No Notification To View';
+			echo json_encode($response);
+		}
+	}
+
 } 

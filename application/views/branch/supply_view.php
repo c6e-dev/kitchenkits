@@ -16,6 +16,7 @@
     <section class="content container-fluid">
       <div>
         <button type="button" class="btn btn-sm bg-blue btn-flat" style="margin: 0px 5px 10px 0px" data-toggle="modal" data-target="#add_supply" data-backdrop="static"><i class="fa fa-plus-circle"></i> </button>
+        <button type="button" class="btn btn-sm bg-blue btn-flat" style="margin: 0px 5px 10px 0px" data-toggle="modal" data-target="#restock" data-backdrop="static">RESUPPLY</button>
       </div>
       <div class="box box-primary">
         <div class="box-body table-responsive">
@@ -39,53 +40,10 @@
                       <td><?php echo $su->bi_date; ?></td>
                       <td><center>
                         <?php echo '
-                          <button type="button" class="btn btn-xs btn-danger" data-target="#reduce_supply'.$su->bri_id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-minus"></i></button>
-                          <button type="button" class="btn btn-xs btn-success" data-target="#resupply'.$su->bri_id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-plus"></i></button>';
+                          <button type="button" class="btn btn-xs btn-danger" data-target="#reduce_supply'.$su->bri_id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-minus"></i></button>';
                         ?>
                       </center></td>
                     </tr>
-                    <?php 
-                      $abri_id = $su->bri_id;
-                      echo '
-                    <div class="modal fade" id="resupply'.$abri_id.'">
-                      <div class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title"><strong>Resupply</strong></h4>
-                          </div>
-                          <form class="form-horizontal">
-                            <div class="modal-body">
-                              <div class="box-body">
-                                <div class="form-group">
-                                  <div class="alert alert-danger" align="center" style="display: none;"></div>
-                                </div>
-                                <div class="row form-group">
-                                  <div class="col-md-5">
-                                    <label>Ingredient</label>
-                                    <input type="text" class="form-control input-sm" value="'.$su->bi_name.'" readonly>
-                                  </div>
-                                  <div class="col-md-4">
-                                    <label>Amount</label>
-                                    <input type="text" id="res_amount'.$abri_id.'" class="form-control input-sm">
-                                  </div>
-                                  <div class="col-md-3">
-                                    <label>Unit</label>
-                                    <input type="text" class="form-control input-sm" value="'.$su->bi_unit.'" readonly>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="modal-footer">
-                              <input type="hidden" id="crrnt_amnt'.$abri_id.'" value="'.$su->bi_supply.'">
-                              <button type="button" data-id="'.$abri_id.'" class="btn btn-sm btn-primary submit_resupply">Confirm</button>';?>
-                              <button type="button" class="btn btn-sm" data-dismiss="modal">Close</button>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
                     <?php 
                       $bri_id = $su->bri_id;
                       echo '
@@ -185,6 +143,56 @@
               <div class="modal-footer">
                 <input type="hidden" id="branch_id" value="<?php echo $supply[0]->branch_id; ?>">
                 <button type="button" id="submit_supply" class="btn btn-sm btn-primary">Confirm</button>
+                <button type="button" class="btn btn-sm" data-dismiss="modal">Close</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="restock">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title"><strong>Resupply</strong></h4>
+            </div>
+            <form class="form-horizontal">
+              <div class="modal-body">
+                <div class="box-body">
+                  <div class="form-group">
+                    <div class="alert alert-danger" align="center" style="display: none;"></div>
+                  </div>
+                  <div class="row form-group">
+                    <div class="col-md-5">
+                      <label>Ingredient</label>
+                      <select name="resingr" id="resingr" class="form-control select2" style="width: 100%;">
+                        <option value="0" disabled selected>-- Select Ingredient --</option>
+                        <?php
+                          if ($supply!=NULL) {
+                            foreach ($supply as $su) {
+                              echo '
+                                <option value="'.$su->bi_id.'" id="'.$su->bi_unit.'">'.$su->bi_name.'</option>
+                              ';
+                            }
+                          }
+                        ?>
+                      </select>
+                    </div>
+                    <div class="col-md-4">
+                      <label>Amount</label>
+                      <input type="text" name="resamount" id="resamount" class="form-control input-sm">
+                    </div>
+                    <div class="col-md-3">
+                      <label>Unit</label>
+                      <input type="text" id="resunit" class="form-control input-sm" readonly>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <input type="hidden" id="branch_id" value="<?php echo $supply[0]->branch_id; ?>">
+                <button type="button" id="submit_resupply" class="btn btn-sm btn-primary">Confirm</button>
                 <button type="button" class="btn btn-sm" data-dismiss="modal">Close</button>
               </div>
             </form>

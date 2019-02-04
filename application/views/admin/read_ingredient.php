@@ -76,7 +76,7 @@
           </table>
         </div>
         <div class="modal fade" id="addingredient">
-          <div class="modal-dialog">
+          <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -94,7 +94,7 @@
                         <label>Name</label>
                         <input type="text" name="ingName" id="ingName" class="form-control input-sm">
                       </div>
-                      <div class="col-md-4">
+                      <div class="col-md-2">
                         <label>Unit</label>
                         <select name="unit" id="unit" class="form-control select2" style="width: 100%;">
                           <?php
@@ -106,9 +106,22 @@
                           ?>
                         </select>
                       </div>
-                      <div class="col-md-4">
+                      <div class="col-md-2">
                         <label>Other</label>
                         <input type="text" name="newUnit" id="newUnit" class="form-control input-sm" placeholder="Specify Here...">
+                      </div>
+                      <div class="col-md-2">
+                        <label>Minimum Amount</label>
+                        <input type="text" name="minamnt" id="minamnt" class="form-control input-sm">
+                      </div>
+                      <div class="col-md-2" style="display: none;" id="pricediv">
+                        <label>Price</label>
+                        <input type="text" name="price" id="price" class="form-control input-sm">
+                      </div>
+                    </div>
+                    <div class="row form-group">
+                      <div class="col-md-12">
+                        <label><input type="checkbox" class="minimal" id="cbox"> <small style="color: #999;">click here if you are adding a condiment</small></label>
                       </div>
                     </div>
                   </div>

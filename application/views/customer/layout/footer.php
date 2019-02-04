@@ -47,6 +47,7 @@
   <script src="<?php echo base_url('assets/bower_components/jquery/dist/jquery.min.js');?>"></script>
   <!-- Bootstrap 3.3.7 -->
   <script src="<?php echo base_url('assets/bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
+  <script src="<?php echo base_url('assets/bower_components/PACE/pace.min.js');?>"></script>
   <script src="<?php echo base_url('assets/bower_components/select2/dist/js/select2.full.min.js');?>"></script>
   <!-- DataTables -->
   <script src="<?php echo base_url('assets/bower_components/datatables.net/js/jquery.dataTables.min.js');?>"></script>
@@ -62,10 +63,18 @@
 
   <script>
     $(function(){
+      $(document).ajaxStart(function () {
+        Pace.restart();
+      });
+
       $('.modal').on('hidden.bs.modal', function(){
+        $('#adt_ingr').val('0');
+        $('.select2').select2();
         $(this).find('form')[0].reset();
         $('.alert').css('display', 'none');
       });
+
+      $('.select2').select2();
 
       $("#history").on("hide.bs.collapse", function(){
       $("#3gr").html('View History');
@@ -207,6 +216,91 @@
             }
         });return false;
       });
+
+      $('#checkout').on('click', function(e){
+        $('#checkout').css('pointer-events', 'none');
+        $('#cancelcheckout').css('pointer-events', 'none');
+        var id = $(this).attr('data-id');
+        var total = $(this).attr('total');
+        $.ajax({
+            type: 'post',
+            url: "<?php echo site_url('admin/confirm_order');?>",
+            data: { id: id, total: total },
+            dataType: 'JSON',
+            success: function(data){
+              alert('Estimated Time Of Arrival: '+data.toa+' min');
+              location.reload();
+            },
+            error: function(data){
+              alert('ERROR');
+              console.log(data);
+            }
+        });
+      });
+
+      $('#adt_ingr').on('change',function(){
+        $('#unit').val(this[this.selectedIndex].id);
+      });
+
+      $('#add_adt_ingr').on('click', function(){
+        var ingr = $('#adt_ingr').val();
+        var amount = $('#amount').val();
+        var od_id = $('#od_id').val();
+        $.ajax({
+            type: 'post',
+            url: "<?php echo site_url('customer/additional_item'); ?>",
+            data: {
+              ingredient: ingr,
+              amount: amount,
+              order_id: od_id
+            },
+            dataType: 'JSON',
+            success: function(data){
+              if (data.status) {
+                alert("Additional Ingredient Successfully Added!");
+                location.reload();
+                $('#add_ingredient').modal('hide');
+              }else{
+                $('.alert').css('display', 'block');
+                $('.alert').html(data.notif);
+              }
+            },
+            error: function(data){
+              alert('ERROR!');
+              console.log(data);
+            }
+        });return false;
+      });
+
+      $('#update_adt_ingr').on('click', function(){
+        var name = $('#adt_nm').val();
+        var amount = $('#adt_amount').val();
+        var ai_id = $('#adt_id').val();
+        $.ajax({
+            type: 'post',
+            url: "<?php echo site_url('customer/update_additional_item'); ?>",
+            data: {
+              amount: amount,
+              id: ai_id
+            },
+            dataType: 'JSON',
+            success: function(data){
+              if (data.status) {
+                alert(name+" Successfully Updated!");
+                location.reload();
+                $('#edit_adt_ingr'+ai_id).modal('hide');
+              }else{
+                $('.alert').css('display', 'block');
+                $('.alert').html(data.notif);
+              }
+            },
+            error: function(data){
+              alert('ERROR!');
+              console.log(data);
+            }
+        });return false;
+      });
+
     })
   </script>
 </body>

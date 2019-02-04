@@ -501,7 +501,7 @@ class admin_model extends CI_Model{
 			'name' => $this->input->post('name'),
 			'cooking_time' => $this->input->post('cooktime'),
 			'servings' => $this->input->post('servings'),
-			'price' => $this->input->post('price'),
+			'price' => round($this->input->post('price'), 2),
 			'country_id' => $this->input->post('country'),
 			'status' => "I"
 		);
@@ -534,7 +534,7 @@ class admin_model extends CI_Model{
 		$name = $this->input->post('name');
 		$cooking_time = $this->input->post('cooktime');
 		$servings = $this->input->post('servings');
-		$price = $this->input->post('price');
+		$price = round($this->input->post('price'), 2);
 		$country = $this->input->post('country');
 		$instruc = $this->input->post('instruc');
 		$id = $this->input->post('recipe_id');
@@ -1010,6 +1010,10 @@ class admin_model extends CI_Model{
 			SET supply = supply - $amnt
 			WHERE ingredient_id = '$ing_id' AND branch_id = '$br_id'
 		");
+	}
+
+	public function new_order_transaction($transacdata){
+		$this->db->insert('transaction', $transacdata);
 	}
 	
 	public function new_order_activity($data){

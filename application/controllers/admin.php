@@ -381,7 +381,18 @@ class admin extends CI_Controller {
 			'alpha' => 'Invalid %s!',
 			'is_unique' => '%s already exist!'
 		));
+		$this->form_validation->set_rules('min_amount', 'Minimum Amount', 'required|numeric',array(
+			'numeric' => '%s not valid!'
+		));
+		$condi = $_POST['checker'];
+		if ($condi == 'Yes') {
+			$this->form_validation->set_rules('price', 'Ingredient Price', 'required|numeric',array(
+				'numeric' => '%s not valid!'
+			));
+		}
 		if ($this->form_validation->run() == TRUE) {
+			$min_amount = $_POST['min_amount'];
+			$price = round($_POST['price'], 2);
 			$new_unit = $_POST['new_unit'];
 			$name = $_POST['name'];
 			if ($new_unit != '') {
@@ -393,14 +404,20 @@ class admin extends CI_Controller {
 				$unit_id = $this->db->insert_id();
 				$data = array(
 					'unit_id' => $unit_id,
-					'name' => $name
+					'name' => $name,
+					'condiment' => $condi,
+					'price' => $price,
+					'set_minimum' => $min_amount
 				);
 			}
 			else{
 				$unit = $_POST['unit'];
 				$data = array(
 					'unit_id' => $unit,
-					'name' => $name
+					'name' => $name,
+					'condiment' => $condi,
+					'price' => $price,
+					'set_minimum' => $min_amount
 				);
 			}
 			$this->admin_model->add_ingredient($data);
@@ -611,7 +628,7 @@ class admin extends CI_Controller {
 	}
 
 	public function confirm_order(){
-		$recipe_data = $this->admin_model->recipe_order($_GET['id']);
+		$recipe_data = $this->admin_model->recipe_order($_POST['id']);
 		$count = count($recipe_data);
 		for ($i=0; $i < $count; $i++) { 
 			$ingredients[$i] = $this->admin_model->recipe_order_ingredients($recipe_data[$i]->recipe_id,$recipe_data[$i]->quantity);
@@ -645,6 +662,12 @@ class admin extends CI_Controller {
 				foreach($totals as $ing_id => $total){
 			    	$this->admin_model->reduce_supply($branch_ids[$key],$ing_id,$total);
 				}
+				$time_of_arrival['toa'] = round((7*$count)+(5*$dis));
+				$transac = array(
+					'order_id' => $_POST['id'],
+					'total_cost' => $_POST['total']
+				);
+				$this->admin_model->new_order_transaction($transac);
 				$data = array(
 					'recipe_id' => 0,
 					'customer_id' => $customer_data[0]->id,
@@ -655,11 +678,11 @@ class admin extends CI_Controller {
 				$code = $this->admin_model->get_code(4);
 				$this->admin_model->update_counter($code[0]->ct_count+1,4);
 				$order_code = $code[0]->ct_code.(sprintf('%05d', $code[0]->ct_count+1));
-				$this->admin_model->confirm_order($_GET['id'],$branch_ids[$key],$activity_id,$order_code);
+				$this->admin_model->confirm_order($_POST['id'],$branch_ids[$key],$activity_id,$order_code);
 				break;
 			}
 		}
-		redirect('customer/view_cart');
+		echo json_encode($time_of_arrival);
 	}
 }
 
@@ -692,6 +715,7 @@ function getDistance($addressFrom, $addressTo){
     $dist = rad2deg($dist);
     $miles = $dist * 60 * 1.1515;
 
-    return round($miles * 1609.344, 2);
+    return round($miles * 1.609344, 2);
+    // return round($miles * 1609.344, 2);
 }
 

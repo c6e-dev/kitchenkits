@@ -43,6 +43,11 @@
     </div>
   </div>
 
+  <?php 
+    include ($_SERVER['DOCUMENT_ROOT'].'/kitchenkits/application/views/admin/layout/ajaxscript.php');
+    include 'ajaxscript.php';
+  ?>
+
   <!-- jQuery 3 -->
   <script src="<?php echo base_url('assets/bower_components/jquery/dist/jquery.min.js');?>"></script>
   <!-- Bootstrap 3.3.7 -->
@@ -111,6 +116,10 @@
         });return false;
       });
 
+      $('#resingr').on('change',function(){
+        $('#resunit').val(this[this.selectedIndex].id);
+      });
+
       $('.submit_resupply').on('click', function(){
         var bi_id = $(this).attr('data-id');
         var amnt = $('#res_amount'+bi_id).val();
@@ -160,6 +169,7 @@
             success: function(data){
                 if (data.status) {
                     alert("Supply Successfully Updated!");
+                    load_unseen_notification_admin();
                     location.reload();
                     $('#reduce_supply'+bi_id).modal('hide');
                 }else{
@@ -203,6 +213,9 @@
             }
         });return false;
       });
+
+      load_unseen_notification_branch();
+
     })
   </script>
 

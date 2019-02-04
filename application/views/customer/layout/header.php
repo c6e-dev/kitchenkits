@@ -9,9 +9,6 @@
   <link rel="shortcut icon" href="<?php echo base_url('assets/img/KKIcon.png');?>">
   <!-- Added Styles for New Header -->
   <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>/assets/css/bootstrap.min.css">
-  <script type="text/javascript" src="<?php echo base_url();?>/assets/js/jquery.min.js"></script>
-  <script type="text/javascript" src="<?php echo base_url();?>/assets/js/popper.min.js"></script>
-  <script type="text/javascript" src="<?php echo base_url();?>/assets/js/bootstrap.min.js"></script>
 
   <link rel="stylesheet" href="<?php echo base_url('assets/bower_components/bootstrap/dist/css/bootstrap.min.css');?>">
   <link rel="stylesheet" href="<?php echo base_url('assets/bower_components/font-awesome/css/font-awesome.min.css');?>">
@@ -21,9 +18,15 @@
   <link rel="stylesheet" href="<?php echo base_url('assets/bower_components/select2/dist/css/select2.min.css');?>">
   <link rel="stylesheet" href="<?php echo base_url('assets/dist/css/AdminLTE.min.css');?>">
   <link rel="stylesheet" href="<?php echo base_url('assets/dist/css/skins/_all-skins.min.css');?>">
+  <link rel="stylesheet" href="<?php echo base_url('assets/plugins/pace/pace.min.css');?>">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-  <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/customer_header.css');?>">
-
+  <link rel="stylesheet" href="<?php echo base_url('assets/css/customer_header.css');?>">
+  <style type="text/css">
+    .pace-running{
+      opacity: 0.4;
+      background-color: #000;
+    }
+  </style>
 </head>
 
 <body class="hold-transition skin-red-light layout-top-nav">

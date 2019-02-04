@@ -105,24 +105,24 @@
               foreach ($recipe as $rcp) {
                 ?>
                   <div class="card border-dark">
-                    <a href="<?php echo site_url('customer/view_recipe'.'?id='.$rcp->re_id); ?>"><img class="card-img-top" src="<?php echo base_url('Recipe_Folder/'.$rcp->re_name.'/'.$rcp->re_img); ?>" height="250px"></a>
+                    <a href="<?php echo site_url('customer/view_recipe'.'?id='.$rcp->re_id); ?>"><img class="card-img-top" src="<?php echo base_url('Recipe_Folder/'.$rcp->re_name.'/'.$rcp->re_img); ?>" height="220px"></a>
                     <div class="card-body">
-                      <h3 class="card-title"><?php echo $rcp->re_name; ?></h3>
+                      <h4 class="card-title"><?php echo $rcp->re_name; ?></h4>
                     </div>
                     <div class="card-footer">
                       <div class="row">
-                        <div class="col-5" style="padding-top:0.5rem;">
+                        <div class="col-4" style="padding-top:0.5rem;">
                           <span class="fa fa-star checked"></span>
                           <span class="fa fa-star checked"></span>
                           <span class="fa fa-star checked"></span>
                           <span class="fa fa-star checked"></span>
                           <span class="fa fa-star checked"></span>
-                        </div>
-                        <div class="col-3" style="text-align:center;">
-                          <p><span><strong>X Meals</strong></span></p>
                         </div>
                         <div class="col-4" style="text-align:right;">
-                          <p><span class="fa fa-clock-o"><strong> <?php echo $rcp->re_cooktime; ?></strong></span></p>
+                          <p><span class="fa fa-clock-o"> <?php echo $rcp->re_cooktime; ?> min</span></p>
+                        </div>
+                        <div class="col-4" style="text-align:center;">
+                          <p><span class="fa fa-cutlery"> Serve <?php echo $rcp->re_serves; ?></span></p>
                         </div>
                       </div>
                     </div>

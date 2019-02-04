@@ -43,6 +43,11 @@
     </div>
   </div>
 
+  <?php 
+    include ($_SERVER['DOCUMENT_ROOT'].'/kitchenkits/application/views/branch/layout/ajaxscript.php'); 
+    include 'ajaxscript.php';
+  ?>
+
   <!-- jQuery 3 -->
   <script src="<?php echo base_url('assets/bower_components/jquery/dist/jquery.min.js');?>"></script>
   <!-- Bootstrap 3.3.7 -->
@@ -86,16 +91,17 @@
         destroy: true,
         "order": [[ 2, 'desc' ]]
       });
-      $('input[type="radio"].minimal-blue').iCheck({
-        checkboxClass: 'icheckbox_minimal-blue',
-        radioClass   : 'iradio_minimal-blue'
+      $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+        checkboxClass: 'icheckbox_minimal-purple',
+        radioClass: 'iradio_minimal-purple'
       });
       $('.select2').select2();
 
       $('.modal').on('hidden.bs.modal', function(){
-        $(this).find('form')[0].reset();
         $('.alert').css('display', 'none');
-        document.getElementById("unit").disabled=false;
+        $('input[type="checkbox"].minimal').iCheck('uncheck');
+        $(this).find('form')[0].reset();
+        $('#pricediv').hide();
       });
 
       $("#history").on("hide.bs.collapse", function(){
@@ -127,7 +133,6 @@
         var cooktime = $('#ctime').val();
         var serves = $('#serves').val();
         var price = $('#price').val();
-        var region = $("[name='region']").val();
         var country = $("[name='country']").val();
         $.ajax({
             type: 'post',
@@ -137,7 +142,6 @@
                 cooktime: cooktime,
                 servings: serves,
                 price: price,
-                region: region,
                 country: country
             },
             dataType: 'JSON',
@@ -162,7 +166,6 @@
         var cooktime = $('#upt_ctime').val();
         var serves = $('#upt_serves').val();
         var price = $('#upt_price').val();
-        var region = $("[name='upt_region']").val();
         var country = $("[name='upt_country']").val();
         var instruc = $('#instruc').val();
         var id = $('#recipe_id').val();
@@ -181,7 +184,6 @@
                 cooktime: cooktime,
                 servings: serves,
                 price: price,
-                region: region,
                 country: country,
                 instruc: instruc,
                 recipe_id: id,
@@ -335,17 +337,35 @@
         });return false;
       });
 
+      $('input[type="checkbox"].minimal').on('ifChecked', function(){
+        $('#pricediv').show('slow');
+      });
+
+      $('input[type="checkbox"].minimal').on('ifUnchecked', function(){
+        $('#pricediv').hide('slow');
+      });
+
       $('#btn_ing_save').on('click', function(){
         var name = $('#ingName').val();
         var unit = $("[name='unit']").val();
         var nunit = $('#newUnit').val();
+        var minamnt = $('#minamnt').val();
+        var price = $('#price').val();
+        var checkBox = document.getElementById("cbox");
+        var res = 'No';
+        if (checkBox.checked == true){
+          res = 'Yes';
+        }
         $.ajax({
             type: 'post',
             url: "<?php echo site_url('admin/add_ingredient'); ?>",
             data: {
               name: name,
               unit: unit,
-              new_unit: nunit
+              new_unit: nunit,
+              min_amount: minamnt,
+              price: price,
+              checker: res
             },
             dataType: 'JSON',
             success: function(data){
@@ -435,30 +455,7 @@
         });return false;
       });
 
-      $.ajax({
-        type: 'GET',
-        url: "<?php echo site_url('admin/supply_report'); ?>",
-        dataType : 'json',
-        success: function(data){
-          var count = data.length;
-          var notif = '';
-          if (count==null) {
-            notif = data.notify;
-            $('.header').html(notif);
-          }
-          else{
-            $('#notif_count').html(count); 
-            for(var i=0; i<count; i++){                    
-              notif += '<li><a href="<?php echo site_url(); ?>admin/view_branch_report'+'?id='+data[i].br_rep_id+'"><div class="pull-left"><img src="<?php echo base_url('assets/dist/img/default-img.png');?>" class="img-circle" alt="User Image"></div><h4>'+data[i].bm_name+'<small><i class="fa fa-clock-o"></i> '+data[i].br_rep_cd+'</small></h4><p>Reduced the stock of '+data[i].ing_name+' in '+data[i].br_name+'</p></a>'+'</li>';
-            }
-            $('.menu').html(notif);
-          }
-        },
-        error: function(data){
-          alert('ERROR');
-          console.log(data);
-        }
-      });
+      load_unseen_notification_admin();
 
       $.ajax({
         type: 'GET',
