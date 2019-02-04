@@ -154,11 +154,11 @@
                                             <div class="row form-group">
                                               <div class="col-md-5">
                                                 <label>Ingredient</label>
-                                                <input type="text" id="adt_nm" class="form-control input-sm" value="'.$adt->ig_name.'" readonly>
+                                                <input type="text" id="adt_nm'.$adt->ai_id.'" class="form-control input-sm" value="'.$adt->ig_name.'" readonly>
                                               </div>
                                               <div class="col-md-4">
                                                 <label>Amount</label>
-                                                <input type="text" name="adt_amount" id="adt_amount" class="form-control input-sm" value="'.$adt->ig_amnt.'">
+                                                <input type="text" id="adt_amount'.$adt->ai_id.'" class="form-control input-sm" value="'.$adt->ig_amnt.'">
                                               </div>
                                               <div class="col-md-3">
                                                 <label>Unit</label>
@@ -166,12 +166,11 @@
                                               </div>
                                             </div>
                                           </div>
-                                        </div>';?>
-                                        <div class="modal-footer">
-                                          <input type="hidden" id="adt_id" value="<?php echo $adt->ai_id; ?>">
-                                          <button type="button" id="update_adt_ingr" class="btn btn-sm btn-primary">Confirm</button>
-                                          <button type="button" class="btn btn-sm" data-dismiss="modal">Close</button>
                                         </div>
+                                        <div class="modal-footer">
+                                          <button type="button" data-id="'.$adt->ai_id.'" class="btn btn-sm btn-primary update_adt_ingr">Confirm</button>
+                                          <button type="button" class="btn btn-sm" data-dismiss="modal">Close</button>
+                                        </div>';?>
                                       </form>
                                     </div>
                                   </div>

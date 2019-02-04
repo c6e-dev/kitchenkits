@@ -63,9 +63,7 @@
 
   <script>
     $(function(){
-      $(document).ajaxStart(function () {
-        Pace.restart();
-      });
+      
 
       $('.modal').on('hidden.bs.modal', function(){
         $('#adt_ingr').val('0');
@@ -272,10 +270,10 @@
         });return false;
       });
 
-      $('#update_adt_ingr').on('click', function(){
-        var name = $('#adt_nm').val();
-        var amount = $('#adt_amount').val();
-        var ai_id = $('#adt_id').val();
+      $('.update_adt_ingr').on('click', function(){
+        var ai_id = $(this).attr('data-id');
+        var name = $('#adt_nm'+ai_id).val();
+        var amount = $('#adt_amount'+ai_id).val();
         $.ajax({
             type: 'post',
             url: "<?php echo site_url('customer/update_additional_item'); ?>",
