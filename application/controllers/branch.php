@@ -41,17 +41,27 @@ class branch extends CI_Controller {
 	}
 
 	public function detail_view(){
-		$this->load->view('branch/layout/header');
-		$data['detail'] = $this->branch_model->detail_view($_GET['id']);
-		if ($data['detail']!=NULL) {
-			$var = count($data['detail']);
-			for ($i=0; $i < $var ; $i++) { 
-				$recipe_ingredients[$i] = $this->branch_model->detail_ing($data['detail'][$i]->od_recipe_id);
+		if (isset($_SESSION['logged_in'])) {
+			if ($_SESSION['utype'] == 2) {
+				$this->load->view('branch/layout/header');
+				$data['detail'] = $this->branch_model->detail_view($_GET['id']);
+				if ($data['detail']!=NULL) {
+					$var = count($data['detail']);
+					for ($i=0; $i < $var ; $i++) { 
+						$recipe_ingredients[$i] = $this->branch_model->detail_ing($data['detail'][$i]->od_recipe_id);
+					}
+					$data['ingredient'] = $recipe_ingredients;
+				}
+				$this->load->view('branch/detail_view',$data);
+				$this->load->view('branch/layout/footer');
 			}
-			$data['ingredient'] = $recipe_ingredients;
+			else{
+				show_404();
+			}
 		}
-		$this->load->view('branch/detail_view',$data);
-		$this->load->view('branch/layout/footer');
+		else{
+			redirect('user/load_login');
+		}
 	}
 
 	public function order_complete(){
@@ -60,18 +70,28 @@ class branch extends CI_Controller {
 	}
 
 	public function supply_view(){
-		$this->load->view('branch/layout/header');
-		$data['supply'] = $this->branch_model->supply_view($_SESSION['id']);
-		if ($data['supply']!=NULL) {
-			$var = count($data['supply']);
-			for ($i=0; $i < $var ; $i++) {
-				$br_ingr[$i] = $data['supply'][$i]->bi_id;
+		if (isset($_SESSION['logged_in'])) {
+			if ($_SESSION['utype'] == 2) {
+				$this->load->view('branch/layout/header');
+				$data['supply'] = $this->branch_model->supply_view($_SESSION['id']);
+				if ($data['supply']!=NULL) {
+					$var = count($data['supply']);
+					for ($i=0; $i < $var ; $i++) {
+						$br_ingr[$i] = $data['supply'][$i]->bi_id;
+					}
+					$all_ingr = $this->branch_model->read_ingredient();
+					$data['ingredient'] = array_diff_key($all_ingr, $br_ingr);
+				}
+				$this->load->view('branch/supply_view',$data);
+				$this->load->view('branch/layout/footer');
 			}
-			$all_ingr = $this->branch_model->read_ingredient();
-			$data['ingredient'] = array_diff_key($all_ingr, $br_ingr);
+			else{
+				show_404();
+			}
 		}
-		$this->load->view('branch/supply_view',$data);
-		$this->load->view('branch/layout/footer');
+		else{
+			redirect('user/load_login');
+		}
 	}
 
 	public function add_supply(){

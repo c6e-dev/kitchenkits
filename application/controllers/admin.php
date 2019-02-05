@@ -45,144 +45,300 @@ class admin extends CI_Controller {
 		}
 	}
 
+	public function view_reports(){
+		$this->load->view('admin/layout/reports_header');
+		$this->load->view('admin/reports');
+		$this->load->view('admin/layout/reports_footer');
+	}
+
 	// DATA TABLE FUNCTIONS - Robert / 12-01-18
 
 	public function recipe_view(){
-		$arecipe = $this->admin_model->recipe();
-		$branches = $this->admin_model->read_branch();
-		if ($arecipe!=NULL && $branches!=NULL) {
-			$recipe_count = count($arecipe);
-			$branch_count = count($branches);
-			for ($i=0; $i < $recipe_count; $i++) { 
-				$ingredient = $this->admin_model->recipe_ingredient($arecipe[$i]->id);
-				for ($k=0; $k < $branch_count; $k++) {
-					$result = FALSE;
-					for ($j=0; $j < count($ingredient); $j++) { 
-						$result = $this->admin_model->check_compatible_branch($branches[$k]->br_id,$ingredient[$j]->ing_id,$ingredient[$j]->ing_amnt*10);
-						if (!$result) {
-							break;
+		if (isset($_SESSION['logged_in'])) {
+			if ($_SESSION['utype'] == 1) {
+				$arecipe = $this->admin_model->recipe();
+				$branches = $this->admin_model->read_branch();
+				if ($arecipe!=NULL && $branches!=NULL) {
+					$recipe_count = count($arecipe);
+					$branch_count = count($branches);
+					for ($i=0; $i < $recipe_count; $i++) { 
+						$ingredient = $this->admin_model->recipe_ingredient($arecipe[$i]->id);
+						for ($k=0; $k < $branch_count; $k++) {
+							$result = FALSE;
+							for ($j=0; $j < count($ingredient); $j++) { 
+								$result = $this->admin_model->check_compatible_branch($branches[$k]->br_id,$ingredient[$j]->ing_id,$ingredient[$j]->ing_amnt*10);
+								if (!$result) {
+									break;
+								}
+							}
+							if ($arecipe[$i]->status == 'U') {
+								if ($result) {
+									$this->admin_model->activate_recipe($arecipe[$i]->id);
+									break;
+								}
+							}
 						}
-					}
-					if ($arecipe[$i]->status == 'U') {
-						if ($result) {
-							$this->admin_model->activate_recipe($arecipe[$i]->id);
-							break;
+						if ($arecipe[$i]->status == 'A') {
+							if (!$result) {
+								$this->admin_model->disable_recipe($arecipe[$i]->id);
+							}
 						}
 					}
 				}
-				if ($arecipe[$i]->status == 'A') {
-					if (!$result) {
-						$this->admin_model->disable_recipe($arecipe[$i]->id);
-					}
-				}
+				$data['recipe'] = $this->admin_model->read_recipe();
+				$data['country'] = $this->admin_model->country();
+				$this->load->view('admin/layout/header');
+				$this->load->view('admin/read_recipe',$data);
+				$this->load->view('admin/layout/footer');
+			}
+			else{
+				show_404();
 			}
 		}
-		$data['recipe'] = $this->admin_model->read_recipe();
-		$data['country'] = $this->admin_model->country();
-		$this->load->view('admin/layout/header');
-		$this->load->view('admin/read_recipe',$data);
-		$this->load->view('admin/layout/footer');
+		else{
+			redirect('user/load_login');
+		}
 	}
 
 	public function customer_view(){
-		$this->load->view('admin/layout/header');
-		$data['customer'] = $this->admin_model->read_customer();
-		$this->load->view('admin/read_customer',$data);
-		$this->load->view('admin/layout/footer');
+		if (isset($_SESSION['logged_in'])) {
+			if ($_SESSION['utype'] == 1) {
+				$this->load->view('admin/layout/header');
+				$data['customer'] = $this->admin_model->read_customer();
+				$this->load->view('admin/read_customer',$data);
+				$this->load->view('admin/layout/footer');
+			}
+			else{
+				show_404();
+			}
+		}
+		else{
+			redirect('user/load_login');
+		}
 	}
 
 	public function branch_view(){
-		$this->load->view('admin/layout/header');
-		$data['branch'] = $this->admin_model->read_branch();
-		$data['b_manager'] = $this->admin_model->read_branch_manager();
-		$this->load->view('admin/read_branch',$data);
-		$this->load->view('admin/layout/footer');
+		if (isset($_SESSION['logged_in'])) {
+			if ($_SESSION['utype'] == 1) {
+				$this->load->view('admin/layout/header');
+				$data['branch'] = $this->admin_model->read_branch();
+				$data['b_manager'] = $this->admin_model->read_branch_manager();
+				$this->load->view('admin/read_branch',$data);
+				$this->load->view('admin/layout/footer');
+			}
+			else{
+				show_404();
+			}
+		}
+		else{
+			redirect('user/load_login');
+		}
 	}
 
 	public function manager_view(){
-		$this->load->view('admin/layout/header');
-		$data['manager'] = $this->admin_model->read_manager();
-		$data['ibranch'] = $this->admin_model->read_i_branch();
-		$this->load->view('admin/read_manager',$data);
-		$this->load->view('admin/layout/footer');
+		if (isset($_SESSION['logged_in'])) {
+			if ($_SESSION['utype'] == 1) {
+				$this->load->view('admin/layout/header');
+				$data['manager'] = $this->admin_model->read_manager();
+				$data['ibranch'] = $this->admin_model->read_i_branch();
+				$this->load->view('admin/read_manager',$data);
+				$this->load->view('admin/layout/footer');
+			}
+			else{
+				show_404();
+			}
+		}
+		else{
+			redirect('user/load_login');
+		}
 	}
 
 	public function order_view(){
-		$this->load->view('admin/layout/header');
-		$data['order'] = $this->admin_model->read_order();
-		$this->load->view('admin/read_order',$data);
-		$this->load->view('admin/layout/footer');
+		if (isset($_SESSION['logged_in'])) {
+			if ($_SESSION['utype'] == 1) {
+				$this->load->view('admin/layout/header');
+				$data['order'] = $this->admin_model->read_order();
+				$this->load->view('admin/read_order',$data);
+				$this->load->view('admin/layout/footer');
+			}
+			else{
+				show_404();
+			}
+		}
+		else{
+			redirect('user/load_login');
+		}
 	}
 
 	public function feedback_view(){
-		$this->load->view('admin/layout/header');
-		$data['feedback'] = $this->admin_model->read_feedback();
-		$this->load->view('admin/read_feedback',$data);
-		$this->load->view('admin/layout/footer');
+		if (isset($_SESSION['logged_in'])) {
+			if ($_SESSION['utype'] == 1) {
+				$this->load->view('admin/layout/header');
+				$data['feedback'] = $this->admin_model->read_feedback();
+				$this->load->view('admin/read_feedback',$data);
+				$this->load->view('admin/layout/footer');
+			}
+			else{
+				show_404();
+			}
+		}
+		else{
+			redirect('user/load_login');
+		}
 	}
 
 	public function ingredient_view(){
-		$this->load->view('admin/layout/header');
-		$data['ingredient'] = $this->admin_model->read_ingredient();
-		$data['unit'] = $this->admin_model->read_unit();
-		$this->load->view('admin/read_ingredient',$data);
-		$this->load->view('admin/layout/footer');
+		if (isset($_SESSION['logged_in'])) {
+			if ($_SESSION['utype'] == 1) {
+				$this->load->view('admin/layout/header');
+				$data['ingredient'] = $this->admin_model->read_ingredient();
+				$data['unit'] = $this->admin_model->read_unit();
+				$this->load->view('admin/read_ingredient',$data);
+				$this->load->view('admin/layout/footer');	
+			}
+			else{
+				show_404();
+			}
+		}
+		else{
+			redirect('user/load_login');
+		}
 	}
 	
 	// VIEW FUNCTIONS
 
 	public function view_recipe($rcp_id,$co_id){
-		$data['recipe'] = $this->admin_model->view_recipe($rcp_id);
-		$data['country'] = $this->admin_model->country2($co_id);
-		$data['ingredients'] = $this->admin_model->read_ingredients();
-		$this->load->view('admin/layout/header');
-		$this->load->view('admin/recipe_view',$data);
-		$this->load->view('admin/layout/footer');
+		if (isset($_SESSION['logged_in'])) {
+			if ($_SESSION['utype'] == 1) {
+				$data['recipe'] = $this->admin_model->view_recipe($rcp_id);
+				$data['country'] = $this->admin_model->country2($co_id);
+				$data['ingredients'] = $this->admin_model->read_ingredients();
+				$this->load->view('admin/layout/header');
+				$this->load->view('admin/recipe_view',$data);
+				$this->load->view('admin/layout/footer');
+			}
+			else{
+				show_404();
+			}
+		}
+		else{
+			redirect('user/load_login');
+		}
 	}
 
 	public function view_customer(){
-		$this->load->view('admin/layout/header');
-		$data = array(
-			'customer' => $this->admin_model->view_customer($_GET['id']),
-			'c_order' => $this->admin_model->view_customer_order($_GET['id']),
-			'c_activity' => $this->admin_model->view_customer_activity($_GET['id']),
-		);
-		$this->load->view('admin/customer_view',$data);
-		$this->load->view('admin/layout/footer');
+		if (isset($_SESSION['logged_in'])) {
+			if ($_SESSION['utype'] == 1) {
+				$this->load->view('admin/layout/header');
+				$data = array(
+					'customer' => $this->admin_model->view_customer($_GET['id']),
+					'c_order' => $this->admin_model->view_customer_order($_GET['id']),
+					'c_activity' => $this->admin_model->view_customer_activity($_GET['id']),
+				);
+				$this->load->view('admin/customer_view',$data);
+				$this->load->view('admin/layout/footer');
+			}
+			else{
+				show_404();
+			}
+		}
+		else{
+			redirect('user/load_login');
+		}
 	}
 
 	public function view_branch(){
-		$this->load->view('admin/layout/header');
-		$data = array(
-			'branch' => $this->admin_model->view_branch($_GET['id']),
-			'b_order' => $this->admin_model->view_branch_order($_GET['id']),
-			'b_manager' => $this->admin_model->read_branch_manager()
-		);
-		$this->load->view('admin/branch_view',$data);
-		$this->load->view('admin/layout/footer');
+		if (isset($_SESSION['logged_in'])) {
+			if ($_SESSION['utype'] == 1) {
+				$this->load->view('admin/layout/header');
+				$data = array(
+					'branch' => $this->admin_model->view_branch($_GET['id']),
+					'b_order' => $this->admin_model->view_branch_order($_GET['id']),
+					'b_manager' => $this->admin_model->read_branch_manager()
+				);
+				$this->load->view('admin/branch_view',$data);
+				$this->load->view('admin/layout/footer');
+			}
+			else{
+				show_404();
+			}
+		}
+		else{
+			redirect('user/load_login');
+		}
 	}
 
 	public function view_manager(){
-		$this->load->view('admin/layout/header');
-		$data['manager'] = $this->admin_model->view_manager($_GET['id']);
-		$data['ibranch'] = $this->admin_model->read_i_branch();
-		$this->load->view('admin/manager_view',$data);
-		$this->load->view('admin/layout/footer');
+		if (isset($_SESSION['logged_in'])) {
+			if ($_SESSION['utype'] == 1) {
+				$this->load->view('admin/layout/header');
+				$data['manager'] = $this->admin_model->view_manager($_GET['id']);
+				$data['ibranch'] = $this->admin_model->read_i_branch();
+				$this->load->view('admin/manager_view',$data);
+				$this->load->view('admin/layout/footer');
+			}
+			else{
+				show_404();
+			}
+		}
+		else{
+			redirect('user/load_login');
+		}
 	}
 
 	public function view_order(){
-		$this->load->view('admin/layout/header');
-		$data['order'] = $this->admin_model->view_order($_GET['id']);
-		$data['o_content'] = $this->admin_model->view_order_content($_GET['id']);
-		$this->load->view('admin/order_view',$data);
-		$this->load->view('admin/layout/footer');
+		if (isset($_SESSION['logged_in'])) {
+			if ($_SESSION['utype'] == 1) {
+				$this->load->view('admin/layout/header');
+				$data['order'] = $this->admin_model->view_order($_GET['id']);
+				$data['o_content'] = $this->admin_model->view_order_content($_GET['id']);
+				$this->load->view('admin/order_view',$data);
+				$this->load->view('admin/layout/footer');
+			}
+			else{
+				show_404();
+			}
+		}
+		else{
+			redirect('user/load_login');
+		}
 	}
 
 	public function view_feedback(){
-		$this->load->view('admin/layout/header');
-		$data['feedback'] = $this->admin_model->view_feedback($_GET['id']);
-		$this->load->view('admin/feedback_view',$data);
-		$this->load->view('admin/layout/footer');
+		if (isset($_SESSION['logged_in'])) {
+			if ($_SESSION['utype'] == 1) {
+				$this->load->view('admin/layout/header');
+				$data['feedback'] = $this->admin_model->view_feedback($_GET['id']);
+				$this->load->view('admin/feedback_view',$data);
+				$this->load->view('admin/layout/footer');
+			}
+			else{
+				show_404();
+			}
+		}
+		else{
+			redirect('user/load_login');
+		}
+	}
+
+	public function most_ordered_recipe(){
+		$result = $this->admin_model->most_ordered_recipe();
+		if ($result!=NULL) {
+			foreach ($result as $res) {
+				$data[] = $res;
+			}
+			echo json_encode($data);
+		}
+	}
+
+	public function best_branch(){
+		$result = $this->admin_model->best_branch();
+		if ($result!=NULL) {
+			foreach ($result as $res) {
+				$data[] = $res;
+			}
+			echo json_encode($data);
+		}
 	}
 
 	public function sales_report(){
@@ -196,18 +352,38 @@ class admin extends CI_Controller {
 	}
 
 	public function branch_report(){
-		$this->load->view('admin/layout/header');
-		$data['report'] = $this->admin_model->branch_report();
-		$this->load->view('admin/read_report',$data);
-		$this->load->view('admin/layout/footer');
+		if (isset($_SESSION['logged_in'])) {
+			if ($_SESSION['utype'] == 1) {
+				$this->load->view('admin/layout/header');
+				$data['report'] = $this->admin_model->branch_report();
+				$this->load->view('admin/read_report',$data);
+				$this->load->view('admin/layout/footer');
+			}
+			else{
+				show_404();
+			}
+		}
+		else{
+			redirect('user/load_login');
+		}
 	}
 
 	public function view_branch_report(){
-		$this->load->view('admin/layout/header');
-		$this->admin_model->report_viewed($_GET['id']);
-		$data['report_details'] = $this->admin_model->view_branch_report($_GET['id']);
-		$this->load->view('admin/report_view',$data);
-		$this->load->view('admin/layout/footer');
+		if (isset($_SESSION['logged_in'])) {
+			if ($_SESSION['utype'] == 1) {
+				$this->load->view('admin/layout/header');
+				$this->admin_model->report_viewed($_GET['id']);
+				$data['report_details'] = $this->admin_model->view_branch_report($_GET['id']);
+				$this->load->view('admin/report_view',$data);
+				$this->load->view('admin/layout/footer');
+			}
+			else{
+				show_404();
+			}
+		}
+		else{
+			redirect('user/load_login');
+		}
 	}
 
 	// DELETE FUNCTIONS

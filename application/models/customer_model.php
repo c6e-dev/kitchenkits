@@ -248,6 +248,16 @@ class customer_model extends CI_Model{
 
 	//BROWSING FUNCTIONS 
 	
+	public function selected_country($id){
+		$query = $this->db->query("
+			SELECT co.id co_id, co.region_id cor_id, co.name co_name
+			FROM country co
+			INNER JOIN region re ON co.region_id = re.id
+			WHERE co.id = '$id'
+		");
+		return $query->result();
+	}
+
 	public function browse_recipe($id){
 		$query = $this->db->query("
 			SELECT re.id re_id, re.country_id AS re_cid, re.name AS re_name, re.cooking_time AS re_cooktime, re.servings AS re_serves, re.image AS re_img, re.status AS re_status, cn.name AS re_country, rg.name AS re_region
@@ -289,7 +299,7 @@ class customer_model extends CI_Model{
 
 	public function recipe_ingredients($id){
 		$query = $this->db->query("
-			SELECT ri.ingredient_amount ig_amount, ig.name ig_name
+			SELECT ri.ingredient_amount ig_amount, ig.name ig_name, un.name ig_unit
 			FROM recipe_ingredients ri
 			INNER JOIN ingredients ig ON ri.ingredient_id = ig.id
 			INNER JOIN unit un ON ig.unit_id = un.id
@@ -422,6 +432,24 @@ class customer_model extends CI_Model{
 		else{
 			return NULL;
 		}
+	}
+
+	//RATE AND REVIEW FUNCTIONS
+
+	public function new_rating_activity($data){
+		$this->db->insert('user_activity', $data);
+	}
+
+	public function new_rating($data){
+		$this->db->insert('rating', $data);
+	}
+
+	public function new_review_activity($data){
+		$this->db->insert('user_activity', $data);
+	}
+
+	public function new_review($data){
+		$this->db->insert('comment', $data);
 	}
 
 	//OTHER FUNCTION

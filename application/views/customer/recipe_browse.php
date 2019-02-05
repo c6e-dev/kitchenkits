@@ -7,12 +7,9 @@
     <link rel="apple-touch-icon" href="<?php echo base_url('assets/img/KKIcon.png');?>">
     <link rel="shortcut icon" href="<?php echo base_url('assets/img/KKIcon.png');?>">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>/assets/css/bootstrap.min.css">
-    <script type="text/javascript" src="<?php echo base_url();?>/assets/js/jquery.min.js"></script>
-    <script type="text/javascript" src="<?php echo base_url();?>/assets/js/popper.min.js"></script>
-    <script type="text/javascript" src="<?php echo base_url();?>/assets/js/bootstrap.min.js"></script>
-    <!-- Add icon library -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo base_url('assets/bower_components/font-awesome/css/font-awesome.min.css');?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/fontawesome-stars.css');?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/fontawesome-stars-o.css');?>">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>/assets/css/cs_recipe.css">
 
   </head>
@@ -41,11 +38,27 @@
         <ul class="navbar-nav nav-des">
           <?php
             if (isset($_SESSION['logged_in'])) {
-              ?>
-                <li class="nav-item">
-                  <a class="nav-link" href="<?php echo site_url('customer/view_profile');?>"><?php echo $_SESSION['user']; ?></a>
-                </li>
-              <?php
+              if ($_SESSION['utype'] == 3) {
+                ?>
+                  <li class="nav-item">
+                    <a class="nav-link" href="<?php echo site_url('customer/view_profile');?>"><?php echo $_SESSION['user']; ?></a>
+                  </li>
+                <?php
+              }
+              elseif ($_SESSION['utype'] == 2) {
+                ?>
+                  <li class="nav-item">
+                    <a class="nav-link" href="<?php echo site_url('branch');?>"><?php echo $_SESSION['user']; ?></a>
+                  </li>
+                <?php
+              }
+              else{
+                ?>
+                  <li class="nav-item">
+                    <a class="nav-link" href="<?php echo site_url('admin');?>"><?php echo $_SESSION['user']; ?></a>
+                  </li>
+                <?php
+              }
             }
             else{
               ?>
@@ -64,39 +77,39 @@
 
     <div class="container padding">
       <div class="row no-gutters">
-      <div class="col-lg-4">
-        <h1>Cuisine/Country</h1>
-      </div>
-      <div class="col-lg-4 dropdown ml-auto text-right">
-        <button class="btn btn-dark dropdown-toggle dd-style" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Switch Cuisines
-        </button>
-        <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton">
-          <a class="dropdown-item disabled">Eastern Cuisines</a>
-          <div class="dropdown-divider"></div>
-          <?php
-            foreach ($country as $qui) {
-              if ($qui->cor_id == 1) {
-                ?>
-                  <a class="dropdown-item only" href="<?php echo site_url('customer/browse_recipe'.'?id='.$qui->co_id);?>"><?php echo $qui->co_name;?></a>
-                <?php
-              }
-            }
-          ?>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item disabled" href="#">Western Cuisines</a>
-          <div class="dropdown-divider"></div>
-          <?php
-            foreach ($country as $qui) {
-              if ($qui->cor_id == 2) {
-                ?>
-                  <a class="dropdown-item only" href="<?php echo site_url('customer/browse_recipe'.'?id='.$qui->co_id);?>"><?php echo $qui->co_name;?></a>
-                <?php
-              }
-            }
-          ?>
+        <div class="col-lg-4">
+          <h1><?php echo $selected_country[0]->co_name;?></h1>
         </div>
-      </div><!-- End of Dropdown-->
+        <div class="col-lg-4 dropdown ml-auto text-right">
+          <button class="btn btn-dark dropdown-toggle dd-style" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Switch Cuisines
+          </button>
+          <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item disabled">Eastern Cuisines</a>
+            <div class="dropdown-divider"></div>
+            <?php
+              foreach ($country as $qui) {
+                if ($qui->cor_id == 1) {
+                  ?>
+                    <a class="dropdown-item only" href="<?php echo site_url('customer/browse_recipe'.'?id='.$qui->co_id);?>"><?php echo $qui->co_name;?></a>
+                  <?php
+                }
+              }
+            ?>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item disabled">Western Cuisines</a>
+            <div class="dropdown-divider"></div>
+            <?php
+              foreach ($country as $qui) {
+                if ($qui->cor_id == 2) {
+                  ?>
+                    <a class="dropdown-item only" href="<?php echo site_url('customer/browse_recipe'.'?id='.$qui->co_id);?>"><?php echo $qui->co_name;?></a>
+                  <?php
+                }
+              }
+            ?>
+          </div>
+        </div><!-- End of Dropdown-->
       </div><!-- End of Row-->
       <div class="container-fluid padding last-content">
         <div class="card-content">
@@ -112,11 +125,13 @@
                     <div class="card-footer">
                       <div class="row">
                         <div class="col-4" style="padding-top:0.5rem;">
-                          <span class="fa fa-star checked"></span>
-                          <span class="fa fa-star checked"></span>
-                          <span class="fa fa-star checked"></span>
-                          <span class="fa fa-star checked"></span>
-                          <span class="fa fa-star checked"></span>
+                          <select id="example-fontawesome-o" name="rating" data-current-rating="3.6" autocomplete="off">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                          </select>
                         </div>
                         <div class="col-4" style="text-align:right;">
                           <p><span class="fa fa-clock-o"> <?php echo $rcp->re_cooktime; ?> min</span></p>
@@ -140,5 +155,10 @@
       </div>
     </footer>
   </div>
+  <script src="<?php echo base_url('assets/bower_components/jquery/dist/jquery.min.js');?>"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>/assets/js/bootstrap.min.js"></script>
+    <script src="<?php echo base_url('assets/js/jquery.barrating.js');?>"></script>
+    <script src="<?php echo base_url('assets/js/kitchenkitsrating.js');?>"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>/assets/js/popper.min.js"></script>
   </body>
 </html>
