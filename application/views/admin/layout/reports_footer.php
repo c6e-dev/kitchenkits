@@ -192,7 +192,7 @@
         success: function(data){
           var total_count = new Array();
           var branchnames = new Array();
-          var current_month = "Most Ordered Recipe of "+data[0].month;
+          var current_month = "Best Branch of "+data[0].month;
           for(var i in data){
             total_count.push(data[i].total_customers);
             branchnames.push(data[i].br_name);
