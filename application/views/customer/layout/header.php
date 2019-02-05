@@ -95,11 +95,11 @@
               <a class="nav-link" id="white-color" href="<?php echo base_url();?>">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="white-color" href="#">Menu</a>
+              <a class="nav-link" id="white-color" href="<?php echo site_url('customer/view_region'); ?>">Menu</a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link" href="#" id="white-color">Order</a>
-            </li>
+            </li> -->
           </ul>
           <ul class="nav navbar-nav" id="left-float">
             <li>

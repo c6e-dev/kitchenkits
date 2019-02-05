@@ -17,24 +17,30 @@ class user extends CI_Controller {
 		$pass = mysqli_real_escape_string($con, sha1($_POST['password']));
 		$userdata = $this->user_model->login_check($user, $pass);
 		if(isset($userdata)){
-			$_SESSION = array(
-				'id' => $userdata[0]->id,
-				'user' => $userdata[0]->username,
-				'pass' => $userdata[0]->password,
-				'utype' => $userdata[0]->user_type_id,
-				'logged_in' => TRUE
-			);
-			$this->user_model->logged_in($_SESSION['id']);
-			switch ($userdata[0]->user_type_id) {
-				case '1':
-					redirect('dashboard');
-					break;
-				case '2':
-					redirect('branch');
-					break;
-				case '3':
-					redirect();
-					break;
+			if ($userdata[0]->status == 'A') {
+				$_SESSION = array(
+					'id' => $userdata[0]->id,
+					'user' => $userdata[0]->username,
+					'pass' => $userdata[0]->password,
+					'utype' => $userdata[0]->user_type_id,
+					'logged_in' => TRUE
+				);
+				$this->user_model->logged_in($_SESSION['id']);
+				switch ($userdata[0]->user_type_id) {
+					case '1':
+						redirect('admin_dashboard');
+						break;
+					case '2':
+						redirect('branch');
+						break;
+					case '3':
+						redirect();
+						break;
+				}
+			}
+			else{
+				$this->session->set_flashdata('error_msg','Your Account Has Been Disabled!');
+				redirect('login');
 			}
 		}
 		else{

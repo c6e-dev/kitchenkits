@@ -5,7 +5,7 @@ class user_model extends CI_Model{
 	}
 	public function login_check($user, $pass){
 		$query = $this->db->query("
-			SELECT us.id, us.username, us.password, us.user_type_id
+			SELECT us.id, us.username, us.password, us.user_type_id, us.status
 			FROM user as us
 			WHERE us.username = '$user' AND us.password = '$pass'
 		");

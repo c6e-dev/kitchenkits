@@ -7,10 +7,10 @@
     <link rel="apple-touch-icon" href="<?php echo base_url('assets/img/KKIcon.png');?>">
     <link rel="shortcut icon" href="<?php echo base_url('assets/img/KKIcon.png');?>">
   	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>/assets/css/bootstrap.min.css">
-    <!-- Add icon library -->
+    <link rel="stylesheet" href="<?php echo base_url('assets/bower_components/font-awesome/css/font-awesome.min.css');?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/fontawesome-stars.css');?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/fontawesome-stars-o.css');?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/dist/css/AdminLTE.min.css');?>">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>/assets/css/recipe-view.css">
   </head>
   <body>
@@ -37,11 +37,27 @@
         <ul class="navbar-nav nav-des">
           <?php
             if (isset($_SESSION['logged_in'])) {
-              ?>
-                <li class="nav-item">
-                  <a class="nav-link" href="<?php echo site_url('customer/view_profile');?>"><?php echo $_SESSION['user']; ?></a>
-                </li>
-              <?php
+              if ($_SESSION['utype'] == 3) {
+                ?>
+                  <li class="nav-item">
+                    <a class="nav-link" href="<?php echo site_url('customer/view_profile');?>"><?php echo $_SESSION['user']; ?></a>
+                  </li>
+                <?php
+              }
+              elseif ($_SESSION['utype'] == 2) {
+                ?>
+                  <li class="nav-item">
+                    <a class="nav-link" href="<?php echo site_url('branch');?>"><?php echo $_SESSION['user']; ?></a>
+                  </li>
+                <?php
+              }
+              else{
+                ?>
+                  <li class="nav-item">
+                    <a class="nav-link" href="<?php echo site_url('admin');?>"><?php echo $_SESSION['user']; ?></a>
+                  </li>
+                <?php
+              }
             }
             else{
               ?>
@@ -65,7 +81,7 @@
       <div class="row">
         <div class="col-lg-6">
           <h2><?php echo $recipe_info[0]->re_name; ?></h2>
-          <p><strong>COOKS IN</strong>&nbsp;&nbsp;&nbsp;<?php echo $recipe_info[0]->re_cooktime; ?>&nbsp;&nbsp;&nbsp;<strong>RATINGS</strong>&nbsp;&nbsp;&nbsp;<strong>SERVINGS</strong>&nbsp;&nbsp;&nbsp;<?php echo $recipe_info[0]->re_serves; ?>&nbsp;&nbsp;&nbsp;</p>
+          <p><strong>COOKS IN</strong>&nbsp;&nbsp;&nbsp;<?php echo $recipe_info[0]->re_cooktime; ?> minutes&nbsp;&nbsp;&nbsp;<strong>RATINGS</strong>&nbsp;&nbsp;&nbsp;<strong>SERVINGS</strong>&nbsp;&nbsp;&nbsp;<?php echo $recipe_info[0]->re_serves; ?>&nbsp;&nbsp;&nbsp;</p>
           <hr>
           <div class="row">
             <div class="col-lg-12">
@@ -74,7 +90,7 @@
                 <?php
                   if ($recipe_ings!=NULL) {
                     foreach ($recipe_ings as $rings) {
-                      echo '<li class="list-group-item">'.$rings->ig_amount.' + '.$rings->ig_name.'</li>';
+                      echo '<li class="list-group-item">'.$rings->ig_amount.' '.strtolower($rings->ig_unit).'  '.$rings->ig_name.'</li>';
                     }
                   }
                 ?>
@@ -110,71 +126,67 @@
         </div>
     </div>
     <div class="container-fluid">
-    <div class="container padding">
-      <h4>Share your Feedback</h4>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6">
-            <h5><strong>Reviews</strong></h5>
-            <?php
-              if ($recipe_revs!=NULL) {
-                foreach ($recipe_revs as $revs) {
-                  echo '<div class="container-fluid shade">
-                    <h6>review by: '.$revs->cu_fname.' '.$revs->cu_lname.'</h6>
-                    <p>'.$revs->cdate.'</p>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <p>'.$revs->co_me.'</p>
-                  </div>';
+      <div class="container padding">
+        <h4>Share your Feedback</h4>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <h5><strong>Reviews</strong></h5>
+              <?php
+                if ($recipe_revs!=NULL) {
+                  foreach ($recipe_revs as $revs) {
+                    echo '<div class="container-fluid shade">
+                      <h6>review by: '.$revs->cu_fname.' '.$revs->cu_lname.'</h6>
+                      <p>'.$revs->cdate.'</p>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star checked"></span>
+                      <p>'.$revs->co_me.'</p>
+                    </div>';
+                  }
                 }
-              }
-            ?>
-          </div>
-          <div class="col-md-6">
-            <div class="container-fluid border">
-              <h4><strong>Write a Review</strong></h4>
-              <h5 id="pads">Ratings</h5>
-              <span class="rating">
-                  <input type="radio" class="rating-input"
-                         id="rating-input-1-5" name="rating-input-1">
-                  <label for="rating-input-1-5" class="rating-star"></label>
-                  <input type="radio" class="rating-input"
-                         id="rating-input-1-4" name="rating-input-1">
-                  <label for="rating-input-1-4" class="rating-star"></label>
-                  <input type="radio" class="rating-input"
-                         id="rating-input-1-3" name="rating-input-1">
-                  <label for="rating-input-1-3" class="rating-star"></label>
-                  <input type="radio" class="rating-input"
-                         id="rating-input-1-2" name="rating-input-1">
-                  <label for="rating-input-1-2" class="rating-star"></label>
-                  <input type="radio" class="rating-input"
-                         id="rating-input-1-1" name="rating-input-1">
-                  <label for="rating-input-1-1" class="rating-star"></label>
-              </span>
-              <h5>Comment Down Below</h5>
-              <form>
-                <div class="form-group">
-                   <textarea class="form-control" id="comment" rows="3">Type here...</textarea>
-                </div>
-                <button type="button" class="btn btn-dark post-btn" id="submit_review">Publish</button>
-              </form>
+              ?>
+            </div>
+            <div class="col-md-6">
+              <div class="container-fluid border">
+                <form>
+                  <h5 style="font-weight: bold;margin-top: 10px">rate and review <?php echo $recipe_info[0]->re_name; ?></h5>
+                  <div id="success_msg" style="font-size: 12px; color: green; display: none;"></div>
+                  <div class="stars stars-example-fontawesome">
+                    <select id="example-fontawesome" name="rating" autocomplete="off">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </select>
+                  </div>
+                  <h6>Review Detail</h6>
+                  <div class="form-group">
+                     <textarea class="form-control" id="comment" rows="3" placeholder="Type here..."></textarea>
+                  </div>
+                  <div id="error_msg" style="font-size: 12px; color: red; display: none;"></div>
+                  <input type="hidden" id="re_id" value="<?php echo $recipe_info[0]->re_id; ?>">
+                  <button type="button" class="btn post-btn" id="submit_review">Publish</button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    </div>
 
     <footer class="container-fluid navbar-fixed-bottom">
       <div class="container">
-        <h6>Copyright &copy; 2019 RLC Company. All Rights Reserved</h6>
+        <h6 style="color: #fff">Copyright &copy; 2019 RLC Company. All Rights Reserved</h6>
       </div>
     </footer>
-    <script type="text/javascript" src="<?php echo base_url();?>/assets/js/jquery.min.js"></script>
+    <script src="<?php echo base_url('assets/bower_components/jquery/dist/jquery.min.js');?>"></script>
     <script type="text/javascript" src="<?php echo base_url();?>/assets/js/bootstrap.min.js"></script>
+    <script src="<?php echo base_url('assets/js/jquery.barrating.js');?>"></script>
+    <script src="<?php echo base_url('assets/js/kitchenkitsrating.js');?>"></script>
     <script type="text/javascript" src="<?php echo base_url();?>/assets/js/popper.min.js"></script>
     <script type="text/javascript">
       $(function(){
@@ -215,6 +227,36 @@
             }
           });
         });
+
+        $('#submit_review').on('click', function(){
+          var rate = $("[name='rating']").val();
+          var comm = $('#comment').val();
+          var re_id = $('#re_id').val();
+          $.ajax({
+            type: 'post',
+            url: "<?php echo site_url('customer/submit_rating_and_review'); ?>",
+            data: {
+              rate: rate,
+              review: comm,
+              re_id: re_id
+            },
+            dataType: 'JSON',
+            success: function(data){
+              if (data.status) {
+                $('#success_msg').css('display', 'block');
+                $('#success_msg').html(data.msg);
+              }else{
+                $('#error_msg').css('display', 'block');
+                $('#error_msg').html(data.notif);
+              }
+            },
+            error: function(data){
+              console.log(data);
+              alert('ERROR!');
+            }
+          });
+        });
+
       });
     </script>
 </body>

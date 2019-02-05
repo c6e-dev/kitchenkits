@@ -21,15 +21,17 @@ class customer extends CI_Controller {
 	}
 
 	public function view_recipe(){
-		$data['recipe_info'] = $this->customer_model->view_recipe($_GET['id']);
-		$recipe_id = $data['recipe_info'][0]->re_id;
+		$recipe_id = $_GET['id'];
+		$data['recipe_info'] = $this->customer_model->view_recipe($recipe_id);
 		$data['recipe_ings'] = $this->customer_model->recipe_ingredients($recipe_id);
 		$data['recipe_revs'] = $this->customer_model->recipe_reviews($recipe_id);
 		$this->load->view('customer/recipe_view',$data);
 	}
 
 	public function browse_recipe(){
-		$arecipe = $this->customer_model->recipe($_GET['id']);
+		$data['selected_country'] = $this->customer_model->selected_country($_GET['id']);
+		$country_id = $data['selected_country'][0]->co_id;
+		$arecipe = $this->customer_model->recipe($country_id);
 		$branches = $this->customer_model->read_branch();
 		if ($arecipe!=NULL && $branches!=NULL) {
 			$recipe_count = count($arecipe);
@@ -58,27 +60,72 @@ class customer extends CI_Controller {
 				}
 			}	
 		}
-		$data['recipe'] = $this->customer_model->browse_recipe($_GET['id']);
+		$data['recipe'] = $this->customer_model->browse_recipe($country_id);
 		$data['country'] = $this->customer_model->read_countries();
 		$this->load->view('customer/recipe_browse',$data);
 	}
 
+	public function submit_rating_and_review(){
+		$this->form_validation->set_rules('review', 'Review Detail', 'required|alpha_dash|max_length[600]', array(
+			'required' => 'This %s Is Required!',
+			'max_length' => 'Your Review is too long.'
+		));
+		if ($this->form_validation->run() == TRUE) {
+			$recipe_id = $_POST['re_id'];
+			$review = $_POST['review'];
+			$rate = $_POST['rate'];
+			$customer_data = $this->customer_model->loggedin_customer($_SESSION['id']);
+			$rate_act_data = array(
+				'recipe_id' => $recipe_id,
+				'customer_id' => $customer_data[0]->id,
+				'activity_type_id' => 3
+			);
+			$this->customer_model->new_rating_activity($rate_act_data);
+			$rating_act_id = $this->db->insert_id();
+			$rate_data = array(
+				'activity_id' => $rating_act_id,
+				'rating' => $rate
+			);
+			$this->customer_model->new_rating($rate_data);
+			$review_act_data = array(
+				'recipe_id' => $recipe_id,
+				'customer_id' => $customer_data[0]->id,
+				'activity_type_id' => 4
+			);
+			$this->customer_model->new_review_activity($review_act_data);
+			$review_act_id = $this->db->insert_id();
+			$review_data = array(
+				'activity_id' => $review_act_id,
+				'message' => $review
+			);
+			$this->customer_model->new_review($review_data);
+			$response['status'] = TRUE;
+			$response['msg'] = 'Your Rate And Review Successfully Published.';
+		}
+		else {
+			$response['status'] = FALSE;
+	    	$response['notif']	= validation_errors();
+		}
+		echo json_encode($response);
+	}
+
 	public function view_profile(){
 		if (isset($_SESSION['logged_in'])) {
+			$id = $_SESSION['id'];
 			if ($_SESSION['utype'] == 3) {
-				$data['cart'] = $this->customer_model->view_cart($_SESSION['id']);
+				$data['cart'] = $this->customer_model->view_cart($id);
 				if ($data['cart']!=NULL) {
 					$data['count'] = $this->customer_model->item_count($data['cart'][0]->od_id);
 					$this->load->view('customer/layout/header',$data);
-					$data['v_profile'] = $this->customer_model->view_profile($_SESSION['id']);
-					$data['v_history'] = $this->customer_model->view_history($_SESSION['id']);
+					$data['v_profile'] = $this->customer_model->view_profile($id);
+					$data['v_history'] = $this->customer_model->view_history($id);
 					$data['v_recent_order'] = $this->customer_model->view_recent_order($data['v_profile'][0]->cs_id);
 					$this->load->view('customer/profile_view', $data);
 					$this->load->view('customer/layout/footer');
 				}else{
 					$this->load->view('customer/layout/header',$data);
-					$data['v_profile'] = $this->customer_model->view_profile($_SESSION['id']);
-					$data['v_history'] = $this->customer_model->view_history($_SESSION['id']);
+					$data['v_profile'] = $this->customer_model->view_profile($id);
+					$data['v_history'] = $this->customer_model->view_history($id);
 					$data['v_recent_order'] = $this->customer_model->view_recent_order($data['v_profile'][0]->cs_id);
 					$this->load->view('customer/profile_view', $data);
 					$this->load->view('customer/layout/footer');
@@ -172,23 +219,33 @@ class customer extends CI_Controller {
 	//CART FUNCTIONS
 
 	public function view_cart(){
-		$id = $_SESSION['id'];
-		$data['cart'] = $this->customer_model->view_cart($id);
-		if ($data['cart']!=NULL) {
-			$order_id = $data['cart'][0]->od_id;
-			$data['count'] = $this->customer_model->item_count($order_id);
-			$data['additional'] = $this->customer_model->additional_ingredients($order_id);
-			$data['additional_ttl'] = $this->customer_model->additional_ingredients_subtotal($order_id);
-			$data['condiments'] = $this->customer_model->read_condiments();
-			$data['stotal'] = $this->customer_model->item_subtotal($id);
-			$data['stotalprice'] = $this->customer_model->item_subtotal_price($id);
-			$this->load->view('customer/layout/header', $data);
-			$this->load->view('customer/cart_view');
-			$this->load->view('customer/layout/footer');
-		}else{
-			$this->load->view('customer/layout/header', $data);
-			$this->load->view('customer/cart_view');
-			$this->load->view('customer/layout/footer');
+		if (isset($_SESSION['logged_in'])) {
+			if ($_SESSION['utype'] == 3) {
+				$id = $_SESSION['id'];
+				$data['cart'] = $this->customer_model->view_cart($id);
+				if ($data['cart']!=NULL) {
+					$order_id = $data['cart'][0]->od_id;
+					$data['count'] = $this->customer_model->item_count($order_id);
+					$data['additional'] = $this->customer_model->additional_ingredients($order_id);
+					$data['additional_ttl'] = $this->customer_model->additional_ingredients_subtotal($order_id);
+					$data['condiments'] = $this->customer_model->read_condiments();
+					$data['stotal'] = $this->customer_model->item_subtotal($id);
+					$data['stotalprice'] = $this->customer_model->item_subtotal_price($id);
+					$this->load->view('customer/layout/header', $data);
+					$this->load->view('customer/cart_view');
+					$this->load->view('customer/layout/footer');
+				}else{
+					$this->load->view('customer/layout/header', $data);
+					$this->load->view('customer/cart_view');
+					$this->load->view('customer/layout/footer');
+				}
+			}
+			else{
+				show_404();
+			}
+		}
+		else{
+			redirect('user');
 		}
 	}
 

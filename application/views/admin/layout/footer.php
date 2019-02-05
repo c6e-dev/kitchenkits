@@ -457,50 +457,6 @@
 
       load_unseen_notification_admin();
 
-      $.ajax({
-        type: 'GET',
-        url: "<?php echo site_url('admin/sales_report'); ?>",
-        dataType : 'json',
-        success: function(data){
-          var monthlysales = new Array();
-          var current_year = "Monthly Sales Of "+data[0].currentyear;
-          for(var i in data){
-            monthlysales.push(data[i].salescost);
-          }
-          var ctx = document.getElementById("myChart");
-          var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-              labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-              datasets: [{
-                  label: current_year,
-                  data: monthlysales,
-                  backgroundColor: 'rgba(96,92,168, 0.7)',
-                  borderColor: 'rgba(96,92,168, 1)',
-                  borderWidth: 1
-              }]
-            },
-            options: {
-              scales: {
-                yAxes: [{
-                  ticks: {
-                    beginAtZero:true
-                  }
-                }],
-                xAxes: [{
-                  gridLines: {
-                    display:false
-                  }
-                }]
-              }
-            }
-          });
-        },
-        error: function(data){
-          alert('ERROR');
-          console.log(data);
-        }
-      });
     })
   </script>
 </body>

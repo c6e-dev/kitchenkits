@@ -63,7 +63,9 @@
 
   <script>
     $(function(){
-      
+      $(document).ajaxStart(function() { 
+        Pace.restart(); 
+      });
 
       $('.modal').on('hidden.bs.modal', function(){
         $('#adt_ingr').val('0');

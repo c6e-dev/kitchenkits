@@ -338,6 +338,66 @@ class admin_model extends CI_Model{
 
 	// REPORT FUNCTION
 
+	public function report(){
+		$curryear = date('Y');
+		$query = $this->db->query("
+			SELECT SUM(tr.total_cost) AS salescost, YEAR(ua.created_date) AS currentyear
+			FROM transaction tr
+			INNER JOIN delivery od ON tr.order_id = od.id
+			INNER JOIN user_activity ua ON od.activity_id = ua.id
+			WHERE YEAR(ua.created_date) = '$curryear'
+			GROUP BY substring(ua.created_date,1,7)
+			ORDER BY ua.created_date DESC
+		");
+		if($query->num_rows()>0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function most_ordered_recipe(){
+		$currmonth = date('Y-m');
+		$query = $this->db->query("
+			SELECT SUM(oc.quantity) AS recipe_total_sales, MONTHNAME(ua.created_date) AS month, re.id re_id, re.name re_name
+			FROM order_content oc
+			INNER JOIN recipe re ON oc.recipe_id = re.id
+			INNER JOIN delivery od ON oc.order_id = od.id
+			INNER JOIN user_activity ua ON od.activity_id = ua.id
+			WHERE substring(ua.created_date,1,7) = '$currmonth' AND od.status = 'C'
+			GROUP BY oc.recipe_id
+			ORDER BY SUM(oc.quantity) DESC
+			LIMIT 10
+		");
+		if($query->num_rows()>0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function best_branch(){
+		$currmonth = date('Y-m');
+		$query = $this->db->query("
+			SELECT COUNT(od.customer_id) AS total_customers, MONTHNAME(ua.created_date) AS month, br.name br_name
+			FROM delivery od
+			INNER JOIN branch br ON od.branch_id = br.id
+			INNER JOIN user_activity ua ON od.activity_id = ua.id
+			WHERE substring(ua.created_date,1,7) = '$currmonth' AND od.status = 'C'
+			GROUP BY od.branch_id
+			ORDER BY COUNT(od.customer_id) DESC
+			LIMIT 10
+		");
+		if($query->num_rows()>0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
 	public function supply_report(){
 		$query = $this->db->query("
 			SELECT br_rep.id br_rep_id, br_rep.amount_reduced br_rep_ar, br_rep.reason br_rep_rsn, br_rep.created_date br_rep_cd, bm.name bm_name, ing.name ing_name, br.name br_name
@@ -653,25 +713,6 @@ class admin_model extends CI_Model{
 	}
 
 	// DASHBOARD FUNCTIONS
-
-	public function report(){
-		$curryear = date('Y');
-		$query = $this->db->query("
-			SELECT SUM(tr.total_cost) AS salescost, YEAR(ua.created_date) AS currentyear
-			FROM transaction tr
-			INNER JOIN delivery od ON tr.order_id = od.id
-			INNER JOIN user_activity ua ON od.activity_id = ua.id
-			WHERE YEAR(ua.created_date) = '$curryear'
-			GROUP BY substring(ua.created_date,1,7)
-			ORDER BY ua.created_date DESC
-		");
-		if($query->num_rows()>0){
-			return $query->result();
-		}
-		else{
-			return NULL;
-		}
-	}
 
 	public function read_activity_feed(){
 		$query = $this->db->query("
