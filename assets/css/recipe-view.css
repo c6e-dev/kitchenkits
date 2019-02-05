@@ -127,9 +127,39 @@
   padding: 1rem;
   margin: 1rem 0;
 }
+.btnn-qty{
+  text-align: center;
+  width: 20rem;
+  padding:0.2rem;
+  align-items: center;
+  box-shadow: none;
+}
+.btn-margin{
+  margin-left: 8rem;
+}
+.btn-margina{
+  margin-right: 8rem;
+}
 /** Footer **/
 footer{
   background: #F15A24;
   text-align: center;
   padding: 1rem;
+}
+/** Media Queries **/
+@media screen and (max-width: 990px){
+  .btn-margin{
+    margin-left: 12rem;
+  }
+  .btn-margina{
+    margin-right: 12rem;
+  }
+}
+@media screen and (max-width: 768px){
+  .btn-margin{
+    margin-left: 5rem;
+  }
+  .btn-margina{
+    margin-right: 5rem;
+  }
 }
