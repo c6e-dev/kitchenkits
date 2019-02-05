@@ -28,7 +28,7 @@ class user extends CI_Controller {
 				$this->user_model->logged_in($_SESSION['id']);
 				switch ($userdata[0]->user_type_id) {
 					case '1':
-						redirect('dashboard');
+						redirect('admin_dashboard');
 						break;
 					case '2':
 						redirect('branch');
