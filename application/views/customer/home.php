@@ -29,9 +29,9 @@
 				<li class="nav-item">
 					<a class="nav-link" href="<?php echo site_url('customer/view_region'); ?>">RECIPES</a>
 				</li>
-				<li class="nav-item">
+				<!-- <li class="nav-item">
 					<a class="nav-link" href="#order">ORDER</a>
-				</li>
+				</li> -->
 				<?php
 					if (isset($_SESSION['logged_in'])) {
 						if ($_SESSION['utype'] == 1) {
