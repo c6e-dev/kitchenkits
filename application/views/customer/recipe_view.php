@@ -84,10 +84,10 @@
             <div class="col-lg-12 ingr padding">
               <div class="input-group">
                 <span class="input-group-btn">
-                  <button type="button" id="sub_qty" class="btn btn-md btn-flat" disabled><i class="fa fa-minus"></i></button>
+                  <button type="button" id="sub_qty" class="btn btn-md btn-flat btn-margin" disabled><i class="fa fa-minus"></i></button>
                 </span>
-                <input type="text" id="val_cont" class="form-control" style="width: 40px;text-align: center;" readonly>
-                <button type="button" id="add_qty" class="btn btn-md btn-flat"><i class="fa fa-plus"></i></button>
+                <input  type="text" id="val_cont" class="form-control btnn-qty" readonly>
+                <button type="button" id="add_qty" class="btn btn-md btn-flat btn-margina"><i class="fa fa-plus"></i></button>
               </div>
               <input type="hidden" id="recipe_id" value="<?php echo $recipe_info[0]->re_id; ?>">
               <button type="button" id="addTo_cart" class="btn btn-dark btn-cart">Add to Cart</button>
