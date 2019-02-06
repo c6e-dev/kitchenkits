@@ -125,7 +125,7 @@
                     <div class="card-footer">
                       <div class="row">
                         <div class="col-4" style="padding-top:0.5rem;">
-                          <select id="example-fontawesome-o" name="rating" data-current-rating="3.6" autocomplete="off">
+                          <select id="example-fontawesome-o" name="rating" data-current-rating="<?php echo round($rcp->average, 1); ?>" autocomplete="off">
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>

@@ -24,7 +24,7 @@ class admin extends CI_Controller {
 					'logged_in' => $this->admin_model->logged_in_count(),
 					'recipe' => $this->admin_model->recipe_count(),
 					'recipe_a' => $this->admin_model->recipe_count_a(),
-					'recipe_i' => $this->admin_model->recipe_count_i(),	
+					'recipe_i' => $this->admin_model->recipe_count_i(),
 					'order' => $this->admin_model->order_count(),
 					'order_c' => $this->admin_model->order_count_c(),
 					'order_i' => $this->admin_model->order_count_i(),
@@ -61,11 +61,11 @@ class admin extends CI_Controller {
 				if ($arecipe!=NULL && $branches!=NULL) {
 					$recipe_count = count($arecipe);
 					$branch_count = count($branches);
-					for ($i=0; $i < $recipe_count; $i++) { 
+					for ($i=0; $i < $recipe_count; $i++) {
 						$ingredient = $this->admin_model->recipe_ingredient($arecipe[$i]->id);
 						for ($k=0; $k < $branch_count; $k++) {
 							$result = FALSE;
-							for ($j=0; $j < count($ingredient); $j++) { 
+							for ($j=0; $j < count($ingredient); $j++) {
 								$result = $this->admin_model->check_compatible_branch($branches[$k]->br_id,$ingredient[$j]->ing_id,$ingredient[$j]->ing_amnt*10);
 								if (!$result) {
 									break;
@@ -194,7 +194,7 @@ class admin extends CI_Controller {
 				$data['ingredient'] = $this->admin_model->read_ingredient();
 				$data['unit'] = $this->admin_model->read_unit();
 				$this->load->view('admin/read_ingredient',$data);
-				$this->load->view('admin/layout/footer');	
+				$this->load->view('admin/layout/footer');
 			}
 			else{
 				show_404();
@@ -204,7 +204,7 @@ class admin extends CI_Controller {
 			redirect('user/load_login');
 		}
 	}
-	
+
 	// VIEW FUNCTIONS
 
 	public function view_recipe($rcp_id,$co_id){
@@ -348,7 +348,7 @@ class admin extends CI_Controller {
 				$data[] = $res;
 			}
 			echo json_encode($data);
-		}	
+		}
 	}
 
 	public function branch_report(){
@@ -409,12 +409,12 @@ class admin extends CI_Controller {
 		}else{
 			$this->admin_model->delete_umanager($bm_uid);
 		}
-		redirect('admin/manager_view');	
+		redirect('admin/manager_view');
 	}
 
 	public function delete_ingredient(){
 		$this->admin_model->delete_ingredient($_GET['id']);
-		redirect('admin/ingredient_view');	
+		redirect('admin/ingredient_view');
 	}
 
 	// ACTIVATE FUNCTIONS - Robert / 12-02-18
@@ -439,7 +439,7 @@ class admin extends CI_Controller {
 		redirect('admin/manager_view');
 	}
 
-	// ADD FUNCTIONS 
+	// ADD FUNCTIONS
 
 	public function create_recipe(){
 		$response = array();
@@ -522,7 +522,7 @@ class admin extends CI_Controller {
 				'logged_in' => '0',
 				'user_type_id' => $_POST['utid']
 			);
-			$this->admin_model->add_user_manager($mngrdata); 
+			$this->admin_model->add_user_manager($mngrdata);
 			$user_id = $this->db->insert_id();
 			$code = $this->admin_model->get_code(2);
 			$this->admin_model->update_counter($code[0]->ct_count+1,2);
@@ -606,7 +606,7 @@ class admin extends CI_Controller {
 		echo json_encode($response);
 	}
 
-	// EDIT FUNCTIONS 
+	// EDIT FUNCTIONS
 
 	public function update_recipe(){
 		$response = array();
@@ -616,7 +616,7 @@ class admin extends CI_Controller {
 		$ings_val = $_POST['ingredients_val'];
 		$recipe_id = $_POST['recipe_id'];
 		$id_count = count($ings_id);
-		for ($i=0; $i < $id_count; $i++) { 
+		for ($i=0; $i < $id_count; $i++) {
 			$data = array(
 				'recipe_id' => $recipe_id,
 				'ingredient_id' => $ings_id[$i],
@@ -640,7 +640,7 @@ class admin extends CI_Controller {
 		$this->form_validation->set_rules('price', 'Recipe Price', 'numeric',array(
 			'numeric' => 'Value of Price not valid!'
 		));
-		
+
 		if ($this->form_validation->run() == TRUE) {
 			$upt_date = date('Y-m-d H:i:s');
 			$data = $this->admin_model->update_recipe($upt_date);
@@ -668,7 +668,7 @@ class admin extends CI_Controller {
 				'is_unique' => '%s Already Exists'
 			));
 		$this->form_validation->set_rules('braddress', 'Branch Address', 'required');
-		
+
 		if ($this->form_validation->run() == TRUE) {
 			$upt_date = date('Y-m-d H:i:s');
 			$mngr_id = $_POST['mngr_id'];
@@ -735,7 +735,7 @@ class admin extends CI_Controller {
 	    	$response['notif']	= validation_errors();
 		}
 		echo json_encode($response);
-	}	
+	}
 
 	public function upload_recipe_image(){
 		$recipe_name = $_POST['re_nm'];
@@ -750,11 +750,11 @@ class admin extends CI_Controller {
 		);
         $this->load->library('upload', $config);
         $this->upload->do_upload('recipe_image');
-       	$uploaded_image = $this->upload->data();       	
+       	$uploaded_image = $this->upload->data();
   		$image = $uploaded_image[file_name];
-  		$upt_date = date('Y-m-d H:i:s'); 
+  		$upt_date = date('Y-m-d H:i:s');
 		$this->admin_model->upload_recipe_image($re_id,$image,$upt_date);
-		redirect('admin/view_recipe/'.$re_id.'/'.$co_id); 
+		redirect('admin/view_recipe/'.$re_id.'/'.$co_id);
 	}
 
 	public function supply_report(){
@@ -764,7 +764,7 @@ class admin extends CI_Controller {
 			echo json_encode($response);
 		}else{
 			echo json_encode($data);
-		}		
+		}
 	}
 
 	public function password_check(){
@@ -806,25 +806,25 @@ class admin extends CI_Controller {
 	public function confirm_order(){
 		$recipe_data = $this->admin_model->recipe_order($_POST['id']);
 		$count = count($recipe_data);
-		for ($i=0; $i < $count; $i++) { 
+		for ($i=0; $i < $count; $i++) {
 			$ingredients[$i] = $this->admin_model->recipe_order_ingredients($recipe_data[$i]->recipe_id,$recipe_data[$i]->quantity);
 		}
 		$var = count($ingredients) ;
 		$totals = array();
-		for($i = 0; $i < $var; $i++){ 
-			foreach($ingredients[$i] as $key => $lol){ 
-				if(!array_key_exists($lol->ingredient_id, $totals)){ 
-					$totals[$lol->ingredient_id] = $lol->amount; 
-				} 
-				else{ 
-					$totals[$lol->ingredient_id] += $lol->amount; 
-				} 
-			} 
+		for($i = 0; $i < $var; $i++){
+			foreach($ingredients[$i] as $key => $lol){
+				if(!array_key_exists($lol->ingredient_id, $totals)){
+					$totals[$lol->ingredient_id] = $lol->amount;
+				}
+				else{
+					$totals[$lol->ingredient_id] += $lol->amount;
+				}
+			}
 		}
 		$customer_data = $this->admin_model->loggedin_customer($_SESSION['id']);
 		$branch_data = $this->admin_model->branch_info();
 		$count1 = count($branch_data);
-		for ($i=0; $i < $count1; $i++) { 
+		for ($i=0; $i < $count1; $i++) {
 			$distance[$i] = getDistance($customer_data[0]->addr, $branch_data[$i]->br_addr);
 			$branch_ids[$i] = $branch_data[$i]->id;
 		}
@@ -864,27 +864,27 @@ class admin extends CI_Controller {
 
 function getDistance($addressFrom, $addressTo){
     $apiKey = 'AIzaSyDhfAMuCR-qXYfDCT0l-ieHJVSb3Qc7tV0';
-    
+
     $formattedAddrFrom  = str_replace(' ', '+', $addressFrom);
     $formattedAddrTo = str_replace(' ', '+', $addressTo);
-    
+
     $geocodeFrom = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address='.$formattedAddrFrom.'&sensor=false&key='.$apiKey);
     $outputFrom = json_decode($geocodeFrom);
     if(!empty($outputFrom->error_message)){
         return $outputFrom->error_message;
     }
-    
+
     $geocodeTo = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address='.$formattedAddrTo.'&sensor=false&key='.$apiKey);
     $outputTo = json_decode($geocodeTo);
     if(!empty($outputTo->error_message)){
         return $outputTo->error_message;
     }
-    
+
     $latitudeFrom = $outputFrom->results[0]->geometry->location->lat;
     $longitudeFrom = $outputFrom->results[0]->geometry->location->lng;
     $latitudeTo = $outputTo->results[0]->geometry->location->lat;
     $longitudeTo = $outputTo->results[0]->geometry->location->lng;
-    
+
     $theta = $longitudeFrom - $longitudeTo;
     $dist = sin(deg2rad($latitudeFrom)) * sin(deg2rad($latitudeTo)) +  cos(deg2rad($latitudeFrom)) * cos(deg2rad($latitudeTo)) * cos(deg2rad($theta));
     $dist = acos($dist);
@@ -894,4 +894,3 @@ function getDistance($addressFrom, $addressTo){
     return round($miles * 1.609344, 2);
     // return round($miles * 1609.344, 2);
 }
-

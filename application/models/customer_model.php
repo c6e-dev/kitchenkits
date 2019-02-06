@@ -4,7 +4,7 @@ class customer_model extends CI_Model{
 		parent:: __construct();
 	}
 
-	//CUSTOMER PROFILE FUNCTIONS 
+	//CUSTOMER PROFILE FUNCTIONS
 
 	//VIEW FUNCTIONS
 
@@ -27,11 +27,11 @@ class customer_model extends CI_Model{
 		$query = $this->db->query("
 			SELECT ua.activity_type_id fb_type, ua.created_date fb_cdate, co.message fb_comment, ra.rating fb_rating, cs.first_name fb_fname, cs.last_name fb_lname, re.name fb_recipe
 			FROM user_activity ua
-			INNER JOIN recipe re ON ua.recipe_id = re.id		
+			INNER JOIN recipe re ON ua.recipe_id = re.id
 			RIGHT JOIN customer cs ON ua.customer_id = cs.id
 			LEFT JOIN comment co ON ua.id = co.activity_id
 			LEFT JOIN rating ra ON ua.id = ra.activity_id
-			WHERE cs.user_id = '$id' 
+			WHERE cs.user_id = '$id'
 			ORDER BY ua.created_date DESC
 		");
 		if ($query->num_rows() > 0){
@@ -64,7 +64,7 @@ class customer_model extends CI_Model{
 
 	//EDIT FUNCTIONS
 
-	public function edit_profile($upt_date){ //ADD IMAGE 
+	public function edit_profile($upt_date){ //ADD IMAGE
 		$customer_id = $this->input->post('cs_id');
 		$user_id = $this->input->post('u_id');
 		$first_name = $this->input->post('cs_fname');
@@ -84,7 +84,7 @@ class customer_model extends CI_Model{
 		$user_id = $this->input->post('user_id');
 		$this->db->query("
 			UPDATE user u
-			SET u.password = '$password', u.updated_date = '$upt_date' 
+			SET u.password = '$password', u.updated_date = '$upt_date'
 			WHERE u.id = '$user_id'
 		");
 	}
@@ -113,7 +113,7 @@ class customer_model extends CI_Model{
 		$oc_id = $this->input->post('oc_id');
 		$this->db->query("
 			UPDATE order_content oc
-			SET oc.quantity = '$newcount' 
+			SET oc.quantity = '$newcount'
 			WHERE oc.id = '$oc_id'
 		");
 	}
@@ -145,7 +145,7 @@ class customer_model extends CI_Model{
 		$oc_id = $this->input->post('oc_id');
 		$this->db->query("
 			UPDATE order_content oc
-			SET oc.quantity = '$newcount' 
+			SET oc.quantity = '$newcount'
 			WHERE oc.id = '$oc_id'
 		");
 	}
@@ -161,7 +161,7 @@ class customer_model extends CI_Model{
 
 	public function delete_order($oc_id){
 		$this->db->query("
-			DELETE FROM order_content			
+			DELETE FROM order_content
 			WHERE order_content.id = '$oc_id'
 		");
 	}
@@ -231,7 +231,7 @@ class customer_model extends CI_Model{
 
 	public function delete_additional_item($ai_id){
 		$this->db->query("
-			DELETE FROM add_ingredient			
+			DELETE FROM add_ingredient
 			WHERE md5(id) = '$ai_id'
 		");
 	}
@@ -246,8 +246,8 @@ class customer_model extends CI_Model{
 		");
 	}
 
-	//BROWSING FUNCTIONS 
-	
+	//BROWSING FUNCTIONS
+
 	public function selected_country($id){
 		$query = $this->db->query("
 			SELECT co.id co_id, co.region_id cor_id, co.name co_name
@@ -258,13 +258,29 @@ class customer_model extends CI_Model{
 		return $query->result();
 	}
 
+	public function average_rating(){
+		$query = $this->db->query("
+			SELECT SUM(ra.rating)/COUNT(ua.customer_id) AS average
+			FROM rating ra
+			INNER JOIN user_activity ua ON ra.activity_id = ua.id
+			GROUP BY ua.customer_id
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
 	public function browse_recipe($id){
 		$query = $this->db->query("
-			SELECT re.id re_id, re.country_id AS re_cid, re.name AS re_name, re.cooking_time AS re_cooktime, re.servings AS re_serves, re.image AS re_img, re.status AS re_status, cn.name AS re_country, rg.name AS re_region
-			FROM recipe re
-			INNER JOIN country cn ON re.country_id = cn.id
-			INNER JOIN region rg ON cn.region_id = rg.id
+			SELECT SUM(ra.rating)/COUNT(ua.customer_id) AS average, re.id re_id, re.country_id AS re_cid, re.name AS re_name, re.cooking_time AS re_cooktime, re.servings AS re_serves, re.image AS re_img, re.status AS re_status
+			FROM rating ra
+			INNER JOIN user_activity ua ON ra.activity_id = ua.id
+			INNER JOIN recipe re ON ua.recipe_id = re.id
 			WHERE re.status = 'A' AND re.country_id = '$id'
+			GROUP BY ua.customer_id
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();
@@ -285,9 +301,12 @@ class customer_model extends CI_Model{
 
 	public function view_recipe($id){
 		$query = $this->db->query("
-			SELECT re.id AS re_id, re.country_id AS re_cid, re.name AS re_name, re.cooking_time AS re_cooktime, re.servings AS re_serves, re.instructions AS re_instruc, re.image AS re_img
-			FROM recipe re
+			SELECT SUM(ra.rating), re.id AS re_id, re.country_id AS re_cid, re.name AS re_name, re.cooking_time AS re_cooktime, re.servings AS re_serves, re.instructions AS re_instruc, re.image AS re_img
+			FROM rating ra
+			INNER JOIN user_activity ua ON ra.activity_id = ua.id
+			INNER JOIN recipe re ON ua.recipe_id = re.id
 			WHERE re.id = '$id'
+			GROUP BY ua.customer_id
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();
@@ -347,7 +366,7 @@ class customer_model extends CI_Model{
 	public function read_branch(){
 		$query = $this->db->query("
 			SELECT br.id AS br_id
-			FROM branch br 
+			FROM branch br
 		");
 		if($query->num_rows()>0){
 			return $query->result();
@@ -383,7 +402,7 @@ class customer_model extends CI_Model{
 
 	public function activate_recipe($id){
 		$this->db->query("
-			UPDATE recipe re 
+			UPDATE recipe re
 			SET re.status = 'A'
 			WHERE re.id = '$id'
 		");
@@ -392,7 +411,7 @@ class customer_model extends CI_Model{
 	public function disable_recipe($id){
 		$this->db->query("
 			UPDATE recipe rcp
-			SET rcp.status = 'U' 
+			SET rcp.status = 'U'
 			WHERE rcp.id = '$id'
 		");
 	}
