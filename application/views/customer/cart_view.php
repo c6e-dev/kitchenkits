@@ -112,9 +112,7 @@
                           <td class="pull-right">Total</td>
                         </tr>
                         <?php
-                          $count = 0;
                           foreach ($cart as $item) {
-                            $count += 1;
                             echo '
                               <tr>
                                 <td>'.$item->qntty.' '.$item->re_name.' @ '.$item->re_price.'</td>
@@ -197,7 +195,8 @@
                           }
                           $subtotal = round($stotalprice[0]->stotalprice+$additional_ttl[0]->additionaltotal, 2);
                           $vat = round($subtotal*0.13, 2);
-                          $sfee = round($count*0.02, 2);
+                          $shipercent = $stotal[0]->stotalcount*0.005;
+                          $sfee = round($subtotal*$shipercent, 2);
                           $total = round($subtotal+$vat+$sfee, 2);
                             echo '
                               <tr>
@@ -262,7 +261,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title"><strong>Add Ingredients</strong></h4>
+          <h4 class="modal-title"><strong>Additional Ingredients</strong></h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span></button>
         </div>
