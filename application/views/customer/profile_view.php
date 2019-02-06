@@ -12,7 +12,7 @@
       <div class="col-md-3">
         <div class="box box-danger">
           <div class="box-body box-profile">
-            <img class="profile-user-img img-responsive img-circle" src="<?php echo base_url('assets/dist/img/user2-160x160.jpg');?>" alt="User profile picture">
+            <!-- <img class="profile-user-img img-responsive img-circle" src="<?php echo base_url('assets/dist/img/user2-160x160.jpg');?>" alt="User profile picture"> -->
 
             <h3 class="profile-username text-center"><?php echo $v_profile[0]->cs_fname." ".$v_profile[0]->cs_lname?></h3>
             <p class="text-muted text-center"><?php echo $v_profile[0]->cs_code?></p>

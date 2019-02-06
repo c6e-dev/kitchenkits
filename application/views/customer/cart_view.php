@@ -38,10 +38,10 @@
                           <li class="item">
                             <div class="row">
                               <div class="col-md-8">
-                                <div class="product-img">
+                                <div class="product-img" style="margin-left: 15px">
                                   <img src="<?php echo base_url('Recipe_Folder/'.$item->re_name.'/'.$item->re_img); ?>" alt="Item Image">
                                 </div>
-                                <div class="product-info">
+                                <div class="product-info" style="margin-left: 120px">
                                   <a href="<?php echo site_url('customer/view_recipe'.'?id='.$item->re_id); ?>" class="product-title a-item"><?php echo $item->re_name; ?><span class="info-box-number pull-right">₱<?php echo $item->re_price; ?></span></a>
                                   <?php echo '
                                     <span class="product-description">

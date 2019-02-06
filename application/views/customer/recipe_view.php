@@ -75,9 +75,10 @@
     </nav>
 
     <div class="container padding">
-      <div class="container-fluid">
-        <h5><a href="<?php echo site_url('customer/browse_recipe'.'?id='.$recipe_info[0]->re_cid);?>" class="back-arrow"><span class="fa fa-arrow-left"></span> Back to Recipe Selection</a></h5>
+      <div class="">
+        <h5><a href="<?php echo site_url('customer/browse_recipe'.'?id='.$recipe_info[0]->re_cid);?>" class="back-arrow"><span class="fa fa-arrow-left"></span> Recipe Selection</a></h5>
       </div>
+      <br>
       <div class="row">
         <div class="col-lg-6">
           <h2><?php echo $recipe_info[0]->re_name; ?></h2>
@@ -96,7 +97,7 @@
                 ?>
               </ul>
             </div>
-            <h4 id="pads" class="product-description">Order Quantity</h4>
+            <h4 id="pads" class="product-description" style="margin-left: 15px">Order Quantity</h4>
             <div class="col-lg-12 ingr padding">
               <div class="input-group">
                 <span class="input-group-btn">
@@ -110,7 +111,7 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-4 offset-lg-2 ingr padding">
+        <div class="col-lg-6" style="padding-left: 145px">
           <img src="<?php echo base_url('Recipe_Folder/'.$recipe_info[0]->re_name.'/'.$recipe_info[0]->re_img); ?>" alt="" height="228px" width="400px">
         </div>
       </div>
@@ -119,7 +120,7 @@
         <div class="container">
           <div class="row">
             <div class="col-lg-12">
-              <h4>Directions</h4>
+              <h4 style="margin-top: 20px">Directions</h4>
               <p class="p-style"><?php echo $recipe_info[0]->re_instruc; ?></p>
             </div>
           </div>
@@ -127,7 +128,8 @@
     </div>
     <div class="container-fluid">
       <div class="container padding">
-        <h4>Share your Feedback</h4>
+        <h4>Share Your Feedback</h4>
+        <br>
         <div class="container">
           <div class="row">
             <div class="col-md-6">
@@ -152,7 +154,7 @@
             <div class="col-md-6">
               <div class="container-fluid border">
                 <form>
-                  <h5 style="font-weight: bold;margin-top: 10px">rate and review <?php echo $recipe_info[0]->re_name; ?></h5>
+                  <h5 style="font-weight: bold;margin-top: 10px">Rate & Review <?php echo $recipe_info[0]->re_name; ?></h5>
                   <div id="success_msg" style="font-size: 12px; color: green; display: none;"></div>
                   <div class="stars stars-example-fontawesome">
                     <select id="example-fontawesome" name="rating" autocomplete="off">

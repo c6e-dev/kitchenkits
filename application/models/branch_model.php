@@ -6,7 +6,7 @@ class branch_model extends CI_Model{
 
 	public function processed_order_view($id){
 		$query = $this->db->query("
-			SELECT od.id AS od_id, od.status AS od_status, cu.first_name AS od_fname, cu.last_name AS od_lname, br.name AS od_branch, ua.created_date AS od_create
+			SELECT md5(od.id) AS od_id, od.status AS od_status, cu.first_name AS od_fname, cu.last_name AS od_lname, br.name AS od_branch, ua.created_date AS od_create
 			FROM delivery od
 			INNER JOIN customer cu ON od.customer_id = cu.id
 			INNER JOIN branch br ON od.branch_id = br.id
