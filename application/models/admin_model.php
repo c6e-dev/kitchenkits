@@ -176,6 +176,7 @@ class admin_model extends CI_Model{
 			RIGHT JOIN recipe re ON ring.recipe_id = re.id
 			INNER JOIN country co ON re.country_id = co.id
 			INNER JOIN region rg ON co.region_id = rg.id
+			
 			WHERE re.id = '$id'
 		");
 		if ($query->num_rows() > 0){
@@ -189,10 +190,15 @@ class admin_model extends CI_Model{
 		$this->db->insert('recipe_ingredients', $data);
 	}
 
-	public function read_ingredients(){
+	public function read_ingredients($id){
 		$query = $this->db->query("
-			SELECT ing.id in_id, ing.unit_id in_unit_id, ing.name in_nm
-			FROM ingredients ing
+			SELECT ri.id in_id, ri.ingredient_amount in_am, ig.name in_nm, ut.name in_ut
+			FROM recipe_ingredients ri
+			INNER JOIN ingredients ig ON ri.ingredient_id = ig.id
+			INNER JOIN recipe re ON ri.recipe_id = re.id 
+			INNER JOIN unit ut ON ig.unit_id = ut.id 
+			
+			WHERE re.id = '$id'
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();
@@ -263,12 +269,10 @@ class admin_model extends CI_Model{
 
 	public function view_branch_order($id){
 		$query = $this->db->query("
-			SELECT od.code AS od_code, od.status AS od_status, ua.created_date AS od_create, cs.first_name AS od_fname, cs.last_name AS od_lname, re.name AS od_recipe
+			SELECT od.code AS od_code, od.status AS od_status, ua.created_date AS od_create, cs.first_name AS od_fname, cs.last_name AS od_lname
 			FROM delivery od
 			INNER JOIN user_activity ua ON od.activity_id = ua.id
 			INNER JOIN customer cs ON od.customer_id = cs.id
-			INNER JOIN order_content oc ON oc.order_id = od.id
-			INNER JOIN recipe re ON oc.recipe_id = re.id
 			WHERE od.branch_id = '$id'
 		");
 		if($query->num_rows()>0){
