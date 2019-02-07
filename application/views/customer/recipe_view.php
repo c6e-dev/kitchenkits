@@ -30,9 +30,6 @@
           <li class="nav-item">
             <a class="nav-link" href="<?php echo site_url('customer/view_region');?>">Recipes</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Order</a>
-          </li>
         </ul>
         <ul class="navbar-nav nav-des">
           <?php
@@ -111,8 +108,8 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-6" style="padding-left: 145px">
-          <img src="<?php echo base_url('Recipe_Folder/'.$recipe_info[0]->re_name.'/'.$recipe_info[0]->re_img); ?>" alt="" height="228px" width="400px">
+        <div class="col-lg-6" style="padding-left: 85px">
+          <img src="<?php echo base_url('Recipe_Folder/'.$recipe_info[0]->re_name.'/'.$recipe_info[0]->re_img); ?>" alt="" height="300px" width="470px">
         </div>
       </div>
     </div>

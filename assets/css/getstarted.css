@@ -29,7 +29,7 @@ h1{
 }
 h2{
 	font-size: 3.5rem;
-	color: none;
+	color: #fff;
 	font-weight: bold;
 	position: absolute;
 	left: 50%;
@@ -37,8 +37,11 @@ h2{
 	transform: translateX(-50%);
 	white-space: nowrap;
 }
-.odd-b{
-	color: white;
+.west-style{
+	font-family: 'Rakkas', cursive;
+}
+.east-style{
+	font-family: 'Yatra One', cursive;
 }
 #override{
 	text-decoration: none;

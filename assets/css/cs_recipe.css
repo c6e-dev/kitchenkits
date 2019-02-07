@@ -100,6 +100,11 @@
   grid-column-gap: 0.4rem;
   grid-row-gap: 0.4rem;
 }
+.wew{
+  -webkit-box-shadow: 4px 4px 6px 0px rgba(189,170,189,1);
+  -moz-box-shadow: 4px 4px 6px 0px rgba(189,170,189,1);
+  box-shadow: 4px 4px 6px 0px rgba(189,170,189,1);
+}
 .checked {
   color: orange;
 }

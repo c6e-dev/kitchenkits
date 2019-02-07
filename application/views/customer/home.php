@@ -24,10 +24,10 @@
 		<div class="collapse navbar-collapse justify-content-md-center w-100" id="navbarNav">
 			<ul class="navbar-nav">
 				<li class="nav-item active">
-					<a class="nav-link" href="<?php echo site_url();?>">HOME<span class="sr-only">(current)</span></a>
+					<a id="nav-link" href="<?php echo site_url();?>">HOME<span class="sr-only">(current)</span></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="<?php echo site_url('customer/view_region'); ?>">RECIPES</a>
+					<a id="nav-link" href="<?php echo site_url('customer/view_region'); ?>">RECIPES</a>
 				</li>
 				<!-- <li class="nav-item">
 					<a class="nav-link" href="#order">ORDER</a>
@@ -37,28 +37,28 @@
 						if ($_SESSION['utype'] == 1) {
 							?>
 								<li class="nav-item">
-									<a class="nav-link" href="<?php echo site_url('admin');?>">DASHBOARD</a>
+									<a id="nav-link" href="<?php echo site_url('admin');?>">DASHBOARD</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="<?php echo site_url('user/logout');?>">LOG OUT</a>
+									<a id="nav-link" href="<?php echo site_url('user/logout');?>">LOG OUT</a>
 								</li>
 							<?php
 						}elseif ($_SESSION['utype'] == 2) {
 							?>
 								<li class="nav-item">
-									<a class="nav-link" href="<?php echo site_url('branch');?>">DASHBOARD</a>
+									<a id="nav-link" href="<?php echo site_url('branch');?>">DASHBOARD</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="<?php echo site_url('user/logout');?>">LOG OUT</a>
+									<a id="nav-link" href="<?php echo site_url('user/logout');?>">LOG OUT</a>
 								</li>
 							<?php
 						}else{
 							?>
 								<li class="nav-item">
-									<a class="nav-link" href="<?php echo site_url('customer/view_profile');?>">PROFILE</a>
+									<a id="nav-link" href="<?php echo site_url('customer/view_profile');?>">PROFILE</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="<?php echo site_url('user/logout');?>">LOG OUT</a>
+									<a id="nav-link" href="<?php echo site_url('user/logout');?>">LOG OUT</a>
 								</li>
 							<?php
 						}
@@ -66,10 +66,10 @@
 					else{
 						?>
 							<li class="nav-item">
-								<a class="nav-link" href="<?php echo site_url('login');?>">SIGN IN</a>
+								<a id="nav-link" href="<?php echo site_url('login');?>">SIGN IN</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="<?php echo site_url('register');?>">SIGN UP</a>
+								<a id="nav-link" href="<?php echo site_url('register');?>">SIGN UP</a>
 							</li>
 						<?php
 					}
@@ -79,7 +79,7 @@
 	</nav>
 
 	<div>
-		<div class="v-header">
+		<div class="v-header last-content">
 			<video autoplay="true" loop="true">
 				<source src="<?php echo base_url();?>/assets/vid/video-bg.mp4" type="video/mp4">
 			</video>
@@ -88,11 +88,61 @@
 			<a class="btn btn-default" href="<?php echo site_url('customer/view_region'); ?>"><span>GET STARTED</span></a>
 		</div>
 	</div>
-	<div class="container-fluid new-div">
-		<h1>Additional Div</h1>
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-	</div>
 
+	<!-- Wekkly Favorites -->
+	<div class="container-fluid new-div padding last-content">
+		<h1 class="title-design">Weekly Favorites</h1>
+		<div class="card-content">
+				<div class="card wew">
+					<a href=""><img class="card-img-top" src="" height="220px"></a>
+					<div class="card-body">
+						<h4 class="card-title">Recipe Name</h4>
+					</div>
+					<div class="card-footer">
+						<div class="row">
+							<div class="col-4" style="padding-top:0.5rem;">
+								<span class="fa fa-star-checked"></span>
+							</div>
+							<div class="col-4" style="text-align:right;">
+								<p><span class="fa fa-clock-o">Cook time</span></p>
+							</div>
+							<div class="col-4" style="text-align:center;">
+								<p><span class="fa fa-cutlery"> Serve </span></p>
+							</div>
+						</div>
+					</div>
+				</div>
+		</div>
+	</div>
+	<!-- Recommendation -->
+	<div class="container-fluid new-div padding last-content">
+		<h1 class="title-design">Recommended for You</h1>
+		<div class="card-content">
+				<div class="card wew">
+					<a href=""><img class="card-img-top" src="" height="220px"></a>
+					<div class="card-body">
+						<h4 class="card-title">Recipe Name</h4>
+					</div>
+					<div class="card-footer">
+						<div class="row">
+							<div class="col-4" style="padding-top:0.5rem;">
+								<span class="fa fa-star-checked"></span>
+							</div>
+							<div class="col-4" style="text-align:right;">
+								<p><span class="fa fa-clock-o">Cook time</span></p>
+							</div>
+							<div class="col-4" style="text-align:center;">
+								<p><span class="fa fa-cutlery"> Serve </span></p>
+							</div>
+						</div>
+					</div>
+				</div>
+		</div>
+	</div>
+	<footer>
+		<div class="container">
+			<h6>Copyright &copy; 2019 RLC Company. All Rights Reserved</h6>
+		</div>
+	</footer>
 </body>
 </html>

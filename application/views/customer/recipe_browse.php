@@ -31,9 +31,6 @@
           <li class="nav-item">
             <a class="nav-link" href="<?php echo site_url('customer/view_region');?>">Recipes</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Order</a>
-          </li>
         </ul>
         <ul class="navbar-nav nav-des">
           <?php
@@ -117,7 +114,7 @@
             if ($recipe!=NULL) {
               foreach ($recipe as $rcp) {
                 ?>
-                  <div class="card border-dark">
+                  <div class="card wew">
                     <a href="<?php echo site_url('customer/view_recipe'.'?id='.$rcp->re_id); ?>"><img class="card-img-top" src="<?php echo base_url('Recipe_Folder/'.$rcp->re_name.'/'.$rcp->re_img); ?>" height="220px"></a>
                     <div class="card-body">
                       <h4 class="card-title"><?php echo $rcp->re_name; ?></h4>
