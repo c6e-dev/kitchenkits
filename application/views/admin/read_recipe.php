@@ -97,7 +97,7 @@
                                     <strong><center>Are you sure you want to deactivate this Recipe?</center></strong>
                                   </div>';?>
                                   <div class="modal-footer">
-                                    <a href="<?php echo site_url('admin/delete_recipe'.'?id='.$rcp->id);?>" class="btn btn-sm btn-primary">Cofirm</a>
+                                    <a href="<?php echo site_url('admin_delete_recipe'.'?id='.$rcp->id);?>" class="btn btn-sm btn-primary">Cofirm</a>
                                     <button type="button" class="btn btn-sm" data-dismiss="modal">Cancel</button>
                                   </div>
                                 </div>

@@ -72,7 +72,7 @@
                             <td><?php echo $br->br_create; ?></td>
                             <td><?php echo $br->br_update; ?></td>
                             <td><center>
-                              <a href="<?php echo site_url('admin/view_branch'.'?id='.$br->br_id);?>" class="btn btn-xs btn-info"><i  class="fa fa-search"></i></a>
+                              <a href="<?php echo site_url('admin_view_branch'.'?id='.$br->br_id);?>" class="btn btn-xs btn-info"><i  class="fa fa-search"></i></a>
                               <!-- <a href="#" class="btn btn-xs btn-warning" data-target="" data-toggle="modal" data-backdrop="static"><i class="fa fa-edit"></i></a> -->
                               <?php echo'
                               <button type="button" class="btn btn-xs btn-danger" data-target="#deacbran'.$br->br_id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-trash"></i></button>';?>
@@ -133,7 +133,7 @@
                             <td><?php echo $br->br_create; ?></td>
                             <td><?php echo $br->br_update; ?></td>
                             <td><center>
-                              <a href="<?php echo site_url('admin/view_branch'.'?id='.$br->br_id);?>" class="btn btn-xs btn-info"><i  class="fa fa-search"></i></a>
+                              <a href="<?php echo site_url('admin_view_branch'.'?id='.$br->br_id);?>" class="btn btn-xs btn-info"><i  class="fa fa-search"></i></a>
                               <?php 
                                 if ($br->br_mi == 0) {
                                   echo' <button type="button" class="btn btn-xs btn-success" data-target="#acbran'.$br->br_id.'" data-toggle="modal" data-backdrop="static" disabled><i class="fa fa-power-off"></i></button>';

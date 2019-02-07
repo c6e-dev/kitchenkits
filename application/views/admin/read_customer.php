@@ -71,7 +71,7 @@
                             <td><?php echo $cs->cs_create; ?></td>
                             <td><?php echo $cs->cs_update; ?></td>
                             <td><center>
-                              <a href="<?php echo site_url('admin/view_customer'.'?id='.$cs->cs_id);?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
+                              <a href="<?php echo site_url('admin_view_customer'.'?id='.$cs->cs_id);?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
                               <?php echo'
                               <button type="button" class="btn btn-xs btn-danger" data-target="#deaccust'.$cs->cs_uid.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-trash"></i></button>';?>
                             </center></td>
@@ -130,7 +130,7 @@
                             <td><?php echo $cs->cs_create; ?></td>
                             <td><?php echo $cs->cs_update; ?></td>
                             <td><center>
-                              <a href="<?php echo site_url('admin/view_customer'.'?id='.$cs->cs_id);?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
+                              <a href="<?php echo site_url('admin_view_customer'.'?id='.$cs->cs_id);?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
                               <?php echo'
                               <button type="button" class="btn btn-xs btn-success" data-target="#accust'.$cs->cs_uid.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-power-off"></i></button>';?>
                             </center></td>
