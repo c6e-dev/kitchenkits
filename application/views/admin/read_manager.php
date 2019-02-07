@@ -72,7 +72,7 @@
                               <td><?php echo $bm->bm_create; ?></td>
                               <td><?php echo $bm->bm_update; ?></td>
                               <td><center>
-                                <a href="<?php echo site_url('admin/view_manager'.'?id='.$bm->bm_id);?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
+                                <a href="<?php echo site_url('admin_view_manager'.'?id='.$bm->bm_id);?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
                                 <!-- <a href="#" class="btn btn-xs btn-warning" data-target="" data-toggle="modal" data-backdrop="static"><i class="fa fa-edit"></i></a> -->
                                 <?php echo'
                                 <button type="button" class="btn btn-xs btn-danger" data-target="#deacman'.$bm->bm_uid.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-trash"></i></button>';?>
@@ -93,7 +93,7 @@
                                     <strong><center>Confirm Manager Account Deactivation</center></strong>
                                   </div>';?>
                                   <div class="modal-footer">
-                                    <a href="<?php echo site_url('admin/delete_manager/'.$bm->bm_id.'/'.$bm->bm_uid.'/'.$bm->bm_assign);?>" class="btn btn-sm btn-primary">Confirm</a>
+                                    <a href="<?php echo site_url('admin_delete_manager/'.$bm->bm_id.'/'.$bm->bm_uid.'/'.$bm->bm_assign);?>" class="btn btn-sm btn-primary">Confirm</a>
                                     <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Cancel</button>
                                   </div>
                                 </div>
@@ -134,7 +134,7 @@
                             <td><?php echo $bm->bm_create; ?></td>
                             <td><?php echo $bm->bm_update; ?></td>
                             <td><center>
-                              <a href="<?php echo site_url('admin/view_manager'.'?id='.$bm->bm_id);?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
+                              <a href="<?php echo site_url('admin_view_manager'.'?id='.$bm->bm_id);?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
                               <!-- <a href="#" class="btn btn-xs btn-warning" data-target="" data-toggle="modal" data-backdrop="static"><i class="fa fa-edit"></i></a> -->
                               <?php echo'
                               <button type="button" class="btn btn-xs btn-success" data-target="#acman'.$bm->bm_uid.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-power-off"></i></button>';?>

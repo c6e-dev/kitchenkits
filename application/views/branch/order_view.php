@@ -40,7 +40,7 @@
                 ?>
                   <div class="grid-item">
                     <div class="col-md-24">
-                      <a class="a-item" href="<?php echo site_url('branch/detail_view'.'?id='.$od->od_id);?>">
+                      <a class="a-item" href="<?php echo site_url('branch_detail_view/'.'?id='.$od->od_id);?>">
                         <div class="info-box">
                           <span class="info-box-icon bg-green"><?php echo $count[$var][0]->qty?></span>
                           <div class="info-box-content">
@@ -67,7 +67,7 @@
                 ?>
                   <div class="grid-item">
                     <div class="col-md-24">
-                      <a class="a-item" href="<?php echo site_url('branch/detail_view'.'?id='.$iod->od_id);?>">
+                      <a class="a-item" href="<?php echo site_url('branch_detail_view/'.'?id='.$iod->od_id);?>">
                         <div class="info-box">
                           <span class="info-box-icon bg-red"><?php echo $icount[$ivar][0]->qty?></span>
                           <div class="info-box-content">

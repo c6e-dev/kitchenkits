@@ -115,7 +115,7 @@
               foreach ($recipe as $rcp) {
                 ?>
                   <div class="card wew">
-                    <a href="<?php echo site_url('customer/view_recipe'.'?id='.$rcp->re_id); ?>"><img class="card-img-top" src="<?php echo base_url('Recipe_Folder/'.$rcp->re_name.'/'.$rcp->re_img); ?>" height="220px"></a>
+                    <a href="<?php echo site_url('view_recipe/'.'?id='.$rcp->re_id); ?>"><img class="card-img-top" src="<?php echo base_url('Recipe_Folder/'.$rcp->re_name.'/'.$rcp->re_img); ?>" height="220px"></a>
                     <div class="card-body">
                       <h4 class="card-title"><?php echo $rcp->re_name; ?></h4>
                     </div>

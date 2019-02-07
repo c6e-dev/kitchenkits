@@ -67,7 +67,7 @@
                             <td><?php echo $od->od_branch; ?></td>
                             <td><?php echo $od->od_create; ?></td>
                             <td><center>
-                              <a href="<?php echo site_url('admin/view_order'.'?id='.$od->od_id);?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
+                              <a href="<?php echo site_url('admin_view_order/'.'?id='.$od->od_id);?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
                             </center></td>
                           </tr>
                         <?php
@@ -101,7 +101,7 @@
                             <td><?php echo $od->od_branch; ?></td>
                             <td><?php echo $od->od_create; ?></td>
                             <td><center>
-                              <a href="<?php echo site_url('admin/view_order'.'?id='.$od->od_id);?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
+                              <a href="<?php echo site_url('admin_view_order/'.'?id='.$od->od_id);?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
                             </center></td>
                           </tr>
                         <?php

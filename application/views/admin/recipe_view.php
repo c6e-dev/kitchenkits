@@ -257,12 +257,12 @@
                     <th style="width: 80px">Amount</th>
                   </tr>
                   <?php
-                    if ($recipe!=NULL) {
-                      foreach ($recipe as $rcp) {
+                    if ($ingredients!=NULL) {
+                      foreach ($ingredients as $ing) {
                         ?>
                           <tr>
-                            <td><?php echo $rcp->in_nm; ?></td>
-                            <td><?php echo $rcp->in_am; ?></td>
+                            <td><?php echo $ing->in_nm; ?></td>
+                            <td><?php echo $ing->in_am." ".$ing->in_ut; ?></td>
                           </tr>
                         <?php
                       }

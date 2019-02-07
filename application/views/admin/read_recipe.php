@@ -94,10 +94,10 @@
                                     <h5>Delete Recipe</h5>
                                   </div>
                                   <div class="modal-body">
-                                    <strong><center>Are you sure you want to deactivate this Recipe?</center></strong>
+                                    <strong><center>Confirm Recipe Deactivation</center></strong>
                                   </div>';?>
                                   <div class="modal-footer">
-                                    <a href="<?php echo site_url('admin/delete_recipe'.'?id='.$rcp->id);?>" class="btn btn-sm btn-primary">Cofirm</a>
+                                    <a href="<?php echo site_url('admin_delete_recipe'.'?id='.$rcp->id);?>" class="btn btn-sm btn-primary">Confirm</a>
                                     <button type="button" class="btn btn-sm" data-dismiss="modal">Cancel</button>
                                   </div>
                                 </div>
@@ -158,10 +158,10 @@
                                     <h5>Delete Recipe</h5>
                                   </div>
                                   <div class="modal-body">
-                                    <strong><center>Are you sure you want to deactivate this Recipe?</center></strong>
+                                    <strong><center>Confirm Recipe Deactivation</center></strong>
                                   </div>';?>
                                   <div class="modal-footer">
-                                    <a href="<?php echo site_url('admin/delete_recipe'.'?id='.$rcp->id);?>" class="btn btn-sm btn-primary">Cofirm</a>
+                                    <a href="<?php echo site_url('admin/delete_recipe'.'?id='.$rcp->id);?>" class="btn btn-sm btn-primary">Confirm</a>
                                     <button type="button" class="btn btn-sm" data-dismiss="modal">Cancel</button>
                                   </div>
                                 </div>
@@ -226,10 +226,10 @@
                                     <h5>Delete Recipe</h5>
                                   </div>
                                   <div class="modal-body">
-                                    <strong><center>Are you sure you want to activate this Recipe?</center></strong>
+                                    <strong><center>Confirm Recipe Activation</center></strong>
                                   </div>';?>
                                   <div class="modal-footer">
-                                    <a href="<?php echo site_url('admin/activate_recipe'.'?id='.$rcp->id);?>" class="btn btn-sm btn-primary">Cofirm</a>
+                                    <a href="<?php echo site_url('admin/activate_recipe'.'?id='.$rcp->id);?>" class="btn btn-sm btn-primary">Confirm</a>
                                     <button type="button" class="btn btn-sm" data-dismiss="modal">Cancel</button>
                                   </div>
                                 </div>
