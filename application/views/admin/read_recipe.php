@@ -76,7 +76,7 @@
                               <td><?php echo $rcp->ct; ?></td>
                               <td><?php echo $rcp->se; ?></td>
                               <td><center>
-                                <a href="<?php echo site_url('admin/view_recipe/'.$rcp->id.'/'.$rcp->cid); ?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
+                                <a href="<?php echo site_url('admin/view_recipe'.'?id='.$rcp->id); ?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
                                 <?php echo '
                                   <button type="button" class="btn btn-xs btn-danger" data-target="#Irecipe'.$rcp->id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-trash"></i></button>';
                                 ?>
@@ -140,7 +140,7 @@
                               <td><?php echo $rcp->ct; ?></td>
                               <td><?php echo $rcp->se; ?></td>
                               <td><center>
-                                <a href="<?php echo site_url('admin/view_recipe/'.$rcp->id.'/'.$rcp->cid); ?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
+                                <a href="<?php echo site_url('admin/view_recipe'.'?id='.$rcp->id); ?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
                                 <?php echo '
                                   <button type="button" class="btn btn-xs btn-danger" data-target="#Urecipe'.$rcp->id.'" data-toggle="modal" data-backdrop="static"><i class="fa fa-trash"></i></button>';
                                 ?>
@@ -204,7 +204,7 @@
                               <td><?php echo $rcp->ct; ?></td>
                               <td><?php echo $rcp->se; ?></td>
                               <td><center>
-                                <a href="<?php echo site_url('admin/view_recipe/'.$rcp->id.'/'.$rcp->cid); ?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
+                                <a href="<?php echo site_url('admin/view_recipe'.'?id='.$rcp->id); ?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
                                 <?php 
                                   if ($rcp->prc == '' || $rcp->ct == ''|| $rcp->se == 0 || $rcp->ins == '') {
                                     echo '<button type="button" class="btn btn-xs btn-success" data-target="#Arecipe'.$rcp->id.'" data-toggle="modal" data-backdrop="static" disabled><i class="fa fa-power-off"></i></button>';

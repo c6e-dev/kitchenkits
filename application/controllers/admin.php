@@ -41,7 +41,7 @@ class admin extends CI_Controller {
 			}
 		}
 		else{
-			redirect('user/load_login');
+			redirect('login');
 		}
 	}
 
@@ -66,7 +66,7 @@ class admin extends CI_Controller {
 						for ($k=0; $k < $branch_count; $k++) {
 							$result = FALSE;
 							for ($j=0; $j < count($ingredient); $j++) { 
-								$result = $this->admin_model->check_compatible_branch($branches[$k]->br_id,$ingredient[$j]->ing_id,$ingredient[$j]->ing_amnt*10);
+								$result = $this->admin_model->check_branch_ingredients($branches[$k]->br_id,$ingredient[$j]->ing_id,$ingredient[$j]->ing_amnt*10);
 								if (!$result) {
 									break;
 								}
@@ -96,7 +96,7 @@ class admin extends CI_Controller {
 			}
 		}
 		else{
-			redirect('user/load_login');
+			redirect('login');
 		}
 	}
 
@@ -113,7 +113,7 @@ class admin extends CI_Controller {
 			}
 		}
 		else{
-			redirect('user/load_login');
+			redirect('login');
 		}
 	}
 
@@ -131,7 +131,7 @@ class admin extends CI_Controller {
 			}
 		}
 		else{
-			redirect('user/load_login');
+			redirect('login');
 		}
 	}
 
@@ -149,7 +149,7 @@ class admin extends CI_Controller {
 			}
 		}
 		else{
-			redirect('user/load_login');
+			redirect('login');
 		}
 	}
 
@@ -166,7 +166,7 @@ class admin extends CI_Controller {
 			}
 		}
 		else{
-			redirect('user/load_login');
+			redirect('login');
 		}
 	}
 
@@ -183,7 +183,7 @@ class admin extends CI_Controller {
 			}
 		}
 		else{
-			redirect('user/load_login');
+			redirect('login');
 		}
 	}
 
@@ -201,18 +201,19 @@ class admin extends CI_Controller {
 			}
 		}
 		else{
-			redirect('user/load_login');
+			redirect('login');
 		}
 	}
 	
 	// VIEW FUNCTIONS
 
-	public function view_recipe($rcp_id,$co_id){
+	public function view_recipe(){
 		if (isset($_SESSION['logged_in'])) {
 			if ($_SESSION['utype'] == 1) {
-				$data['recipe'] = $this->admin_model->view_recipe($rcp_id);
-				$data['country'] = $this->admin_model->country2($co_id);
-				$data['ingredients'] = $this->admin_model->read_ingredients($rcp_id);
+				$id = $_GET['id'];
+				$data['recipe'] = $this->admin_model->view_recipe($id);
+				$data['country'] = $this->admin_model->country2($data['recipe'][0]->cid);
+				$data['ingredients'] = $this->admin_model->read_ingredients($id);
 				$this->load->view('admin/layout/header');
 				$this->load->view('admin/recipe_view',$data);
 				$this->load->view('admin/layout/footer');
@@ -222,18 +223,19 @@ class admin extends CI_Controller {
 			}
 		}
 		else{
-			redirect('user/load_login');
+			redirect('login');
 		}
 	}
 
 	public function view_customer(){
 		if (isset($_SESSION['logged_in'])) {
 			if ($_SESSION['utype'] == 1) {
+				$id = $_GET['id'];
 				$this->load->view('admin/layout/header');
 				$data = array(
-					'customer' => $this->admin_model->view_customer($_GET['id']),
-					'c_order' => $this->admin_model->view_customer_order($_GET['id']),
-					'c_activity' => $this->admin_model->view_customer_activity($_GET['id']),
+					'customer' => $this->admin_model->view_customer($id),
+					'c_order' => $this->admin_model->view_customer_order($id),
+					'c_activity' => $this->admin_model->view_customer_activity($id),
 				);
 				$this->load->view('admin/customer_view',$data);
 				$this->load->view('admin/layout/footer');
@@ -243,17 +245,18 @@ class admin extends CI_Controller {
 			}
 		}
 		else{
-			redirect('user/load_login');
+			redirect('login');
 		}
 	}
 
 	public function view_branch(){
 		if (isset($_SESSION['logged_in'])) {
 			if ($_SESSION['utype'] == 1) {
+				$id = $_GET['id'];
 				$this->load->view('admin/layout/header');
 				$data = array(
-					'branch' => $this->admin_model->view_branch($_GET['id']),
-					'b_order' => $this->admin_model->view_branch_order($_GET['id']),
+					'branch' => $this->admin_model->view_branch($id),
+					'b_order' => $this->admin_model->view_branch_order($id),
 					'b_manager' => $this->admin_model->read_branch_manager()
 				);
 				$this->load->view('admin/branch_view',$data);
@@ -264,7 +267,7 @@ class admin extends CI_Controller {
 			}
 		}
 		else{
-			redirect('user/load_login');
+			redirect('login');
 		}
 	}
 
@@ -282,16 +285,17 @@ class admin extends CI_Controller {
 			}
 		}
 		else{
-			redirect('user/load_login');
+			redirect('login');
 		}
 	}
 
 	public function view_order(){
 		if (isset($_SESSION['logged_in'])) {
 			if ($_SESSION['utype'] == 1) {
+				$id = $_GET['id'];
 				$this->load->view('admin/layout/header');
-				$data['order'] = $this->admin_model->view_order($_GET['id']);
-				$data['o_content'] = $this->admin_model->view_order_content($_GET['id']);
+				$data['order'] = $this->admin_model->view_order($id);
+				$data['o_content'] = $this->admin_model->view_order_content($id);
 				$this->load->view('admin/order_view',$data);
 				$this->load->view('admin/layout/footer');
 			}
@@ -300,7 +304,7 @@ class admin extends CI_Controller {
 			}
 		}
 		else{
-			redirect('user/load_login');
+			redirect('login');
 		}
 	}
 
@@ -317,7 +321,7 @@ class admin extends CI_Controller {
 			}
 		}
 		else{
-			redirect('user/load_login');
+			redirect('login');
 		}
 	}
 
@@ -364,7 +368,7 @@ class admin extends CI_Controller {
 			}
 		}
 		else{
-			redirect('user/load_login');
+			redirect('login');
 		}
 	}
 
@@ -382,7 +386,7 @@ class admin extends CI_Controller {
 			}
 		}
 		else{
-			redirect('user/load_login');
+			redirect('login');
 		}
 	}
 
@@ -398,8 +402,9 @@ class admin extends CI_Controller {
 		redirect('admin/customer_view');
 	}
 
-	public function delete_branch($br_id,$br_mi){
-		$this->admin_model->delete_branch($br_id,$br_mi);
+	public function delete_branch(){
+		$bm_id = $this->admin_model->view_branch($_GET['id']);
+		$this->admin_model->delete_branch($bm_id[0]->br_id,$bm_id[0]->mngr_id);
 		redirect('admin/branch_view');
 	}
 

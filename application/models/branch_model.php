@@ -13,7 +13,7 @@ class branch_model extends CI_Model{
 			INNER JOIN branch_manager bm ON br.manager_id = bm.id
 			INNER JOIN user_activity ua ON od.activity_id = ua.id
 			WHERE bm.user_id = '$id' AND od.status = 'P'
-			ORDER BY ua.created_date ASC
+			ORDER BY ua.created_date DESC
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();
@@ -32,7 +32,7 @@ class branch_model extends CI_Model{
 			INNER JOIN branch_manager bm ON br.manager_id = bm.id
 			INNER JOIN user_activity ua ON od.activity_id = ua.id
 			WHERE bm.user_id = '$id' AND od.status = 'I'
-			ORDER BY ua.created_date ASC
+			ORDER BY ua.created_date DESC
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();

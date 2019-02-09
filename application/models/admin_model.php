@@ -8,7 +8,7 @@ class admin_model extends CI_Model{
 
 	public function read_recipe(){
 		$query = $this->db->query("
-			SELECT re.id id, re.name nm, re.price prc, re.instructions ins, re.cooking_time ct, re.servings se, re.status st, rg.name rnm, rg.id rid, co.name cnm, co.id cid
+			SELECT md5(re.id) id, re.name nm, re.price prc, re.instructions ins, re.cooking_time ct, re.servings se, re.status st, rg.name rnm, rg.id rid, co.name cnm, co.id cid
 			FROM recipe re
 			INNER JOIN country co ON re.country_id = co.id
 			INNER JOIN region rg ON co.region_id = rg.id
@@ -23,7 +23,7 @@ class admin_model extends CI_Model{
 
 	public function recipe(){
 		$query = $this->db->query("
-			SELECT id, status
+			SELECT md5(id) AS id, status
 			FROM recipe
 			WHERE status = 'A' OR status = 'U'
 		");
@@ -40,14 +40,14 @@ class admin_model extends CI_Model{
 			SELECT ri.ingredient_id ing_id, ri.ingredient_amount ing_amnt
 			FROM recipe_ingredients ri
 			INNER JOIN recipe re ON ri.recipe_id = re.id
-			WHERE ri.recipe_id = '$id'
+			WHERE md5(ri.recipe_id) = '$id'
 		");
 		return $query->result();
 	}
 
 	public function read_customer(){
 		$query = $this->db->query("
-			SELECT cs.id AS cs_id, cs.code AS cs_code, cs.first_name AS cs_fname, cs.last_name AS cs_lname, cs.email_address AS cs_email, cs.home_address AS cs_address, u.created_date AS cs_create, u.updated_date AS cs_update, u.id AS cs_uid, u.status AS cs_status
+			SELECT md5(cs.id) AS cs_id, cs.code AS cs_code, cs.first_name AS cs_fname, cs.last_name AS cs_lname, cs.email_address AS cs_email, cs.home_address AS cs_address, u.created_date AS cs_create, u.updated_date AS cs_update, u.id AS cs_uid, u.status AS cs_status
 			FROM customer cs
 			INNER JOIN user u ON cs.user_id = u.id
 		");
@@ -61,7 +61,7 @@ class admin_model extends CI_Model{
 
 	public function read_branch(){
 		$query = $this->db->query("
-			SELECT br.id AS br_id, br.code AS br_code, br.manager_id br_mi, br.name AS br_name, br.branch_address AS br_address, br.status AS br_status, br.created_date AS br_create, br.updated_date AS br_update
+			SELECT md5(br.id) AS br_id, br.code AS br_code, br.manager_id br_mi, br.name AS br_name, br.branch_address AS br_address, br.status AS br_status, br.created_date AS br_create, br.updated_date AS br_update
 			FROM branch br 
 		");
 		if($query->num_rows()>0){
@@ -102,9 +102,9 @@ class admin_model extends CI_Model{
 		}
 	}
 
-	public function read_order(){ // CHANGE THIS IF NEEDED
+	public function read_order(){
 		$query = $this->db->query("
-			SELECT od.id AS od_id, od.code AS od_code, od.status AS od_status, ua.created_date AS od_create, cs.first_name AS od_fname, cs.last_name AS od_lname, br.name AS od_branch
+			SELECT md5(od.id) AS od_id, od.code AS od_code, od.status AS od_status, ua.created_date AS od_create, cs.first_name AS od_fname, cs.last_name AS od_lname, br.name AS od_branch
 			FROM delivery od
 			INNER JOIN user_activity ua ON od.activity_id = ua.id
 			INNER JOIN customer cs ON od.customer_id = cs.id
@@ -176,8 +176,7 @@ class admin_model extends CI_Model{
 			RIGHT JOIN recipe re ON ring.recipe_id = re.id
 			INNER JOIN country co ON re.country_id = co.id
 			INNER JOIN region rg ON co.region_id = rg.id
-			
-			WHERE re.id = '$id'
+			WHERE md5(re.id) = '$id'
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();
@@ -197,8 +196,7 @@ class admin_model extends CI_Model{
 			INNER JOIN ingredients ig ON ri.ingredient_id = ig.id
 			INNER JOIN recipe re ON ri.recipe_id = re.id 
 			INNER JOIN unit ut ON ig.unit_id = ut.id 
-			
-			WHERE re.id = '$id'
+			WHERE md5(re.id) = '$id'
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();
@@ -214,7 +212,7 @@ class admin_model extends CI_Model{
 			SELECT cs.id AS cs_id, cs.code AS cs_code, cs.first_name AS cs_fname, cs.last_name AS cs_lname, cs.email_address AS cs_email, cs.home_address AS cs_address, u.created_date AS cs_create, u.updated_date AS cs_update
 			FROM customer cs 
 			INNER JOIN user u ON cs.user_id = u.id 
-			WHERE cs.id = '$id' 
+			WHERE md5(cs.id) = '$id' 
 		");
 		return $query->result();
 	}
@@ -226,7 +224,7 @@ class admin_model extends CI_Model{
 			INNER JOIN user_activity ua ON od.activity_id = ua.id
 			INNER JOIN customer cs ON od.customer_id = cs.id
 			INNER JOIN branch br ON od.branch_id = br.id
-			WHERE ua.customer_id = '$id'
+			WHERE md5(ua.customer_id) = '$id'
 		");
 		if($query->num_rows()>0){
 			return $query->result();
@@ -244,7 +242,7 @@ class admin_model extends CI_Model{
 			INNER JOIN customer cs ON ua.customer_id = cs.id
 			LEFT JOIN comment co ON ua.id = co.activity_id
 			LEFT JOIN rating ra ON ua.id = ra.activity_id
-			WHERE ua.customer_id = '$id'
+			WHERE md5(ua.customer_id) = '$id'
 			ORDER BY ua.created_date DESC
 		");
 		if($query->num_rows()>0){
@@ -262,7 +260,7 @@ class admin_model extends CI_Model{
 			SELECT br.id br_id, br.code AS br_code, br.name AS br_name, br.branch_address AS br_address, br.manager_id mngr_id, bm.name AS br_manager, bm.status bm_status, br.created_date AS br_create, br.updated_date AS br_update
 			FROM branch br
 			LEFT JOIN branch_manager bm ON br.manager_id = bm.id
-			WHERE br.id = '$id'
+			WHERE md5(br.id) = '$id'
 		");
 		return $query->result();
 	}
@@ -273,7 +271,7 @@ class admin_model extends CI_Model{
 			FROM delivery od
 			INNER JOIN user_activity ua ON od.activity_id = ua.id
 			INNER JOIN customer cs ON od.customer_id = cs.id
-			WHERE od.branch_id = '$id'
+			WHERE md5(od.branch_id) = '$id'
 		");
 		if($query->num_rows()>0){
 			return $query->result();
@@ -305,7 +303,7 @@ class admin_model extends CI_Model{
 			INNER JOIN user_activity ua ON od.activity_id = ua.id
 			INNER JOIN customer cs ON od.customer_id = cs.id
 			INNER JOIN branch br ON od.branch_id = br.id
-			WHERE od.id = '$id'
+			WHERE md5(od.id) = '$id'
 		");
 		return $query->result();
 	}
@@ -316,7 +314,7 @@ class admin_model extends CI_Model{
 			FROM order_content oc 
 			INNER JOIN delivery od ON oc.order_id = od.id
 			INNER JOIN recipe re ON oc.recipe_id = re.id
-			WHERE oc.order_id = '$id'
+			WHERE md5(oc.order_id) = '$id'
 		");
 		if($query->num_rows()>0){
 			return $query->result();
@@ -471,7 +469,7 @@ class admin_model extends CI_Model{
 		$this->db->query("
 			UPDATE recipe rcp
 			SET rcp.status = 'U' 
-			WHERE rcp.id = '$id'
+			WHERE md5(rcp.id) = '$id'
 		");
 	}
 
@@ -481,7 +479,7 @@ class admin_model extends CI_Model{
 		$this->db->query("
 			UPDATE recipe rcp
 			SET rcp.status = 'I' 
-			WHERE rcp.id = '$id'
+			WHERE md5(rcp.id) = '$id'
 		");
 	}
 
@@ -530,7 +528,7 @@ class admin_model extends CI_Model{
 		$this->db->query("
 			UPDATE recipe re 
 			SET re.status = 'A'
-			WHERE re.id = '$id'
+			WHERE md5(re.id) = '$id'
 		");
 	}	
 
@@ -546,7 +544,7 @@ class admin_model extends CI_Model{
 		$this->db->query("
 			UPDATE branch br
 			SET br.status = 'A'
-			WHERE br.id ='$id'
+			WHERE md5(br.id) ='$id'
 		");
 	}
 
@@ -928,6 +926,20 @@ class admin_model extends CI_Model{
 			WHERE brm.id = '$id'
 		");
 		return $query->result();
+	}
+
+	public function check_branch_ingredients($br_id,$ing_id,$amnt){
+		$query = $this->db->query("
+			SELECT *
+			FROM branch_ingredients bi
+			WHERE bi.ingredient_id = '$ing_id' AND md5(bi.branch_id) = '$br_id' AND bi.supply >= '$amnt'
+		");
+		if ($query->num_rows() > 0){
+			return TRUE;
+		}
+		else{
+			return FALSE;
+		}
 	}
 
 	// OTHER FUNCTIONS

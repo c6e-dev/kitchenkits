@@ -36,7 +36,7 @@ class branch extends CI_Controller {
 			}
 		}
 		else{
-			redirect('user/load_login');
+			redirect('user');
 		}
 	}
 
@@ -60,7 +60,7 @@ class branch extends CI_Controller {
 			}
 		}
 		else{
-			redirect('user/load_login');
+			redirect('user');
 		}
 	}
 
@@ -90,7 +90,7 @@ class branch extends CI_Controller {
 			}
 		}
 		else{
-			redirect('user/load_login');
+			redirect('user');
 		}
 	}
 

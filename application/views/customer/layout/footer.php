@@ -84,6 +84,11 @@
         $("#3gr").html('Hide History');
       });
 
+      $('#recent_order-scroll').slimScroll({
+        height: '305px',
+        size: '5px'
+      });
+
       $('#edit_profile').on('click', function(){
         var cs_username = $('#cs_username').val();
         var cs_fname = $('#cs_fname').val();

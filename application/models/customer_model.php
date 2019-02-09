@@ -4,16 +4,14 @@ class customer_model extends CI_Model{
 		parent:: __construct();
 	}
 
-	//CUSTOMER PROFILE FUNCTIONS 
+	//RECOMMENDATION FUNCTIONS
 
-	//VIEW FUNCTIONS
-
-	public function view_profile($id){ //MODIFY FOR CUSTOMER IMAGE
+	public function loggedin_customer_ordered_recipes($id){
 		$query = $this->db->query("
-			SELECT cs.id AS cs_id,  cs.code AS cs_code, cs.first_name AS cs_fname, cs.last_name AS cs_lname, cs.image AS cs_image, cs.email_address AS cs_email, cs.home_address AS cs_address, u.id AS cs_uid, u.username AS cs_username, u.password AS cs_password, u.created_date AS cs_create, u.updated_date AS cs_update
-			FROM customer cs
-			INNER JOIN user u ON cs.user_id = u.id
-			WHERE u.id = '$id'
+			SELECT DISTINCT oc.recipe_id
+			FROM order_content oc
+			INNER JOIN delivery od ON oc.order_id = od.id
+			WHERE od.customer_id = '$id'
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();
@@ -22,6 +20,69 @@ class customer_model extends CI_Model{
 			return NULL;
 		}
 	}
+
+	public function read_all_customer(){
+		$query = $this->db->query("
+			SELECT DISTINCT od.customer_id id
+			FROM delivery od
+			WHERE od.customer_id <> 1
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function customer_ordered_recipes($id){
+		$query = $this->db->query("
+			SELECT DISTINCT oc.recipe_id id
+			FROM order_content oc
+			INNER JOIN delivery od ON oc.order_id = od.id
+			WHERE od.customer_id = '$id'
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function recommended_recipe($id){
+		$query = $this->db->query("
+			SELECT SUM(ra.rating)/COUNT(ua.customer_id) AS average, re.id re_id, re.country_id AS re_cid, re.name AS re_name, re.cooking_time AS re_cooktime, re.servings AS re_serves, re.image AS re_img
+			FROM rating ra
+			INNER JOIN user_activity ua ON ra.activity_id = ua.id
+			INNER JOIN recipe re ON  ua.recipe_id = re.id
+			WHERE re.status = 'A' AND re.id = '$id'
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function most_sold_recipes(){
+		$prev_month = date('Y-m-d', strtotime("-1 months"));
+		$query = $this->db->query("
+			SELECT COUNT(oc.recipe_id), oc.recipe_id re_id
+			FROM order_content oc 
+			INNER JOIN delivery od ON oc.order_id = od.id
+			INNER JOIN user_activity ua ON od.activity_id = ua.id
+			WHERE substring(ua.created_date,1,10) >= '$prev_month' AND od.status = 'P' OR od.status = 'C'
+			GROUP BY oc.recipe_id
+			ORDER BY COUNT(oc.recipe_id) DESC
+		");
+		return $query->result();
+	}
+
+	//CUSTOMER PROFILE FUNCTIONS 
+
+	//VIEW FUNCTIONS
 
 	public function view_history($id){
 		$query = $this->db->query("
@@ -44,15 +105,13 @@ class customer_model extends CI_Model{
 
 	public function view_recent_order($id){
 		$query = $this->db->query("
-			SELECT ua.created_date cdate, tr.total_cost total, re.name rname
+			SELECT oc.quantity*re.price total, ua.created_date cdate, re.id rid, re.name rname, re.image rimg
 			FROM order_content oc
 			INNER JOIN delivery de ON oc.order_id = de.id
 			INNER JOIN recipe re ON oc.recipe_id = re.id
-			INNER JOIN customer cu ON de.customer_id = cu.id
-			INNER JOIN branch br ON de.branch_id = br.id
-			INNER JOIN transaction tr ON de.id = tr.order_id
 			INNER JOIN user_activity ua ON de.activity_id = ua.id
-			WHERE de.customer_id = '$id' AND de.status = 'C'
+			WHERE de.customer_id = '$id' AND ua.activity_type_id = 1
+			ORDER BY ua.created_date DESC
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();
@@ -275,10 +334,9 @@ class customer_model extends CI_Model{
 
 	public function browse_recipe($id){
 		$query = $this->db->query("
-			SELECT re.id re_id, re.country_id AS re_cid, re.name AS re_name, re.cooking_time AS re_cooktime, re.servings AS re_serves, re.image AS re_img, re.status AS re_status, cn.name AS re_country, rg.name AS re_region
+			SELECT re.id re_id
 			FROM recipe re
 			INNER JOIN country cn ON re.country_id = cn.id
-			INNER JOIN region rg ON cn.region_id = rg.id
 			WHERE re.status = 'A' AND re.country_id = '$id'
 		");
 		if ($query->num_rows() > 0){
@@ -300,8 +358,10 @@ class customer_model extends CI_Model{
 
 	public function view_recipe($id){
 		$query = $this->db->query("
-			SELECT re.id AS re_id, re.country_id AS re_cid, re.name AS re_name, re.cooking_time AS re_cooktime, re.servings AS re_serves, re.instructions AS re_instruc, re.image AS re_img
-			FROM recipe re
+			SELECT SUM(ra.rating)/COUNT(ua.customer_id) AS average, COUNT(ua.customer_id) AS total, re.id AS re_id, re.country_id AS re_cid, re.name AS re_name, re.cooking_time AS re_cooktime, re.servings AS re_serves, re.instructions AS re_instruc, re.image AS re_img
+			FROM rating ra
+			INNER JOIN user_activity ua ON ra.activity_id = ua.id
+			INNER JOIN recipe re ON  ua.recipe_id = re.id
 			WHERE re.id = '$id'
 		");
 		if ($query->num_rows() > 0){
@@ -471,10 +531,10 @@ class customer_model extends CI_Model{
 
 	public function loggedin_customer($id){
 		$query = $this->db->query("
-			SELECT cu.id
-			FROM customer cu
-			INNER JOIN user us ON cu.user_id = us.id
-			WHERE cu.user_id = '$id'
+			SELECT cs.id, cs.code AS cs_code, cs.first_name AS cs_fname, cs.last_name AS cs_lname, cs.image AS cs_image, cs.email_address AS cs_email, cs.home_address AS cs_address, u.username AS cs_username, u.password AS cs_password, u.created_date AS cs_create, u.updated_date AS cs_update
+			FROM customer cs
+			INNER JOIN user u ON cs.user_id = u.id
+			WHERE cs.user_id = '$id'
 		");
 		return $query->result();
 	}

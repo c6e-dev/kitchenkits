@@ -54,7 +54,7 @@
               <ul class="dropdown-menu">
                 <li class="user-header">
                   <!-- <img src="<?php echo base_url('assets/dist/img/user2-160x160.jpg');?>" class="img-circle" alt="User Image"> -->
-                  <p><?php echo $_SESSION['user'];?></p>
+                  <p><?php echo $_SESSION['user'];?><small>Administrator</small></p>
                 </li>
                 <li class="user-footer">
                   <div class="pull-left">

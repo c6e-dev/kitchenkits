@@ -31,9 +31,20 @@ class user extends CI_Controller {
 						redirect('admin_dashboard');
 						break;
 					case '2':
+						$managerdata = $this->user_model->get_manager($_SESSION['id']);
+						$new = array(
+							'name' => $managerdata[0]->name
+						);
+						$this->session->set_userdata($new);
 						redirect('branch');
 						break;
 					case '3':
+						$customerdata = $this->user_model->get_customer($_SESSION['id']);
+						$new = array(
+							'fname' => $customerdata[0]->first_name,
+							'lname' => $customerdata[0]->last_name
+						);
+						$this->session->set_userdata($new);
 						redirect();
 						break;
 				}

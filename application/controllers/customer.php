@@ -8,31 +8,64 @@ class customer extends CI_Controller {
 		date_default_timezone_set('Asia/Kuala_Lumpur');
 	}
 
-	//CUSTOMER PROFILE FUNCTIONS
+	//CONSTRUCTOR FUNCTIONS
 
-	//VIEW FUNCTIONS
+	public function getRecommendations($id){
+		$customer_data = $this->customer_model->loggedin_customer($id);
+		$myorders = $this->customer_model->loggedin_customer_ordered_recipes($customer_data[0]->id);
+		$cid = $this->customer_model->read_all_customer($customer_data[0]->id);
 
-	public function index(){
-		$this->load->view('customer/home');
-	}
-
-	public function view_region(){
+		$recipes = array();
+		foreach ($myorders as $val) {
+			if(!array_key_exists($val->recipe_id, $recipes)){ 
+				$recipes[$val->recipe_id] = $val->recipe_id; 
+			}
+		}
 		
-		$this->load->view('customer/region_view');
+		foreach ($cid as $value) {
+			$customer_orders[$value->id] = $this->customer_model->customer_ordered_recipes($value->id);
+		}
+
+		$recommends = array();
+ 		foreach ($customer_orders as $otherCustomer => $values) {
+ 			$similar = array();
+ 			foreach ($customer_orders[$otherCustomer] as $key => $value) {
+				if(array_key_exists($value->id, $recipes)){
+        			$similar[$value->id] = 1;
+            	}
+			}
+			if (count($similar) > 0) {
+	        	foreach ($customer_orders[$otherCustomer] as $vals) {
+	        		if (!array_key_exists($vals->id, $recipes)) {
+	        			if(!array_key_exists($vals->id, $recommends)) {
+                            $recommends[$vals->id] = $vals->id;
+                        }
+	        		}
+	        	}
+			}
+ 		}
+
+        // $this->check_branch_ingredients($customer_orders);
+        
+	    foreach ($recommends as $key => $recipe_ids) {
+	    	$result[] = $this->customer_model->recommended_recipe($recipe_ids);
+	    }
+
+	    $n = count($result);
+	    for ($i=0; $i < $n; $i++) { 
+	    	for ($j=0; $j < $n; $j++) { 
+	    		if ($result[$j][0]->average<$result[$i][0]->average) {
+	    			$temp = $result[$i];
+	    			$result[$i] = $result[$j];
+	    			$result[$j] = $temp;
+	    		}
+	    	}
+	    }
+	    
+		return $result;
 	}
 
-	public function view_recipe(){
-		$recipe_id = $_GET['id'];
-		$data['recipe_info'] = $this->customer_model->view_recipe($recipe_id);
-		$data['recipe_ings'] = $this->customer_model->recipe_ingredients($recipe_id);
-		$data['recipe_revs'] = $this->customer_model->recipe_reviews($recipe_id);
-		$this->load->view('customer/recipe_view',$data);
-	}
-
-	public function browse_recipe(){
-		$data['selected_country'] = $this->customer_model->selected_country($_GET['id']);
-		$country_id = $data['selected_country'][0]->co_id;
-		$arecipe = $this->customer_model->recipe($country_id);
+	public function check_branch_ingredients($arecipe){
 		$branches = $this->customer_model->read_branch();
 		if ($arecipe!=NULL && $branches!=NULL) {
 			$recipe_count = count($arecipe);
@@ -61,7 +94,50 @@ class customer extends CI_Controller {
 				}
 			}	
 		}
-		$data['recipe'] = $this->customer_model->browse_recipe($country_id);
+	}
+
+	//CUSTOMER PROFILE FUNCTIONS
+
+	//VIEW FUNCTIONS
+
+	public function index(){
+		if (isset($_SESSION['logged_in'])) {
+			$result = $this->getRecommendations($_SESSION['id']);
+			$data['recommended_recipe'] = $result;	
+		}
+		$msr = $this->customer_model->most_sold_recipes();
+		foreach ($msr as $value) {
+			$res = $this->customer_model->recommended_recipe($value->re_id);
+			if ($res[0]->re_id!=''){
+				$ids[] = $res;
+			}
+		}
+		$data['top_of_the_month'] = $ids;
+		$this->load->view('customer/home',$data);
+	}
+
+	public function view_region(){
+		$this->load->view('customer/region_view');
+	}
+
+	public function view_recipe(){
+		$recipe_id = $_GET['id'];
+		$data['recipe_info'] = $this->customer_model->view_recipe($recipe_id);
+		$data['recipe_ings'] = $this->customer_model->recipe_ingredients($recipe_id);
+		$data['recipe_revs'] = $this->customer_model->recipe_reviews($recipe_id);
+		$this->load->view('customer/recipe_view',$data);
+	}
+
+	public function browse_recipe(){
+		$data['selected_country'] = $this->customer_model->selected_country($_GET['id']);
+		$country_id = $data['selected_country'][0]->co_id;
+		$arecipe = $this->customer_model->recipe($country_id);
+		$this->check_branch_ingredients($arecipe);
+		$result = $this->customer_model->browse_recipe($country_id);
+		foreach ($result as $value) {
+			$recipes[] = $this->customer_model->recommended_recipe($value->re_id);
+		}
+		$data['recipe'] = $recipes;
 		$data['country'] = $this->customer_model->read_countries();
 		$this->load->view('customer/recipe_browse',$data);
 	}
@@ -115,20 +191,18 @@ class customer extends CI_Controller {
 			$id = $_SESSION['id'];
 			if ($_SESSION['utype'] == 3) {
 				$data['cart'] = $this->customer_model->view_cart($id);
+				$data['v_profile'] = $this->customer_model->loggedin_customer($id);
+				$data['v_history'] = $this->customer_model->view_history($id);
+				$data['v_recent_order'] = $this->customer_model->view_recent_order($data['v_profile'][0]->id);
+				$data['order_count'] = count($data['v_recent_order']);
 				if ($data['cart']!=NULL) {
 					$data['count'] = $this->customer_model->item_count($data['cart'][0]->od_id);
 					$this->load->view('customer/layout/header',$data);
-					$data['v_profile'] = $this->customer_model->view_profile($id);
-					$data['v_history'] = $this->customer_model->view_history($id);
-					$data['v_recent_order'] = $this->customer_model->view_recent_order($data['v_profile'][0]->cs_id);
-					$this->load->view('customer/profile_view', $data);
+					$this->load->view('customer/profile_view');
 					$this->load->view('customer/layout/footer');
 				}else{
 					$this->load->view('customer/layout/header',$data);
-					$data['v_profile'] = $this->customer_model->view_profile($id);
-					$data['v_history'] = $this->customer_model->view_history($id);
-					$data['v_recent_order'] = $this->customer_model->view_recent_order($data['v_profile'][0]->cs_id);
-					$this->load->view('customer/profile_view', $data);
+					$this->load->view('customer/profile_view');
 					$this->load->view('customer/layout/footer');
 				}
 			}
@@ -147,6 +221,8 @@ class customer extends CI_Controller {
 		$response = array();
 		$user_id = $_POST['u_id'];
 		$username = $_POST['cs_username'];
+		$fname = $_POST['cs_fname'];
+		$lname = $_POST['cs_lname'];
 		$check = $this->customer_model->user_check($user_id);
 		if($this->input->post('cs_username') == $check[0]->usrnm) {
 		   	$is_unique =  '';
@@ -171,6 +247,8 @@ class customer extends CI_Controller {
 		));
 		if ($this->form_validation->run() == TRUE) {
 			$_SESSION['user'] = $username;
+			$_SESSION['fname'] = $fname;
+			$_SESSION['lname'] = $lname;
 			$upt_date = date('Y-m-d H:i:s');
 			$data = $this->customer_model->edit_profile($upt_date);
 			$response['status'] = TRUE;

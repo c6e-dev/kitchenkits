@@ -60,10 +60,10 @@
             else{
               ?>
                 <li class="nav-item">
-                  <a class="nav-link" href="<?php echo site_url('user');?>">Sign In</a>
+                  <a class="nav-link" href="<?php echo site_url('login');?>">Sign In</a>
                 </li>
                 <li id="sign-up" class="nav-item">
-                  <a class="nav-link" href="<?php echo site_url('user/register_view');?>">Sign Up</a>
+                  <a class="nav-link" href="<?php echo site_url('register');?>">Sign Up</a>
                 </li>
               <?php
             }
@@ -115,14 +115,14 @@
               foreach ($recipe as $rcp) {
                 ?>
                   <div class="card wew">
-                    <a href="<?php echo site_url('view_recipe/'.'?id='.$rcp->re_id); ?>"><img class="card-img-top" src="<?php echo base_url('Recipe_Folder/'.$rcp->re_name.'/'.$rcp->re_img); ?>" height="220px"></a>
+                    <a href="<?php echo site_url('view_recipe/'.'?id='.$rcp[0]->re_id); ?>"><img class="card-img-top" src="<?php echo base_url('Recipe_Folder/'.$rcp[0]->re_name.'/'.$rcp[0]->re_img); ?>" height="220px"></a>
                     <div class="card-body">
-                      <h4 class="card-title"><?php echo $rcp->re_name; ?></h4>
+                      <h4 class="card-title"><?php echo $rcp[0]->re_name; ?></h4>
                     </div>
                     <div class="card-footer">
                       <div class="row">
                         <div class="col-4" style="padding-top:0.5rem;">
-                          <select id="example-fontawesome-o" name="rating" data-current-rating="3.6" autocomplete="off">
+                          <select class="browse_recipe_rating" id="browserating<?php echo $rcp[0]->re_id;?>" browsereview-id="<?php echo $rcp[0]->re_id;?>" data-browse-rating="<?php echo round($rcp[0]->average, 1);?>" autocomplete="off">
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -131,10 +131,10 @@
                           </select>
                         </div>
                         <div class="col-4" style="text-align:right;">
-                          <p><span class="fa fa-clock-o"> <?php echo $rcp->re_cooktime; ?> min</span></p>
+                          <p><span class="fa fa-clock-o"> <?php echo $rcp[0]->re_cooktime; ?> min</span></p>
                         </div>
                         <div class="col-4" style="text-align:center;">
-                          <p><span class="fa fa-cutlery"> Serve <?php echo $rcp->re_serves; ?></span></p>
+                          <p><span class="fa fa-cutlery"> Serves <?php echo $rcp[0]->re_serves; ?></span></p>
                         </div>
                       </div>
                     </div>

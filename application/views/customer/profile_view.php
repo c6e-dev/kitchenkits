@@ -33,17 +33,23 @@
                 <div class="box-header with-border">
                   <h3 class="box-title">Recent Order</h3>
                 </div>
-                <div class="box-body">
+                <?php 
+                  if ($order_count>=5) {
+                    ?><div class="box-body" id="recent_order-scroll"><?php
+                  }else{
+                    ?><div class="box-body"><?php
+                  }
+                ?>
                   <ul class="products-list product-list-in-box">
                   <?php
                     foreach ($v_recent_order as $ror) {
                       ?>
                         <li class="item">
                           <div class="product-img">
-                            <img src="<?php echo base_url('assets/dist/img/default-50x50.gif');?>" alt="Product Image">
+                            <img src="<?php echo base_url('Recipe_Folder/'.$ror->rname.'/'.$ror->rimg); ?>" alt="Item Image" style="border-radius: 5px;">
                           </div>
                           <div class="product-info">
-                            <a href="javascript:void(0)" class="product-title"><?php echo $ror->rname; ?>
+                            <a href="<?php echo site_url('customer/view_recipe'.'?id='.$ror->rid); ?>" class="product-title"><?php echo $ror->rname; ?>
                               <span class="label label-info pull-right">₱<?php echo $ror->total; ?></span></a>
                             <span class="product-description">
                               <?php echo date('M d, Y g:i a', strtotime($ror->cdate));?>
@@ -100,8 +106,8 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <input type="hidden" name="cs_id" id="cs_id" value="<?php echo $v_profile[0]->cs_id?>">
-                <input type="hidden" name="u_id" id="u_id" value="<?php echo $v_profile[0]->cs_uid?>">
+                <input type="hidden" name="cs_id" id="cs_id" value="<?php echo $v_profile[0]->id?>">
+                <input type="hidden" name="u_id" id="u_id" value="<?php echo $_SESSION['id']; ?>">
                 <button type="button" id="edit_profile" class="btn btn-danger">Save</button>
                 <button type="button" class="btn btn-sm" data-dismiss="modal">Close</button>
               </div>
@@ -116,7 +122,7 @@
             <i class="fa fa-history"></i>
             <h3 class="box-title">Activity Feed</h3>
           </div>
-          <section class="content container-fluid">
+          <section class="content" style="min-height: auto;">
             <div class="row">
               <div class="col-md-12">
                 <ul class="timeline">
@@ -133,22 +139,11 @@
                       foreach ($v_history as $cact) {
                         $new_date = date('M d, Y', strtotime($cact->fb_cdate));
                         if ($new_date == $current_date) {
-                          if ($cact->fb_type == 1) {
-                            ?>
-                              <li>
-                                <i class="fa fa-shopping-cart bg-blue"></i>
-                                <div class="timeline-item">
-                                  <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($cact->fb_cdate));?></span>
-                                  <h3 class="timeline-header"><a href="#">You</a> ordered <?php echo $cact->fb_recipe; ?></h3>
-                                </div>
-                              </li>
-                            <?php
-                          }
                           if ($cact->fb_type == 3) {
                             ?>
                               <li>
                                 <i class="fa fa-star bg-yellow"></i>
-                                <div class="timeline-item">
+                                <div class="timeline-item"  style="background-color: #f5f5f5">
                                   <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($cact->fb_cdate));?></span>
                                   <h3 class="timeline-header"><a href="#">You</a> rated <?php echo $cact->fb_rating; ?> stars on <?php echo $cact->fb_recipe; ?></h3>
                                 </div>
@@ -159,7 +154,7 @@
                             ?>
                               <li>
                                 <i class="fa fa-comment bg-red"></i>
-                                <div class="timeline-item">
+                                <div class="timeline-item"  style="background-color: #f5f5f5">
                                   <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($cact->fb_cdate));?></span>
                                   <h3 class="timeline-header"><a href="#">You</a> commented on <?php echo $cact->fb_recipe; ?></h3>
                                   <div class="timeline-body">
@@ -197,17 +192,6 @@
                         foreach ($v_history as $cact) {
                           $new_date = date('M d, Y', strtotime($cact->fb_cdate));
                           if ($new_date == $prev_date) {
-                            if ($cact->fb_type == 1) {
-                              ?>
-                                <li>
-                                  <i class="fa fa-shopping-cart bg-blue"></i>
-                                  <div class="timeline-item" style="background-color: #f5f5f5">
-                                    <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($cact->fb_cdate));?></span>
-                                    <h3 class="timeline-header"><a href="#">You</a> ordered <?php echo $cact->fb_recipe; ?></h3>
-                                  </div>
-                                </li>
-                              <?php
-                            }
                             if ($cact->fb_type == 3) {
                               ?>
                                 <li>
