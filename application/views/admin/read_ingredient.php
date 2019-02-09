@@ -28,7 +28,8 @@
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Status</th>
+                <th>Unit</th>
+                <th>Price</th>
                 <th>Created Date</th>
                 <th>Actions</th>
               </tr>
@@ -40,6 +41,7 @@
                     ?>
                       <tr>
                         <td><?php echo $in->ing_nm; ?></td>
+                        <td><?php echo $in->ing_prc; ?></td>
                         <td><?php echo $in->ing_un; ?></td>
                         <td><?php echo $in->ing_cd; ?></td>
                         <td><center>

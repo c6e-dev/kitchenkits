@@ -54,10 +54,13 @@ class branch_model extends CI_Model{
 
 	public function detail_view($id){
 		$query = $this->db->query("
-			SELECT od.id AS od_id, od.code AS od_code, od.status AS od_status, oc.quantity AS od_quantity, re.id od_recipe_id, re.name AS od_recipe, re.instructions AS od_instructions
+			SELECT md5(od.id) AS od_id, od.code AS od_code, od.status AS od_status, oc.quantity AS od_quantity, re.id od_recipe_id, re.name AS od_recipe, re.instructions AS od_instructions, re.price re_price, od.status od_status, br.name br_name, br.branch_address br_addr, bm.name bm_name, cs.first_name cs_fname, cs.last_name cs_lname, cs.email_address cs_eaddr, cs.home_address cs_haddr
 			FROM order_content oc
 			INNER JOIN delivery od ON oc.order_id = od.id
 			INNER JOIN recipe re ON oc.recipe_id = re.id
+			INNER JOIN branch br ON od.branch_id = br.id
+			INNER JOIN branch_manager bm ON br.manager_id = bm.id
+			INNER JOIN customer cs ON od.customer_id = cs.id
 			WHERE md5(od.id) = '$id'
 		");
 		if ($query->num_rows() > 0){
@@ -111,35 +114,17 @@ class branch_model extends CI_Model{
 		}
 	}
 
-	public function read_ingredient(){
-		$query = $this->db->query("
-			SELECT ing.id ing_id, ing.name ing_nm, ing.unit_id ing_unit_id, un.name ing_un
-			FROM ingredients ing
-			INNER JOIN unit un ON ing.unit_id = un.id	
-		");
-		if($query->num_rows()>0){
-			return $query->result();
-		}
-		else{
-			return NULL;
-		}
-	}
-
-	public function add_supply($data){
-		$this->db->insert('branch_ingredients', $data);
-	}
-
 	public function update_supply($upt_date){
-		$amount = $this->input->post('amount');
-		$current_amount = $this->input->post('current_amount');
-		$id = $this->input->post('bri_id');
-		$new_amount = $amount+$current_amount;
-		
-		$this->db->set('supply', $new_amount);
-		$this->db->set('updated_date', $upt_date);
-		$this->db->where('id', $id);
-
-		$this->db->update('branch_ingredients');
+		$ings_id = $_POST['ingredients_id'];
+		$ings_val = $_POST['ingredients_val'];
+		$bri_id = $_POST['branch_ingr_id'];
+		for ($i=0; $i < count($ings_id); $i++) {
+			$query = $this->db->query("
+				UPDATE branch_ingredients
+				SET supply = supply + '$ings_val[$i]', updated_date = '$upt_date'
+				WHERE id = '$bri_id[$i]' 
+			");
+		}
 	}
 
 	public function reduce_supply(){
@@ -206,6 +191,45 @@ class branch_model extends CI_Model{
 		else{
 			return 0;
 		}
+	}
+
+	//PRINTING FUNCTIONS
+
+	public function additional_ingredients($id){
+		$query = $this->db->query("
+			SELECT ai.id ai_id, ig.name ig_name, ig.price ig_prc, un.name ig_unit, ai.ingredient_id ig_id, ai.ingredient_amount ig_amnt
+			FROM add_ingredient ai
+			INNER JOIN ingredients ig ON ai.ingredient_id = ig.id
+			INNER JOIN unit un ON ig.unit_id = un.id
+			WHERE md5(ai.order_id) = '$id'
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function additional_ingredients_subtotal($id){
+		$query = $this->db->query("
+			SELECT SUM(ai.ingredient_amount*ig.price) AS additionaltotal
+			FROM add_ingredient ai
+			INNER JOIN ingredients ig ON ai.ingredient_id = ig.id
+			WHERE md5(ai.order_id) = '$id'
+		");
+		return $query->result();
+	}
+
+	public function item_subtotal_price($id){
+		$query = $this->db->query("
+			SELECT SUM(oc.quantity*re.price) AS stotalprice
+			FROM order_content oc
+			INNER JOIN delivery od ON oc.order_id = od.id
+			INNER JOIN recipe re ON oc.recipe_id = re.id
+			WHERE md5(od.id) = '$id'
+		");
+		return $query->result();
 	}
 
 }

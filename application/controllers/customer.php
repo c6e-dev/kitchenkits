@@ -101,7 +101,7 @@ class customer extends CI_Controller {
 	//VIEW FUNCTIONS
 
 	public function index(){
-		if (isset($_SESSION['logged_in'])) {
+		if (isset($_SESSION['logged_in']) && $_SESSION['utype'] == 3) {
 			$result = $this->getRecommendations($_SESSION['id']);
 			$data['recommended_recipe'] = $result;	
 		}

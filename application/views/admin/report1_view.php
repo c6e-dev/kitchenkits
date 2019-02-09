@@ -1,4 +1,4 @@
-<!-- Left side column. contains the logo and sidebar -->
+  <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
 
     <!-- sidebar: style can be found in sidebar.less -->
@@ -13,6 +13,7 @@
 
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
+        <!-- <li class="header">NAVIGATION</li> -->
         <li><a href="<?php echo site_url('admin');?>"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
         <li><a href="<?php echo site_url('admin/view_reports');?>"><i class="fa fa-bar-chart-o"></i> <span>Reports</span></a></li>
         <li><a href="<?php echo site_url('admin/customer_view');?>"><i class="fa fa-users"></i> <span>Customers</span></a></li>
@@ -37,51 +38,46 @@
 
     <!-- Main content -->
     <section class="content container-fluid">
-      <div class="box">
-        <div class="box-body table-responsive">
-          <table id="" class="display table table-bordered table-striped table-hover">
-            <thead>
-              <tr>
-                <th>Manager</th>
-                <th>Branch</th>
-                <th>Date Reported</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php
-                if ($report!=NULL) {
-                  foreach ($report as $rep) {
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box box-solid">
+            <div class="box-header with-border">
+              <i class="fa fa-info-circle"></i>
+
+              <h3 class="box-title">Report Details</h3>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="box-body">
+                  <dl class="dl-horizontal">
+                    <dt>Date</dt>
+                    <dd><?php echo date('M d, Y - g:i a', strtotime($report_details[0]->br_rep_cd));?></dd>
+                    <dt>Manager</dt>
+                    <dd><?php echo $report_details[0]->bm_name;?></dd>
+                    <dt>Branch</dt>
+                    <dd><?php echo $report_details[0]->br_name;?></dd>
+                    <dt>Branch Address</dt>
+                    <dd><?php echo $report_details[0]->br_addr;?></dd>
+                    <dt>Ingredients</dt>
+                    <dd><b>Amount Added</b></dd>
+                    <?php 
+                      foreach ($report_details as $value) {
+                        echo '
+                          <dt style="font-weight:normal;">'.$value->ing_name.'</dt>    
+                          <dd>'.$value->br_rep_ar.' '.$value->un_name.'</dd>    
+                        ';
+                      }
                     ?>
-                      <tr>
-                        <td><?php echo $rep->bm_name; ?></td>
-                        <td><?php echo $rep->br_name?></td>
-                        <td><?php echo $rep->br_rep_cd; ?></td>
-                        <?php
-                          $date = substr($rep->br_rep_cd,0,18);
-                          if ($rep->br_rep_tp == 0) {
-                            ?>
-                              <td><center>
-                                <a href="<?php echo site_url('admin/view_branch_report'.'?id='.$rep->br_rep_id); ?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
-                              </center></td>
-                            <?php
-                          }else{
-                            ?>
-                              <td><center>
-                                <a href="<?php echo site_url('admin/view_branch_report1'.'?id='.$date); ?>" class="btn btn-xs btn-info"><i class="fa fa-search"></i></a>
-                              </center></td>
-                            <?php
-                          }
-                        ?>
-                        
-                      </tr>
-                    <?php
-                  }
-                }
-              ?>
-            </tbody>
-          </table>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
+    <!-- /.content -->
   </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Main Footer -->

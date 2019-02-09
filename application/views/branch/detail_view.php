@@ -35,13 +35,20 @@
     </section>
     <section class="content container-fluid">
       <div>
-        <?php echo'
-        <button type="button" class="btn btn-sm bg-blue btn-flat" style="margin: 0px 5px 10px 0px" data-toggle="modal" data-target="#completeod'.$detail[0]->od_id.'" data-backdrop="static">Complete Order</button>
-        '?>
+        <?php
+          if ($detail[0]->od_status == 'I') {
+            ?>
+              <button type="button" class="btn btn-sm bg-blue btn-flat" style="margin: 0px 0px 10px 0px" data-toggle="modal" data-target="#completeod" data-backdrop="static">Complete Order</button>
+            <?php
+          }else{
+            ?>
+              <a href="<?php echo site_url('branch/print_order_details'.'?id='.$detail[0]->od_id);?>" target="_blank" class="btn btn-sm bg-blue btn-flat" style="margin: 0px 0px 10px 0px"><i class="fa fa-print"></i> Print</a>
+            <?php
+          }
+        ?>
 
         <div class="container">
-          <?php echo'
-          <div class="modal fade" id="completeod'.$detail[0]->od_id.'">
+          <div class="modal fade" id="completeod">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
@@ -49,7 +56,7 @@
                 </div>
                 <div class="modal-body">
                   <strong><center>Confirm Order Completion</center></strong>
-                </div>';?>
+                </div>
                 <div class="modal-footer">
                   <a href="<?php echo site_url('branch/order_complete'.'?id='.$detail[0]->od_id);?>" class="btn btn-sm btn-primary">Confirm</a>
                   <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Cancel</button>

@@ -128,7 +128,7 @@
 	</div>
 	<!-- Recommendation -->
 	<?php
-		if (isset($_SESSION['logged_in'])) {
+		if (isset($_SESSION['logged_in']) && $_SESSION['utype'] == 3) {
 			?>
 				<div class="container-fluid new-div padding last-content">
 					<h1 class="title-design">Recommended for You</h1>

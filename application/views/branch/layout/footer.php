@@ -44,7 +44,6 @@
   </div>
 
   <?php 
-    include ($_SERVER['DOCUMENT_ROOT'].'/kitchenkits/application/views/admin/layout/ajaxscript.php');
     include 'ajaxscript.php';
   ?>
 
@@ -56,6 +55,8 @@
   <!-- DataTables -->
   <script src="<?php echo base_url('assets/bower_components/datatables.net/js/jquery.dataTables.min.js');?>"></script>
   <script src="<?php echo base_url('assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js');?>"></script>
+  <!-- SlimScroll -->
+  <script src="<?php echo base_url('assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js');?>"></script>
   <!-- SlimScroll -->
   <script src="<?php echo base_url('assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js');?>"></script>
   <!-- FastClick -->
@@ -74,7 +75,7 @@
     	});
 
       $('.modal').on('hidden.bs.modal', function(){
-        $('#ingr').val('0');
+        $('#resingr').val('0');
         $('.select2').select2();
         $(this).find('form')[0].reset();
         $('.alert').css('display', 'none');
@@ -83,61 +84,45 @@
 
       $('.select2').select2();
 
-      $('#ingr').on('change',function(){
-        $('#unit').val(this[this.selectedIndex].id);
-      });
-
-      $('#submit_supply').on('click', function(){
-        var amnt = $('#amount').val();
-        var ingr = $("[name='ingr']").val();
-        var br_id = $('#branch_id').val();
-        $.ajax({
-            type: 'post',
-            url: "<?php echo site_url('branch/add_supply'); ?>",
-            data: {
-                amount: amnt,
-                ingredient: ingr,
-                branch_id: br_id
-            },
-            dataType: 'JSON',
-            success: function(data){
-                if (data.status) {
-                    alert("Supply Successfully Added!");
-                    location.reload();
-                    $('#add_supply').modal('hide');
-                }else{
-                    $('.alert').css('display', 'block');
-                    $('.alert').html(data.notif);
-                }
-            },
-            error: function(){
-              alert('ERROR!');
-            }
-        });return false;
+      $('#ingr-scroll').slimScroll({
+        height: '230px'
       });
 
       $('#resingr').on('change',function(){
-        $('#resunit').val(this[this.selectedIndex].id);
+        $('#submit_resupply').prop('disabled', false);
+        var value = $(this).val();
+        $('option[value="'+value+'"]').prop('disabled', true);
+        $('.select2').select2();
+        $('.labels').css('display', 'block');
+        var optionText = this[this.selectedIndex].text;
+        var optionUnit = this[this.selectedIndex].id;
+        var bri_id = $("#resingr option:selected").data('id');
+        $("#ingr-scroll").append($('<div class="row form-group"><div class="col-md-5"><input type="text" class="form-control input-sm" value="'+optionText+'" readonly></div><div class="col-md-4"><span><input type="text" id="'+value+'" data-id="'+bri_id+'" class="form-control input-sm"></span></div><div class="col-md-3"><input type="text" class="form-control input-sm" value="'+optionUnit+'" readonly></div></div>'));
       });
 
-      $('.submit_resupply').on('click', function(){
-        var bi_id = $(this).attr('data-id');
-        var amnt = $('#res_amount'+bi_id).val();
-        var crr_amnt = $('#crrnt_amnt'+bi_id).val();
+      $('#submit_resupply').on('click', function(){
+        var ing_id = new Array();
+        var ing_val = new Array();
+        var bri_ids = new Array();
+        $('#ingr-scroll span input').each( function(){
+          bri_ids.push($(this).attr('data-id'));
+          ing_id.push(this.id);
+          ing_val.push($('#'+this.id).val());
+        });
         $.ajax({
             type: 'post',
             url: "<?php echo site_url('branch/update_supply'); ?>",
             data: {
-                amount: amnt,
-                current_amount: crr_amnt,
-                bri_id: bi_id
+              branch_ingr_id: bri_ids,
+              ingredients_id: ing_id,
+              ingredients_val: ing_val
             },
             dataType: 'JSON',
             success: function(data){
                 if (data.status) {
                     alert("Supply Successfully Updated!");
                     location.reload();
-                    $('#add_supply'+bi_id).modal('hide');
+                    $('#restock').modal('hide');
                 }else{
                     $('.alert').css('display', 'block');
                     $('.alert').html(data.notif);
@@ -169,7 +154,6 @@
             success: function(data){
                 if (data.status) {
                     alert("Supply Successfully Updated!");
-                    load_unseen_notification_admin();
                     location.reload();
                     $('#reduce_supply'+bi_id).modal('hide');
                 }else{
@@ -177,8 +161,9 @@
                     $('.alert').html(data.notif);
                 }
             },
-            error: function(){
-                alert('ERROR!');
+            error: function(data){
+              console.log(data);
+              alert('ERROR!');
             }
         });return false;
       });

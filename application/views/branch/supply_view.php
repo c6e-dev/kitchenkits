@@ -15,7 +15,6 @@
 
     <section class="content container-fluid">
       <div>
-        <button type="button" class="btn btn-sm bg-blue btn-flat" style="margin: 0px 5px 10px 0px" data-toggle="modal" data-target="#add_supply" data-backdrop="static"><i class="fa fa-plus-circle"></i> </button>
         <button type="button" class="btn btn-sm bg-blue btn-flat" style="margin: 0px 5px 10px 0px" data-toggle="modal" data-target="#restock" data-backdrop="static">RESUPPLY</button>
       </div>
       <div class="box box-primary">
@@ -101,54 +100,6 @@
           </table>
         </div>
       </div>
-      <div class="modal fade" id="add_supply">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title"><strong>Add Supply</strong></h4>
-            </div>
-            <form class="form-horizontal">
-              <div class="modal-body">
-                <div class="box-body">
-                  <div class="form-group">
-                    <div class="alert alert-danger" align="center" style="display: none;"></div>
-                  </div>
-                  <div class="row form-group">
-                    <div class="col-md-5">
-                      <label>Ingredient</label>
-                      <select name="ingr" id="ingr" class="form-control select2" style="width: 100%;">
-                        <option value="0" disabled selected>-- Select Ingredient --</option>
-                        <?php
-                          foreach ($ingredient as $ing) {
-                            echo '
-                              <option value="'.$ing->ing_id.'" id="'.$ing->ing_un.'">'.$ing->ing_nm.'</option>
-                            ';
-                          }
-                        ?>
-                      </select>
-                    </div>
-                    <div class="col-md-4">
-                      <label>Amount</label>
-                      <input type="text" name="amount" id="amount" class="form-control input-sm">
-                    </div>
-                    <div class="col-md-3">
-                      <label>Unit</label>
-                      <input type="text" id="unit" class="form-control input-sm" readonly>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <input type="hidden" id="branch_id" value="<?php echo $supply[0]->branch_id; ?>">
-                <button type="button" id="submit_supply" class="btn btn-sm btn-primary">Confirm</button>
-                <button type="button" class="btn btn-sm" data-dismiss="modal">Close</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
       <div class="modal fade" id="restock">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -172,27 +123,31 @@
                           if ($supply!=NULL) {
                             foreach ($supply as $su) {
                               echo '
-                                <option value="'.$su->bi_id.'" id="'.$su->bi_unit.'">'.$su->bi_name.'</option>
+                                <option value="'.$su->bi_id.'" data-id="'.$su->bri_id.'" id="'.$su->bi_unit.'">'.$su->bi_name.'</option>
                               ';
                             }
                           }
                         ?>
                       </select>
                     </div>
-                    <div class="col-md-4">
-                      <label>Amount</label>
-                      <input type="text" name="resamount" id="resamount" class="form-control input-sm">
-                    </div>
-                    <div class="col-md-3">
-                      <label>Unit</label>
-                      <input type="text" id="resunit" class="form-control input-sm" readonly>
-                    </div>
                   </div>
+                  <div id="ingr-scroll">
+                    <div class="row form-group labels" style="margin-bottom: 0px;display: none;">
+                      <div class="col-md-5">
+                        <label>Name</label>
+                      </div>
+                      <div class="col-md-4">
+                        <label>Amount</label>
+                      </div>
+                      <div class="col-md-3">
+                        <label>Unit</label>
+                      </div>
+                    </div>
+                  </div>  
                 </div>
               </div>
               <div class="modal-footer">
-                <input type="hidden" id="branch_id" value="<?php echo $supply[0]->branch_id; ?>">
-                <button type="button" id="submit_resupply" class="btn btn-sm btn-primary">Confirm</button>
+                <button type="button" id="submit_resupply" class="btn btn-sm btn-primary" disabled>Confirm</button>
                 <button type="button" class="btn btn-sm" data-dismiss="modal">Close</button>
               </div>
             </form>

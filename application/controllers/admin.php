@@ -390,6 +390,26 @@ class admin extends CI_Controller {
 		}
 	}
 
+	public function view_branch_report1(){
+		if (isset($_SESSION['logged_in'])) {
+			if ($_SESSION['utype'] == 1) {
+				$this->load->view('admin/layout/header');
+				$data['report_details'] = $this->admin_model->view_branch_report1($_GET['id']);
+				foreach ($data['report_details'] as $val) {
+					$this->admin_model->report_viewed($val->br_rep_id);
+				}
+				$this->load->view('admin/report1_view',$data);
+				$this->load->view('admin/layout/footer');
+			}
+			else{
+				show_404();
+			}
+		}
+		else{
+			redirect('login');
+		}
+	}
+
 	// DELETE FUNCTIONS
 
 	public function delete_recipe(){

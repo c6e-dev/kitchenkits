@@ -138,7 +138,7 @@ class admin_model extends CI_Model{
 
 	public function read_ingredient(){
 		$query = $this->db->query("
-			SELECT ing.id ing_id, ing.name ing_nm, ing.unit_id ing_unit_id, un.name ing_un, ing.created_date ing_cd
+			SELECT ing.id ing_id, ing.name ing_nm, ing.unit_id ing_unit_id, un.name ing_un, ing.created_date ing_cd, ing.price ing_prc
 			FROM ingredients ing
 			INNER JOIN unit un ON ing.unit_id = un.id
 
@@ -402,13 +402,14 @@ class admin_model extends CI_Model{
 
 	public function supply_report(){
 		$query = $this->db->query("
-			SELECT br_rep.id br_rep_id, br_rep.amount_reduced br_rep_ar, br_rep.reason br_rep_rsn, br_rep.created_date br_rep_cd, bm.name bm_name, ing.name ing_name, br.name br_name
+			SELECT br_rep.id br_rep_id, br_rep.amount_change br_rep_ar, br_rep.reason br_rep_rsn, br_rep.created_date br_rep_cd, bm.name bm_name, ing.name ing_name, br.name br_name, br_rep.type br_rep_tp
 			FROM branch_reports br_rep
 			INNER JOIN branch_ingredients bi ON br_rep.branch_ingredients_id = bi.id
 			INNER JOIN ingredients ing ON bi.ingredient_id = ing.id
 			INNER JOIN branch br ON bi.branch_id = br.id
 			INNER JOIN branch_manager bm ON br.manager_id = bm.id
-			WHERE br_rep.status = 0
+			WHERE br_rep.status = 1
+			GROUP BY substring(br_rep.created_date,1,18)
 			ORDER BY br_rep.created_date DESC
 			LIMIT 10
 		");
@@ -422,13 +423,14 @@ class admin_model extends CI_Model{
 
 	public function branch_report(){
 		$query = $this->db->query("
-			SELECT br_rep.id br_rep_id, br_rep.amount_reduced br_rep_ar, br_rep.reason br_rep_rsn, br_rep.created_date br_rep_cd, bm.name bm_name, ing.name ing_name, br.name br_name, un.name un_name
+			SELECT br_rep.id br_rep_id, br_rep.amount_change br_rep_ar, br_rep.reason br_rep_rsn, br_rep.created_date br_rep_cd, bm.name bm_name, ing.name ing_name, br.name br_name, un.name un_name, br_rep.type br_rep_tp
 			FROM branch_reports br_rep
 			INNER JOIN branch_ingredients bi ON br_rep.branch_ingredients_id = bi.id
 			INNER JOIN ingredients ing ON bi.ingredient_id = ing.id
 			INNER JOIN unit un ON ing.unit_id = un.id
 			INNER JOIN branch br ON bi.branch_id = br.id
 			INNER JOIN branch_manager bm ON br.manager_id = bm.id
+			GROUP BY substring(br_rep.created_date,1,18)
 		");
 		if($query->num_rows()>0){
 			return $query->result();
@@ -439,14 +441,14 @@ class admin_model extends CI_Model{
 	}
 
 	public function report_viewed($id){
-		$this->db->set('status', 1);
+		$this->db->set('status', 0);
 		$this->db->where('id', $id);
 		$this->db->update('branch_reports');
 	}
 
 	public function view_branch_report($id){
 		$query = $this->db->query("
-			SELECT br_rep.id br_rep_id, br_rep.amount_reduced br_rep_ar, br_rep.reason br_rep_rsn, br_rep.created_date br_rep_cd, bm.name bm_name, ing.name ing_name, br.name br_name, br.branch_address br_addr, un.name un_name
+			SELECT br_rep.id br_rep_id, br_rep.amount_change br_rep_ar, br_rep.reason br_rep_rsn, br_rep.created_date br_rep_cd, bm.name bm_name, ing.name ing_name, br.name br_name, br.branch_address br_addr, un.name un_name
 			FROM branch_reports br_rep
 			INNER JOIN branch_ingredients bi ON br_rep.branch_ingredients_id = bi.id
 			INNER JOIN ingredients ing ON bi.ingredient_id = ing.id
@@ -454,6 +456,25 @@ class admin_model extends CI_Model{
 			INNER JOIN branch br ON bi.branch_id = br.id
 			INNER JOIN branch_manager bm ON br.manager_id = bm.id
 			WHERE br_rep.id = '$id'
+		");
+		if($query->num_rows()>0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function view_branch_report1($id){
+		$query = $this->db->query("
+			SELECT br_rep.id br_rep_id, br_rep.amount_change br_rep_ar, br_rep.reason br_rep_rsn, br_rep.created_date br_rep_cd, bm.name bm_name, ing.name ing_name, br.name br_name, br.branch_address br_addr, un.name un_name
+			FROM branch_reports br_rep
+			INNER JOIN branch_ingredients bi ON br_rep.branch_ingredients_id = bi.id
+			INNER JOIN ingredients ing ON bi.ingredient_id = ing.id
+			INNER JOIN unit un ON ing.unit_id = un.id
+			INNER JOIN branch br ON bi.branch_id = br.id
+			INNER JOIN branch_manager bm ON br.manager_id = bm.id
+			WHERE substring(br_rep.created_date,1,18) = '$id'
 		");
 		if($query->num_rows()>0){
 			return $query->result();

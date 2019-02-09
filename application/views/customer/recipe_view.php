@@ -3,10 +3,10 @@
   <head>
     <title>Kitchen Kits</title>
     <meta charset="utf-8">
-  	<meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width">
     <link rel="apple-touch-icon" href="<?php echo base_url('assets/img/KKIcon.png');?>">
     <link rel="shortcut icon" href="<?php echo base_url('assets/img/KKIcon.png');?>">
-  	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo base_url('assets/bower_components/font-awesome/css/font-awesome.min.css');?>">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/fontawesome-stars.css');?>">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/fontawesome-stars-o.css');?>">

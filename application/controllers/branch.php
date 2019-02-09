@@ -74,14 +74,6 @@ class branch extends CI_Controller {
 			if ($_SESSION['utype'] == 2) {
 				$this->load->view('branch/layout/header');
 				$data['supply'] = $this->branch_model->supply_view($_SESSION['id']);
-				if ($data['supply']!=NULL) {
-					$var = count($data['supply']);
-					for ($i=0; $i < $var ; $i++) {
-						$br_ingr[$i] = $data['supply'][$i]->bi_id;
-					}
-					$all_ingr = $this->branch_model->read_ingredient();
-					$data['ingredient'] = array_diff_key($all_ingr, $br_ingr);
-				}
 				$this->load->view('branch/supply_view',$data);
 				$this->load->view('branch/layout/footer');
 			}
@@ -94,39 +86,36 @@ class branch extends CI_Controller {
 		}
 	}
 
-	public function add_supply(){
-		$response = array();
-		$this->form_validation->set_rules('ingredient', 'Ingredient', 'required|is_natural_no_zero',array(
-			'is_natural_no_zero' => 'Please select an ingredient!',
-			'required' => 'Please select an ingredient!'
-		));
-		$this->form_validation->set_rules('amount', 'Ingredient Amount', 'required|numeric',array(
-			'numeric' => 'Please enter a valid amount!'
-		));
-		if ($this->form_validation->run() == TRUE) {
-			$data = array(
-				'ingredient_id' => $_POST['ingredient'],
-				'branch_id' => $_POST['branch_id'],
-				'supply' => str_replace("'","’",$_POST['amount'])
-			);
-			$this->branch_model->add_supply($data);
-			$response['status'] = TRUE;
-		}
-		else {
-			$response['status'] = FALSE;
-	    	$response['notif']	= validation_errors();
-		}
-		echo json_encode($response);
-	} 
-
 	public function update_supply(){
 		$response = array();
-		$this->form_validation->set_rules('amount', 'Ingredient Amount', 'required|numeric',array(
-			'numeric' => 'Please enter a valid amount!'
-		));
+		$ings_id = array();
+		$ings_val = array();
+		$ings_val = $_POST['ingredients_val'];
+		$count = count($ings_val);
+		for ($i=0; $i < $count; $i++) {
+			$this->form_validation->set_rules('ingredients_val['.$i.']', 'Ingredient Amount', 'required|numeric',array(
+				'numeric' => 'Please enter a valid amount!',
+				'required' => 'Please Fill All %s Fields!'
+			));
+			if ($this->form_validation->run() == FALSE) {
+				break;
+			}
+		}
 		if ($this->form_validation->run() == TRUE) {
 			$upt_date = date('Y-m-d H:i:s');
 			$this->branch_model->update_supply($upt_date);
+			$ings_id = $_POST['ingredients_id'];
+			$bri_id = $_POST['branch_ingr_id'];
+			for ($j=0; $j < $count; $j++) { 
+				$data = array(
+					'branch_ingredients_id' => $bri_id[$j],
+					'amount_change' => $ings_val[$j],
+					'status' => 1,
+					'type' => 1
+
+				);
+				$this->branch_model->add_report($data);
+			}
 			$response['status'] = TRUE;
 		}
 		else {
@@ -149,9 +138,10 @@ class branch extends CI_Controller {
 			$this->branch_model->reduce_supply();
 			$data = array(
 				'branch_ingredients_id' => $_POST['bri_id'],
-				'amount_reduced' => str_replace("'","’",$_POST['amount']),
+				'amount_change' => str_replace("'","’",$_POST['amount']),
 				'reason' => str_replace("'","’",$_POST['reason']),
-				'status' => 0
+				'status' => 0,
+				'type' => 0
 			);
 			$this->branch_model->add_report($data);
 			$response['status'] = TRUE;
@@ -212,6 +202,27 @@ class branch extends CI_Controller {
 		else{
 			$response['notify'] = 'No Notification To View';
 			echo json_encode($response);
+		}
+	}
+
+	public function print_order_details(){
+		if (isset($_SESSION['logged_in'])) {
+			if ($_SESSION['utype'] == 2) {
+				$id = $_GET['id'];
+				$data = array(
+					'detail' => $this->branch_model->detail_view($id),
+					'additional' => $this->branch_model->additional_ingredients($id),
+					'additional_ttl' => $this->branch_model->additional_ingredients_subtotal($id),
+					'stotalprice' => $this->branch_model->item_subtotal_price($id)
+				);
+				$this->load->view('branch/print',$data);
+			}
+			else{
+				show_404();
+			}
+		}
+		else{
+			redirect('user');
 		}
 	}
 
