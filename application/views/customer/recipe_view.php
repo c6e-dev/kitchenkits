@@ -79,19 +79,42 @@
       <div class="row">
         <div class="col-lg-6">
           <h2><?php echo $recipe_info[0]->re_name; ?></h2>
-          <p><strong>COOKS IN</strong>&nbsp;&nbsp;&nbsp;<?php echo $recipe_info[0]->re_cooktime; ?> minutes&nbsp;&nbsp;&nbsp;
-            <strong>RATINGS
-              <select class="recipe_rating" id="reciperating<?php echo $recipe_info[0]->re_id;?>" recipereview-id="<?php echo $recipe_info[0]->re_id;?>" data-recipe-rating="<?php echo round($recipe_info[0]->average, 1);?>" autocomplete="off">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
-              <?php echo $recipe_info[0]->total; ?>
-            </strong>&nbsp;&nbsp;&nbsp;
-            <strong>SERVINGS</strong>&nbsp;&nbsp;&nbsp;<?php echo $recipe_info[0]->re_serves; ?>&nbsp;&nbsp;&nbsp;
-          </p>
+          <hr>
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-2">
+                <p>
+                  <strong>SERVINGS</strong>&nbsp;&nbsp;&nbsp;
+                </p>
+              </div>
+              <div class="col-md-4">
+                <?php echo $recipe_info[0]->re_serves; ?>&nbsp;&nbsp;&nbsp;
+              </div>
+              <div class="col-md-2">
+                <strong>RATINGS</strong>
+              </div>
+              <div class="col-md-2">
+                <select class="recipe_rating" id="reciperating<?php echo $recipe_info[0]->re_id;?>" recipereview-id="<?php echo $recipe_info[0]->re_id;?>" data-recipe-rating="<?php echo round($recipe_info[0]->average, 1);?>" autocomplete="off">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+              </div>
+              <div class="col-md-2">
+                <?php echo $recipe_info[0]->total; ?>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <p>
+                  <strong>COOKING TIME</strong>&nbsp;&nbsp;&nbsp;
+                </p>
+              </div>
+              <div class="col-md-4"><?php echo $recipe_info[0]->re_cooktime; ?> Minutes&nbsp;&nbsp;&nbsp;</div>
+            </div>
+          </div>
           <hr>
           <div class="row">
             <div class="col-lg-12">
