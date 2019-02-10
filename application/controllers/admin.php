@@ -1,10 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class admin extends CI_Controller {
+class Admin extends CI_Controller {
 	public function __construct(){
 		parent:: __construct();
-		$this->load->model('admin_model');
+		$this->load->model('Admin_model');
 		date_default_timezone_set('Asia/Kuala_Lumpur');
 	}
 	public function index(){
@@ -12,26 +12,26 @@ class admin extends CI_Controller {
 			if ($_SESSION['utype'] == 1) {
 				$this->load->view('admin/layout/header');
 				$data = array(
-					'branch' => $this->admin_model->branch_count(),
-					'branch_a' => $this->admin_model->branch_count_a(),
-					'branch_i' => $this->admin_model->branch_count_i(),
-					'manager' => $this->admin_model->manager_count(),
-					'manager_a' => $this->admin_model->manager_count_a(),
-					'manager_u' => $this->admin_model->manager_count_u(),
-					'customer' => $this->admin_model->customer_count(),
-					'customer_a' => $this->admin_model->customer_count_a(),
-					'customer_i' => $this->admin_model->customer_count_i(),
-					'logged_in' => $this->admin_model->logged_in_count(),
-					'recipe' => $this->admin_model->recipe_count(),
-					'recipe_a' => $this->admin_model->recipe_count_a(),
-					'recipe_i' => $this->admin_model->recipe_count_i(),	
-					'order' => $this->admin_model->order_count(),
-					'order_c' => $this->admin_model->order_count_c(),
-					'order_i' => $this->admin_model->order_count_i(),
-					'comment' => $this->admin_model->comment_count(),
-					'rating' => $this->admin_model->rating_count(),
-					'logged_in' => $this->admin_model->loggedin_count(),
-					'act_feed' => $this->admin_model->read_activity_feed()
+					'branch' => $this->Admin_model->branch_count(),
+					'branch_a' => $this->Admin_model->branch_count_a(),
+					'branch_i' => $this->Admin_model->branch_count_i(),
+					'manager' => $this->Admin_model->manager_count(),
+					'manager_a' => $this->Admin_model->manager_count_a(),
+					'manager_u' => $this->Admin_model->manager_count_u(),
+					'customer' => $this->Admin_model->customer_count(),
+					'customer_a' => $this->Admin_model->customer_count_a(),
+					'customer_i' => $this->Admin_model->customer_count_i(),
+					'logged_in' => $this->Admin_model->logged_in_count(),
+					'recipe' => $this->Admin_model->recipe_count(),
+					'recipe_a' => $this->Admin_model->recipe_count_a(),
+					'recipe_i' => $this->Admin_model->recipe_count_i(),	
+					'order' => $this->Admin_model->order_count(),
+					'order_c' => $this->Admin_model->order_count_c(),
+					'order_i' => $this->Admin_model->order_count_i(),
+					'comment' => $this->Admin_model->comment_count(),
+					'rating' => $this->Admin_model->rating_count(),
+					'logged_in' => $this->Admin_model->loggedin_count(),
+					'act_feed' => $this->Admin_model->read_activity_feed()
 				);
 				$this->load->view('admin/home',$data);
 				$this->load->view('admin/layout/footer');
@@ -56,37 +56,37 @@ class admin extends CI_Controller {
 	public function recipe_view(){
 		if (isset($_SESSION['logged_in'])) {
 			if ($_SESSION['utype'] == 1) {
-				$arecipe = $this->admin_model->recipe();
-				$branches = $this->admin_model->read_branch();
+				$arecipe = $this->Admin_model->recipe();
+				$branches = $this->Admin_model->read_branch();
 				if ($arecipe!=NULL && $branches!=NULL) {
 					$recipe_count = count($arecipe);
 					$branch_count = count($branches);
 					for ($i=0; $i < $recipe_count; $i++) { 
-						$ingredient = $this->admin_model->recipe_ingredient($arecipe[$i]->id);
+						$ingredient = $this->Admin_model->recipe_ingredient($arecipe[$i]->id);
 						for ($k=0; $k < $branch_count; $k++) {
 							$result = FALSE;
 							for ($j=0; $j < count($ingredient); $j++) { 
-								$result = $this->admin_model->check_branch_ingredients($branches[$k]->br_id,$ingredient[$j]->ing_id,$ingredient[$j]->ing_amnt*10);
+								$result = $this->Admin_model->check_branch_ingredients($branches[$k]->br_id,$ingredient[$j]->ing_id,$ingredient[$j]->ing_amnt*10);
 								if (!$result) {
 									break;
 								}
 							}
 							if ($arecipe[$i]->status == 'U') {
 								if ($result) {
-									$this->admin_model->activate_recipe($arecipe[$i]->id);
+									$this->Admin_model->activate_recipe($arecipe[$i]->id);
 									break;
 								}
 							}
 						}
 						if ($arecipe[$i]->status == 'A') {
 							if (!$result) {
-								$this->admin_model->disable_recipe($arecipe[$i]->id);
+								$this->Admin_model->disable_recipe($arecipe[$i]->id);
 							}
 						}
 					}
 				}
-				$data['recipe'] = $this->admin_model->read_recipe();
-				$data['country'] = $this->admin_model->country();
+				$data['recipe'] = $this->Admin_model->read_recipe();
+				$data['country'] = $this->Admin_model->country();
 				$this->load->view('admin/layout/header');
 				$this->load->view('admin/read_recipe',$data);
 				$this->load->view('admin/layout/footer');
@@ -104,7 +104,7 @@ class admin extends CI_Controller {
 		if (isset($_SESSION['logged_in'])) {
 			if ($_SESSION['utype'] == 1) {
 				$this->load->view('admin/layout/header');
-				$data['customer'] = $this->admin_model->read_customer();
+				$data['customer'] = $this->Admin_model->read_customer();
 				$this->load->view('admin/read_customer',$data);
 				$this->load->view('admin/layout/footer');
 			}
@@ -121,8 +121,8 @@ class admin extends CI_Controller {
 		if (isset($_SESSION['logged_in'])) {
 			if ($_SESSION['utype'] == 1) {
 				$this->load->view('admin/layout/header');
-				$data['branch'] = $this->admin_model->read_branch();
-				$data['b_manager'] = $this->admin_model->read_branch_manager();
+				$data['branch'] = $this->Admin_model->read_branch();
+				$data['b_manager'] = $this->Admin_model->read_branch_manager();
 				$this->load->view('admin/read_branch',$data);
 				$this->load->view('admin/layout/footer');
 			}
@@ -139,8 +139,8 @@ class admin extends CI_Controller {
 		if (isset($_SESSION['logged_in'])) {
 			if ($_SESSION['utype'] == 1) {
 				$this->load->view('admin/layout/header');
-				$data['manager'] = $this->admin_model->read_manager();
-				$data['ibranch'] = $this->admin_model->read_i_branch();
+				$data['manager'] = $this->Admin_model->read_manager();
+				$data['ibranch'] = $this->Admin_model->read_i_branch();
 				$this->load->view('admin/read_manager',$data);
 				$this->load->view('admin/layout/footer');
 			}
@@ -157,7 +157,7 @@ class admin extends CI_Controller {
 		if (isset($_SESSION['logged_in'])) {
 			if ($_SESSION['utype'] == 1) {
 				$this->load->view('admin/layout/header');
-				$data['order'] = $this->admin_model->read_order();
+				$data['order'] = $this->Admin_model->read_order();
 				$this->load->view('admin/read_order',$data);
 				$this->load->view('admin/layout/footer');
 			}
@@ -174,7 +174,7 @@ class admin extends CI_Controller {
 		if (isset($_SESSION['logged_in'])) {
 			if ($_SESSION['utype'] == 1) {
 				$this->load->view('admin/layout/header');
-				$data['feedback'] = $this->admin_model->read_feedback();
+				$data['feedback'] = $this->Admin_model->read_feedback();
 				$this->load->view('admin/read_feedback',$data);
 				$this->load->view('admin/layout/footer');
 			}
@@ -191,8 +191,8 @@ class admin extends CI_Controller {
 		if (isset($_SESSION['logged_in'])) {
 			if ($_SESSION['utype'] == 1) {
 				$this->load->view('admin/layout/header');
-				$data['ingredient'] = $this->admin_model->read_ingredient();
-				$data['unit'] = $this->admin_model->read_unit();
+				$data['ingredient'] = $this->Admin_model->read_ingredient();
+				$data['unit'] = $this->Admin_model->read_unit();
 				$this->load->view('admin/read_ingredient',$data);
 				$this->load->view('admin/layout/footer');	
 			}
@@ -211,10 +211,10 @@ class admin extends CI_Controller {
 		if (isset($_SESSION['logged_in'])) {
 			if ($_SESSION['utype'] == 1) {
 				$id = $_GET['id'];
-				$data['recipe'] = $this->admin_model->view_recipe($id);
-				$data['country'] = $this->admin_model->country2($data['recipe'][0]->cid);
-				$data['ingred'] = $this->admin_model->read_ingr($id);
-				$data['ingredients'] = $this->admin_model->read_ingredients($id);
+				$data['recipe'] = $this->Admin_model->view_recipe($id);
+				$data['country'] = $this->Admin_model->country2($data['recipe'][0]->cid);
+				$data['ingred'] = $this->Admin_model->read_ingr($id);
+				$data['ingredients'] = $this->Admin_model->read_ingredients($id);
 				$this->load->view('admin/layout/header');
 				$this->load->view('admin/recipe_view',$data);
 				$this->load->view('admin/layout/footer');
@@ -234,9 +234,9 @@ class admin extends CI_Controller {
 				$id = $_GET['id'];
 				$this->load->view('admin/layout/header');
 				$data = array(
-					'customer' => $this->admin_model->view_customer($id),
-					'c_order' => $this->admin_model->view_customer_order($id),
-					'c_activity' => $this->admin_model->view_customer_activity($id),
+					'customer' => $this->Admin_model->view_customer($id),
+					'c_order' => $this->Admin_model->view_customer_order($id),
+					'c_activity' => $this->Admin_model->view_customer_activity($id),
 				);
 				$this->load->view('admin/customer_view',$data);
 				$this->load->view('admin/layout/footer');
@@ -256,9 +256,9 @@ class admin extends CI_Controller {
 				$id = $_GET['id'];
 				$this->load->view('admin/layout/header');
 				$data = array(
-					'branch' => $this->admin_model->view_branch($id),
-					'b_order' => $this->admin_model->view_branch_order($id),
-					'b_manager' => $this->admin_model->read_branch_manager()
+					'branch' => $this->Admin_model->view_branch($id),
+					'b_order' => $this->Admin_model->view_branch_order($id),
+					'b_manager' => $this->Admin_model->read_branch_manager()
 				);
 				$this->load->view('admin/branch_view',$data);
 				$this->load->view('admin/layout/footer');
@@ -276,8 +276,8 @@ class admin extends CI_Controller {
 		if (isset($_SESSION['logged_in'])) {
 			if ($_SESSION['utype'] == 1) {
 				$this->load->view('admin/layout/header');
-				$data['manager'] = $this->admin_model->view_manager($_GET['id']);
-				$data['ibranch'] = $this->admin_model->read_i_branch();
+				$data['manager'] = $this->Admin_model->view_manager($_GET['id']);
+				$data['ibranch'] = $this->Admin_model->read_i_branch();
 				$this->load->view('admin/manager_view',$data);
 				$this->load->view('admin/layout/footer');
 			}
@@ -295,9 +295,9 @@ class admin extends CI_Controller {
 			if ($_SESSION['utype'] == 1) {
 				$id = $_GET['id'];
 				$this->load->view('admin/layout/header');
-				$data['order'] = $this->admin_model->view_order($id);
-				$data['o_content'] = $this->admin_model->view_order_content($id);
-				$data['oc_content'] = $this->admin_model->view_additional_order_content($id);
+				$data['order'] = $this->Admin_model->view_order($id);
+				$data['o_content'] = $this->Admin_model->view_order_content($id);
+				$data['oc_content'] = $this->Admin_model->view_additional_order_content($id);
 				$this->load->view('admin/order_view',$data);
 				$this->load->view('admin/layout/footer');
 			}
@@ -314,7 +314,7 @@ class admin extends CI_Controller {
 		if (isset($_SESSION['logged_in'])) {
 			if ($_SESSION['utype'] == 1) {
 				$this->load->view('admin/layout/header');
-				$data['feedback'] = $this->admin_model->view_feedback($_GET['id']);
+				$data['feedback'] = $this->Admin_model->view_feedback($_GET['id']);
 				$this->load->view('admin/feedback_view',$data);
 				$this->load->view('admin/layout/footer');
 			}
@@ -328,7 +328,7 @@ class admin extends CI_Controller {
 	}
 
 	public function most_ordered_recipe(){
-		$result = $this->admin_model->most_ordered_recipe();
+		$result = $this->Admin_model->most_ordered_recipe();
 		if ($result!=NULL) {
 			foreach ($result as $res) {
 				$data[] = $res;
@@ -338,7 +338,7 @@ class admin extends CI_Controller {
 	}
 
 	public function best_branch(){
-		$result = $this->admin_model->best_branch();
+		$result = $this->Admin_model->best_branch();
 		if ($result!=NULL) {
 			foreach ($result as $res) {
 				$data[] = $res;
@@ -348,7 +348,7 @@ class admin extends CI_Controller {
 	}
 
 	public function sales_report(){
-		$result = $this->admin_model->report();
+		$result = $this->Admin_model->report();
 		if ($result!=NULL) {
 			foreach ($result as $res) {
 				$data[] = $res;
@@ -361,7 +361,7 @@ class admin extends CI_Controller {
 		if (isset($_SESSION['logged_in'])) {
 			if ($_SESSION['utype'] == 1) {
 				$this->load->view('admin/layout/header');
-				$data['report'] = $this->admin_model->branch_report();
+				$data['report'] = $this->Admin_model->branch_report();
 				$this->load->view('admin/read_report',$data);
 				$this->load->view('admin/layout/footer');
 			}
@@ -378,8 +378,8 @@ class admin extends CI_Controller {
 		if (isset($_SESSION['logged_in'])) {
 			if ($_SESSION['utype'] == 1) {
 				$this->load->view('admin/layout/header');
-				$this->admin_model->report_viewed($_GET['id']);
-				$data['report_details'] = $this->admin_model->view_branch_report($_GET['id']);
+				$this->Admin_model->report_viewed($_GET['id']);
+				$data['report_details'] = $this->Admin_model->view_branch_report($_GET['id']);
 				$this->load->view('admin/report_view',$data);
 				$this->load->view('admin/layout/footer');
 			}
@@ -396,9 +396,9 @@ class admin extends CI_Controller {
 		if (isset($_SESSION['logged_in'])) {
 			if ($_SESSION['utype'] == 1) {
 				$this->load->view('admin/layout/header');
-				$data['report_details'] = $this->admin_model->view_branch_report1($_GET['id']);
+				$data['report_details'] = $this->Admin_model->view_branch_report1($_GET['id']);
 				foreach ($data['report_details'] as $val) {
-					$this->admin_model->report_viewed($val->br_rep_id);
+					$this->Admin_model->report_viewed($val->br_rep_id);
 				}
 				$this->load->view('admin/report1_view',$data);
 				$this->load->view('admin/layout/footer');
@@ -415,59 +415,59 @@ class admin extends CI_Controller {
 	// DELETE FUNCTIONS
 
 	public function delete_recipe(){
-		$this->admin_model->delete_recipe($_GET['id']);
+		$this->Admin_model->delete_recipe($_GET['id']);
 		redirect('admin/recipe_view');
 	}
 
 	public function delete_customer(){
-		$this->admin_model->delete_customer($_GET['id']);
+		$this->Admin_model->delete_customer($_GET['id']);
 		redirect('admin/customer_view');
 	}
 
 	public function delete_branch(){
-		$bm_id = $this->admin_model->view_branch($_GET['id']);
-		$this->admin_model->delete_branch($bm_id[0]->br_id,$bm_id[0]->mngr_id);
+		$bm_id = $this->Admin_model->view_branch($_GET['id']);
+		$this->Admin_model->delete_branch($bm_id[0]->br_id,$bm_id[0]->mngr_id);
 		redirect('admin/branch_view');
 	}
 
 	public function delete_manager($bm_id,$bm_uid,$bm_us){
 		if ($bm_us == 'A') {
-			$this->admin_model->delete_manager($bm_id,$bm_uid);
+			$this->Admin_model->delete_manager($bm_id,$bm_uid);
 		}else{
-			$this->admin_model->delete_umanager($bm_uid);
+			$this->Admin_model->delete_umanager($bm_uid);
 		}
 		redirect('admin/manager_view');	
 	}
 
 	public function delete_recipe_ingredient(){
-		$result = $this->admin_model->delete_recipe_ingredient($_POST['ingr_id']);
+		$result = $this->Admin_model->delete_recipe_ingredient($_POST['ingr_id']);
 		echo json_encode($result);
 	}
 
 	public function delete_ingredient(){
-		$this->admin_model->delete_ingredient($_GET['id']);
+		$this->Admin_model->delete_ingredient($_GET['id']);
 		redirect('admin/ingredient_view');	
 	}
 
 	// ACTIVATE FUNCTIONS - Robert / 12-02-18
 
 	public function activate_recipe(){
-		$this->admin_model->activate_recipe($_GET['id']);
+		$this->Admin_model->activate_recipe($_GET['id']);
 		redirect('admin/recipe_view');
 	}
 
 	public function activate_customer(){
-		$this->admin_model->activate_customer($_GET['id']);
+		$this->Admin_model->activate_customer($_GET['id']);
 		redirect('admin/customer_view');
 	}
 
 	public function activate_branch(){
-		$this->admin_model->activate_branch($_GET['id']);
+		$this->Admin_model->activate_branch($_GET['id']);
 		redirect('admin/branch_view');
 	}
 
 	public function activate_manager(){
-		$this->admin_model->activate_manager($_GET['id']);
+		$this->Admin_model->activate_manager($_GET['id']);
 		redirect('admin/manager_view');
 	}
 
@@ -487,7 +487,7 @@ class admin extends CI_Controller {
 		if ($this->form_validation->run() == TRUE) {
 			$dir = $_POST['name'];
 			mkdir('Recipe_Folder/'.$dir);
-			$data = $this->admin_model->create_recipe();
+			$data = $this->Admin_model->create_recipe();
 			$response['status'] = TRUE;
 			$response[] = $data;
 		}
@@ -528,7 +528,7 @@ class admin extends CI_Controller {
 					'ingredient_amount' => $ings_val[$j],
 					'method' => $ings_met[$j]
 				);
-				$this->admin_model->add_recipe_ingredients($data);
+				$this->Admin_model->add_recipe_ingredients($data);
 			}
 			$response['status'] = TRUE;
 		}
@@ -546,8 +546,8 @@ class admin extends CI_Controller {
 		));
 		$this->form_validation->set_rules('braddress', 'Branch Address', 'required');
 		if ($this->form_validation->run() == TRUE) {
-			$code = $this->admin_model->get_code(1);
-			$this->admin_model->update_counter($code[0]->ct_count+1,1);
+			$code = $this->Admin_model->get_code(1);
+			$this->Admin_model->update_counter($code[0]->ct_count+1,1);
 			if ($_POST['brmanager'] != 0) {
 				$branchdata = array(
 					'code' => $code[0]->ct_code.(sprintf('%05d', $code[0]->ct_count+1)),
@@ -565,7 +565,7 @@ class admin extends CI_Controller {
 					'status' => 'I'
 				);
 			}
-			$data = $this->admin_model->add_branch($branchdata);
+			$data = $this->Admin_model->add_branch($branchdata);
 			$response['status'] = TRUE;
 			$response[] = $data;
 		}
@@ -595,21 +595,21 @@ class admin extends CI_Controller {
 				'logged_in' => '0',
 				'user_type_id' => $_POST['utid']
 			);
-			$this->admin_model->add_user_manager($mngrdata); 
+			$this->Admin_model->add_user_manager($mngrdata); 
 			$user_id = $this->db->insert_id();
-			$code = $this->admin_model->get_code(2);
-			$this->admin_model->update_counter($code[0]->ct_count+1,2);
+			$code = $this->Admin_model->get_code(2);
+			$this->Admin_model->update_counter($code[0]->ct_count+1,2);
 			$managerdata = array(
 				'user_id' => $user_id,
 				'code' => $code[0]->ct_code.(sprintf('%05d', $code[0]->ct_count+1)),
 				'name' => str_replace("'","’",$_POST['name'])
 			);
 			if ($br_id != 0) {
-				$data = $this->admin_model->add_manager($managerdata);
+				$data = $this->Admin_model->add_manager($managerdata);
 				$manager_id = $this->db->insert_id();
-				$this->admin_model->update_manager($manager_id,$br_id);
+				$this->Admin_model->update_manager($manager_id,$br_id);
 			}else{
-				$data = $this->admin_model->add_manager($managerdata);
+				$data = $this->Admin_model->add_manager($managerdata);
 			}
 			$response['status'] = TRUE;
 			$response[] = $data;
@@ -649,7 +649,7 @@ class admin extends CI_Controller {
 				$unit = array(
 					'name' => $new_unit
 				);
-				$this->admin_model->add_unit($unit);
+				$this->Admin_model->add_unit($unit);
 				$unit_id = $this->db->insert_id();
 				$data = array(
 					'unit_id' => $unit_id,
@@ -669,7 +669,7 @@ class admin extends CI_Controller {
 					'set_minimum' => $min_amount
 				);
 			}
-			$this->admin_model->add_ingredient($data);
+			$this->Admin_model->add_ingredient($data);
 			$response['status'] = TRUE;
 		}
 		else {
@@ -684,7 +684,7 @@ class admin extends CI_Controller {
 	public function update_recipe(){
 		$response = array();
 		$recipe_id = $_POST['recipe_id'];
-		$check = $this->admin_model->recipe_check($recipe_id);
+		$check = $this->Admin_model->recipe_check($recipe_id);
 		if($this->input->post('name') == $check[0]->re_nm) {
 		   	$is_unique =  '';
 		} else {
@@ -703,7 +703,7 @@ class admin extends CI_Controller {
 		
 		if ($this->form_validation->run() == TRUE) {
 			$upt_date = date('Y-m-d H:i:s');
-			$data = $this->admin_model->update_recipe($upt_date);
+			$data = $this->Admin_model->update_recipe($upt_date);
 			$response['status'] = TRUE;
 			$response[] = $data;
 		}
@@ -734,7 +734,7 @@ class admin extends CI_Controller {
 		}
 		if ($this->form_validation->run() == TRUE) {
 			$upt_date = date('Y-m-d H:i:s');
-			$this->admin_model->edit_recipe_ingredients($upt_date);
+			$this->Admin_model->edit_recipe_ingredients($upt_date);
 			$response['status'] = TRUE;
 		}
 		else {
@@ -747,7 +747,7 @@ class admin extends CI_Controller {
 	public function edit_branch(){
 		$response = array();
 		$branch_id = $_POST['branch_id'];
-		$check = $this->admin_model->branch_check($branch_id);
+		$check = $this->Admin_model->branch_check($branch_id);
 		if($this->input->post('brname') == $check[0]->br_nm) {
 		   	$is_unique =  '';
 		} else {
@@ -764,17 +764,17 @@ class admin extends CI_Controller {
 			$mngr_id = $_POST['mngr_id'];
 			$brmngr_id = $_POST['brmanager_id'];
 			if ($mngr_id == 0 && $brmngr_id == 0) {
-				$data = $this->admin_model->edit_branchnm($upt_date);			}
+				$data = $this->Admin_model->edit_branchnm($upt_date);			}
 			elseif ($mngr_id == $brmngr_id || ($mngr_id == 0 && $brmngr_id != 0)) {
-				$data = $this->admin_model->edit_branch($upt_date);
+				$data = $this->Admin_model->edit_branch($upt_date);
 			}
 			elseif ($mngr_id != 0 && $brmngr_id == 0) {
-				$this->admin_model->edit_branch_newmngr($mngr_id);
-				$data = $this->admin_model->edit_branch1($upt_date);
+				$this->Admin_model->edit_branch_newmngr($mngr_id);
+				$data = $this->Admin_model->edit_branch1($upt_date);
 			}
 			else{
-				$this->admin_model->edit_branch_newmngr($mngr_id);
-				$data = $this->admin_model->edit_branch($upt_date);
+				$this->Admin_model->edit_branch_newmngr($mngr_id);
+				$data = $this->Admin_model->edit_branch($upt_date);
 			}
 			$response['status'] = TRUE;
 			$response[] = $data;
@@ -789,7 +789,7 @@ class admin extends CI_Controller {
 	public function edit_manager(){
 		$response = array();
 		$manager_id = $_POST['manager_id'];
-		$check = $this->admin_model->manager_check($manager_id);
+		$check = $this->Admin_model->manager_check($manager_id);
 		if($this->input->post('mngr_nm') == $check[0]->bm_nm) {
 		   	$is_unique =  '';
 		} else {
@@ -804,18 +804,18 @@ class admin extends CI_Controller {
 			$cubr_id = $_POST['cubr_id'];
 			$br_id = $_POST['br_id'];
 			if (($cubr_id == NULL && $br_id == 0) || ($cubr_id == '' && $br_id == 0)) {
-				$data = $this->admin_model->edit_managernm($upt_date);
+				$data = $this->Admin_model->edit_managernm($upt_date);
 			}
 			elseif ($cubr_id == $br_id || ($cubr_id == 0 && $br_id != 0)) {
-				$data = $this->admin_model->edit_manager($upt_date);
+				$data = $this->Admin_model->edit_manager($upt_date);
 			}
 			elseif ($cubr_id != 0 && $br_id == 0) {
-				$this->admin_model->edit_manager_newbr($cubr_id);
-				$data = $this->admin_model->edit_manager1($upt_date);
+				$this->Admin_model->edit_manager_newbr($cubr_id);
+				$data = $this->Admin_model->edit_manager1($upt_date);
 			}
 			else{
-				$this->admin_model->edit_manager_newbr($cubr_id);
-				$data = $this->admin_model->edit_manager($upt_date);
+				$this->Admin_model->edit_manager_newbr($cubr_id);
+				$data = $this->Admin_model->edit_manager($upt_date);
 			}
 			$response['status'] = TRUE;
 			$response[] = $data;
@@ -843,12 +843,12 @@ class admin extends CI_Controller {
        	$uploaded_image = $this->upload->data();       	
   		$image = $uploaded_image[file_name];
   		$upt_date = date('Y-m-d H:i:s'); 
-		$this->admin_model->upload_recipe_image($re_id,$image,$upt_date);
+		$this->Admin_model->upload_recipe_image($re_id,$image,$upt_date);
 		redirect('admin/view_recipe/'.$re_id.'/'.$co_id); 
 	}
 
 	public function supply_report(){
-		$data = $this->admin_model->supply_report();
+		$data = $this->Admin_model->supply_report();
 		if ($data==NULL) {
 			$response['notify'] = 'No Notification To View';
 			echo json_encode($response);
@@ -882,7 +882,7 @@ class admin extends CI_Controller {
 		if ($this->form_validation->run() == TRUE) {
 			$_SESSION['pass'] = sha1($_POST['new_password']);
 			$upt_date = date('Y-m-d H:i:s');
-			$data = $this->admin_model->edit_password($upt_date);
+			$data = $this->Admin_model->edit_password($upt_date);
 			$response['status'] = TRUE;
 			$response[] = $data;
 		}
@@ -894,10 +894,10 @@ class admin extends CI_Controller {
 	}
 
 	public function confirm_order(){
-		$recipe_data = $this->admin_model->recipe_order($_POST['id']);
+		$recipe_data = $this->Admin_model->recipe_order($_POST['id']);
 		$count = count($recipe_data);
 		for ($i=0; $i < $count; $i++) { 
-			$ingredients[$i] = $this->admin_model->recipe_order_ingredients($recipe_data[$i]->recipe_id,$recipe_data[$i]->quantity);
+			$ingredients[$i] = $this->Admin_model->recipe_order_ingredients($recipe_data[$i]->recipe_id,$recipe_data[$i]->quantity);
 		}
 		$var = count($ingredients) ;
 		$totals = array();
@@ -911,8 +911,8 @@ class admin extends CI_Controller {
 				} 
 			} 
 		}
-		$customer_data = $this->admin_model->loggedin_customer($_SESSION['id']);
-		$branch_data = $this->admin_model->branch_info();
+		$customer_data = $this->Admin_model->loggedin_customer($_SESSION['id']);
+		$branch_data = $this->Admin_model->branch_info();
 		$count1 = count($branch_data);
 		for ($i=0; $i < $count1; $i++) { 
 			$distance[$i] = getDistance($customer_data[0]->addr, $branch_data[$i]->br_addr);
@@ -921,30 +921,30 @@ class admin extends CI_Controller {
 		asort($distance);
 		foreach ($distance as $key => $dis) {
 			foreach($totals as $ing_id => $total){
-			    $result = $this->admin_model->check_compatible_branch($branch_ids[$key],$ing_id,$total);
+			    $result = $this->Admin_model->check_compatible_branch($branch_ids[$key],$ing_id,$total);
 			    if (!$result)break;
 			}
 			if ($result) {
 				foreach($totals as $ing_id => $total){
-			    	$this->admin_model->reduce_supply($branch_ids[$key],$ing_id,$total);
+			    	$this->Admin_model->reduce_supply($branch_ids[$key],$ing_id,$total);
 				}
 				$time_of_arrival['toa'] = round((7*$count)+(5*$dis));
 				$transac = array(
 					'order_id' => $_POST['id'],
 					'total_cost' => $_POST['total']
 				);
-				$this->admin_model->new_order_transaction($transac);
+				$this->Admin_model->new_order_transaction($transac);
 				$data = array(
 					'recipe_id' => 0,
 					'customer_id' => $customer_data[0]->id,
 					'activity_type_id' => 1
 				);
-				$this->admin_model->new_order_activity($data);
+				$this->Admin_model->new_order_activity($data);
 				$activity_id = $this->db->insert_id();
-				$code = $this->admin_model->get_code(4);
-				$this->admin_model->update_counter($code[0]->ct_count+1,4);
+				$code = $this->Admin_model->get_code(4);
+				$this->Admin_model->update_counter($code[0]->ct_count+1,4);
 				$order_code = $code[0]->ct_code.(sprintf('%05d', $code[0]->ct_count+1));
-				$this->admin_model->confirm_order($_POST['id'],$branch_ids[$key],$activity_id,$order_code);
+				$this->Admin_model->confirm_order($_POST['id'],$branch_ids[$key],$activity_id,$order_code);
 				break;
 			}
 		}

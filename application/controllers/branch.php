@@ -1,10 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class branch extends CI_Controller {
+class Branch extends CI_Controller {
 	public function __construct(){
 		parent:: __construct();
-		$this->load->model('branch_model');
+		$this->load->model('Branch_model');
 		date_default_timezone_set('Asia/Kuala_Lumpur');
 	}
 
@@ -12,19 +12,19 @@ class branch extends CI_Controller {
 		if (isset($_SESSION['logged_in'])) {
 			if ($_SESSION['utype'] == 2) {
 				$this->load->view('branch/layout/header');
-				$data['order'] = $this->branch_model->processed_order_view($_SESSION['id']);
+				$data['order'] = $this->Branch_model->processed_order_view($_SESSION['id']);
 				if ($data['order']!=NULL) {
 					$var = count($data['order']);
 					for ($i=0; $i < $var ; $i++) {
-						$order_count[$i] = $this->branch_model->order_count($data['order'][$i]->od_id);
+						$order_count[$i] = $this->Branch_model->order_count($data['order'][$i]->od_id);
 					}
 					$data['count'] = $order_count;
 				}
-				$data['inc_order'] = $this->branch_model->incomplete_order_view($_SESSION['id']);
+				$data['inc_order'] = $this->Branch_model->incomplete_order_view($_SESSION['id']);
 				if ($data['inc_order']!=NULL) {
 					$ivar = count($data['inc_order']);
 					for ($j=0; $j < $ivar ; $j++) {
-						$inc_order_count[$j] = $this->branch_model->order_count($data['inc_order'][$j]->od_id);
+						$inc_order_count[$j] = $this->Branch_model->order_count($data['inc_order'][$j]->od_id);
 					}
 					$data['icount'] = $inc_order_count;
 				}
@@ -44,11 +44,11 @@ class branch extends CI_Controller {
 		if (isset($_SESSION['logged_in'])) {
 			if ($_SESSION['utype'] == 2) {
 				$this->load->view('branch/layout/header');
-				$data['detail'] = $this->branch_model->detail_view($_GET['id']);
+				$data['detail'] = $this->Branch_model->detail_view($_GET['id']);
 				if ($data['detail']!=NULL) {
 					$var = count($data['detail']);
 					for ($i=0; $i < $var ; $i++) { 
-						$recipe_ingredients[$i] = $this->branch_model->detail_ing($data['detail'][$i]->od_recipe_id);
+						$recipe_ingredients[$i] = $this->Branch_model->detail_ing($data['detail'][$i]->od_recipe_id);
 					}
 					$data['ingredient'] = $recipe_ingredients;
 				}
@@ -65,7 +65,7 @@ class branch extends CI_Controller {
 	}
 
 	public function order_complete(){
-		$this->branch_model->order_complete($_GET['id']);
+		$this->Branch_model->order_complete($_GET['id']);
 		redirect('branch');
 	}
 
@@ -73,8 +73,8 @@ class branch extends CI_Controller {
 		if (isset($_SESSION['logged_in'])) {
 			if ($_SESSION['utype'] == 2) {
 				$this->load->view('branch/layout/header');
-				$data['supply'] = $this->branch_model->supply_view($_SESSION['id']);
-				$data['ingredients'] = $this->branch_model->all_ingredients($data['supply'][0]->branch_id);
+				$data['supply'] = $this->Branch_model->supply_view($_SESSION['id']);
+				$data['ingredients'] = $this->Branch_model->all_ingredients($data['supply'][0]->branch_id);
 				$this->load->view('branch/supply_view',$data);
 				$this->load->view('branch/layout/footer');
 			}
@@ -104,7 +104,7 @@ class branch extends CI_Controller {
 		}
 		if ($this->form_validation->run() == TRUE) {
 			$upt_date = date('Y-m-d H:i:s');
-			$this->branch_model->update_supply($upt_date);
+			$this->Branch_model->update_supply($upt_date);
 			$ings_id = $_POST['ingredients_id'];
 			$bri_id = $_POST['branch_ingr_id'];
 			for ($j=0; $j < $count; $j++) { 
@@ -115,7 +115,7 @@ class branch extends CI_Controller {
 					'type' => 1
 
 				);
-				$this->branch_model->add_report($data);
+				$this->Branch_model->add_report($data);
 			}
 			$response['status'] = TRUE;
 		}
@@ -150,7 +150,7 @@ class branch extends CI_Controller {
 					'branch_id' => $br_id,
 					'supply' => $ings_val[$j]
 				);
-				$this->branch_model->add_ingredient_supply($data);
+				$this->Branch_model->add_ingredient_supply($data);
 			}
 			$response['status'] = TRUE;
 		}
@@ -171,7 +171,7 @@ class branch extends CI_Controller {
 			'required' => 'You must provide a valid reason'
 		));
 		if ($this->form_validation->run() == TRUE) {
-			$this->branch_model->reduce_supply();
+			$this->Branch_model->reduce_supply();
 			$data = array(
 				'branch_ingredients_id' => $_POST['bri_id'],
 				'amount_change' => str_replace("'","’",$_POST['amount']),
@@ -179,7 +179,7 @@ class branch extends CI_Controller {
 				'status' => 1,
 				'type' => 0
 			);
-			$this->branch_model->add_report($data);
+			$this->Branch_model->add_report($data);
 			$response['status'] = TRUE;
 		}
 		else {
@@ -214,7 +214,7 @@ class branch extends CI_Controller {
 		if ($this->form_validation->run() == TRUE) {
 			$_SESSION['pass'] = sha1($_POST['new_password']);
 			$upt_date = date('Y-m-d H:i:s');
-			$data = $this->branch_model->edit_password($upt_date);
+			$data = $this->Branch_model->edit_password($upt_date);
 			$response['status'] = TRUE;
 			$response[] = $data;
 		}
@@ -227,11 +227,11 @@ class branch extends CI_Controller {
 
 	public function notify_branch(){
 		$id = $_SESSION['id'];
-		$supply = $this->branch_model->supply_view($id);
+		$supply = $this->Branch_model->supply_view($id);
 		if ($supply!=NULL) {
 			$count = count($supply);
 			for ($i=0; $i < $count; $i++) { 
-				$response[$i] = $this->branch_model->check_critical_level($id,$supply[$i]->bi_id,$supply[$i]->bi_supply);
+				$response[$i] = $this->Branch_model->check_critical_level($id,$supply[$i]->bi_id,$supply[$i]->bi_supply);
 			}
 			echo json_encode($response);
 		}
@@ -246,10 +246,10 @@ class branch extends CI_Controller {
 			if ($_SESSION['utype'] == 2) {
 				$id = $_GET['id'];
 				$data = array(
-					'detail' => $this->branch_model->detail_view($id),
-					'additional' => $this->branch_model->additional_ingredients($id),
-					'additional_ttl' => $this->branch_model->additional_ingredients_subtotal($id),
-					'stotalprice' => $this->branch_model->item_subtotal_price($id)
+					'detail' => $this->Branch_model->detail_view($id),
+					'additional' => $this->Branch_model->additional_ingredients($id),
+					'additional_ttl' => $this->Branch_model->additional_ingredients_subtotal($id),
+					'stotalprice' => $this->Branch_model->item_subtotal_price($id)
 				);
 				$this->load->view('branch/print',$data);
 			}

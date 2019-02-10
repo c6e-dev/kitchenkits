@@ -1,10 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class user extends CI_Controller {
+class User extends CI_Controller {
 	public function __construct(){
 		parent:: __construct();
-		$this->load->model('user_model');
+		$this->load->model('User_model');
 	}
 
 	public function index(){
@@ -15,7 +15,7 @@ class user extends CI_Controller {
 		$con = mysqli_connect("localhost","root","","kitchen_kits");
 		$user = mysqli_real_escape_string($con, $_POST['username']);
 		$pass = mysqli_real_escape_string($con, sha1($_POST['password']));
-		$userdata = $this->user_model->login_check($user, $pass);
+		$userdata = $this->User_model->login_check($user, $pass);
 		if(isset($userdata)){
 			if ($userdata[0]->status == 'A') {
 				$_SESSION = array(
@@ -25,13 +25,13 @@ class user extends CI_Controller {
 					'utype' => $userdata[0]->user_type_id,
 					'logged_in' => TRUE
 				);
-				$this->user_model->logged_in($_SESSION['id']);
+				$this->User_model->logged_in($_SESSION['id']);
 				switch ($userdata[0]->user_type_id) {
 					case '1':
 						redirect('admin_dashboard');
 						break;
 					case '2':
-						$managerdata = $this->user_model->get_manager($_SESSION['id']);
+						$managerdata = $this->User_model->get_manager($_SESSION['id']);
 						$new = array(
 							'name' => $managerdata[0]->name
 						);
@@ -39,7 +39,7 @@ class user extends CI_Controller {
 						redirect('branch');
 						break;
 					case '3':
-						$customerdata = $this->user_model->get_customer($_SESSION['id']);
+						$customerdata = $this->User_model->get_customer($_SESSION['id']);
 						$new = array(
 							'fname' => $customerdata[0]->first_name,
 							'lname' => $customerdata[0]->last_name
@@ -62,7 +62,7 @@ class user extends CI_Controller {
 	}
 
 	public function logout(){
-		$this->user_model->logged_out($_SESSION['id']);
+		$this->User_model->logged_out($_SESSION['id']);
 		session_destroy();
 		redirect('login');
 	}
@@ -90,10 +90,10 @@ class user extends CI_Controller {
 				'status' => 'A',
 				'user_type_id' => $user_type_id
 			);
-			$this->user_model->add_customer_account($userdata);
+			$this->User_model->add_customer_account($userdata);
 			$user_id = $this->db->insert_id();
-			$code = $this->user_model->get_code(3);
-			$this->user_model->update_counter($code[0]->ct_count+1,3);
+			$code = $this->User_model->get_code(3);
+			$this->User_model->update_counter($code[0]->ct_count+1,3);
 			$customerdata = array(
 				'user_id' => $user_id,
 				'code' => $code[0]->ct_code.(sprintf('%05d', $code[0]->ct_count+1)),
@@ -102,7 +102,7 @@ class user extends CI_Controller {
 				'email_address' => str_replace("'","’",$_POST['emailaddr']),
 				'home_address' => str_replace("'","’",$_POST['haddress'])
 			);
-			$this->user_model->add_customer($customerdata);
+			$this->User_model->add_customer($customerdata);
 			$_SESSION = array(
 				'id' => $user_id,
 				'user' => str_replace("'","’",$_POST['username']),
@@ -110,7 +110,7 @@ class user extends CI_Controller {
 				'utype' => $user_type_id,
 				'logged_in' => TRUE
 			);
-			$this->user_model->logged_in($user_id);
+			$this->User_model->logged_in($user_id);
 			redirect();
 	    }
 	    else{

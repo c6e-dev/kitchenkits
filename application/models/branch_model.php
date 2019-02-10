@@ -1,5 +1,5 @@
 <?php
-class branch_model extends CI_Model{
+class Branch_model extends CI_Model{
 	public function __construct(){
 		parent:: __construct();
 	}

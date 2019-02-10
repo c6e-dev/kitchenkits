@@ -1,19 +1,19 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class customer extends CI_Controller {
+class Customer extends CI_Controller {
 	public function __construct(){
 		parent:: __construct();
-		$this->load->model('customer_model');
+		$this->load->model('Customer_model');
 		date_default_timezone_set('Asia/Kuala_Lumpur');
 	}
 
 	//CONSTRUCTOR FUNCTIONS
 
 	public function getRecommendations($id){
-		$customer_data = $this->customer_model->loggedin_customer($id);
-		$myorders = $this->customer_model->loggedin_customer_ordered_recipes($customer_data[0]->id);
-		$cid = $this->customer_model->read_all_customer($customer_data[0]->id);
+		$customer_data = $this->Customer_model->loggedin_customer($id);
+		$myorders = $this->Customer_model->loggedin_customer_ordered_recipes($customer_data[0]->id);
+		$cid = $this->Customer_model->read_all_customer($customer_data[0]->id);
 		if ($myorders==NULL) {
 			return NULL;
 		}
@@ -26,7 +26,7 @@ class customer extends CI_Controller {
 		}
 		
 		foreach ($cid as $value) {
-			$customer_orders[$value->id] = $this->customer_model->customer_ordered_recipes($value->id);
+			$customer_orders[$value->id] = $this->Customer_model->customer_ordered_recipes($value->id);
 		}
 
 		$recommends = array();
@@ -51,7 +51,7 @@ class customer extends CI_Controller {
         // $this->check_branch_ingredients($customer_orders);
         
 	    foreach ($recommends as $key => $recipe_ids) {
-	    	$result[] = $this->customer_model->recommended_recipe($recipe_ids);
+	    	$result[] = $this->Customer_model->recommended_recipe($recipe_ids);
 	    }
 
 	    $n = count($result);
@@ -69,30 +69,30 @@ class customer extends CI_Controller {
 	}
 
 	public function check_branch_ingredients($arecipe){
-		$branches = $this->customer_model->read_branch();
+		$branches = $this->Customer_model->read_branch();
 		if ($arecipe!=NULL && $branches!=NULL) {
 			$recipe_count = count($arecipe);
 			$branch_count = count($branches);
 			for ($i=0; $i < $recipe_count; $i++) { 
-				$ingredient = $this->customer_model->recipe_ingredient($arecipe[$i]->id);
+				$ingredient = $this->Customer_model->recipe_ingredient($arecipe[$i]->id);
 				for ($k=0; $k < $branch_count; $k++) {
 					$result = FALSE;
 					for ($j=0; $j < count($ingredient); $j++) { 
-						$result = $this->customer_model->check_compatible_branch($branches[$k]->br_id,$ingredient[$j]->ing_id,$ingredient[$j]->ing_amnt*10);
+						$result = $this->Customer_model->check_compatible_branch($branches[$k]->br_id,$ingredient[$j]->ing_id,$ingredient[$j]->ing_amnt*10);
 						if (!$result) {
 							break;
 						}
 					}
 					if ($arecipe[$i]->status == 'U') {
 						if ($result) {
-							$this->customer_model->activate_recipe($arecipe[$i]->id);
+							$this->Customer_model->activate_recipe($arecipe[$i]->id);
 							break;
 						}
 					}
 				}
 				if ($arecipe[$i]->status == 'A') {
 					if (!$result) {
-						$this->customer_model->disable_recipe($arecipe[$i]->id);
+						$this->Customer_model->disable_recipe($arecipe[$i]->id);
 					}
 				}
 			}	
@@ -108,10 +108,10 @@ class customer extends CI_Controller {
 			$result = $this->getRecommendations($_SESSION['id']);
 			$data['recommended_recipe'] = $result;
 		}
-		$msr = $this->customer_model->most_sold_recipes();
+		$msr = $this->Customer_model->most_sold_recipes();
 		if ($msr!=NULL) {
 			foreach ($msr as $value) {
-				$res = $this->customer_model->recommended_recipe($value->re_id);
+				$res = $this->Customer_model->recommended_recipe($value->re_id);
 				if ($res[0]->re_id!=''){
 					$ids[] = $res;
 				}
@@ -131,32 +131,32 @@ class customer extends CI_Controller {
 		$recipe_id = $_GET['id'];
 		if (isset($_SESSION['logged_in']) && $_SESSION['utype'] == 3) {
 			$id = $_SESSION['id'];
-			$data['recipe_rts'] = $this->customer_model->recipe_rates($recipe_id,$id);
-			$data['revs'] = $this->customer_model->recipe_reviews($recipe_id,$id);
-			$data['myrate'] = $this->customer_model->my_rate($recipe_id,$id);
-			$data['myrev'] = $this->customer_model->my_review($recipe_id,$id);
+			$data['recipe_rts'] = $this->Customer_model->recipe_rates($recipe_id,$id);
+			$data['revs'] = $this->Customer_model->recipe_reviews($recipe_id,$id);
+			$data['myrate'] = $this->Customer_model->my_rate($recipe_id,$id);
+			$data['myrev'] = $this->Customer_model->my_review($recipe_id,$id);
 		}else{
-			$data['recipe_rts'] = $this->customer_model->recipe_rates($recipe_id,0);
-			$data['revs'] = $this->customer_model->recipe_reviews($recipe_id,0);
-			$data['myrate'] = $this->customer_model->my_rate($recipe_id,0);
-			$data['myrev'] = $this->customer_model->my_review($recipe_id,0);
+			$data['recipe_rts'] = $this->Customer_model->recipe_rates($recipe_id,0);
+			$data['revs'] = $this->Customer_model->recipe_reviews($recipe_id,0);
+			$data['myrate'] = $this->Customer_model->my_rate($recipe_id,0);
+			$data['myrev'] = $this->Customer_model->my_review($recipe_id,0);
 		}
-		$data['recipe_info'] = $this->customer_model->view_recipe($recipe_id);
-		$data['recipe_ings'] = $this->customer_model->recipe_ingredients($recipe_id);
+		$data['recipe_info'] = $this->Customer_model->view_recipe($recipe_id);
+		$data['recipe_ings'] = $this->Customer_model->recipe_ingredients($recipe_id);
 		$this->load->view('customer/recipe_view',$data);
 	}
 
 	public function browse_recipe(){
-		$data['selected_country'] = $this->customer_model->selected_country($_GET['id']);
+		$data['selected_country'] = $this->Customer_model->selected_country($_GET['id']);
 		$country_id = $data['selected_country'][0]->co_id;
-		$arecipe = $this->customer_model->recipe($country_id);
+		$arecipe = $this->Customer_model->recipe($country_id);
 		$this->check_branch_ingredients($arecipe);
-		$result = $this->customer_model->browse_recipe($country_id);
+		$result = $this->Customer_model->browse_recipe($country_id);
 		foreach ($result as $value) {
-			$recipes[] = $this->customer_model->recommended_recipe($value->re_id);
+			$recipes[] = $this->Customer_model->recommended_recipe($value->re_id);
 		}
 		$data['recipe'] = $recipes;
-		$data['country'] = $this->customer_model->read_countries();
+		$data['country'] = $this->Customer_model->read_countries();
 		$this->load->view('customer/recipe_browse',$data);
 	}
 
@@ -169,31 +169,31 @@ class customer extends CI_Controller {
 			$recipe_id = $_POST['re_id'];
 			$review = $_POST['review'];
 			$rate = $_POST['rate'];
-			$customer_data = $this->customer_model->loggedin_customer($_SESSION['id']);
+			$customer_data = $this->Customer_model->loggedin_customer($_SESSION['id']);
 			$rate_act_data = array(
 				'recipe_id' => $recipe_id,
 				'customer_id' => $customer_data[0]->id,
 				'activity_type_id' => 3
 			);
-			$this->customer_model->new_rating_activity($rate_act_data);
+			$this->Customer_model->new_rating_activity($rate_act_data);
 			$rating_act_id = $this->db->insert_id();
 			$rate_data = array(
 				'activity_id' => $rating_act_id,
 				'rating' => $rate
 			);
-			$this->customer_model->new_rating($rate_data);
+			$this->Customer_model->new_rating($rate_data);
 			$review_act_data = array(
 				'recipe_id' => $recipe_id,
 				'customer_id' => $customer_data[0]->id,
 				'activity_type_id' => 4
 			);
-			$this->customer_model->new_review_activity($review_act_data);
+			$this->Customer_model->new_review_activity($review_act_data);
 			$review_act_id = $this->db->insert_id();
 			$review_data = array(
 				'activity_id' => $review_act_id,
 				'message' => $review
 			);
-			$this->customer_model->new_review($review_data);
+			$this->Customer_model->new_review($review_data);
 			$response['status'] = TRUE;
 			$response['msg'] = 'Your Rate And Review Successfully Published.';
 		}
@@ -208,13 +208,13 @@ class customer extends CI_Controller {
 		if (isset($_SESSION['logged_in'])) {
 			$id = $_SESSION['id'];
 			if ($_SESSION['utype'] == 3) {
-				$data['cart'] = $this->customer_model->view_cart($id);
-				$data['v_profile'] = $this->customer_model->loggedin_customer($id);
-				$data['v_history'] = $this->customer_model->view_history($id);
-				$data['v_recent_order'] = $this->customer_model->view_recent_order($data['v_profile'][0]->id);
+				$data['cart'] = $this->Customer_model->view_cart($id);
+				$data['v_profile'] = $this->Customer_model->loggedin_customer($id);
+				$data['v_history'] = $this->Customer_model->view_history($id);
+				$data['v_recent_order'] = $this->Customer_model->view_recent_order($data['v_profile'][0]->id);
 				$data['order_count'] = count($data['v_recent_order']);
 				if ($data['cart']!=NULL) {
-					$data['count'] = $this->customer_model->item_count($data['cart'][0]->od_id);
+					$data['count'] = $this->Customer_model->item_count($data['cart'][0]->od_id);
 					$this->load->view('customer/layout/header',$data);
 					$this->load->view('customer/profile_view');
 					$this->load->view('customer/layout/footer');
@@ -241,7 +241,7 @@ class customer extends CI_Controller {
 		$username = $_POST['cs_username'];
 		$fname = $_POST['cs_fname'];
 		$lname = $_POST['cs_lname'];
-		$check = $this->customer_model->user_check($user_id);
+		$check = $this->Customer_model->user_check($user_id);
 		if($this->input->post('cs_username') == $check[0]->usrnm) {
 		   	$is_unique =  '';
 		} else {
@@ -268,7 +268,7 @@ class customer extends CI_Controller {
 			$_SESSION['fname'] = $fname;
 			$_SESSION['lname'] = $lname;
 			$upt_date = date('Y-m-d H:i:s');
-			$data = $this->customer_model->edit_profile($upt_date);
+			$data = $this->Customer_model->edit_profile($upt_date);
 			$response['status'] = TRUE;
 			$response[] = $data;
 		}
@@ -302,7 +302,7 @@ class customer extends CI_Controller {
 		if ($this->form_validation->run() == TRUE) {
 			$_SESSION['pass'] = sha1($_POST['new_password']);
 			$upt_date = date('Y-m-d H:i:s');
-			$data = $this->customer_model->edit_password($upt_date);
+			$data = $this->Customer_model->edit_password($upt_date);
 			$response['status'] = TRUE;
 			$response[] = $data;
 		}
@@ -319,15 +319,15 @@ class customer extends CI_Controller {
 		if (isset($_SESSION['logged_in'])) {
 			if ($_SESSION['utype'] == 3) {
 				$id = $_SESSION['id'];
-				$data['cart'] = $this->customer_model->view_cart($id);
+				$data['cart'] = $this->Customer_model->view_cart($id);
 				if ($data['cart']!=NULL) {
 					$order_id = $data['cart'][0]->od_id;
-					$data['count'] = $this->customer_model->item_count($order_id);
-					$data['additional'] = $this->customer_model->additional_ingredients($order_id);
-					$data['additional_ttl'] = $this->customer_model->additional_ingredients_subtotal($order_id);
-					$data['condiments'] = $this->customer_model->read_condiments($order_id);
-					$data['stotal'] = $this->customer_model->item_subtotal($id);
-					$data['stotalprice'] = $this->customer_model->item_subtotal_price($id);
+					$data['count'] = $this->Customer_model->item_count($order_id);
+					$data['additional'] = $this->Customer_model->additional_ingredients($order_id);
+					$data['additional_ttl'] = $this->Customer_model->additional_ingredients_subtotal($order_id);
+					$data['condiments'] = $this->Customer_model->read_condiments($order_id);
+					$data['stotal'] = $this->Customer_model->item_subtotal($id);
+					$data['stotalprice'] = $this->Customer_model->item_subtotal_price($id);
 					$this->load->view('customer/layout/header', $data);
 					$this->load->view('customer/cart_view');
 					$this->load->view('customer/layout/footer');
@@ -349,33 +349,33 @@ class customer extends CI_Controller {
 	public function add_to_cart(){
 		$response = array();
 		$id = $_SESSION['id'];
-		$result = $this->customer_model->order_check($id);	
+		$result = $this->Customer_model->order_check($id);	
 		if ($result==NULL) {
-			$cu_id = $this->customer_model->loggedin_customer($id);
+			$cu_id = $this->Customer_model->loggedin_customer($id);
 			$data = array(
 				'customer_id' => $cu_id[0]->id,
 				'activity_id' => 0
 			);
-			$this->customer_model->create_order($data);
+			$this->Customer_model->create_order($data);
 			$order_id = $this->db->insert_id();
 			$order_data = array(
 				'recipe_id' => $_POST['recipe_id'],
 				'order_id' => $order_id,
 				'quantity' => str_replace("'","’",$_POST['quantity'])
 			);
-			$this->customer_model->add_order($order_data);
+			$this->Customer_model->add_order($order_data);
 			$response['status'] = TRUE;
 			$response['notif'] = 'Recipe Successfully Added To Your Cart!';
 		}
 		else{
-			$check = $this->customer_model->recipe_check($result[0]->id, $_POST['recipe_id']);
+			$check = $this->Customer_model->recipe_check($result[0]->id, $_POST['recipe_id']);
 			if ($check==NULL) {
 				$order_data = array(
 					'recipe_id' => $_POST['recipe_id'],
 					'order_id' => $result[0]->id,
 					'quantity' => str_replace("'","’",$_POST['quantity'])
 				);
-				$this->customer_model->add_order($order_data);
+				$this->Customer_model->add_order($order_data);
 				$response['status'] = TRUE;
 				$response['notif'] = 'Recipe Successfully Added To Your Cart!';
 			}else{
@@ -390,7 +390,7 @@ class customer extends CI_Controller {
 		$response = array();
 		$this->form_validation->set_rules('itemcount', 'Item Count', 'required|numeric');
 		if ($this->form_validation->run() == TRUE) {
-			$this->customer_model->edit_item_count();
+			$this->Customer_model->edit_item_count();
 			$response['status'] = TRUE;
 		}
 		else {
@@ -401,21 +401,21 @@ class customer extends CI_Controller {
 
 	public function item_count_decrease(){
 		$itemcount = ($_POST['itemcount'] - 1);
-		$data = $this->customer_model->item_count_decrease($itemcount);
+		$data = $this->Customer_model->item_count_decrease($itemcount);
 		echo json_encode($data);
 	}
 
 	public function item_count_increase(){
 		$itemcount = ($_POST['itemcount'] + 1);
-		$data = $this->customer_model->item_count_decrease($itemcount);
+		$data = $this->Customer_model->item_count_decrease($itemcount);
 		echo json_encode($data);
 	}
 
 	public function delete_cart_item($oc_id,$od_id,$od_count){
 		if ($od_count == 1) {
-			$this->customer_model->delete_cart_item($oc_id,$od_id);
+			$this->Customer_model->delete_cart_item($oc_id,$od_id);
 		}else{
-			$this->customer_model->delete_order($oc_id);
+			$this->Customer_model->delete_order($oc_id);
 		}
 		redirect('customer/view_cart');
 	}
@@ -438,7 +438,7 @@ class customer extends CI_Controller {
 				'ingredient_id' => $ingr,
 				'ingredient_amount' => $amnt,
 			);
-			$this->customer_model->additional_item($data);
+			$this->Customer_model->additional_item($data);
 			$response['status'] = TRUE;
 		}
 		else {
@@ -449,7 +449,7 @@ class customer extends CI_Controller {
 	}
 
 	public function delete_additional_item(){
-		$this->customer_model->delete_additional_item($_GET['id']);
+		$this->Customer_model->delete_additional_item($_GET['id']);
 		redirect('customer/view_cart');
 	}
 
@@ -459,7 +459,7 @@ class customer extends CI_Controller {
 	 		'numeric' => '%s Invalid!'
 		));
 		if ($this->form_validation->run() == TRUE) {
-			$this->customer_model->update_additional_item();
+			$this->Customer_model->update_additional_item();
 			$response['status'] = TRUE;
 		}
 		else {
