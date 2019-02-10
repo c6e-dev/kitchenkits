@@ -14,6 +14,9 @@ class customer extends CI_Controller {
 		$customer_data = $this->customer_model->loggedin_customer($id);
 		$myorders = $this->customer_model->loggedin_customer_ordered_recipes($customer_data[0]->id);
 		$cid = $this->customer_model->read_all_customer($customer_data[0]->id);
+		if ($myorders==NULL) {
+			return NULL;
+		}
 
 		$recipes = array();
 		foreach ($myorders as $val) {
@@ -103,16 +106,20 @@ class customer extends CI_Controller {
 	public function index(){
 		if (isset($_SESSION['logged_in']) && $_SESSION['utype'] == 3) {
 			$result = $this->getRecommendations($_SESSION['id']);
-			$data['recommended_recipe'] = $result;	
+			$data['recommended_recipe'] = $result;
 		}
 		$msr = $this->customer_model->most_sold_recipes();
-		foreach ($msr as $value) {
-			$res = $this->customer_model->recommended_recipe($value->re_id);
-			if ($res[0]->re_id!=''){
-				$ids[] = $res;
+		if ($msr!=NULL) {
+			foreach ($msr as $value) {
+				$res = $this->customer_model->recommended_recipe($value->re_id);
+				if ($res[0]->re_id!=''){
+					$ids[] = $res;
+				}
 			}
+			$data['top_of_the_month'] = $ids;
+		}else{
+			$data['top_of_the_month'] = NULL;
 		}
-		$data['top_of_the_month'] = $ids;
 		$this->load->view('customer/home',$data);
 	}
 
@@ -122,9 +129,20 @@ class customer extends CI_Controller {
 
 	public function view_recipe(){
 		$recipe_id = $_GET['id'];
+		if (isset($_SESSION['logged_in']) && $_SESSION['utype'] == 3) {
+			$id = $_SESSION['id'];
+			$data['recipe_rts'] = $this->customer_model->recipe_rates($recipe_id,$id);
+			$data['revs'] = $this->customer_model->recipe_reviews($recipe_id,$id);
+			$data['myrate'] = $this->customer_model->my_rate($recipe_id,$id);
+			$data['myrev'] = $this->customer_model->my_review($recipe_id,$id);
+		}else{
+			$data['recipe_rts'] = $this->customer_model->recipe_rates($recipe_id,0);
+			$data['revs'] = $this->customer_model->recipe_reviews($recipe_id,0);
+			$data['myrate'] = $this->customer_model->my_rate($recipe_id,0);
+			$data['myrev'] = $this->customer_model->my_review($recipe_id,0);
+		}
 		$data['recipe_info'] = $this->customer_model->view_recipe($recipe_id);
 		$data['recipe_ings'] = $this->customer_model->recipe_ingredients($recipe_id);
-		$data['recipe_revs'] = $this->customer_model->recipe_reviews($recipe_id);
 		$this->load->view('customer/recipe_view',$data);
 	}
 
@@ -143,7 +161,7 @@ class customer extends CI_Controller {
 	}
 
 	public function submit_rating_and_review(){
-		$this->form_validation->set_rules('review', 'Review Detail', 'required|alpha_dash|max_length[600]', array(
+		$this->form_validation->set_rules('review', 'Review Detail', 'required|alpha_numeric|max_length[600]', array(
 			'required' => 'This %s Is Required!',
 			'max_length' => 'Your Review is too long.'
 		));
@@ -307,7 +325,7 @@ class customer extends CI_Controller {
 					$data['count'] = $this->customer_model->item_count($order_id);
 					$data['additional'] = $this->customer_model->additional_ingredients($order_id);
 					$data['additional_ttl'] = $this->customer_model->additional_ingredients_subtotal($order_id);
-					$data['condiments'] = $this->customer_model->read_condiments();
+					$data['condiments'] = $this->customer_model->read_condiments($order_id);
 					$data['stotal'] = $this->customer_model->item_subtotal($id);
 					$data['stotalprice'] = $this->customer_model->item_subtotal_price($id);
 					$this->load->view('customer/layout/header', $data);
@@ -329,30 +347,39 @@ class customer extends CI_Controller {
 	}
 
 	public function add_to_cart(){
+		$response = array();
 		$id = $_SESSION['id'];
 		$result = $this->customer_model->order_check($id);
-		if ($result==NULL) {
-			$cu_id = $this->customer_model->loggedin_customer($id);
-			$data = array(
-				'customer_id' => $cu_id[0]->id,
-				'activity_id' => 0
-			);
-			$this->customer_model->create_order($data);
-			$order_id = $this->db->insert_id();
-			$order_data = array(
-				'recipe_id' => $_POST['recipe_id'],
-				'order_id' => $order_id,
-				'quantity' => str_replace("'","’",$_POST['quantity'])
-			);
+		$check = $this->customer_model->recipe_check($result[0]->id, $_POST['recipe_id']);
+		if ($check==NULL) {
+			if ($result==NULL) {
+				$cu_id = $this->customer_model->loggedin_customer($id);
+				$data = array(
+					'customer_id' => $cu_id[0]->id,
+					'activity_id' => 0
+				);
+				$this->customer_model->create_order($data);
+				$order_id = $this->db->insert_id();
+				$order_data = array(
+					'recipe_id' => $_POST['recipe_id'],
+					'order_id' => $order_id,
+					'quantity' => str_replace("'","’",$_POST['quantity'])
+				);
+			}
+			else{
+				$order_data = array(
+					'recipe_id' => $_POST['recipe_id'],
+					'order_id' => $result[0]->id,
+					'quantity' => str_replace("'","’",$_POST['quantity'])
+				);
+			}
+			$this->customer_model->add_order($order_data);
+			$response['status'] = TRUE;
+			$response['notif']	= 'Recipe Successfully Added To Your Cart!';
+		}else{
+			$response['status'] = FALSE;
+			$response['notif']	= 'Recipe Is Already In Your Cart!';
 		}
-		else{
-			$order_data = array(
-				'recipe_id' => $_POST['recipe_id'],
-				'order_id' => $result[0]->id,
-				'quantity' => str_replace("'","’",$_POST['quantity'])
-			);
-		}
-		$response = $this->customer_model->add_order($order_data);
 		echo json_encode($response);
 	}
 

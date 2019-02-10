@@ -81,6 +81,7 @@ class user extends CI_Controller {
 			array(
 		 		'matches' => 'Passwords do not match'
 			));
+		$this->form_validation->set_rules('haddress', 'Password', 'required');
 		if ($this->form_validation->run() == TRUE){
 			$user_type_id = $_GET['id'];
 	    	$userdata = array(

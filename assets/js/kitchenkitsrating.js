@@ -40,6 +40,23 @@ $(function() {
             });
         });
 
+        $('.revrates').each(function() {
+            var review_id = $(this).attr('revrate-id');
+            var currentRating = $(this).attr('data-revrates');
+            $('#example-fontawesome'+review_id).barrating({
+                theme: 'fontawesome-stars',
+                initialRating: currentRating,
+                readonly: true
+            });
+        });
+
+        var myRating = $('#myrating').attr('data-myrating');
+        $('#myrating').barrating({
+            theme: 'fontawesome-stars',
+            initialRating: myRating,
+            readonly: true
+        });
+
         $('#example-fontawesome').barrating({
             theme: 'fontawesome-stars'
         });

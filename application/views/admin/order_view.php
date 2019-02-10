@@ -82,19 +82,19 @@
                   ?>
                 </dd>
                 <dt>Additional Ingredients</dt>
-                <!-- <dd>
+                <dd>
                   <?php
                     if ($oc_content!=NULL) {
                       foreach ($oc_content as $oc) {
                         ?>
                         <ul class="list-unstyled">
-                          <li><?php echo $oc->oc_additional; ?></li>
+                          <li><?php echo $oc->ig_name." ~ ".$oc->amount." ".$oc->ig_unit; ?></li>
                         </ul>
                         <?php
                       }
                     }
                   ?>
-                </dd> -->
+                </dd>
               </dl>
             </div>
             <!-- /.box-body -->

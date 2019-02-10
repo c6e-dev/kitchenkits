@@ -82,7 +82,7 @@
                   <span class="glyphicon glyphicon-envelope form-control-feedback" style="color: gray"></span>
                 </div>
                 <div class="form-group has-feedback">
-                  <input type="text" name="haddress" id="haddress" class="" placeholder="Address">
+                  <input type="text" name="haddress" id="haddress" class="" placeholder="Complete Address">
                   <span class="glyphicon glyphicon-home form-control-feedback" style="color: gray"></span>
                 </div>
                 <br>

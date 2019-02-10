@@ -157,5 +157,16 @@
   <script type="text/javascript" src="<?php echo base_url();?>/assets/js/bootstrap.min.js"></script>
   <script src="<?php echo base_url('assets/js/jquery.barrating.js');?>"></script>
   <script src="<?php echo base_url('assets/js/kitchenkitsrating.js');?>"></script>
+  <script src="<?php echo base_url('assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js');?>"></script>
+  <script type="text/javascript">
+    $(function(){
+      $('#top-scroll').slimScroll({
+        height: '350px'
+      });
+      $('#recommend-scroll').slimScroll({
+        height: '350px'
+      });
+    });
+  </script>
   </body>
 </html>

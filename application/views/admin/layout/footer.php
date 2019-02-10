@@ -93,6 +93,8 @@
       $('.select2').select2();
 
       $('.modal').on('hidden.bs.modal', function(){
+        $('#ingredients').val('0');
+        $('.select2').select2();
         $('.alert').css('display', 'none');
         $('input[type="checkbox"].minimal').iCheck('uncheck');
         $(this).find('form')[0].reset();
@@ -110,17 +112,133 @@
       $("#recipe_image").on('click', function () {
         $("#image_save").show();
         $("#image_cancel").show();
-      });    
+      });   
 
-      $('#ingredients').on('change',function(){
-        var ingredient_id = $(this).val(); 
-        var optionText = $("#ingredients option:selected").text();
-        $("#ingredients option:selected").addClass('hidden');
-        $("#selectedIngredients").append($("<li><span class='text'>"+optionText+"</span><small class='pull-right'><span>Quantity = </span><input id='"+ingredient_id+"' type='text' style='width:40px;' placeholder='Unit'></small><div class='tools pull-left'><i class='fa fa-times'></i></div></li>"));
+      $('#addingr').on('change',function(){
+        $('#add_ingred').prop('disabled', false);
+        var value = $(this).val();
+        $('option[value="'+value+'"]').prop('disabled', true);
+        $('.select2').select2();
+        $('.labels').css('display', 'block');
+        var optionText = this[this.selectedIndex].text;
+        var optionUnit = this[this.selectedIndex].id;
+        $("#ingr-scroll").append($('<div class="row form-group"><div class="col-md-4"><input type="text" class="form-control input-sm" value="'+optionText+'" readonly></div><div class="col-md-2"><span><input type="text" id="'+value+'" class="form-control input-sm"></span></div><div class="col-md-3"><input type="text" class="form-control input-sm" value="'+optionUnit+'" readonly></div><div class="col-md-3"><input type="text" id="method'+value+'" class="form-control input-sm"></div></div>'));
+      });
+
+      $('#add_ingred').on('click', function(){
+        var re_id = $('#rec_id').val();
+        var ing_id = new Array();
+        var ing_val = new Array();
+        var ing_met = new Array();
+        $('#ingr-scroll span input').each( function(){
+          ing_id.push(this.id);
+          ing_val.push($('#'+this.id).val());
+          ing_met.push($('#method'+this.id).val());
+        });
+        $.ajax({
+            type: 'post',
+            url: "<?php echo site_url('admin/add_recipe_ingredient'); ?>",
+            data: {
+              recipe_id: re_id,
+              ingredients_id: ing_id,
+              ingredients_val: ing_val,
+              ingredients_meth: ing_met
+            },
+            dataType: 'JSON',
+            success: function(data){
+                if (data.status) {
+                    alert("Ingredients Successfully Added!");
+                    location.reload();
+                    $('#add_ingr').modal('hide');
+                }else{
+                    $('.alert').css('display', 'block');
+                    $('.alert').html(data.notif);
+                }
+            },
+            error: function(data){
+              console.log(data);
+              alert('ERROR!');
+            }
+        });return false;
+      });
+
+      $('#uptingr').on('change',function(){
+        $('#upt_ingred').prop('disabled', false);
+        var value = $(this).val();
+        $('option[value="'+value+'"]').prop('disabled', true);
+        $('.select2').select2();
+        $('.label').css('display', 'block');
+        var optionText = this[this.selectedIndex].text;
+        var optionUnit = this[this.selectedIndex].id;
+        $("#ingr1-scroll").append($('<div class="row form-group"><div class="col-md-4"><input type="text" class="form-control input-sm" value="'+optionText+'" readonly></div><div class="col-md-2"><span><input type="text" id="'+value+'" class="form-control input-sm"></span></div><div class="col-md-3"><input type="text" class="form-control input-sm" value="'+optionUnit+'" readonly></div><div class="col-md-3"><input type="text" id="method'+value+'" class="form-control input-sm"></div></div>'));
+      });
+
+      $('#upt_ingred').on('click', function(){
+        var re_id = $('#reci_id').val();
+        var ings_id = new Array();
+        var ings_val = new Array();
+        var ings_met = new Array();
+        $('#ingr1-scroll span input').each( function(){
+          ings_id.push(this.id);
+          ings_val.push($('#'+this.id).val());
+          ings_met.push($('#method'+this.id).val());
+        });
+        $.ajax({
+            type: 'post',
+            url: "<?php echo site_url('admin/edit_recipe_ingredient'); ?>",
+            data: {
+              recipee_id: re_id,
+              ingrs_id: ings_id,
+              ingrs_val: ings_val,
+              ingrs_meth: ings_met
+            },
+            dataType: 'JSON',
+            success: function(data){
+                if (data.status) {
+                    alert("Ingredients Successfully Updated!");
+                    location.reload();
+                    $('#upt_ingr').modal('hide');
+                }else{
+                    $('.alert').css('display', 'block');
+                    $('.alert').html(data.notif);
+                }
+            },
+            error: function(data){
+              console.log(data);
+              alert('ERROR!');
+            }
+        });return false;
+      });
+
+      $('.del_ingr').on('click', function(){
+        var in_id = this.id;
+        $.ajax({
+            type: 'POST',
+            url: "<?php echo site_url('admin/delete_recipe_ingredient'); ?>",
+            data: {
+              ingr_id: in_id,
+            },
+            dataType: 'JSON',
+            success: function(data){ 
+              location.reload();
+            },
+            error: function(data){
+              console.log(data);
+              alert('ERROR!');
+            }
+        });
       });
       
       $('#ingr-scroll').slimScroll({
-        height: '220px'
+        height: '230px'
+      });
+
+      $('#ingr1-scroll').slimScroll({
+        height: '230px'
+      });
+
+      $('#ingred_scroll').slimScroll({
+        height: '331px'
       });
 
       $('#btn_rcp_save').on('click', function(){
@@ -164,13 +282,6 @@
         var country = $("[name='upt_country']").val();
         var instruc = $('#instruc').val();
         var id = $('#recipe_id').val();
-
-        var ing_id = new Array();
-        var ing_val = new Array();
-        $('#selectedIngredients li input').each( function(){
-          ing_id.push(this.id);
-          ing_val.push($('#'+this.id).val());
-        });
         $.ajax({
             type: 'post',
             url: "<?php echo site_url('admin/update_recipe'); ?>",
@@ -181,12 +292,11 @@
                 price: price,
                 country: country,
                 instruc: instruc,
-                recipe_id: id,
-                ingredients_id: ing_id,
-                ingredients_val: ing_val
+                recipe_id: id
             },
             dataType: 'JSON',
             success: function(data){
+              console.log(data);
                 if (data.status) {
                     alert("Recipe Successfully Updated!");
                     location.reload();
@@ -196,7 +306,8 @@
                     $('.alert').html(data.notif);
                 }
             },
-            error: function(){
+            error: function(data){
+              console.log(data);
               alert('ERROR!');
             }
         });return false;

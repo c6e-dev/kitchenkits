@@ -50,6 +50,7 @@ class admin_model extends CI_Model{
 			SELECT md5(cs.id) AS cs_id, cs.code AS cs_code, cs.first_name AS cs_fname, cs.last_name AS cs_lname, cs.email_address AS cs_email, cs.home_address AS cs_address, u.created_date AS cs_create, u.updated_date AS cs_update, u.id AS cs_uid, u.status AS cs_status
 			FROM customer cs
 			INNER JOIN user u ON cs.user_id = u.id
+			ORDER BY u.created_date DESC
 		");
 		if($query->num_rows()>0){
 			return $query->result();
@@ -109,6 +110,7 @@ class admin_model extends CI_Model{
 			INNER JOIN user_activity ua ON od.activity_id = ua.id
 			INNER JOIN customer cs ON od.customer_id = cs.id
 			INNER JOIN branch br ON od.branch_id = br.id
+			ORDER BY ua.created_date DESC
 		");
 		if($query->num_rows()>0){
 			return $query->result();
@@ -189,14 +191,42 @@ class admin_model extends CI_Model{
 		$this->db->insert('recipe_ingredients', $data);
 	}
 
+	public function edit_recipe_ingredients($upt_date){
+		$ings_id = $_POST['ingrs_id'];
+		$ings_val = $_POST['ingrs_val'];
+		$ings_met = $_POST['ingrs_meth'];
+		$re_id = $_POST['recipee_id'];
+		for ($i=0; $i < count($ings_id); $i++) {
+			$query = $this->db->query("
+				UPDATE recipe_ingredients ri, recipe re
+				SET ri.ingredient_amount = '$ings_val[$i]', ri.method = '$ings_met[$i]', re.updated_date = '$upt_date'
+				WHERE ri.ingredient_id = '$ings_id[$i]' AND ri.recipe_id = '$re_id' AND re.id = '$re_id'
+			");
+		}
+	}
+
+	public function read_ingr($id){
+		$query = $this->db->query("
+			SELECT ig.id ig_id, ig.name ig_name, un.name ig_unit
+			FROM ingredients ig
+			INNER JOIN unit un ON ig.unit_id = un.id
+			WHERE ig.id NOT IN (SELECT ri.ingredient_id FROM recipe_ingredients ri WHERE md5(ri.recipe_id) = '$id')
+		");
+		if($query->num_rows()>0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
 	public function read_ingredients($id){
 		$query = $this->db->query("
-			SELECT ri.id in_id, ri.ingredient_amount in_am, ig.name in_nm, ut.name in_ut
+			SELECT md5(ri.id) in_id, ri.ingredient_amount in_am, ri.method in_meth, ig.id ig_id, ig.name in_nm, ut.name in_ut
 			FROM recipe_ingredients ri
 			INNER JOIN ingredients ig ON ri.ingredient_id = ig.id
-			INNER JOIN recipe re ON ri.recipe_id = re.id 
 			INNER JOIN unit ut ON ig.unit_id = ut.id 
-			WHERE md5(re.id) = '$id'
+			WHERE md5(ri.recipe_id) = '$id'
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();
@@ -308,13 +338,30 @@ class admin_model extends CI_Model{
 		return $query->result();
 	}
 
-	public function view_order_content($id){ //CHANGE THIS FUNCTION TO ACCOMODATE ADDITIONAL INGREDIENTS
+	public function view_order_content($id){
 		$query = $this ->db->query("
 			SELECT re.name AS oc_recipe
 			FROM order_content oc 
 			INNER JOIN delivery od ON oc.order_id = od.id
 			INNER JOIN recipe re ON oc.recipe_id = re.id
 			WHERE md5(oc.order_id) = '$id'
+		");
+		if($query->num_rows()>0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function view_additional_order_content($id){
+		$query = $this ->db->query("
+			SELECT ig.name ig_name, un.name ig_unit, ai.ingredient_amount amount
+			FROM add_ingredient ai
+			INNER JOIN delivery od ON ai.order_id = od.id
+			INNER JOIN ingredients ig ON ai.ingredient_id = ig.id
+			INNER JOIN unit un ON ig.unit_id = un.id
+			WHERE md5(ai.order_id) = '$id'
 		");
 		if($query->num_rows()>0){
 			return $query->result();
@@ -541,6 +588,14 @@ class admin_model extends CI_Model{
 			DELETE FROM ingredients			
 			WHERE ingredients.id = '$id'
 		");
+	}
+
+	public function delete_recipe_ingredient($id){
+		$this->db->query("
+			DELETE FROM recipe_ingredients			
+			WHERE md5(id) = '$id'
+		");
+		return TRUE;
 	}
 
 	// ACTIVATE FUNCTIONS - Robert / 12-02-18

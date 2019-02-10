@@ -90,48 +90,54 @@
 	</div>
 
 	<!-- Wekkly Favorites -->
-	<div class="container-fluid new-div padding last-content">
-		<h1 class="title-design">Monthly Favorites</h1>
-		<div class="card-content">
-			<?php
-				foreach ($top_of_the_month as $top) {
-					?>
-					<div class="card wew">
-						<a href="<?php echo site_url('view_recipe/'.'?id='.$top[0]->re_id); ?>"><img class="card-img-top" src="<?php echo base_url('Recipe_Folder/'.$top[0]->re_name.'/'.$top[0]->re_img); ?>" height="220px"></a>
-						<div class="card-body">
-							<h4 class="card-title"><?php echo $top[0]->re_name;?></h4>
-						</div>
-						<div class="card-footer">
-							<div class="row">
-								<div class="col-4" style="padding-top:0.5rem;">
-									<select class="top_recipe_rating" id="toprating<?php echo $top[0]->re_id;?>" topreview-id="<?php echo $top[0]->re_id;?>" data-top-rating="<?php echo round($top[0]->average, 1);?>" autocomplete="off">
-			                            <option value="1">1</option>
-			                            <option value="2">2</option>
-			                            <option value="3">3</option>
-			                            <option value="4">4</option>
-			                            <option value="5">5</option>
-		                          	</select>
-								</div>
-								<div class="col-4" style="text-align:right;">
-									<p><span class="fa fa-clock-o"> <?php echo $top[0]->re_cooktime;?> minutes</span></p>
-								</div>
-								<div class="col-4" style="text-align:center;">
-									<p><span class="fa fa-cutlery"> Serves <?php echo $top[0]->re_serves;?></span></p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<?php
-				}
+	<?php
+		if ($top_of_the_month!=NULL) {
 			?>
-		</div>
-	</div>
+				<h1 class="title-design">Monthly Favorites</h1>
+				<div class="container-fluid new-div padding last-content" id="top-scroll">
+					<div class="card-content">
+						<?php
+							foreach ($top_of_the_month as $top) {
+								?>
+								<div class="card wew">
+									<a href="<?php echo site_url('view_recipe/'.'?id='.$top[0]->re_id); ?>"><img class="card-img-top" src="<?php echo base_url('Recipe_Folder/'.$top[0]->re_name.'/'.$top[0]->re_img); ?>" height="220px"></a>
+									<div class="card-body">
+										<h4 class="card-title"><?php echo $top[0]->re_name;?></h4>
+									</div>
+									<div class="card-footer">
+										<div class="row">
+											<div class="col-4" style="padding-top:0.5rem;">
+												<select class="top_recipe_rating" id="toprating<?php echo $top[0]->re_id;?>" topreview-id="<?php echo $top[0]->re_id;?>" data-top-rating="<?php echo round($top[0]->average, 1);?>" autocomplete="off">
+						                            <option value="1">1</option>
+						                            <option value="2">2</option>
+						                            <option value="3">3</option>
+						                            <option value="4">4</option>
+						                            <option value="5">5</option>
+					                          	</select>
+											</div>
+											<div class="col-4" style="text-align:right;">
+												<p><span class="fa fa-clock-o"> <?php echo $top[0]->re_cooktime;?> minutes</span></p>
+											</div>
+											<div class="col-4" style="text-align:center;">
+												<p><span class="fa fa-cutlery"> Serves <?php echo $top[0]->re_serves;?></span></p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<?php
+							}
+						?>
+					</div>
+				</div>
+			<?php
+		}
+	?>
 	<!-- Recommendation -->
 	<?php
-		if (isset($_SESSION['logged_in']) && $_SESSION['utype'] == 3) {
+		if (isset($_SESSION['logged_in']) && $_SESSION['utype'] == 3 && $recommended_recipe!=NULL) {
 			?>
-				<div class="container-fluid new-div padding last-content">
-					<h1 class="title-design">Recommended for You</h1>
+				<h1 class="title-design">Recommended for You</h1>
+				<div class="container-fluid new-div padding last-content" id="recommend-scroll">
 					<div class="card-content">
 						<?php
 							foreach ($recommended_recipe as $rec) {
@@ -179,5 +185,16 @@
 	<script type="text/javascript" src="<?php echo base_url();?>/assets/js/bootstrap.min.js"></script>
 	<script src="<?php echo base_url('assets/js/jquery.barrating.js');?>"></script>
 	<script src="<?php echo base_url('assets/js/kitchenkitsrating.js');?>"></script>
+	<script src="<?php echo base_url('assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js');?>"></script>
+	<script type="text/javascript">
+	    $(function(){
+	      $('#top-scroll').slimScroll({
+	        height: '400px'
+	      });
+	      $('#recommend-scroll').slimScroll({
+	        height: '400px'
+	      });
+	    });
+	  </script>
 </body>
 </html>

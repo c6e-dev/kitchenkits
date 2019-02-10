@@ -248,12 +248,12 @@ class customer_model extends CI_Model{
 		return $query->result();
 	}
 
-	public function read_condiments(){
+	public function read_condiments($id){
 		$query = $this->db->query("
 			SELECT ig.id ig_id, ig.name ig_name, un.name ig_unit
 			FROM ingredients ig
 			INNER JOIN unit un ON ig.unit_id = un.id
-			WHERE ig.condiments = 'Yes' AND ig.id NOT IN (SELECT ai.ingredient_id FROM add_ingredient ai)
+			WHERE ig.condiments = 'Yes' AND ig.id NOT IN (SELECT ai.ingredient_id FROM add_ingredient ai WHERE ai.order_id = '$id')
 		");
 		return $query->result();
 	}
@@ -388,14 +388,65 @@ class customer_model extends CI_Model{
 		}
 	}
 
-	public function recipe_reviews($id){
+	public function recipe_rates($re_id,$id){
 		$query = $this->db->query("
-			SELECT co.message co_me, cu.first_name cu_fname, cu.last_name cu_lname, ua.created_date cdate
+			SELECT cu.first_name cu_fname, cu.last_name cu_lname, ua.created_date cdate, ra.rating rate, ra.id ra_id
+			FROM user_activity ua
+			INNER JOIN rating ra ON ra.activity_id = ua.id
+			INNER JOIN customer cu ON ua.customer_id = cu.id
+			WHERE ua.recipe_id = '$re_id' AND ua.activity_type_id = 3 AND cu.user_id <> '$id'
+			ORDER BY ua.created_date DESC
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function recipe_reviews($re_id,$id){
+		$query = $this->db->query("
+			SELECT co.message co_me
 			FROM user_activity ua
 			INNER JOIN comment co ON co.activity_id = ua.id
-			-- INNER JOIN rating ra ON ra.activity_id = ua.id
 			INNER JOIN customer cu ON ua.customer_id = cu.id
-			WHERE ua.recipe_id = '$id' AND ua.activity_type_id = 4
+			WHERE ua.recipe_id = '$re_id' AND ua.activity_type_id = 4 AND cu.user_id <> '$id'
+			ORDER BY ua.created_date DESC
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function my_rate($re_id,$id){
+		$query = $this->db->query("
+			SELECT cu.first_name cu_fname, cu.last_name cu_lname, ua.created_date cdate, ra.rating rate, ra.id ra_id
+			FROM user_activity ua
+			INNER JOIN rating ra ON ra.activity_id = ua.id
+			INNER JOIN customer cu ON ua.customer_id = cu.id
+			WHERE ua.recipe_id = '$re_id' AND ua.activity_type_id = 3 AND cu.user_id = '$id'
+			ORDER BY ua.created_date DESC
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function my_review($re_id,$id){
+		$query = $this->db->query("
+			SELECT co.message co_me
+			FROM user_activity ua
+			INNER JOIN comment co ON co.activity_id = ua.id
+			INNER JOIN customer cu ON ua.customer_id = cu.id
+			WHERE ua.recipe_id = '$re_id' AND ua.activity_type_id = 4 AND cu.user_id = '$id'
+			ORDER BY ua.created_date DESC
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();
@@ -500,6 +551,21 @@ class customer_model extends CI_Model{
 			FROM delivery de
 			INNER JOIN customer cu ON de.customer_id = cu.id
 			WHERE cu.user_id = '$id' AND de.activity_id = 0
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
+	public function recipe_check($od_id,$re_id){
+		$query = $this->db->query("
+			SELECT oc.recipe_id
+			FROM order_content oc
+			INNER JOIN delivery od ON oc.order_id = od.id
+			WHERE oc.order_id = '$od_id' AND oc.recipe_id = '$re_id'
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();

@@ -45,7 +45,7 @@
 
   <?php 
     // include ($_SERVER['DOCUMENT_ROOT'].'/kitchenkits/application/views/branch/layout/ajaxscript.php'); 
-    include 'ajaxscript.php';
+    
   ?>
 
   <!-- jQuery 3 -->

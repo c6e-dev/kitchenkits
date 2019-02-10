@@ -193,24 +193,9 @@
                       </div>
                     </div>
                     <div class="row form-group">
-                      <div class="col-md-6">
+                      <div class="col-md-12">
                         <label>Instructions</label>
-                        <textarea class="form-control" name="instruc" id="instruc" rows="11"><?php echo $recipe[0]->re_ins;?></textarea>
-                      </div>
-                      <div class="col-md-6">
-                        <label>Ingredients</label>
-                        <select name="ingredients" id="ingredients" class="form-control select2" style="width: 100%;">
-                          <?php
-                            foreach ($ingredients as $ing) {
-                              ?>
-                                <option value="<?php echo $ing->in_id; ?>"><?php echo $ing->in_nm; ?></option>
-                              <?php
-                            }
-                          ?>
-                        </select>
-                        <div id="ingr-scroll">
-                          <ul class="todo-list" id="selectedIngredients"></ul>
-                        </div>
+                        <textarea class="form-control" name="instruc" id="instruc" rows="11" style="resize: none;"><?php echo $recipe[0]->re_ins;?></textarea>
                       </div>
                     </div>
                   </div>
@@ -236,7 +221,7 @@
             <div class="box-body">
               <div class="row">
                 <div class="col-md-12">
-                  <textarea class="form-control" rows="15"><?php echo $recipe[0]->re_ins;?></textarea>  
+                  <textarea class="form-control" rows="15" style="resize: none;" readonly><?php echo $recipe[0]->re_ins;?></textarea>  
                 </div>                            
               </div>
             </div>
@@ -246,29 +231,152 @@
           <div class="box box-solid">
             <div class="box-header with-border">
               <i class="fa fa-list-ul"></i>
-
               <h3 class="box-title">Ingredients</h3>
+              <button type="button" class="btn btn-sm bg-purple btn-flat" data-target="#add_ingr" data-toggle="modal" data-backdrop="static" style="padding: 1px 5px;margin: 0px 2px 0px 5px">Add</button>
+              <button type="button" class="btn btn-sm bg-purple btn-flat" data-target="#upt_ingr" data-toggle="modal" data-backdrop="static" style="padding: 1px 5px;margin: 0px">Edit</button>
             </div>
-            <div class="box-body">
-              <div class="box-body table-responsive no-padding">
-                <table class="table table-condensed">
-                  <tr>
-                    <th >Name</th>
-                    <th style="width: 80px">Amount</th>
-                  </tr>
-                  <?php
-                    if ($ingredients!=NULL) {
-                      foreach ($ingredients as $ing) {
-                        ?>
-                          <tr>
-                            <td><?php echo $ing->in_nm; ?></td>
-                            <td><?php echo $ing->in_am." ".$ing->in_ut; ?></td>
-                          </tr>
-                        <?php
-                      }
+            <div class="box-body" id="ingred_scroll">
+              <ul class="todo-list">
+                <?php
+                  if ($ingredients!=NULL) {
+                    foreach ($ingredients as $ing) {
+                      ?>
+                        <li>
+                          <div class="row">
+                            <div class="col-xs-4">
+                              <span class="text"><?php echo $ing->in_nm; ?></span>    
+                            </div>
+                            <div class="col-xs-3">
+                              <span class="text"><?php echo $ing->in_am." ".$ing->in_ut; ?></span>
+                            </div>
+                            <div class="col-xs-3">
+                              <span class="text"><?php echo $ing->in_meth; ?></span>    
+                            </div>
+                            <div class="col-xs-2 tools">
+                              <button type="button" id="<?php echo $ing->in_id; ?>" class="del_ingr" style="background-color: transparent;border-color: transparent;color: #dd4b39;padding:0px;margin:0px"><i class="fa fa-close"></i></button>
+                            </div>
+                          </div>
+                        </li>
+                      <?php
                     }
-                  ?>
-                </table>
+                  }
+                ?>
+              </ul>
+            </div>
+          </div>
+          <div class="modal fade" id="add_ingr">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title"><strong>Resupply</strong></h4>
+                </div>
+                <form class="form-horizontal">
+                  <div class="modal-body">
+                    <div class="box-body">
+                      <div class="form-group">
+                        <div class="alert alert-danger" align="center" style="display: none;"></div>
+                      </div>
+                      <div class="row form-group">
+                        <div class="col-md-5">
+                          <label>Ingredient</label>
+                          <select id="addingr" class="form-control select2" style="width: 100%;">
+                            <option value="0" disabled selected>-- Select Ingredient --</option>
+                            <?php
+                              if ($ingred!=NULL) {
+                                foreach ($ingred as $ig) {
+                                  echo '
+                                    <option value="'.$ig->ig_id.'" id="'.$ig->ig_unit.'">'.$ig->ig_name.'</option>
+                                  ';
+                                }
+                              }
+                            ?>
+                          </select>
+                        </div>
+                      </div>
+                      <div id="ingr-scroll">
+                        <div class="row form-group labels" style="margin-bottom: 0px;display: none;">
+                          <div class="col-md-4">
+                            <label>Name</label>
+                          </div>
+                          <div class="col-md-2">
+                            <label>Amount</label>
+                          </div>
+                          <div class="col-md-3">
+                            <label>Unit</label>
+                          </div>
+                          <div class="col-md-3">
+                            <label>Method</label>
+                          </div>
+                        </div>
+                      </div>  
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <input type="hidden" id="rec_id" value="<?php echo $recipe[0]->re_id;?>">
+                    <button type="button" id="add_ingred" class="btn btn-sm btn-primary" disabled>Confirm</button>
+                    <button type="button" class="btn btn-sm" data-dismiss="modal">Close</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="modal fade" id="upt_ingr">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title"><strong>Resupply</strong></h4>
+                </div>
+                <form class="form-horizontal">
+                  <div class="modal-body">
+                    <div class="box-body">
+                      <div class="form-group">
+                        <div class="alert alert-danger" align="center" style="display: none;"></div>
+                      </div>
+                      <div class="row form-group">
+                        <div class="col-md-5">
+                          <label>Ingredient</label>
+                          <select id="uptingr" class="form-control select2" style="width: 100%;">
+                            <option value="0" disabled selected>-- Select Ingredient --</option>
+                            <?php
+                              if ($ingredients!=NULL) {
+                                foreach ($ingredients as $ig) {
+                                  echo '
+                                    <option value="'.$ig->ig_id.'" id="'.$ig->in_ut.'">'.$ig->in_nm.'</option>
+                                  ';
+                                }
+                              }
+                            ?>
+                          </select>
+                        </div>
+                      </div>
+                      <div id="ingr1-scroll">
+                        <div class="row form-group label" style="margin-bottom: 0px;display: none;">
+                          <div class="col-md-4">
+                            <label>Name</label>
+                          </div>
+                          <div class="col-md-2">
+                            <label>Amount</label>
+                          </div>
+                          <div class="col-md-3">
+                            <label>Unit</label>
+                          </div>
+                          <div class="col-md-3">
+                            <label>Method</label>
+                          </div>
+                        </div>
+                      </div>  
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <input type="hidden" id="reci_id" value="<?php echo $recipe[0]->re_id;?>">
+                    <button type="button" id="upt_ingred" class="btn btn-sm btn-primary" disabled>Confirm</button>
+                    <button type="button" class="btn btn-sm" data-dismiss="modal">Close</button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>

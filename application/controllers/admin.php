@@ -213,6 +213,7 @@ class admin extends CI_Controller {
 				$id = $_GET['id'];
 				$data['recipe'] = $this->admin_model->view_recipe($id);
 				$data['country'] = $this->admin_model->country2($data['recipe'][0]->cid);
+				$data['ingred'] = $this->admin_model->read_ingr($id);
 				$data['ingredients'] = $this->admin_model->read_ingredients($id);
 				$this->load->view('admin/layout/header');
 				$this->load->view('admin/recipe_view',$data);
@@ -296,6 +297,7 @@ class admin extends CI_Controller {
 				$this->load->view('admin/layout/header');
 				$data['order'] = $this->admin_model->view_order($id);
 				$data['o_content'] = $this->admin_model->view_order_content($id);
+				$data['oc_content'] = $this->admin_model->view_additional_order_content($id);
 				$this->load->view('admin/order_view',$data);
 				$this->load->view('admin/layout/footer');
 			}
@@ -437,6 +439,11 @@ class admin extends CI_Controller {
 		redirect('admin/manager_view');	
 	}
 
+	public function delete_recipe_ingredient(){
+		$result = $this->admin_model->delete_recipe_ingredient($_POST['ingr_id']);
+		echo json_encode($result);
+	}
+
 	public function delete_ingredient(){
 		$this->admin_model->delete_ingredient($_GET['id']);
 		redirect('admin/ingredient_view');	
@@ -483,6 +490,47 @@ class admin extends CI_Controller {
 			$data = $this->admin_model->create_recipe();
 			$response['status'] = TRUE;
 			$response[] = $data;
+		}
+		else {
+			$response['status'] = FALSE;
+	    	$response['notif']	= validation_errors();
+		}
+		echo json_encode($response);
+	}
+
+	public function add_recipe_ingredient(){
+		$response = array();
+		$ings_id = array();
+		$ings_val = array();
+		$ings_met = array();
+		$ings_val = $_POST['ingredients_val'];
+		$count = count($ings_val);
+		for ($i=0; $i < $count; $i++) {
+			$this->form_validation->set_rules('ingredients_val['.$i.']', 'Ingredient Amount', 'required|numeric',array(
+				'numeric' => 'Please Enter A Valid Amount!',
+				'required' => 'Please Fill All %s Fields!'
+			));
+			$this->form_validation->set_rules('ingredients_meth['.$i.']', 'Ingredient Method', 'required|alpha_numeric',array(
+				'alpha_numeric' => 'Please Enter A valid %s!',
+				'required' => 'Please Fill All %s Fields!'
+			));
+			if ($this->form_validation->run() == FALSE) {
+				break;
+			}
+		}
+		if ($this->form_validation->run() == TRUE) {
+			$ings_id = $_POST['ingredients_id'];
+			$ings_met = $_POST['ingredients_meth'];
+			for ($j=0; $j < $count; $j++) { 
+				$data = array(
+					'ingredient_id' => $ings_id[$j],
+					'recipe_id' => $_POST['recipe_id'],
+					'ingredient_amount' => $ings_val[$j],
+					'method' => $ings_met[$j]
+				);
+				$this->admin_model->add_recipe_ingredients($data);
+			}
+			$response['status'] = TRUE;
 		}
 		else {
 			$response['status'] = FALSE;
@@ -635,20 +683,7 @@ class admin extends CI_Controller {
 
 	public function update_recipe(){
 		$response = array();
-		$ings_id = array();
-		$ings_val = array();
-		$ings_id = $_POST['ingredients_id'];
-		$ings_val = $_POST['ingredients_val'];
 		$recipe_id = $_POST['recipe_id'];
-		$id_count = count($ings_id);
-		for ($i=0; $i < $id_count; $i++) { 
-			$data = array(
-				'recipe_id' => $recipe_id,
-				'ingredient_id' => $ings_id[$i],
-				'ingredient_amount' => $ings_val[$i]
-			);
-			$this->admin_model->add_recipe_ingredients($data);
-		}
 		$check = $this->admin_model->recipe_check($recipe_id);
 		if($this->input->post('name') == $check[0]->re_nm) {
 		   	$is_unique =  '';
@@ -671,6 +706,36 @@ class admin extends CI_Controller {
 			$data = $this->admin_model->update_recipe($upt_date);
 			$response['status'] = TRUE;
 			$response[] = $data;
+		}
+		else {
+			$response['status'] = FALSE;
+	    	$response['notif']	= validation_errors();
+		}
+		echo json_encode($response);
+	}
+
+	public function edit_recipe_ingredient(){
+		$response = array();
+		$ings_val = array();
+		$ings_val = $_POST['ingrs_val'];
+		$count = count($ings_val);
+		for ($i=0; $i < $count; $i++) {
+			$this->form_validation->set_rules('ingrs_val['.$i.']', 'Ingredient Amount', 'required|numeric',array(
+				'numeric' => 'Please Enter A Valid Amount!',
+				'required' => 'Please Fill All %s Fields!'
+			));
+			$this->form_validation->set_rules('ingrs_meth['.$i.']', 'Ingredient Method', 'required|alpha_numeric',array(
+				'alpha_numeric' => 'Please Enter A valid %s!',
+				'required' => 'Please Fill All %s Fields!'
+			));
+			if ($this->form_validation->run() == FALSE) {
+				break;
+			}
+		}
+		if ($this->form_validation->run() == TRUE) {
+			$upt_date = date('Y-m-d H:i:s');
+			$this->admin_model->edit_recipe_ingredients($upt_date);
+			$response['status'] = TRUE;
 		}
 		else {
 			$response['status'] = FALSE;

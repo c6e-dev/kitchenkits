@@ -93,7 +93,7 @@
                   <?php
                     if ($order!=NULL) {
                       foreach ($order as $od) {
-                        if($od->od_status == 'C') {
+                        if($od->od_status == 'C' || $od->od_status == 'P') {
                         ?>
                           <tr>
                             <td><?php echo $od->od_code; ?></td>
