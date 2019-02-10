@@ -12,7 +12,7 @@ class User extends CI_Controller {
 	}
 
 	public function login(){
-		$con = mysqli_connect("localhost","root","","kitchen_kits");
+		$con = mysqli_connect("localhost","root","ugat","kitchen_kits");
 		$user = mysqli_real_escape_string($con, $_POST['username']);
 		$pass = mysqli_real_escape_string($con, sha1($_POST['password']));
 		$userdata = $this->User_model->login_check($user, $pass);
@@ -108,7 +108,9 @@ class User extends CI_Controller {
 				'user' => str_replace("'","’",$_POST['username']),
 				'pass' => str_replace("'","’",sha1($_POST['password'])),
 				'utype' => $user_type_id,
-				'logged_in' => TRUE
+				'logged_in' => TRUE,
+				'fname' => str_replace("'","’",$_POST['fname']),
+				'lname' => str_replace("'","’",$_POST['lname'])
 			);
 			$this->User_model->logged_in($user_id);
 			redirect();
