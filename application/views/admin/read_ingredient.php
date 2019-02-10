@@ -117,9 +117,9 @@
                         <label>Minimum Amount</label>
                         <input type="text" name="minamnt" id="minamnt" class="form-control input-sm">
                       </div>
-                      <div class="col-md-2" style="display: none;" id="pricediv">
+                      <div class="col-md-2">
                         <label>Price</label>
-                        <input type="text" name="price" id="price" class="form-control input-sm">
+                        <input type="text" name="price" id="price" class="form-control input-sm" readonly>
                       </div>
                     </div>
                     <div class="row form-group">

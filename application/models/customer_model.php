@@ -52,7 +52,7 @@ class customer_model extends CI_Model{
 
 	public function recommended_recipe($id){
 		$query = $this->db->query("
-			SELECT SUM(ra.rating)/COUNT(ua.customer_id) AS average, re.id re_id, re.country_id AS re_cid, re.name AS re_name, re.cooking_time AS re_cooktime, re.servings AS re_serves, re.image AS re_img
+			SELECT SUM(ra.rating)/COUNT(ua.customer_id) AS average, md5(re.id) re_id, re.country_id AS re_cid, re.name AS re_name, re.cooking_time AS re_cooktime, re.servings AS re_serves, re.image AS re_img, re.status re_stat
 			FROM rating ra
 			INNER JOIN user_activity ua ON ra.activity_id = ua.id
 			INNER JOIN recipe re ON  ua.recipe_id = re.id
@@ -312,7 +312,7 @@ class customer_model extends CI_Model{
 			SELECT co.id co_id, co.region_id cor_id, co.name co_name
 			FROM country co
 			INNER JOIN region re ON co.region_id = re.id
-			WHERE co.id = '$id'
+			WHERE md5(co.id) = '$id'
 		");
 		return $query->result();
 	}
@@ -349,7 +349,7 @@ class customer_model extends CI_Model{
 
 	public function read_countries(){
 		$query = $this->db->query("
-			SELECT co.id co_id, co.region_id cor_id, co.name co_name
+			SELECT md5(co.id) co_id, co.region_id cor_id, co.name co_name
 			FROM country co
 			INNER JOIN region re ON co.region_id = re.id
 		");
@@ -358,11 +358,11 @@ class customer_model extends CI_Model{
 
 	public function view_recipe($id){
 		$query = $this->db->query("
-			SELECT SUM(ra.rating)/COUNT(ua.customer_id) AS average, COUNT(ua.customer_id) AS total, re.id AS re_id, re.country_id AS re_cid, re.name AS re_name, re.cooking_time AS re_cooktime, re.servings AS re_serves, re.instructions AS re_instruc, re.image AS re_img
+			SELECT SUM(ra.rating)/COUNT(ua.customer_id) AS average, COUNT(ua.customer_id) AS total, re.id AS re_id, md5(re.country_id) AS re_cid, re.name AS re_name, re.cooking_time AS re_cooktime, re.servings AS re_serves, re.instructions AS re_instruc, re.image AS re_img
 			FROM rating ra
 			INNER JOIN user_activity ua ON ra.activity_id = ua.id
 			INNER JOIN recipe re ON  ua.recipe_id = re.id
-			WHERE re.id = '$id'
+			WHERE md5(re.id) = '$id'
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();
@@ -378,7 +378,7 @@ class customer_model extends CI_Model{
 			FROM recipe_ingredients ri
 			INNER JOIN ingredients ig ON ri.ingredient_id = ig.id
 			INNER JOIN unit un ON ig.unit_id = un.id
-			WHERE ri.recipe_id = '$id'
+			WHERE md5(ri.recipe_id) = '$id'
 		");
 		if ($query->num_rows() > 0){
 			return $query->result();
@@ -394,7 +394,7 @@ class customer_model extends CI_Model{
 			FROM user_activity ua
 			INNER JOIN rating ra ON ra.activity_id = ua.id
 			INNER JOIN customer cu ON ua.customer_id = cu.id
-			WHERE ua.recipe_id = '$re_id' AND ua.activity_type_id = 3 AND cu.user_id <> '$id'
+			WHERE md5(ua.recipe_id) = '$re_id' AND ua.activity_type_id = 3 AND cu.user_id <> '$id'
 			ORDER BY ua.created_date DESC
 		");
 		if ($query->num_rows() > 0){
@@ -411,7 +411,7 @@ class customer_model extends CI_Model{
 			FROM user_activity ua
 			INNER JOIN comment co ON co.activity_id = ua.id
 			INNER JOIN customer cu ON ua.customer_id = cu.id
-			WHERE ua.recipe_id = '$re_id' AND ua.activity_type_id = 4 AND cu.user_id <> '$id'
+			WHERE md5(ua.recipe_id) = '$re_id' AND ua.activity_type_id = 4 AND cu.user_id <> '$id'
 			ORDER BY ua.created_date DESC
 		");
 		if ($query->num_rows() > 0){
@@ -428,7 +428,7 @@ class customer_model extends CI_Model{
 			FROM user_activity ua
 			INNER JOIN rating ra ON ra.activity_id = ua.id
 			INNER JOIN customer cu ON ua.customer_id = cu.id
-			WHERE ua.recipe_id = '$re_id' AND ua.activity_type_id = 3 AND cu.user_id = '$id'
+			WHERE md5(ua.recipe_id) = '$re_id' AND ua.activity_type_id = 3 AND cu.user_id = '$id'
 			ORDER BY ua.created_date DESC
 		");
 		if ($query->num_rows() > 0){
@@ -445,7 +445,7 @@ class customer_model extends CI_Model{
 			FROM user_activity ua
 			INNER JOIN comment co ON co.activity_id = ua.id
 			INNER JOIN customer cu ON ua.customer_id = cu.id
-			WHERE ua.recipe_id = '$re_id' AND ua.activity_type_id = 4 AND cu.user_id = '$id'
+			WHERE md5(ua.recipe_id) = '$re_id' AND ua.activity_type_id = 4 AND cu.user_id = '$id'
 			ORDER BY ua.created_date DESC
 		");
 		if ($query->num_rows() > 0){

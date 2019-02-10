@@ -93,7 +93,7 @@
                                     <strong><center>Confirm Manager Account Deactivation</center></strong>
                                   </div>';?>
                                   <div class="modal-footer">
-                                    <a href="<?php echo site_url('admin_delete_manager/'.$bm->bm_id.'/'.$bm->bm_uid.'/'.$bm->bm_assign);?>" class="btn btn-sm btn-primary">Confirm</a>
+                                    <a href="<?php echo site_url('admin/delete_manager/'.$bm->bm_id.'/'.$bm->bm_uid.'/'.$bm->bm_assign);?>" class="btn btn-sm btn-primary">Confirm</a>
                                     <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Cancel</button>
                                   </div>
                                 </div>
@@ -152,7 +152,7 @@
                                     <strong><center>Confirm Manager Account Activation</center></strong>
                                   </div>';?>
                                   <div class="modal-footer">
-                                    <a href="<?php echo site_url('admin/activate_manager'.'?id='.$bm->bm_uid);?>" class="btn btn-sm btn-primary">Confirm</a>
+                                    <a href="<?php echo site_url('admin_activate_manager'.'?id='.$bm->bm_uid);?>" class="btn btn-sm btn-primary">Confirm</a>
                                     <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Cancel</button>
                                   </div>
                                 </div>

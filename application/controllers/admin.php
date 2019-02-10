@@ -654,7 +654,7 @@ class admin extends CI_Controller {
 				$data = array(
 					'unit_id' => $unit_id,
 					'name' => $name,
-					'condiment' => $condi,
+					'condiments' => $condi,
 					'price' => $price,
 					'set_minimum' => $min_amount
 				);
@@ -664,7 +664,7 @@ class admin extends CI_Controller {
 				$data = array(
 					'unit_id' => $unit,
 					'name' => $name,
-					'condiment' => $condi,
+					'condiments' => $condi,
 					'price' => $price,
 					'set_minimum' => $min_amount
 				);

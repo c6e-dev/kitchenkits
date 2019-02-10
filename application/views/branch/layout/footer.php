@@ -88,6 +88,54 @@
         height: '230px'
       });
 
+      $('#ingr1-scroll').slimScroll({
+        height: '230px'
+      });
+
+      $('#ingr').on('change',function(){
+        $('#submit_adds').prop('disabled', false);
+        var value = $(this).val();
+        $('option[value="'+value+'"]').prop('disabled', true);
+        $('.select2').select2();
+        $('.label').css('display', 'block');
+        var optionText = this[this.selectedIndex].text;
+        var optionUnit = this[this.selectedIndex].id;
+        $("#ingr1-scroll").append($('<div class="row form-group"><div class="col-md-5"><input type="text" class="form-control input-sm" value="'+optionText+'" readonly></div><div class="col-md-4"><span><input type="text" id="'+value+'" class="form-control input-sm"></span></div><div class="col-md-3"><input type="text" class="form-control input-sm" value="'+optionUnit+'" readonly></div></div>'));
+      });
+
+      $('#submit_adds').on('click', function(){
+        var br_id = $('#branch_id').val();
+        var ing_id = new Array();
+        var ing_val = new Array();
+        $('#ingr1-scroll span input').each( function(){
+          ing_id.push(this.id);
+          ing_val.push($('#'+this.id).val());
+        });
+        $.ajax({
+            type: 'post',
+            url: "<?php echo site_url('branch/add_ingredient_supply'); ?>",
+            data: {
+              branch_id: br_id,
+              ingredients_id: ing_id,
+              ingredients_val: ing_val
+            },
+            dataType: 'JSON',
+            success: function(data){
+                if (data.status) {
+                    alert("Supply Successfully Updated!");
+                    location.reload();
+                    $('#addnew').modal('hide');
+                }else{
+                    $('.alert').css('display', 'block');
+                    $('.alert').html(data.notif);
+                }
+            },
+            error: function(){
+              alert('ERROR!');
+            }
+        });return false;
+      });
+
       $('#resingr').on('change',function(){
         $('#submit_resupply').prop('disabled', false);
         var value = $(this).val();

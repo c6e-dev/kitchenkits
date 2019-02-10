@@ -138,19 +138,19 @@
               echo '
                 <tr>
                   <th style="width:50%">Subtotal:</th>
-                  <td>'.$subtotal.'</td>
+                  <td>₱'.$subtotal.'</td>
                 </tr>
                 <tr>
                   <th>VAT (13%)</th>
-                  <td>'.$vat.'</td>
+                  <td>₱'.$vat.'</td>
                 </tr>
                 <tr>
                   <th>Delivery Fee:</th>
-                  <td>'.$sfee.'</td>
+                  <td>₱'.$sfee.'</td>
                 </tr>
                 <tr>
                   <th>Total:</th>
-                  <td>'.$total.'</td>
+                  <td>₱'.$total.'</td>
                 </tr>
               ';?>
           </table>

@@ -98,7 +98,7 @@
         $('.alert').css('display', 'none');
         $('input[type="checkbox"].minimal').iCheck('uncheck');
         $(this).find('form')[0].reset();
-        $('#pricediv').hide();
+        $('#price').prop('readonly', true);
       });
 
       $("#history").on("hide.bs.collapse", function(){
@@ -444,11 +444,11 @@
       });
 
       $('input[type="checkbox"].minimal').on('ifChecked', function(){
-        $('#pricediv').show('slow');
+        $('#price').prop('readonly', false);
       });
 
       $('input[type="checkbox"].minimal').on('ifUnchecked', function(){
-        $('#pricediv').hide('slow');
+        $('#price').prop('readonly', true);
       });
 
       $('#btn_ing_save').on('click', function(){
@@ -484,7 +484,8 @@
                 $('.alert').html(data.notif);
               }
             },
-            error: function(){
+            error: function(data){
+              console.log(data);
               alert('ERROR!');
             }
         });return false;

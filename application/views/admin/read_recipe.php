@@ -51,7 +51,6 @@
               <table id="" class="display table table-bordered table-striped table-hover">
                 <thead>
                   <tr>
-                    <th>ID</th>
                     <th>Name</th>
                     <th>Price</th>
                     <th>Region</th>
@@ -68,7 +67,6 @@
                         if ($rcp->st == 'A') {
                           ?>
                             <tr>
-                              <td><?php echo $rcp->id; ?></td>
                               <td><?php echo $rcp->nm; ?></td>
                               <td><?php echo $rcp->prc; ?></td>
                               <td><?php echo $rcp->rnm; ?></td>
@@ -115,7 +113,6 @@
               <table id="" class="display table table-bordered table-striped table-hover">
                 <thead>
                   <tr>
-                    <th>ID</th>
                     <th>Name</th>
                     <th>Price</th>
                     <th>Region</th>
@@ -132,7 +129,6 @@
                         if ($rcp->st == 'U') {
                           ?>
                             <tr>
-                              <td><?php echo $rcp->id; ?></td>
                               <td><?php echo $rcp->nm; ?></td>
                               <td><?php echo $rcp->prc; ?></td>
                               <td><?php echo $rcp->rnm; ?></td>
@@ -179,7 +175,6 @@
               <table id="" class="display table table-bordered table-striped table-hover">
                 <thead>
                   <tr>
-                    <th>ID</th>
                     <th>Name</th>
                     <th>Price</th>
                     <th>Region</th>
@@ -196,7 +191,6 @@
                         if ($rcp->st == 'I') {
                           ?>
                             <tr>
-                              <td><?php echo $rcp->id; ?></td>
                               <td><?php echo $rcp->nm; ?></td>
                               <td><?php echo $rcp->prc; ?></td>
                               <td><?php echo $rcp->rnm; ?></td>

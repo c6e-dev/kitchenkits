@@ -74,6 +74,7 @@ class branch extends CI_Controller {
 			if ($_SESSION['utype'] == 2) {
 				$this->load->view('branch/layout/header');
 				$data['supply'] = $this->branch_model->supply_view($_SESSION['id']);
+				$data['ingredients'] = $this->branch_model->all_ingredients($data['supply'][0]->branch_id);
 				$this->load->view('branch/supply_view',$data);
 				$this->load->view('branch/layout/footer');
 			}
@@ -115,6 +116,41 @@ class branch extends CI_Controller {
 
 				);
 				$this->branch_model->add_report($data);
+			}
+			$response['status'] = TRUE;
+		}
+		else {
+			$response['status'] = FALSE;
+	    	$response['notif']	= validation_errors();
+		}
+		echo json_encode($response);
+	}
+
+	public function add_ingredient_supply(){
+		$response = array();
+		$ings_id = array();
+		$ings_val = array();
+		$ings_val = $_POST['ingredients_val'];
+		$count = count($ings_val);
+		for ($i=0; $i < $count; $i++) {
+			$this->form_validation->set_rules('ingredients_val['.$i.']', 'Ingredient Amount', 'required|numeric',array(
+				'numeric' => 'Please enter a valid amount!',
+				'required' => 'Please Fill All %s Fields!'
+			));
+			if ($this->form_validation->run() == FALSE) {
+				break;
+			}
+		}
+		if ($this->form_validation->run() == TRUE) {
+			$ings_id = $_POST['ingredients_id'];
+			$br_id = $_POST['branch_id'];
+			for ($j=0; $j < $count; $j++) { 
+				$data = array(
+					'ingredient_id' => $ings_id[$j],
+					'branch_id' => $br_id,
+					'supply' => $ings_val[$j]
+				);
+				$this->branch_model->add_ingredient_supply($data);
 			}
 			$response['status'] = TRUE;
 		}

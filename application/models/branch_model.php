@@ -114,6 +114,21 @@ class branch_model extends CI_Model{
 		}
 	}
 
+	public function all_ingredients($id){
+		$query = $this->db->query("
+			SELECT ig.id ig_id, ig.name AS bi_name, un.name AS bi_unit
+			FROM ingredients ig
+			INNER JOIN unit un ON ig.unit_id = un.id
+			WHERE ig.id NOT IN (SELECT bi.ingredient_id FROM branch_ingredients bi WHERE bi.branch_id = '$id')
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}
+		else{
+			return NULL;
+		}
+	}
+
 	public function update_supply($upt_date){
 		$ings_id = $_POST['ingredients_id'];
 		$ings_val = $_POST['ingredients_val'];
@@ -125,6 +140,10 @@ class branch_model extends CI_Model{
 				WHERE id = '$bri_id[$i]' 
 			");
 		}
+	}
+
+	public function add_ingredient_supply($data){
+		$this->db->insert('branch_ingredients', $data);
 	}
 
 	public function reduce_supply(){

@@ -217,7 +217,7 @@
                           <?php
                             if ($b_order!=NULL) {
                               foreach ($b_order as $bod) {
-                                if($bod->od_status == 'C') {
+                                if($bod->od_status == 'C' || $bod->od_status == 'P') {
                                 ?>
                                   <tr>
                                     <td><?php echo $bod->od_code; ?></td>

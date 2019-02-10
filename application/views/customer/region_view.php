@@ -24,36 +24,36 @@
 			<div id= "trigger-a" class="hidden">
 				<div class="row">
 					<div id="France" class="col-lg-6 region">
-						<a href="<?php echo site_url('browse_recipe/'.'?id=7');?>"><span></span></a>
+						<a href="<?php echo site_url('browse_recipe/'.'?id='.md5(7));?>"><span></span></a>
 						<h2>France</h2>
 						<img src="<?php echo base_url('/assets/img/food/west/france.jpg'); ?>">
 					</div>
 					<div id="Greece" class="col-lg-6 region">
-						<a href="<?php echo site_url('browse_recipe/'.'?id=8');?>"><span></span></a>
+						<a href="<?php echo site_url('browse_recipe/'.'?id='.md5(8));?>"><span></span></a>
 						<h2>Greece</h2>
 						<img src="<?php echo base_url('/assets/img/food/west/greece.jpg'); ?>">
 					</div>
 				</div>
 				<div class="row">
 					<div id="Italy" class="col-lg-6 region">
-						<a href="<?php echo site_url('browse_recipe/'.'?id=9');?>"><span></span></a>
+						<a href="<?php echo site_url('browse_recipe/'.'?id='.md5(9));?>"><span></span></a>
 						<h2>Italy</h2>
 						<img src="<?php echo base_url('/assets/img/food/west/italy.jpg'); ?>">
 					</div>
 					<div id="Mexico" class="col-lg-6 region">
-						<a href="<?php echo site_url('browse_recipe/'.'?id=10');?>"><span></span></a>
+						<a href="<?php echo site_url('browse_recipe/'.'?id='.md5(10));?>"><span></span></a>
 						<h2>Mexico</h2>
 						<img src="<?php echo base_url('/assets/img/food/west/mexico.jpg'); ?>">
 					</div>
 				</div>
 				<div class="row">
 					<div id="Spain" class="col-lg-6 region">
-						<a href="<?php echo site_url('browse_recipe/'.'?id=11');?>"><span></span></a>
+						<a href="<?php echo site_url('browse_recipe/'.'?id='.md5(11));?>"><span></span></a>
 						<h2>Spain</h2>
 						<img src="<?php echo base_url('/assets/img/food/west/spain.jpg'); ?>">
 					</div>
 					<div id="States" class="col-lg-6 region">
-						<a href="<?php echo site_url('browse_recipe/'.'?id=12');?>"><span></span></a>
+						<a href="<?php echo site_url('browse_recipe/'.'?id='.md5(12));?>"><span></span></a>
 						<h2>USA</h2>
 						<img src="<?php echo base_url('/assets/img/food/west/US.jpg'); ?>">
 					</div>
@@ -70,36 +70,36 @@
 			<div id="trigger-b" class="hidden">
 				<div class="row">
 					<div id="China" class="col-lg-6 region">
-						<a href="<?php echo site_url('browse_recipe/'.'?id=1');?>"><span></span></a>
+						<a href="<?php echo site_url('browse_recipe/'.'?id='.md5(1));?>"><span></span></a>
 						<h2>China</h2>
 						<img src="<?php echo base_url('/assets/img/food/east/china.jpg'); ?>">
 					</div>
 					<div id="India" class="col-lg-6 region">
-						<a href="<?php echo site_url('browse_recipe/'.'?id=2');?>"><span></span></a>
+						<a href="<?php echo site_url('browse_recipe/'.'?id='.md5(2));?>"><span></span></a>
 						<h2>India</h2>
 						<img src="<?php echo base_url('/assets/img/food/east/india.jpg'); ?>">
 					</div>
 				</div>
 				<div class="row">
 					<div id="Japan" class="col-lg-6 region">
-						<a href="<?php echo site_url('browse_recipe/'.'?id=3');?>"><span></span></a>
+						<a href="<?php echo site_url('browse_recipe/'.'?id='.md5(3));?>"><span></span></a>
 						<h2>Japan</h2>
 						<img src="<?php echo base_url('/assets/img/food/east/japan.jpg'); ?>">
 					</div>
 					<div id="Phil" class="col-lg-6 region">
-						<a href="<?php echo site_url('browse_recipe/'.'?id=4');?>"><span></span></a>
+						<a href="<?php echo site_url('browse_recipe/'.'?id='.md5(4));?>"><span></span></a>
 						<h2>Philippines</h2>
 						<img src="<?php echo base_url('/assets/img/food/east/phil.jpg'); ?>">
 					</div>
 				</div>
 				<div class="row">
 					<div id="Korea" class="col-lg-6 region">
-						<a href="<?php echo site_url('browse_recipe/'.'?id=5');?>"><span></span></a>
+						<a href="<?php echo site_url('browse_recipe/'.'?id='.md5(5));?>"><span></span></a>
 						<h2>South Korea</h2>
 						<img src="<?php echo base_url('/assets/img/food/east/korea.jpg'); ?>">
 					</div>
 					<div id="Thailand" class="col-lg-6 region">
-						<a href="<?php echo site_url('browse_recipe/'.'?id=6');?>"><span></span></a>
+						<a href="<?php echo site_url('browse_recipe/'.'?id='.md5(6));?>"><span></span></a>
 						<h2>Thailand</h2>
 						<img src="<?php echo base_url('/assets/img/food/east/thai.jpg'); ?>">
 					</div>
