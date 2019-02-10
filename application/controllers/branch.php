@@ -176,7 +176,7 @@ class branch extends CI_Controller {
 				'branch_ingredients_id' => $_POST['bri_id'],
 				'amount_change' => str_replace("'","’",$_POST['amount']),
 				'reason' => str_replace("'","’",$_POST['reason']),
-				'status' => 0,
+				'status' => 1,
 				'type' => 0
 			);
 			$this->branch_model->add_report($data);

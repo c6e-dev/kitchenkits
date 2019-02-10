@@ -349,36 +349,39 @@ class customer extends CI_Controller {
 	public function add_to_cart(){
 		$response = array();
 		$id = $_SESSION['id'];
-		$result = $this->customer_model->order_check($id);
-		$check = $this->customer_model->recipe_check($result[0]->id, $_POST['recipe_id']);
-		if ($check==NULL) {
-			if ($result==NULL) {
-				$cu_id = $this->customer_model->loggedin_customer($id);
-				$data = array(
-					'customer_id' => $cu_id[0]->id,
-					'activity_id' => 0
-				);
-				$this->customer_model->create_order($data);
-				$order_id = $this->db->insert_id();
-				$order_data = array(
-					'recipe_id' => $_POST['recipe_id'],
-					'order_id' => $order_id,
-					'quantity' => str_replace("'","’",$_POST['quantity'])
-				);
-			}
-			else{
+		$result = $this->customer_model->order_check($id);	
+		if ($result==NULL) {
+			$cu_id = $this->customer_model->loggedin_customer($id);
+			$data = array(
+				'customer_id' => $cu_id[0]->id,
+				'activity_id' => 0
+			);
+			$this->customer_model->create_order($data);
+			$order_id = $this->db->insert_id();
+			$order_data = array(
+				'recipe_id' => $_POST['recipe_id'],
+				'order_id' => $order_id,
+				'quantity' => str_replace("'","’",$_POST['quantity'])
+			);
+			$this->customer_model->add_order($order_data);
+			$response['status'] = TRUE;
+			$response['notif'] = 'Recipe Successfully Added To Your Cart!';
+		}
+		else{
+			$check = $this->customer_model->recipe_check($result[0]->id, $_POST['recipe_id']);
+			if ($check==NULL) {
 				$order_data = array(
 					'recipe_id' => $_POST['recipe_id'],
 					'order_id' => $result[0]->id,
 					'quantity' => str_replace("'","’",$_POST['quantity'])
 				);
+				$this->customer_model->add_order($order_data);
+				$response['status'] = TRUE;
+				$response['notif'] = 'Recipe Successfully Added To Your Cart!';
+			}else{
+				$response['status'] = FALSE;
+				$response['notif']	= 'Recipe Is Already In Your Cart!';
 			}
-			$this->customer_model->add_order($order_data);
-			$response['status'] = TRUE;
-			$response['notif']	= 'Recipe Successfully Added To Your Cart!';
-		}else{
-			$response['status'] = FALSE;
-			$response['notif']	= 'Recipe Is Already In Your Cart!';
 		}
 		echo json_encode($response);
 	}

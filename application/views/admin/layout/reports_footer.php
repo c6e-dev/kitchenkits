@@ -63,8 +63,6 @@
   <script>
     $(function(){
 
-      load_unseen_notification_admin();
-
       $('#save_change_pass').on('click', function(){
         var curr_pass = $('#curr_pass').val();
         var new_pass = $('#new_pass').val();
@@ -225,6 +223,35 @@
               }
             }
           });
+        },
+        error: function(data){
+          alert('ERROR');
+          console.log(data);
+        }
+      });
+
+      $.ajax({
+        method: 'post',
+        url: "<?php echo site_url('admin/supply_report'); ?>",
+        dataType : 'json',
+        success: function(data){
+          var count = data.length;
+          var notif = '';
+          if (count==null) {
+            notif = data.notify;
+            $('.header').html(notif);
+          }
+          else{
+            $('#notif_count').html(count); 
+            for(var i=0; i<count; i++){
+              if (data[i].br_rep_tp == 0) {
+                notif += '<li><a href="<?php echo site_url(); ?>admin/view_branch_report'+'?id='+data[i].br_rep_id+'"><div class="pull-left"><img src="<?php echo base_url('assets/dist/img/default-img.png');?>" class="img-circle" alt="User Image"></div><h4>'+data[i].bm_name+'<small><i class="fa fa-clock-o"></i> '+data[i].br_rep_cd+'</small></h4><p>Reduced the stock of '+data[i].ing_name+' in '+data[i].br_name+'</p></a>'+'</li>';
+              }else {
+                notif += '<li><a href="<?php echo site_url(); ?>admin/view_branch_report1'+'?id='+data[i].br_rep_cd.substring(0,18)+'"><div class="pull-left"><img src="<?php echo base_url('assets/dist/img/default-img.png');?>" class="img-circle" alt="User Image"></div><h4>'+data[i].bm_name+'<small><i class="fa fa-clock-o"></i> '+data[i].br_rep_cd+'</small></h4><p>Added new stocks of ingredients in '+data[i].br_name+'</p></a>'+'</li>';
+              }
+            }
+            $('.menu').html(notif);
+          }
         },
         error: function(data){
           alert('ERROR');

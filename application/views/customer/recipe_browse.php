@@ -110,7 +110,7 @@
       </div><!-- End of Row-->
       <div class="container-fluid padding last-content">
         <div class="card-content">
-          <?php
+          <?php 
             if ($recipe!=NULL) {
               foreach ($recipe as $rcp) {
                 ?>

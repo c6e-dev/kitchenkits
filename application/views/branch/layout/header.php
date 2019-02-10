@@ -43,7 +43,6 @@
                     
                   </ul>
                 </li>
-                <li class="footer"><a href="<?php echo site_url('admin/branch_report');?>">View all</a></li>
               </ul>
             </li>
             <li class="dropdown user user-menu">

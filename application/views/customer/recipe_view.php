@@ -288,6 +288,10 @@
     <script type="text/javascript" src="<?php echo base_url();?>/assets/js/popper.min.js"></script>
     <script type="text/javascript">
       $(function(){
+        $('.modal').on('hidden.bs.modal', function(){
+          $('#succ_msg').css('display', 'none');
+          $('#warn_msg').css('display', 'none');
+        });
         $('#review-scroll').slimScroll({
           height: '300px'
         });
@@ -323,9 +327,11 @@
             success: function(data){
               $('#message').modal('show');
               if (data.status) {
+                $('#warn_msg').css('display', 'none');
                 $('#succ_msg').css('display', 'block');
                 $('#succ_msg').html(data.notif);
               }else{
+                $('#succ_msg').css('display', 'none');
                 $('#warn_msg').css('display', 'block');
                 $('#warn_msg').html(data.notif);
               }

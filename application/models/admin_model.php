@@ -796,7 +796,7 @@ class admin_model extends CI_Model{
 		$query = $this->db->query("
 			SELECT ua.activity_type_id fb_type, ua.created_date fb_cdate, co.message fb_comment, ra.rating fb_rating, cs.first_name fb_fname, cs.last_name fb_lname, re.name fb_recipe
 			FROM user_activity ua
-			INNER JOIN recipe re ON ua.recipe_id = re.id		
+			LEFT JOIN recipe re ON ua.recipe_id = re.id		
 			INNER JOIN customer cs ON ua.customer_id = cs.id
 			LEFT JOIN comment co ON ua.id = co.activity_id
 			LEFT JOIN rating ra ON ua.id = ra.activity_id
