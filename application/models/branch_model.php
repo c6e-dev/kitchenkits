@@ -81,7 +81,7 @@ class branch_model extends CI_Model{
 
 	public function detail_ing($re_id){
 		$query = $this->db->query("
-			SELECT ri.ingredient_amount AS ri_amount, ig.name AS ri_ingredient, un.name AS ri_unit
+			SELECT ri.ingredient_amount AS ri_amount, ig.name AS ri_ingredient, un.name AS ri_unit, ri.method AS ri_method
 			FROM recipe_ingredients ri
 			INNER JOIN ingredients ig ON ri.ingredient_id = ig.id
 			INNER JOIN recipe re ON ri.recipe_id = re.id

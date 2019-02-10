@@ -91,7 +91,7 @@
                             ?>
                               <tr>
                                 <td><?php echo $ing->ri_ingredient;?></td>
-                                <td style="text-align: right;"><?php echo $ing->ri_amount." ".$ing->ri_unit;?></td>
+                                <td style="text-align: right;"><?php echo $ing->ri_amount." ".$ing->ri_unit." ".$ing->ri_method;?></td>
                               </tr>
                             <?php
                           }
