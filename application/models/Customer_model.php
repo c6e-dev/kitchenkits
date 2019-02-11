@@ -605,4 +605,30 @@ class Customer_model extends CI_Model{
 		return $query->result();
 	}
 
+	//NOTIFICATION
+
+	public function notify_me($id){
+		$query = $this->db->query("
+			SELECT ua.created_date ua_cd, od.id od_id, od.code od_code
+			FROM delivery od
+			INNER JOIN customer cs ON od.customer_id = cs.id
+			INNER JOIN user u ON cs.user_id = u.id
+			INNER JOIN user_activity ua ON od.activity_id = ua.id
+			WHERE u.id = '$id' AND (od.status = 'I' OR od.status = 'P')
+			");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}
+		else{
+			return 0;
+		}
+	}
+	public function confirm_last_order($id){
+		$this->db->query("
+			UPDATE delivery
+			SET status = 'C'
+			WHERE id = '$id'
+		");
+	}
+
 }

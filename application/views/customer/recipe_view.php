@@ -364,6 +364,7 @@
                 $('#error_msg').css('display', 'block');
                 $('#error_msg').html(data.notif);
               }
+              location.reload();
             },
             error: function(data){
               console.log(data);

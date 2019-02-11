@@ -49,23 +49,26 @@ class Customer extends CI_Controller {
  		}
 
         // $this->check_branch_ingredients($customer_orders);
-        
+        $result = array();
 	    foreach ($recommends as $key => $recipe_ids) {
 	    	$result[] = $this->Customer_model->recommended_recipe($recipe_ids);
 	    }
 
-	    $n = count($result);
-	    for ($i=0; $i < $n; $i++) { 
-	    	for ($j=0; $j < $n; $j++) { 
-	    		if ($result[$j][0]->average<$result[$i][0]->average) {
-	    			$temp = $result[$i];
-	    			$result[$i] = $result[$j];
-	    			$result[$j] = $temp;
-	    		}
-	    	}
+	    if ($result!=NULL) {
+	    	$n = count($result);
+		    for ($i=0; $i < $n; $i++) { 
+		    	for ($j=0; $j < $n; $j++) { 
+		    		if ($result[$j][0]->average<$result[$i][0]->average) {
+		    			$temp = $result[$i];
+		    			$result[$i] = $result[$j];
+		    			$result[$j] = $temp;
+		    		}
+		    	}
+		    }
+		    return $result;	
+	    }else{
+	    	return NULL;
 	    }
-	    
-		return $result;
 	}
 
 	public function check_branch_ingredients($arecipe){
@@ -467,6 +470,23 @@ class Customer extends CI_Controller {
 	    	$response['notif']	= validation_errors();
 		}
 		echo json_encode($response);
+	}
+
+	//NOTIFICATION
+	public function notify_me(){
+		$id = $_SESSION['id'];
+		$result = $this->Customer_model->notify_me($id);
+		if ($result==NULL) {
+			$response['notify'] = 'No Notification To View';
+			echo json_encode($response);
+		}else{
+			echo json_encode($result);
+		}
+	}
+
+	public function confirm_latest_order(){
+		$this->Customer_model->confirm_last_order($_GET['id']);
+		redirect('Customer/view_profile');
 	}
 
 }

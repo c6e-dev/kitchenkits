@@ -96,6 +96,20 @@
             <li class="nav-item">
               <a class="nav-link" id="white-color" href="<?php echo site_url('customer/view_region'); ?>">Menu</a>
             </li>
+            <li class="dropdown messages-menu">
+              <a class="nav-link" id="white-color" data-toggle="dropdown">
+                <i class="fa fa-bell-o"></i>
+                <span class="label label-warning" id="notif_count"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li class="header"></li>
+                <li>
+                  <ul class="menu">
+                    
+                  </ul>
+                </li>
+              </ul>
+            </li>
             <!-- <li class="nav-item">
               <a class="nav-link" href="#" id="white-color">Order</a>
             </li> -->
