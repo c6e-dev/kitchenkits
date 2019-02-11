@@ -75,7 +75,7 @@ class Branch_model extends CI_Model{
 		$this->db->query("
 			UPDATE delivery od 
 			SET od.status = 'P' 
-			WHERE od.id = '$id'
+			WHERE md5(od.id) = '$id'
 		");
 	}
 

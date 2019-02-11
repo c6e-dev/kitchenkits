@@ -340,7 +340,7 @@ class Admin_model extends CI_Model{
 
 	public function view_order_content($id){
 		$query = $this ->db->query("
-			SELECT re.name AS oc_recipe
+			SELECT re.name AS oc_recipe, oc.quantity oc_qty
 			FROM order_content oc 
 			INNER JOIN delivery od ON oc.order_id = od.id
 			INNER JOIN recipe re ON oc.recipe_id = re.id

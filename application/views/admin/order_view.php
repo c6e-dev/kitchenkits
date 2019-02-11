@@ -74,7 +74,7 @@
                       foreach ($o_content as $oc) {
                         ?>
                         <ul class="list-unstyled">
-                          <li><?php echo $oc->oc_recipe; ?></li>
+                          <li><?php echo $oc->oc_qty." ".$oc->oc_recipe; ?></li>
                         </ul>
                         <?php
                       }

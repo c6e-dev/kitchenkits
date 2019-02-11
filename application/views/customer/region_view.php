@@ -84,7 +84,7 @@
 					<div id="Japan" class="col-lg-6 region">
 						<a href="<?php echo site_url('browse_recipe/'.'?id='.md5(3));?>"><span></span></a>
 						<h2>Japan</h2>
-						<img src="<?php echo base_url('/assets/img/food/east/japan.jpg'); ?>">
+						<img src="<?php echo base_url('/assets/img/food/east/japan.JPG'); ?>">
 					</div>
 					<div id="Phil" class="col-lg-6 region">
 						<a href="<?php echo site_url('browse_recipe/'.'?id='.md5(4));?>"><span></span></a>
