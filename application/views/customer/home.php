@@ -13,7 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>/assets/css/styles.css">
 </head>
 <body>
-	<nav class="navbar navbar-expand-md flex-column fixed-top bg-white stroke">
+	<nav id="nav-shadow" class="navbar navbar-expand-md flex-column fixed-top bg-white">
 		<a class="navbar-brand align-self-center m-0 pb-3 position-md-absolute pb-md-0" href="#">
 			<img id="c-logo" src="<?php echo base_url();?>/assets/img/logo-lg.png" width="900px" height="120px">
 		</a>
@@ -93,7 +93,7 @@
 	<?php
 		if ($top_of_the_month!=NULL) {
 			?>
-				<h1 class="title-design">Monthly Favorites</h1>
+				<h1 class="title-designs">Monthly Favorites</h1>
 				<div class="container-fluid new-div padding last-content" id="top-scroll">
 					<div class="card-content">
 						<?php
@@ -101,26 +101,20 @@
 								if ($top[0]->re_stat == 'A') {
 									?>
 									<div class="card wew">
-										<a href="<?php echo site_url('view_recipe/'.'?id='.$top[0]->re_id); ?>"><img class="card-img-top" src="<?php echo base_url('Recipe_Folder/'.$top[0]->re_name.'/'.$top[0]->re_img); ?>" height="220px"></a>
-										<div class="card-body">
-											<h4 class="card-title"><?php echo $top[0]->re_name;?></h4>
+										<a href="<?php echo site_url('view_recipe/'.'?id='.$top[0]->re_id); ?>"><img class="card-img-top" src="<?php echo base_url('Recipe_Folder/'.$top[0]->re_name.'/'.$top[0]->re_img); ?>" height="180px"></a>
+										<div id="ddingpa" class="card-body">
+											<h4 class="card-title title-design"><?php echo $top[0]->re_name;?></h4>
 										</div>
-										<div class="card-footer">
+										<div id="ddingpa" class="card-footer">
 											<div class="row">
-												<div class="col-4" style="padding-top:0.5rem;">
+												<div class="col-12 rating-center" style="padding-top:0.5rem;">
 													<select class="top_recipe_rating" id="toprating<?php echo $top[0]->re_id;?>" topreview-id="<?php echo $top[0]->re_id;?>" data-top-rating="<?php echo round($top[0]->average, 1);?>" autocomplete="off">
 							                            <option value="1">1</option>
 							                            <option value="2">2</option>
 							                            <option value="3">3</option>
 							                            <option value="4">4</option>
 							                            <option value="5">5</option>
-						                          	</select>
-												</div>
-												<div class="col-4" style="text-align:right;">
-													<p><span class="fa fa-clock-o"> <?php echo $top[0]->re_cooktime;?> minutes</span></p>
-												</div>
-												<div class="col-4" style="text-align:center;">
-													<p><span class="fa fa-cutlery"> Serves <?php echo $top[0]->re_serves;?></span></p>
+						               </select>
 												</div>
 											</div>
 										</div>
@@ -138,7 +132,7 @@
 	<?php
 		if (isset($_SESSION['logged_in']) && $_SESSION['utype'] == 3 && $recommended_recipe!=NULL) {
 			?>
-				<h1 class="title-design">Recommended for You</h1>
+				<h1 class="title-designs">Recommended for You</h1>
 				<div class="container-fluid new-div padding last-content" id="recommend-scroll">
 					<div class="card-content">
 						<?php
@@ -146,13 +140,13 @@
 								if ($rec[0]->re_stat == 'A') {
 									?>
 									<div class="card wew">
-										<a href="<?php echo site_url('view_recipe/'.'?id='.$rec[0]->re_id); ?>"><img class="card-img-top" src="<?php echo base_url('Recipe_Folder/'.$rec[0]->re_name.'/'.$rec[0]->re_img); ?>" height="220px"></a>
-										<div class="card-body">
-											<h4 class="card-title"><?php echo $rec[0]->re_name;?></h4>
+										<a href="<?php echo site_url('view_recipe/'.'?id='.$rec[0]->re_id); ?>"><img class="card-img-top" src="<?php echo base_url('Recipe_Folder/'.$rec[0]->re_name.'/'.$rec[0]->re_img); ?>" height="180px"></a>
+										<div id="ddingpa" class="card-body">
+											<h4 class="card-title title-design"><?php echo $rec[0]->re_name;?></h4>
 										</div>
-										<div class="card-footer">
+										<div id="ddingpa" class="card-footer">
 											<div class="row">
-												<div class="col-4" style="padding-top:0.5rem;">
+												<div class="col-12 rating-center" style="padding-top:0.5rem;">
 													<select class="recipe_rating" id="rating<?php echo $rec[0]->re_id;?>" review-id="<?php echo $rec[0]->re_id;?>" data-rating="<?php echo round($rec[0]->average, 1);?>" autocomplete="off">
 							                            <option value="1">1</option>
 							                            <option value="2">2</option>
@@ -161,14 +155,8 @@
 							                            <option value="5">5</option>
 						                          	</select>
 												</div>
-												<div class="col-4" style="text-align:right;">
-													<p><span class="fa fa-clock-o"> <?php echo $rec[0]->re_cooktime;?> minutes</span></p>
-												</div>
-												<div class="col-4" style="text-align:center;">
-													<p><span class="fa fa-cutlery"> Serves <?php echo $rec[0]->re_serves;?></span></p>
-												</div>
 											</div>
-										</div>		
+										</div>
 									</div>
 									<?php
 								}
@@ -179,7 +167,7 @@
 			<?php
 		}
 	?>
-	
+
 	<footer>
 		<div class="container">
 			<h6>Copyright &copy; 2019 RLC Company. All Rights Reserved</h6>

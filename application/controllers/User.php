@@ -8,11 +8,11 @@ class User extends CI_Controller {
 	}
 
 	public function index(){
-		$this->load->view('login');	
+		$this->load->view('login');
 	}
 
 	public function login(){
-		$con = mysqli_connect("localhost","root","ugat","kitchen_kits");
+		$con = mysqli_connect("localhost","root","","kitchen_kits");
 		$user = mysqli_real_escape_string($con, $_POST['username']);
 		$pass = mysqli_real_escape_string($con, sha1($_POST['password']));
 		$userdata = $this->User_model->login_check($user, $pass);

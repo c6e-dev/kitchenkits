@@ -33,7 +33,7 @@ h2{
 	font-weight: bold;
 	position: absolute;
 	left: 50%;
-	top: 15%;
+	top: 30%;
 	transform: translateX(-50%);
 	white-space: nowrap;
 }
