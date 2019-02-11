@@ -164,7 +164,7 @@ class Customer extends CI_Controller {
 	}
 
 	public function submit_rating_and_review(){
-		$this->form_validation->set_rules('review', 'Review Detail', 'required|alpha|max_length[600]', array(
+		$this->form_validation->set_rules('review', 'Review Detail', 'required|alpha_numeric_spaces|max_length[600]', array(
 			'required' => 'This %s Is Required!',
 			'max_length' => 'Your Review is too long.'
 		));
