@@ -436,7 +436,6 @@ class Admin_model extends CI_Model{
 			INNER JOIN user_activity ua ON od.activity_id = ua.id
 			WHERE substring(ua.created_date,1,7) = '$currmonth' AND od.status = 'C'
 			GROUP BY od.branch_id
-			ORDER BY COUNT(od.customer_id) DESC
 			LIMIT 10
 		");
 		if($query->num_rows()>0){

@@ -158,7 +158,7 @@
         <div class="container">
           <div class="row">
             <div class="col-lg-12">
-              <h4 style="margin-top: 20px">Directions</h4>
+              <h4 style="margin-top: 20px">Instructions</h4>
               <p class="p-style"><?php echo $recipe_info[0]->re_instruc; ?></p>
             </div>
           </div>
