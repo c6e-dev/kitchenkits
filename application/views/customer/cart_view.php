@@ -247,7 +247,13 @@
         </div>
         <div class="modal-body">
           <div class="box-body">
-            <center>You Can't Cancel Your Order Once You Checkout.</center>
+            <center><b>Reminders</b></center>
+            <br>
+            <center><b>When Checking Out: </b></center>
+            <center>You Cannot Cancel Your Order Once You Checkout.</center>
+            <br>
+            <center><b>When Deliveries Are Late: </b></center>
+            <center>If The Delivery Is 10 Minutes Late, You Are No Longer Required To Pay The Delivery Fee.</center>
           </div>
         </div>
         <div class="modal-footer">
