@@ -105,8 +105,66 @@ class Customer extends CI_Controller {
 	//CUSTOMER PROFILE FUNCTIONS
 
 	//VIEW FUNCTIONS
+	public function fb_auth(){
+		if($this->facebook->is_authenticated()){
+			$fbUser = $this->facebook->request('get', '/me?fields=id,first_name,last_name,email');
+			$id = $fbUser['id'];
+			$userdata = $this->Customer_model->fb_login_check($id);
+			if ($userdata==NULL) {
+				print_r($id);
+				$userdata = array(
+					'fb_id' => $id,
+					'user_type_id' => 3,
+					'status' => 'A',
+					'logged_in' => 1
+				);
+				$this->Customer_model->add_customer_account($userdata);
+				$user_id = $this->db->insert_id();
+				$code = $this->Customer_model->get_code(3);
+				$this->Customer_model->update_counter($code[0]->ct_count+1,3);
+				$customerdata = array(
+					'user_id' => $user_id,
+					'code' => $code[0]->ct_code.(sprintf('%05d', $code[0]->ct_count+1)),
+					'first_name' => $fbUser['first_name'],
+					'last_name' => $fbUser['last_name'],
+					'email_address' => $fbUser['email']
+				);
+				$this->Customer_model->add_customer($customerdata);
+				$_SESSION = array(
+					'id' => $user_id,
+					'user' => '',
+					'pass' => '',
+					'utype' => 3,
+					'logged_in' => TRUE,
+					'fname' => $fbUser['first_name'],
+					'lname' => $fbUser['last_name']
+				);
+			}else{
+				if ($userdata[0]->status == 'A') {
+					$sess_id = $userdata[0]->id;
+					$customerdata = $this->Customer_model->get_customer($sess_id);
+					$_SESSION = array(
+						'id' => $sess_id,
+						'user' => $userdata[0]->username,
+						'pass' => '',
+						'utype' => $userdata[0]->user_type_id,
+						'logged_in' => TRUE,
+						'fname' => $customerdata[0]->first_name,
+						'lname' => $customerdata[0]->last_name
+					);
+					$this->Customer_model->logged_in($sess_id);
+				}
+				else{
+					$this->session->set_flashdata('error_msg','Your Account Has Been Disabled!');
+					redirect('login');die();
+				}
+			}
+		}
+	}
+
 
 	public function index(){
+		$this->fb_auth();
 		if (isset($_SESSION['logged_in']) && $_SESSION['utype'] == 3) {
 			$result = $this->getRecommendations($_SESSION['id']);
 			$data['recommended_recipe'] = $result;
@@ -215,7 +273,9 @@ class Customer extends CI_Controller {
 				$data['v_profile'] = $this->Customer_model->loggedin_customer($id);
 				$data['v_history'] = $this->Customer_model->view_history($id);
 				$data['v_recent_order'] = $this->Customer_model->view_recent_order($data['v_profile'][0]->id);
-				$data['order_count'] = count($data['v_recent_order']);
+				if ($data['v_recent_order']!=NULL) {
+					$data['order_count'] = count($data['v_recent_order']);
+				}
 				if ($data['cart']!=NULL) {
 					$data['count'] = $this->Customer_model->item_count($data['cart'][0]->od_id);
 					$this->load->view('customer/layout/header',$data);
@@ -255,12 +315,19 @@ class Customer extends CI_Controller {
 		} else {
 			$is_unique1 =  '|is_unique[customer.email_address]';
 		}
-		$this->form_validation->set_rules('cs_username', 'Username', 'required'.$is_unique, array(
-			'is_unique' => 'The %s You Entered Is Already Taken'
-		));
+		if($_SESSION['pass'] == ''){
+			$this->form_validation->set_rules('cs_username', 'Username', 'alpha_numeric_spaces'.$is_unique, array(
+				'is_unique' => 'The %s You Entered Is Already Taken'
+			));
+		}else{
+			$this->form_validation->set_rules('cs_username', 'Username', 'required'.$is_unique, array(
+				'is_unique' => 'The %s You Entered Is Already Taken'
+			));
+		}
 		$this->form_validation->set_rules('cs_fname', 'First Name', 'required');
 		$this->form_validation->set_rules('cs_lname', 'Last Name', 'required');
 		$this->form_validation->set_rules('cs_address', 'Address', 'required');
+		$this->form_validation->set_rules('cs_religion', 'Address', 'alpha_numeric_spaces');
 		$this->form_validation->set_rules('cs_email', 'E-Mail', 'required|valid_email'.$is_unique1, array(
 			'required' => 'You must provide an %s',
 			'valid_email' => 'The %s You Entered Is Invalid or Already Taken',

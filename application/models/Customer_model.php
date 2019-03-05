@@ -128,12 +128,13 @@ class Customer_model extends CI_Model{
 		$user_id = $this->input->post('u_id');
 		$first_name = $this->input->post('cs_fname');
 		$last_name = $this->input->post('cs_lname');
+		$religion = $this->input->post('cs_religion');
 		$home_address = $this->input->post('cs_address');
 		$email_address = $this->input->post('cs_email');
 		$username = $this->input->post('cs_username');
 		$this->db->query("
 			UPDATE customer cs, user u
-			SET cs.first_name = '$first_name', cs.last_name = '$last_name', cs.home_address = '$home_address', cs.email_address = '$email_address', u.username = '$username', u.updated_date = '$upt_date'
+			SET cs.first_name = '$first_name', cs.last_name = '$last_name', cs.religion = '$religion', cs.home_address = '$home_address', cs.email_address = '$email_address', u.username = '$username', u.updated_date = '$upt_date'
 			WHERE cs.id ='$customer_id' AND u.id = '$user_id'
 		");
 	}
@@ -597,7 +598,7 @@ class Customer_model extends CI_Model{
 
 	public function loggedin_customer($id){
 		$query = $this->db->query("
-			SELECT cs.id, cs.code AS cs_code, cs.first_name AS cs_fname, cs.last_name AS cs_lname, cs.image AS cs_image, cs.email_address AS cs_email, cs.home_address AS cs_address, u.username AS cs_username, u.password AS cs_password, u.created_date AS cs_create, u.updated_date AS cs_update
+			SELECT cs.id, cs.code AS cs_code, cs.first_name AS cs_fname, cs.last_name AS cs_lname, cs.image AS cs_image, cs.email_address AS cs_email, cs.religion AS cs_religion, cs.home_address AS cs_address, u.username AS cs_username, u.password AS cs_password, u.created_date AS cs_create, u.updated_date AS cs_update
 			FROM customer cs
 			INNER JOIN user u ON cs.user_id = u.id
 			WHERE cs.user_id = '$id'
@@ -627,6 +628,64 @@ class Customer_model extends CI_Model{
 		$this->db->query("
 			UPDATE delivery
 			SET status = 'C'
+			WHERE id = '$id'
+		");
+	}
+
+	//RECOMMENDATION
+
+	public function fb_login_check($id){
+		$query = $this->db->query("
+			SELECT us.id, us.username, us.password, us.user_type_id, us.status
+			FROM user us
+			WHERE us.fb_id = '$id'
+		");
+		if ($query->num_rows() > 0){
+			return $query->result();
+		}else{
+			return NULL;
+		}
+	}
+
+	public function add_customer_account($customerdata){
+		$this->db->insert('user', $customerdata);
+	}
+
+	public function add_customer($customerdata){
+		$this->db->insert('customer', $customerdata);
+	}
+
+	public function get_code($id){
+		$query = $this->db->query("
+			SELECT code ct_code, count ct_count
+			FROM counter
+			WHERE id = '$id'
+		");
+		return $query->result();
+	}
+
+	public function update_counter($val,$id){
+		$this->db->query("
+			UPDATE counter
+			SET count = '$val' 
+			WHERE id = '$id'
+		");
+	}
+
+	public function get_customer($id){
+		$query = $this->db->query("
+			SELECT cs.first_name, cs.last_name
+			FROM customer as cs
+			INNER JOIN user us ON cs.user_id = us.id
+			WHERE cs.user_id = '$id'
+		");
+		return $query->result();
+	}
+
+	public function logged_in($id){
+		$this->db->query("
+			UPDATE user
+			SET logged_in = '1' 
 			WHERE id = '$id'
 		");
 	}

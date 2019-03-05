@@ -81,7 +81,7 @@
                                     <h5>Remove From Cart</h5>
                                   </div>
                                   <div class="modal-body">
-                                    <strong><center>Recipe will be removed from cart</center></strong>
+                                    <strong><center>This Recipe Will Be Removed From Your Cart</center></strong>
                                   </div>';?>
                                   <div class="modal-footer">
                                     <a href="<?php echo site_url('customer/delete_cart_item/'.$item->oc_id.'/'.$item->od_id.'/'.$count[0]->od_id_count);?>" class="btn btn-sm btn-primary">Confirm</a>
@@ -181,7 +181,7 @@
                                         <h5>Remove '.$adt->ig_name.'</h5>
                                       </div>
                                       <div class="modal-body">
-                                        <strong><center>'.$adt->ig_name.' will be removed</center></strong>
+                                        <strong><center>'.$adt->ig_name.' Will Be Removed</center></strong>
                                       </div>';?>
                                       <div class="modal-footer">
                                         <a href="<?php echo site_url('customer/delete_additional_item'.'?id='.$adt->ai_id);?>" class="btn btn-sm btn-primary">Confirm</a>

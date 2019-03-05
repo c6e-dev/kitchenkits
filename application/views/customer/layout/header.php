@@ -143,9 +143,21 @@
                   <p><?php echo $_SESSION['fname']." ".$_SESSION['lname']; ?><small><?php echo $_SESSION['user'];?></small></p>
                 </li>
                 <li class="user-footer">
-                  <div class="pull-left">
-                    <a class="btn btn-default btn-flat" data-target="#change_pass" data-toggle="modal">Change Password</a>
-                  </div>
+                  <?php 
+                    if ($_SESSION['pass'] == '') {
+                      ?>
+                        <div class="pull-left" style="display: none;">
+                          <a class="btn btn-default btn-flat" data-target="#change_pass" data-toggle="modal">Change Password</a>
+                        </div>
+                      <?php
+                    }else{
+                      ?>
+                        <div class="pull-left">
+                          <a class="btn btn-default btn-flat" data-target="#change_pass" data-toggle="modal">Change Password</a>
+                        </div>
+                      <?php
+                    }
+                  ?>
                   <div class="pull-right">
                     <a href="<?php echo site_url('user/logout');?>" class="btn btn-default btn-flat">Sign out</a>
                   </div>

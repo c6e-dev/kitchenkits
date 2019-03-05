@@ -8,7 +8,8 @@ class User extends CI_Controller {
 	}
 
 	public function index(){
-		$this->load->view('login');
+		$data['authUrl'] =  $this->facebook->login_url();
+		$this->load->view('login',$data);
 	}
 
 	public function login(){
@@ -63,6 +64,7 @@ class User extends CI_Controller {
 
 	public function logout(){
 		$this->User_model->logged_out($_SESSION['id']);
+		$this->facebook->destroy_session();
 		session_destroy();
 		redirect('login');
 	}

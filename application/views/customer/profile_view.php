@@ -31,7 +31,7 @@
             ?>
               <div class="box box-danger">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Recent Order</h3>
+                  <h3 class="box-title">Recent Orders</h3>
                 </div>
                 <?php 
                   if ($order_count>=5) {
@@ -100,6 +100,10 @@
                     <div class="col-12 col-md-9"><input type="text" class="form-control" id="cs_email" class="form-control input-sm" value="<?php echo $v_profile[0]->cs_email?>"></div>
                   </div>
                   <div class="row form-group">
+                    <label class="col-sm-3 control-label">Religion</label>
+                    <div class="col-12 col-md-9"><input type="text" class="form-control" id="cs_religion" class="form-control input-sm" value="<?php echo $v_profile[0]->cs_religion?>"></div>
+                  </div>
+                  <div class="row form-group">
                     <label class="col-sm-3 control-label">Address</label>
                     <div class="col-12 col-md-9"><input type="text" class="form-control" id="cs_address" class="form-control input-sm" value="<?php echo $v_profile[0]->cs_address?>"></div>
                   </div>
@@ -145,7 +149,7 @@
                                 <i class="fa fa-star bg-yellow"></i>
                                 <div class="timeline-item"  style="background-color: #f5f5f5">
                                   <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($cact->fb_cdate));?></span>
-                                  <h3 class="timeline-header"><a href="#">You</a> rated <?php echo $cact->fb_rating; ?> stars on <?php echo $cact->fb_recipe; ?></h3>
+                                  <h3 class="timeline-header"><a href="#">You</a> Rated <?php echo $cact->fb_recipe; ?> <?php echo $cact->fb_rating; ?> Stars</h3>
                                 </div>
                               </li>
                             <?php
@@ -156,7 +160,7 @@
                                 <i class="fa fa-comment bg-red"></i>
                                 <div class="timeline-item"  style="background-color: #f5f5f5">
                                   <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($cact->fb_cdate));?></span>
-                                  <h3 class="timeline-header"><a href="#">You</a> commented on <?php echo $cact->fb_recipe; ?></h3>
+                                  <h3 class="timeline-header"><a href="#">You</a> Commented On <?php echo $cact->fb_recipe; ?></h3>
                                   <div class="timeline-body">
                                     <?php echo $cact->fb_comment; ?>
                                   </div>
@@ -198,7 +202,7 @@
                                   <i class="fa fa-star bg-yellow"></i>
                                   <div class="timeline-item " style="background-color: #f5f5f5">
                                     <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($cact->fb_cdate));?></span>
-                                    <h3 class="timeline-header"><a href="#">You</a> rated <?php echo $cact->fb_rating; ?> stars on <?php echo $cact->fb_recipe; ?></h3>
+                                    <h3 class="timeline-header"><a href="#">You</a> Rated <?php echo $cact->fb_recipe; ?> <?php echo $cact->fb_rating; ?> Stars</h3>
                                   </div>
                                 </li>
                               <?php
@@ -209,7 +213,7 @@
                                   <i class="fa fa-comment bg-red"></i>
                                   <div class="timeline-item" style="background-color: #f5f5f5">
                                     <span class="time"><i class="fa fa-clock-o"></i> <?php echo date('g:i a', strtotime($cact->fb_cdate));?></span>
-                                    <h3 class="timeline-header"><a href="#">You</a> commented on <?php echo $cact->fb_recipe; ?></h3>
+                                    <h3 class="timeline-header"><a href="#">You</a> Commented On <?php echo $cact->fb_recipe; ?></h3>
                                     <div class="timeline-body">
                                       <?php echo $cact->fb_comment; ?>
                                     </div>

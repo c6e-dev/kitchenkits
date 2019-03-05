@@ -95,6 +95,7 @@
         var cs_lname = $('#cs_lname').val();
         var cs_address = $('#cs_address').val();
         var cs_email = $('#cs_email').val();
+        var cs_reg = $('#cs_religion').val();
         var cs_id = $('#cs_id').val();
         var u_id = $('#u_id').val();
         $.ajax({
@@ -106,6 +107,7 @@
                 cs_lname: cs_lname,
                 cs_address: cs_address,
                 cs_email : cs_email,
+                cs_religion : cs_reg,
                 cs_id: cs_id,
                 u_id: u_id
             },

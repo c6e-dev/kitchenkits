@@ -124,7 +124,7 @@
                     </div>
                     <div class="row form-group">
                       <div class="col-md-12">
-                        <label><input type="checkbox" class="minimal" id="cbox"> <small style="color: #999;">click here if you are adding a condiment</small></label>
+                        <label><input type="checkbox" class="minimal" id="cbox"> <small style="color: #999;">Click This If You're Adding A Condiment</small></label>
                       </div>
                     </div>
                   </div>
