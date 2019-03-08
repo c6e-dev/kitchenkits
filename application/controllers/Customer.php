@@ -168,6 +168,7 @@ class Customer extends CI_Controller {
 		if (isset($_SESSION['logged_in']) && $_SESSION['utype'] == 3) {
 			$result = $this->getRecommendations($_SESSION['id']);
 			$data['recommended_recipe'] = $result;
+			$data['customerdata'] = $this->Customer_model->loggedin_customer($_SESSION['id']);
 		}
 		$msr = $this->Customer_model->most_sold_recipes();
 		if ($msr!=NULL) {

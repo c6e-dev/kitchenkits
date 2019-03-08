@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-require_once __DIR__ . '/facebook-php-sdk/autoload.php';
+require_once __DIR__ . '\facebook-php-sdk\autoload.php';
 
 use Facebook\Facebook as FB;
 use Facebook\Authentication\AccessToken;

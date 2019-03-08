@@ -52,7 +52,7 @@ class Customer_model extends CI_Model{
 
 	public function recommended_recipe($id){
 		$query = $this->db->query("
-			SELECT SUM(ra.rating)/COUNT(ua.customer_id) AS average, re.id re_id, re.country_id AS re_cid, re.name AS re_name, re.cooking_time AS re_cooktime, re.servings AS re_serves, re.image AS re_img, re.status re_stat
+			SELECT SUM(ra.rating)/COUNT(ua.customer_id) AS average, re.id re_id, re.country_id AS re_cid, re.name AS re_name, re.cooking_time AS re_cooktime, re.servings AS re_serves, re.image AS re_img, re.status re_stat, re.religion re_rel
 			FROM rating ra
 			INNER JOIN user_activity ua ON ra.activity_id = ua.id
 			INNER JOIN recipe re ON  ua.recipe_id = re.id

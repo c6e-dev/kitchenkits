@@ -137,28 +137,54 @@
 					<div class="card-content">
 						<?php
 							foreach ($recommended_recipe as $rec) {
-								if ($rec[0]->re_stat == 'A') {
-									?>
-									<div class="card wew">
-										<a href="<?php echo site_url('view_recipe/'.'?id='.$rec[0]->re_id); ?>"><img class="card-img-top" src="<?php echo base_url('Recipe_Folder/'.$rec[0]->re_name.'/'.$rec[0]->re_img); ?>" height="180px"></a>
-										<div id="ddingpa" class="card-body">
-											<h4 class="card-title title-design"><?php echo $rec[0]->re_name;?></h4>
-										</div>
-										<div id="ddingpa" class="card-footer">
-											<div class="row">
-												<div class="col-12 rating-center" style="padding-top:0.5rem;">
-													<select class="recipe_rating" id="rating<?php echo $rec[0]->re_id;?>" review-id="<?php echo $rec[0]->re_id;?>" data-rating="<?php echo round($rec[0]->average, 1);?>" autocomplete="off">
-							                            <option value="1">1</option>
-							                            <option value="2">2</option>
-							                            <option value="3">3</option>
-							                            <option value="4">4</option>
-							                            <option value="5">5</option>
-						                          	</select>
+								if ($customerdata[0]->cs_religion != '') {
+									if ($rec[0]->re_stat == 'A' && $rec[0]->re_rel != $customerdata[0]->cs_religion) {
+										?>
+										<div class="card wew">
+											<a href="<?php echo site_url('view_recipe/'.'?id='.$rec[0]->re_id); ?>"><img class="card-img-top" src="<?php echo base_url('Recipe_Folder/'.$rec[0]->re_name.'/'.$rec[0]->re_img); ?>" height="180px"></a>
+											<div id="ddingpa" class="card-body">
+												<h4 class="card-title title-design"><?php echo $rec[0]->re_name;?></h4>
+											</div>
+											<div id="ddingpa" class="card-footer">
+												<div class="row">
+													<div class="col-12 rating-center" style="padding-top:0.5rem;">
+														<select class="recipe_rating" id="rating<?php echo $rec[0]->re_id;?>" review-id="<?php echo $rec[0]->re_id;?>" data-rating="<?php echo round($rec[0]->average, 1);?>" autocomplete="off">
+								                            <option value="1">1</option>
+								                            <option value="2">2</option>
+								                            <option value="3">3</option>
+								                            <option value="4">4</option>
+								                            <option value="5">5</option>
+							                          	</select>
+													</div>
 												</div>
 											</div>
 										</div>
-									</div>
-									<?php
+										<?php
+									}
+								}else{
+									if ($rec[0]->re_stat == 'A') {
+										?>
+										<div class="card wew">
+											<a href="<?php echo site_url('view_recipe/'.'?id='.$rec[0]->re_id); ?>"><img class="card-img-top" src="<?php echo base_url('Recipe_Folder/'.$rec[0]->re_name.'/'.$rec[0]->re_img); ?>" height="180px"></a>
+											<div id="ddingpa" class="card-body">
+												<h4 class="card-title title-design"><?php echo $rec[0]->re_name;?></h4>
+											</div>
+											<div id="ddingpa" class="card-footer">
+												<div class="row">
+													<div class="col-12 rating-center" style="padding-top:0.5rem;">
+														<select class="recipe_rating" id="rating<?php echo $rec[0]->re_id;?>" review-id="<?php echo $rec[0]->re_id;?>" data-rating="<?php echo round($rec[0]->average, 1);?>" autocomplete="off">
+								                            <option value="1">1</option>
+								                            <option value="2">2</option>
+								                            <option value="3">3</option>
+								                            <option value="4">4</option>
+								                            <option value="5">5</option>
+							                          	</select>
+													</div>
+												</div>
+											</div>
+										</div>
+										<?php
+									}
 								}
 							}
 						?>
